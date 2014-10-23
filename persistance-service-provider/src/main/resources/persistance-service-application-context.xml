@@ -12,7 +12,7 @@
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" >
         <property name="locations">
             <list>
-                <value>classpath:persistenceServiceProvider.properties</value>
+                <value>classpath:persistance-service-provider.properties</value>
             </list>
         </property>
         <property name="ignoreResourceNotFound" value="true"/>
@@ -20,7 +20,7 @@
         <property name="fileEncoding" value="UTF-8"/>
     </bean>
 
-    <jpa:repositories base-package="com.restful.sharemycar.dao.repository" />
+    <!--<jpa:repositories base-package="com.restful.sharemycar.dao.repository" />-->
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
           destroy-method="close"
@@ -51,9 +51,10 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
         <!-- Set the base package of your model classes -->
-        <property name="packagesToScan" value="com.restful.sharemycar.model"/>
+        <property name="packagesToScan" value="ro.InnovaTeam.cemeteryApp.model"/>
         <property name="jpaProperties">
             <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.ejb.naming_strategy">${hibernate.naming_strategy}</prop>
                 <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
                 <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
