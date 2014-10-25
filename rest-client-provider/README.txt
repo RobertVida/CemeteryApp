@@ -1,0 +1,1 @@
+Contains front-end part and the communication with the REST API.

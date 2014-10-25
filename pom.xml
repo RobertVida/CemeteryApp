@@ -8,6 +8,7 @@
     <artifactId>ro.InnovaTeam.cemeteryApp</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <name>Cemetery Application</name>
 
 
     <modules>
@@ -27,6 +28,8 @@
         <mysql-connector-java-version>5.1.18</mysql-connector-java-version>
         <commons-dbcp-version>1.2.2</commons-dbcp-version>
 
+        <jackson-version>1.9.12</jackson-version>
+        <jackson-mapper-asl.version>1.9.12</jackson-mapper-asl.version>
     </properties>
 
     <profiles>
