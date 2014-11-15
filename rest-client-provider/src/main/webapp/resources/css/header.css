@@ -1,0 +1,32 @@
+.navbar-inverse {
+    background-color: #0079B0;
+}
+
+.white {
+    color: #fff;
+}
+
+.home-icon {
+    float: left;
+    margin-left: 20%;
+    margin-top: 8px;
+    width: 35px;
+    height: 30px;
+}
+
+.hello-username {
+    float: right;
+    margin-right: 20%;
+    font-size: 25px;
+    margin-top: 8px;
+}
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+a:hover{
+    color: #428bca;
+    text-decoration: none;
+}

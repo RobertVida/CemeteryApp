@@ -1,0 +1,19 @@
+.login-form {
+    width: 500px;
+    height: 165px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -250px;
+    margin-top: -82.5px;
+    background-color: #0079B0;
+}
+
+#loginForm {
+    margin: 20px 70px;
+}
+
+.label-white {
+    color: #fff;
+}
+
