@@ -1,5 +1,6 @@
 package ro.InnovaTeam.cemeteryApp.model;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 /**
@@ -7,17 +8,20 @@ import java.sql.Date;
  */
 public class Monument extends Structure {
 
+    @NotNull
 	private String name;
+    @NotNull
 	private String description;
-	
-	public Monument(long id, long parcelId, Date createdOn, String type,
-			int width, int length, String name, String description) {
-		super(id, parcelId, createdOn, type, width, length);
+
+    public Monument() {
+    }
+
+    public Monument(Integer parcelId, Date createdOn, String type, Integer width, Integer length,
+                    String name, String description) {
+		super(parcelId, createdOn, type, width, length);
 		this.name = name;
 		this.description = description;
 	}
-
-
 
 	public String getName() {
 		return name;
@@ -34,4 +38,19 @@ public class Monument extends Structure {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+    @Override
+    public String toString() {
+        return "Structure{" +
+                "id=" + id +
+                ", parcelId=" + getParcelId()+
+                ", createdOn=" + getCreatedOn() +
+                ", type='" + getType() + '\'' +
+                ", width=" + getWidth() +
+                ", length=" + getLength() +
+                ", deceased=" + getDeceased() +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

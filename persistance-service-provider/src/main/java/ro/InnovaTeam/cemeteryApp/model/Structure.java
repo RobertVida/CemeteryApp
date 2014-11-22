@@ -1,20 +1,30 @@
 package ro.InnovaTeam.cemeteryApp.model;
+
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
-public class Structure {
+public class Structure extends BaseEntity {
 
-    private long id;
-    private long parcelId;
+    @NotNull
+    private Integer parcelId;
+    @NotNull
     private Date createdOn;
+    @NotNull
     private String type;
-    private int width;
-    private int length;
+    @NotNull
+    private Integer width;
+    @NotNull
+    private Integer length;
+    private List<Deceased> deceased;
 
-    public Structure(long id, long parcelId, Date createdOn, String type, int width, int length) {
-        this.id = id;
+    public Structure() {
+    }
+
+    public Structure(Integer parcelId, Date createdOn, String type, Integer width, Integer length) {
         this.parcelId = parcelId;
         this.createdOn = createdOn;
         this.type = type;
@@ -22,19 +32,11 @@ public class Structure {
         this.length = length;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getParcelId() {
+    public Integer getParcelId() {
         return parcelId;
     }
 
-    public void setParcelId(long parcelId) {
+    public void setParcelId(Integer parcelId) {
         this.parcelId = parcelId;
     }
 
@@ -54,19 +56,40 @@ public class Structure {
         this.type = type;
     }
 
-    public int getWidth() {
+    public Integer getWidth() {
         return width;
     }
 
-    public void setWidth(int width) {
+    public void setWidth(Integer width) {
         this.width = width;
     }
 
-    public int getLength() {
+    public Integer getLength() {
         return length;
     }
 
-    public void setLength(int length) {
+    public void setLength(Integer length) {
         this.length = length;
+    }
+
+    public List<Deceased> getDeceased() {
+        return deceased;
+    }
+
+    public void setDeceased(List<Deceased> deceased) {
+        this.deceased = deceased;
+    }
+
+    @Override
+    public String toString() {
+        return "Structure{" +
+                "id=" + id +
+                ", parcelId=" + parcelId +
+                ", createdOn=" + createdOn +
+                ", type='" + type + '\'' +
+                ", width=" + width +
+                ", length=" + length +
+                ", deceased=" + deceased +
+                '}';
     }
 }

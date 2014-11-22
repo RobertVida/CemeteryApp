@@ -1,31 +1,35 @@
 package ro.InnovaTeam.cemeteryApp.model;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
+
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
-public class Client {
+public class Client extends BaseEntity{
 
-    private long id;
+    @NotNull
     private String firstName;
+    @NotNull
     private String lastName;
+    @NotNull
     private String cnp;
+    @NotNull
     private String phoneNumber;
+    @NotNull
     private String address;
+    private List<Contract> contracts;
+    private List<RestingPlaceRequest> requests;
 
-    public Client(long id, String firstName, String lastName, String cnp, String phoneNumber, String address) {
-        this.id = id;
+    public Client() {
+    }
+
+    public Client(String firstName, String lastName, String cnp, String phoneNumber, String address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.cnp = cnp;
         this.phoneNumber = phoneNumber;
         this.address = address;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -66,5 +70,35 @@ public class Client {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public List<Contract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(List<Contract> contracts) {
+        this.contracts = contracts;
+    }
+
+    public List<RestingPlaceRequest> getRequests() {
+        return requests;
+    }
+
+    public void setRequests(List<RestingPlaceRequest> requests) {
+        this.requests = requests;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", cnp='" + cnp + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", address='" + address + '\'' +
+                ", contracts=" + contracts +
+                ", requests=" + requests +
+                '}';
     }
 }

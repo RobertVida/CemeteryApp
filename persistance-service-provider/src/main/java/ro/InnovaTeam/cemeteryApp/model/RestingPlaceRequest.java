@@ -1,38 +1,36 @@
 package ro.InnovaTeam.cemeteryApp.model;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
-public class RestingPlaceRequest {
+public class RestingPlaceRequest extends BaseEntity{
 
-    private long id;
-    private long clientId;
+    @NotNull
+    private Integer clientId;
+    @NotNull
     private Date createdOn;
-    private int infocetNumber;
+    @NotNull
+    private Integer infocetNumber;
+    @NotNull
     private String status;
 
-    public RestingPlaceRequest(long id, long clientId, Date createdOn, int infocetNumber, String status) {
-        this.id = id;
+    public RestingPlaceRequest() {
+    }
+
+    public RestingPlaceRequest(Integer clientId, Date createdOn, Integer infocetNumber, String status) {
         this.clientId = clientId;
         this.createdOn = createdOn;
         this.infocetNumber = infocetNumber;
         this.status = status;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getClientId() {
+    public Integer getClientId() {
         return clientId;
     }
 
-    public void setClientId(long clientId) {
+    public void setClientId(Integer clientId) {
         this.clientId = clientId;
     }
 
@@ -44,11 +42,11 @@ public class RestingPlaceRequest {
         this.createdOn = createdOn;
     }
 
-    public int getInfocetNumber() {
+    public Integer getInfocetNumber() {
         return infocetNumber;
     }
 
-    public void setInfocetNumber(int infocetNumber) {
+    public void setInfocetNumber(Integer infocetNumber) {
         this.infocetNumber = infocetNumber;
     }
 
@@ -58,5 +56,16 @@ public class RestingPlaceRequest {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "RestingPlaceRequest{" +
+                "id=" + id +
+                ", clientId=" + clientId +
+                ", createdOn=" + createdOn +
+                ", infocetNumber=" + infocetNumber +
+                ", status='" + status + '\'' +
+                '}';
     }
 }

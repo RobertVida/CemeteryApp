@@ -1,36 +1,36 @@
 package ro.InnovaTeam.cemeteryApp.model;
+
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
-public class ParcelHistoryEntry {
+public class ParcelHistoryEntry extends BaseEntity{
 
-    private long id;
-    private long parcelId;
+    @NotNull
+    private Integer parcelId;
+    @NotNull
     private String description;
+    @NotNull
     private Date date;
+    private List<Document> documents;
 
-    public ParcelHistoryEntry(long id, long parcelId, String description, Date date) {
-        this.id = id;
+    public ParcelHistoryEntry() {
+    }
+
+    public ParcelHistoryEntry(Integer parcelId, String description, Date date) {
         this.parcelId = parcelId;
         this.description = description;
         this.date = date;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getParcelId() {
+    public Integer getParcelId() {
         return parcelId;
     }
 
-    public void setParcelId(long parcelId) {
+    public void setParcelId(Integer parcelId) {
         this.parcelId = parcelId;
     }
 
@@ -48,5 +48,24 @@ public class ParcelHistoryEntry {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public List<Document> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(List<Document> documents) {
+        this.documents = documents;
+    }
+
+    @Override
+    public String toString() {
+        return "ParcelHistoryEntry{" +
+                "id=" + id +
+                ", parcelId=" + parcelId +
+                ", description='" + description + '\'' +
+                ", date=" + date +
+                ", documents=" + documents +
+                '}';
     }
 }

@@ -1,6 +1,7 @@
 package ro.InnovaTeam.cemeteryApp.model;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Created by lucian.vaida on 2/11/2014.
@@ -11,6 +12,7 @@ public class Cemetery extends BaseEntity{
     private String name;
     @NotNull
     private String address;
+    private List<Parcel> parcels;
 
     public Cemetery() {
     }
@@ -36,11 +38,21 @@ public class Cemetery extends BaseEntity{
         this.address = address;
     }
 
+    public List<Parcel> getParcels() {
+        return parcels;
+    }
+
+    public void setParcels(List<Parcel> parcels) {
+        this.parcels = parcels;
+    }
+
     @Override
     public String toString() {
         return "Cemetery{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
+                ", parcels=" + parcels +
                 '}';
     }
 }

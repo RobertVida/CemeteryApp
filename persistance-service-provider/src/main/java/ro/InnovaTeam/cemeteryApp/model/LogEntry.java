@@ -1,35 +1,35 @@
 package ro.InnovaTeam.cemeteryApp.model;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
-public class LogEntry {
+public class LogEntry extends BaseEntity{
 
-    private long id;
+    @NotNull
     private String userId;
+    @NotNull
     private String tableChanged;
+    @NotNull
     private String idAffected;
+    @NotNull
     private Date tookPlaceOn;
+    @NotNull
     private String action;
+    @NotNull
     private String details;
 
-    public LogEntry(long id, String userId, String tableChanged, String idAffected, Date tookPlaceOn, String action, String details) {
-        this.id = id;
+    public LogEntry() {
+    }
+
+    public LogEntry(String userId, String tableChanged, String idAffected, Date tookPlaceOn, String action, String details) {
         this.userId = userId;
         this.tableChanged = tableChanged;
         this.idAffected = idAffected;
         this.tookPlaceOn = tookPlaceOn;
         this.action = action;
         this.details = details;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getUserId() {
@@ -78,5 +78,18 @@ public class LogEntry {
 
     public void setDetails(String details) {
         this.details = details;
+    }
+
+    @Override
+    public String toString() {
+        return "LogEntry{" +
+                "id=" + id +
+                ", userId='" + userId + '\'' +
+                ", tableChanged='" + tableChanged + '\'' +
+                ", idAffected='" + idAffected + '\'' +
+                ", tookPlaceOn=" + tookPlaceOn +
+                ", action='" + action + '\'' +
+                ", details='" + details + '\'' +
+                '}';
     }
 }

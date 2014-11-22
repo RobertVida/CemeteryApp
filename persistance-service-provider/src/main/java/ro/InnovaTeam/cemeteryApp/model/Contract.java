@@ -1,18 +1,39 @@
 package ro.InnovaTeam.cemeteryApp.model;
+
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
-public class Contract {
+public class Contract extends BaseEntity {
 
-    private long id;
-    private long structureId;
-    private long clientId;
+    @NotNull
+    private Integer structureId;
+    @NotNull
+    private Integer clientId;
+    @NotNull
     private Date signedOn;
+    @NotNull
     private Date updatedOn;
+    @NotNull
     private String type;
+    @NotNull
     private Date expiresOn;
+    private Structure structure;
+    private Client client;
+
+    public Contract() {
+    }
+
+    public Contract(Integer structureId, Integer clientId, Date signedOn, Date updatedOn, String type, Date expiresOn) {
+        this.structureId = structureId;
+        this.clientId = clientId;
+        this.signedOn = signedOn;
+        this.updatedOn = updatedOn;
+        this.type = type;
+        this.expiresOn = expiresOn;
+    }
 
     public Date getExpiresOn() {
         return expiresOn;
@@ -22,37 +43,19 @@ public class Contract {
         this.expiresOn = expiresOn;
     }
 
-    public Contract(long id, long structureId, long clientId, Date signedOn, Date updatedOn, String type, Date expiresOn) {
-        this.id = id;
-        this.structureId = structureId;
-        this.clientId = clientId;
-        this.signedOn = signedOn;
-        this.updatedOn = updatedOn;
-        this.type = type;
-        this.expiresOn = expiresOn;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getStructureId() {
+    public Integer getStructureId() {
         return structureId;
     }
 
-    public void setStructureId(long structureId) {
+    public void setStructureId(Integer structureId) {
         this.structureId = structureId;
     }
 
-    public long getClientId() {
+    public Integer getClientId() {
         return clientId;
     }
 
-    public void setClientId(long clientId) {
+    public void setClientId(Integer clientId) {
         this.clientId = clientId;
     }
 
@@ -78,5 +81,36 @@ public class Contract {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Structure getStructure() {
+        return structure;
+    }
+
+    public void setStructure(Structure structure) {
+        this.structure = structure;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    @Override
+    public String toString() {
+        return "Contract{" +
+                "id=" + id +
+                ", structureId=" + structureId +
+                ", clientId=" + clientId +
+                ", signedOn=" + signedOn +
+                ", updatedOn=" + updatedOn +
+                ", type='" + type + '\'' +
+                ", expiresOn=" + expiresOn +
+                ", structure=" + structure +
+                ", client=" + client +
+                '}';
     }
 }

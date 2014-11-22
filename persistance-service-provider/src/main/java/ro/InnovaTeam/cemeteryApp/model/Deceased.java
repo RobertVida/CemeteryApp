@@ -1,22 +1,32 @@
 package ro.InnovaTeam.cemeteryApp.model;
+
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
-public class Deceased {
+public class Deceased extends BaseEntity {
 
-    private long id;
+    @NotNull
     private String firstName;
+    @NotNull
     private String lastName;
+    @NotNull
     private String cnp;
+    @NotNull
     private String religion;
+    @NotNull
     private Date diedOn;
-    private long burialDocumentId;
+    @NotNull
+    private Integer burialDocumentId;
+    @NotNull
     private Date burialOn;
 
-    public Deceased(long id, String firstName, String lastName, String cnp, String religion, Date diedOn, long burialDocumentId, Date burialOn) {
-        this.id = id;
+    public Deceased() {
+    }
+
+    public Deceased(String firstName, String lastName, String cnp, String religion, Date diedOn, Integer burialDocumentId, Date burialOn) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.cnp = cnp;
@@ -24,14 +34,6 @@ public class Deceased {
         this.diedOn = diedOn;
         this.burialDocumentId = burialDocumentId;
         this.burialOn = burialOn;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -74,11 +76,11 @@ public class Deceased {
         this.diedOn = diedOn;
     }
 
-    public long getBurialDocumentId() {
+    public Integer getBurialDocumentId() {
         return burialDocumentId;
     }
 
-    public void setBurialDocumentId(long burialDocumentId) {
+    public void setBurialDocumentId(Integer burialDocumentId) {
         this.burialDocumentId = burialDocumentId;
     }
 
@@ -88,5 +90,19 @@ public class Deceased {
 
     public void setBurialOn(Date burialOn) {
         this.burialOn = burialOn;
+    }
+
+    @Override
+    public String toString() {
+        return "Deceased{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", cnp='" + cnp + '\'' +
+                ", religion='" + religion + '\'' +
+                ", diedOn=" + diedOn +
+                ", burialDocumentId=" + burialDocumentId +
+                ", burialOn=" + burialOn +
+                '}';
     }
 }
