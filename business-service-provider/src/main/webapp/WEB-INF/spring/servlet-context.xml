@@ -14,7 +14,7 @@
     <!-- Enables the Spring MVC @Controller programming model -->
     <mvc:annotation-driven>
         <mvc:message-converters>
-            <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"></bean>
+            <bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
         </mvc:message-converters>
     </mvc:annotation-driven>
 

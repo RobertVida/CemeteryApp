@@ -2,10 +2,6 @@ package ro.InnovaTeam.cemeteryApp.model.test;
 
 import ro.InnovaTeam.cemeteryApp.model.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 /**
  * Created by Catalin Sorecau on 10/23/2014.
  */

@@ -12,7 +12,8 @@ import java.util.List;
  * Created by robert on 11/22/2014.
  */
 @Component
-public class EntityEAOImpl<Entity> implements EntityEAO<Entity> {
+@SuppressWarnings("unchecked")
+public abstract class EntityEAOImpl<Entity> implements EntityEAO<Entity> {
 
     @Autowired
     protected HibernateTemplate hibernateTemplate;
@@ -54,5 +55,6 @@ public class EntityEAOImpl<Entity> implements EntityEAO<Entity> {
 
     protected void flush() {
         getSession().flush();
+        getSession().clear();
     }
 }
