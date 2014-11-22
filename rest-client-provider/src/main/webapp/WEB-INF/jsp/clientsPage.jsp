@@ -33,6 +33,18 @@
             <tbody>
             </tbody>
         </table>
+        <c:if test="${pages gt 0}">
+            <nav style="text-align: center;">
+                <ul class="pagination">
+                    <li><a><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>
+                    <c:forEach var="i" begin="1" end="${pages}">
+                        <li><a class="page" page-number="${i}">${i}</a></li>
+                    </c:forEach>
+                    <li><a><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li>
+                </ul>
+            </nav>
+        </c:if>
     </div>
 </body>
+<input id="getClientsURL" type="hidden" value="${getClients}"/>
 </html>
