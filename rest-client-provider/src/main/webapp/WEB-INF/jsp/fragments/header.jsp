@@ -15,6 +15,7 @@
     <link href="<c:url value="/resources/css/dashboard.css"/>" rel="stylesheet">
     <link href="<c:url value="/resources/css/clients.css"/>" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/resources/js/clients.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/graves.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/deceased.js"></script>

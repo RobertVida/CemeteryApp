@@ -63,7 +63,7 @@
                 </a>
             </div>
             <div class="submenu-item">
-                <a href="#">
+                <a href="${contextPath}/graves">
                     <img src="<c:url value="/resources/icons/graves.png" />"/>
                     <span>Morminte</span>
                 </a>
