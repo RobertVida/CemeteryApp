@@ -15,6 +15,6 @@ public class HomeController {
     @RequestMapping(value = "dashboard", method = RequestMethod.GET)
     public String showDashboard(){
 
-        return "dashboardPage";
+        return "dashBoardPage";
     }
 }
