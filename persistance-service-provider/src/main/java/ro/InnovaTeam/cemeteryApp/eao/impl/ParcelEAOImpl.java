@@ -2,6 +2,7 @@ package ro.InnovaTeam.cemeteryApp.eao.impl;
 
 import org.springframework.stereotype.Component;
 import ro.InnovaTeam.cemeteryApp.eao.ParcelEAO;
+import ro.InnovaTeam.cemeteryApp.helpers.QueryBuilder;
 import ro.InnovaTeam.cemeteryApp.model.Parcel;
 
 import java.util.List;
@@ -46,11 +47,13 @@ public class ParcelEAOImpl extends EntityEAOImpl<Parcel> implements ParcelEAO {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<Parcel> findByCemeteryId(Integer cemeteryId) {
-        return getSession().createQuery(makeSelectQuery(TABLE) + addParentEntityConstraint(cemeteryId)).list();
-    }
-
-    private String addParentEntityConstraint(Integer cemeteryId) {
-        return " WHERE cemetery_id = " + cemeteryId;
+        return getSession().createQuery(
+                QueryBuilder.instance()
+                        .from(TABLE)
+                        .where("cemetery_id").is(cemeteryId)
+                        .build()
+        ).list();
     }
 }
