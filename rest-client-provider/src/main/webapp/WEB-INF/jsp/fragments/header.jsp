@@ -19,6 +19,7 @@
     <script src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/deceased.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/menu.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-static-top" role="navigation">

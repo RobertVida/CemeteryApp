@@ -18,6 +18,12 @@
         <h4 class="text-center">
             <b>Lista clien&#355;ilor</b>
         </h4>
+        <div style="margin-top: 20px;">
+            <div class="form-group col-lg-4">
+                <input type="text" class="form-control">
+          </div>
+          <button type="submit" class="btn btn-default">Cauta</button>
+        </div>
         <table class="table-margins table table-bordered text-center">
             <thead>
             <tr style="background-color: #0080F8;">
@@ -44,6 +50,9 @@
                 </ul>
             </nav>
         </c:if>
+        <div style="margin-right: 20px; float: right;">
+            <button id="addButton" type="submit" class="btn btn-default">Adauga client</button>
+        </div>
     </div>
 </body>
 <input id="getClientsURL" type="hidden" value="${getClients}"/>
