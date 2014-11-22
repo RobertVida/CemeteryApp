@@ -16,7 +16,7 @@
     <context:component-scan base-package="ro.InnovaTeam.cemeteryApp"/>
 
     <!-- Enable @Transactional annotations -->
-    <tx:annotation-driven/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <!-- Configure the transaction manager bean -->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">

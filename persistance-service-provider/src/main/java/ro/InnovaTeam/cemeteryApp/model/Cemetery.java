@@ -1,25 +1,23 @@
 package ro.InnovaTeam.cemeteryApp.model;
+
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
-public class Cemetery {
+public class Cemetery extends BaseEntity{
 
-    private long id;
+    @NotNull
     private String name;
+    @NotNull
     private String address;
 
-    public Cemetery(long id, String name, String address) {
-        this.id = id;
+    public Cemetery() {
+    }
+
+    public Cemetery(String name, String address) {
         this.name = name;
         this.address = address;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -36,5 +34,13 @@ public class Cemetery {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Cemetery{" +
+                "name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                '}';
     }
 }

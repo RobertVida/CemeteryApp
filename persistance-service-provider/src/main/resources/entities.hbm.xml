@@ -1,0 +1,26 @@
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="ro.InnovaTeam.cemeteryApp.model.test.Test" entity-name="test" table="test">
+
+        <id column="id" name="id">
+            <generator class="native" />
+        </id>
+        <property column="content" name="content"/>
+    </class>
+
+    <class name="ro.InnovaTeam.cemeteryApp.model.test.Test" entity-name="test2" table="test2">
+
+        <id column="id" name="id">
+            <generator class="native" />
+        </id>
+        <property column="content" name="content"/>
+    </class>
+
+    <class name="ro.InnovaTeam.cemeteryApp.model.Cemetery" entity-name="cemeteries" table="cemeteries">
+        <id column="cemetery_id" name="id">
+            <generator class="native" />
+        </id>
+        <property column="name" name="name"/>
+        <property column="address" name="address"/>
+    </class>
+</hibernate-mapping>

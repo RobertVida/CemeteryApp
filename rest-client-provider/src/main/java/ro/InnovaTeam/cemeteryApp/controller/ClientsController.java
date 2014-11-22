@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class ClientsController {
 
     @RequestMapping
-    public String showDefaulView(Model model) {
+    public String showDefaultView(Model model) {
 
         return "clientsPage";
     }

@@ -6,6 +6,8 @@
 
     <session-factory>
         <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        <property name="use_sql_comments">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
 
         <!-- Disable the second-level cache  -->
@@ -19,9 +21,10 @@
         <property name="hibernate.use_outer_join">true</property>
         <property name="hibernate.connection.characterEncoding">utf8</property>
 
-        <mapping package="ro.InnovaTeam.cemeteryApp.model"/>
+        <mapping resource="entities.hbm.xml"/>
+        <!--<mapping package="ro.InnovaTeam.cemeteryApp.model"/>-->
 
-        <mapping class="ro.InnovaTeam.cemeteryApp.model.test.Test"/>
+        <!--<mapping class="ro.InnovaTeam.cemeteryApp.model.test.Test"/>-->
 
     </session-factory>
 

@@ -9,11 +9,8 @@ import javax.persistence.Table;
 /**
  * Created by Catalin Sorecau on 10/23/2014.
  */
-@Entity
-@Table(name = "test")
 public class Test extends BaseEntity {
 
-    @Column(name = "content")
     private String content;
 
     public Test() {
