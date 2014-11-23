@@ -21,4 +21,9 @@
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:annotation-driven />
 
+    <!-- bind messages.properties -->
+    <bean class="org.springframework.context.support.ResourceBundleMessageSource" id="messageSource">
+        <property name="basename" value="messages" />
+        <property name="fallbackToSystemLocale" value="false" />
+    </bean>
 </beans>

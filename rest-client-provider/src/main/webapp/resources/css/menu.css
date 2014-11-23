@@ -26,10 +26,10 @@
 
 .content {
     float: left;
-    display: inline;
+    display: inline-table;
     border: 1px solid;
     width: 80%;
-    height: 700px;
+    height: 100%;
 }
 
 .submenu-item {
