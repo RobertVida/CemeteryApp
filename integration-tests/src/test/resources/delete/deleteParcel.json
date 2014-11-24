@@ -1,0 +1,24 @@
+{
+    "tests": [
+        {
+            "request": {
+                "url": "/parcel/${PARCEL_ID_1}",
+                "method": "DELETE"
+            },
+
+            "response": {
+                "status": 200
+            }
+        },
+        {
+            "request": {
+                "url": "/parcel/${PARCEL_ID_2}",
+                "method": "DELETE"
+            },
+
+            "response": {
+                "status": 200
+            }
+        }
+    ]
+}

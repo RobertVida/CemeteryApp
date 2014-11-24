@@ -1,0 +1,20 @@
+{
+    "request" : {
+        "url" : "/parcel",
+        "method" : "PUT",
+        "headers" : {
+            "Content-Type" : "application/json"
+        },
+        "data" : {
+            "id" : null,
+            "name" : "random parcel name",
+            "cemeteryId" : "${CEMETERY_ID_1}",
+            "structure" : null,
+            "history" : null
+        }
+    },
+
+    "response" : {
+        "status" : 200
+    }
+}

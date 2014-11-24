@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- To convert the messages -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="webBindingInitializer">
+            <bean class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer">
+                <property name="validator">
+                    <bean class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.codehaus.jackson.map.ObjectMapper"/>
+
+    <bean class="ro.InnovaTeam.cemeteryApp.tests.helpers.RequestPerformer"/>
+
+    <bean class="ro.InnovaTeam.cemeteryApp.tests.helpers.RequestBuilder">
+        <constructor-arg index="0" ref="entityHolder"/>
+    </bean>
+
+    <import resource="entity-loader-config.xml"/>
+</beans>

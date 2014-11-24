@@ -1,0 +1,27 @@
+{
+    "request": {
+        "url": "/cemeteries",
+        "method": "GET"
+    },
+
+    "response": {
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        },
+        "data": [
+            {
+                "id": "${CEMETERY_ID_1}",
+                "name": "random cemetery name",
+                "address": "random cemetery address",
+                "parcels": null
+            },
+            {
+                "id": "${CEMETERY_ID_2}",
+                "name": "yet another random cemetery name",
+                "address": "yet another random cemetery address",
+                "parcels": null
+            }
+        ]
+    }
+}

@@ -22,10 +22,6 @@
         <property name="hibernate.connection.characterEncoding">utf8</property>
 
         <mapping resource="entities.hbm.xml"/>
-        <!--<mapping package="ro.InnovaTeam.cemeteryApp.model"/>-->
-
-        <!--<mapping class="ro.InnovaTeam.cemeteryApp.model.test.Test"/>-->
-
     </session-factory>
 
 </hibernate-configuration>

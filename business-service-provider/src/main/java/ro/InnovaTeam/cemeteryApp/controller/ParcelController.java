@@ -20,7 +20,7 @@ public class ParcelController {
     public static final String PARCEL_URL = "/parcel";
     public static final String PARCELS_URL = "/parcels";
     public static final String SPECIFIC_PARCEL_URL = PARCEL_URL + "/{parcelId}";
-    public static final String SPECIFIC_CEMETERY_PARCELS_URL = PARCEL_URL + "/cemetery/{cemeteryId}";
+    public static final String SPECIFIC_CEMETERY_PARCELS_URL = PARCELS_URL + "/cemetery/{cemeteryId}";
 
     @Autowired
     private ParcelService parcelService;

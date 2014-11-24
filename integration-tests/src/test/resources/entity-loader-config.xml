@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+    <util:list id="mapping" value-type="ro.InnovaTeam.cemeteryApp.tests.helpers.EntityLoader">
+
+        <!-- CEMETERY_ID_1 -->
+        <bean class="ro.InnovaTeam.cemeteryApp.tests.helpers.EntityLoader">
+            <property name="id" value="CEMETERY_ID_1"/>
+            <property name="createFile" value="/create/createCemetery_1.json"/>
+            <property name="deleteFile" value="/delete/deleteCemetery.json"/>
+        </bean>
+
+        <!-- CEMETERY_ID_2 -->
+        <bean class="ro.InnovaTeam.cemeteryApp.tests.helpers.EntityLoader">
+            <property name="id" value="CEMETERY_ID_2"/>
+            <property name="createFile" value="/create/createCemetery_2.json"/>
+            <property name="deleteFile" value="/delete/deleteCemetery.json"/>
+        </bean>
+
+        <!-- PARCEL_ID_1 -->
+        <bean class="ro.InnovaTeam.cemeteryApp.tests.helpers.EntityLoader">
+            <property name="id" value="PARCEL_ID_1"/>
+            <property name="createFile" value="/create/createParcel_1.json"/>
+            <property name="deleteFile" value="/delete/deleteParcel.json"/>
+        </bean>
+
+        <!-- PARCEL_ID_2 -->
+        <bean class="ro.InnovaTeam.cemeteryApp.tests.helpers.EntityLoader">
+            <property name="id" value="PARCEL_ID_2"/>
+            <property name="createFile" value="/create/createParcel_2.json"/>
+            <property name="deleteFile" value="/delete/deleteParcel.json"/>
+        </bean>
+    </util:list>
+
+    <bean id="entityHolder" class="ro.InnovaTeam.cemeteryApp.tests.helpers.EntityHolder">
+        <constructor-arg index="0" ref="mapping"/>
+    </bean>
+
+</beans>
