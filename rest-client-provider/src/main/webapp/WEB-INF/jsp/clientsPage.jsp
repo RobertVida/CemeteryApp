@@ -18,15 +18,12 @@
         <h4 class="text-center">
             <b>Lista clien&#355;ilor</b>
         </h4>
-        <form action="${pageContext.request.contextPath}/clients${filterURL}" method="post">
-            <div style="margin-top: 20px;">
-                <div class="form-group col-lg-4">
-                    <input id="searchInput" name="searchCriteria" type="text" class="form-control" required="true"/>
-              </div>
-              <button id="searchButton" type="submit" class="btn btn-default">Cauta</button>
-              <a id="refreshFilter" class="btn btn-default">Resetati cautarea</a>
-            </div>
-        </form>
+        <div style="margin-top: 20px;">
+            <div class="form-group col-lg-4">
+                <input id="searchInput" name="searchCriteria" type="text" class="form-control" required="true"/>
+          </div>
+          <button id="searchButton" type="button" onclick="ClientsManagerJS.submitFilterForm();" class="btn btn-default">Cauta</button>
+        </div>
         <table id="clients-table" class="table-margins table table-bordered text-center">
             <thead>
             <tr style="background-color: #0080F8;">

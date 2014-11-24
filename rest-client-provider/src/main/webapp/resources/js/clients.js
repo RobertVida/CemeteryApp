@@ -12,6 +12,7 @@ $(document).ready(function () {
     });
 
     ClientsManagerJS.init();
+    ClientsManagerJS.refreshFilter();
 });
 var ClientsManagerJS = (function($) {
 
@@ -32,17 +33,6 @@ var ClientsManagerJS = (function($) {
             })
         });
 
-        $("#refreshFilter").click(function() {
-            var refreshFilterURL = $("#refreshFilterURL").val();
-            $.ajax({
-                type: "POST",
-                url: refreshFilterURL,
-                success: function (response) {
-                    $('#container').html($(response).filter('#clients-container').html());
-                }
-            });
-        });
-
     };
 
     var getClientsPerPage = function(pageNo) {
@@ -57,8 +47,41 @@ var ClientsManagerJS = (function($) {
         });
     };
 
+    var submitFilterForm = function () {
+        var url = $('#filterURL').val();
+        var searchCriteria = $('#searchInput');
+
+        if (searchCriteria.val() != "") {
+            if (searchCriteria.hasClass("required-input")) {
+                searchCriteria.removeClass("required-input");
+            }
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: { "searchCriteria" : searchCriteria.val() },
+                success: function (response) {
+                    $('#container').html($(response).filter('#clients-container').html());
+                }
+            });
+        } else {
+            searchCriteria.addClass("required-input");
+        }
+    };
+
+    var refreshFilter = function() {
+        var refreshFilterURL = $("#refreshFilterURL").val();
+        $.ajax({
+            type: "POST",
+            url: refreshFilterURL,
+            success: function (response) {
+                $('#container').html($(response).filter('#clients-container').html());
+            }
+        });
+    }
     return {
-        init: init
+        init: init,
+        submitFilterForm : submitFilterForm,
+        refreshFilter : refreshFilter
     }
 })(jQuery);
 

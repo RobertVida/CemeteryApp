@@ -107,13 +107,18 @@ public class ClientsController {
     }
 
     @RequestMapping(value = FILTER, method = RequestMethod.POST)
-    public String applyFilter(HttpServletRequest request) throws IOException {
+    public void applyFilter(HttpServletRequest request, HttpServletResponse response) {
         String searchCriteria = request.getParameter("searchCriteria");
 
         ClientFilterDTO clientFilterDTO = new ClientFilterDTO();
         clientFilterDTO.setSearchCriteria(searchCriteria);
         request.getSession().setAttribute(CLIENT_FILTER, clientFilterDTO);
-        return "redirect:/clients";
+
+        try {
+            response.sendRedirect(request.getContextPath() + CLIENTS);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @RequestMapping(value = REFRESH_FILTER, method = RequestMethod.POST)
