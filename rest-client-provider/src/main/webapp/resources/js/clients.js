@@ -22,17 +22,6 @@ var ClientsManagerJS = (function($) {
             getClientsPerPage(pageNumber);
         });
 
-        $("#addButton").click(function () {
-            var addPageURL = $("#addPageURL").val();
-            $.ajax({
-                type: "GET",
-                url: addPageURL,
-                success: function (response) {
-                    $('#container').html($(response).filter('#client-add-details').html()).css("display: inline;");
-                }
-            })
-        });
-
     };
 
     var getClientsPerPage = function(pageNo) {
@@ -77,11 +66,24 @@ var ClientsManagerJS = (function($) {
                 $('#container').html($(response).filter('#clients-container').html());
             }
         });
-    }
+    };
+
+    var renderAddPage = function () {
+        var addPageURL = $("#addPageURL").val();
+        $.ajax({
+            type: "GET",
+            url: addPageURL,
+            success: function (response) {
+                $('#container').html($(response).filter('#client-add-details').html()).css("display: inline;");
+            }
+        });
+    };
+
     return {
         init: init,
         submitFilterForm : submitFilterForm,
-        refreshFilter : refreshFilter
+        refreshFilter : refreshFilter,
+        renderAddPage : renderAddPage
     }
 })(jQuery);
 

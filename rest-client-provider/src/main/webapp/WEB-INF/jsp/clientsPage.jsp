@@ -61,7 +61,7 @@
             </nav>
         </c:if>
         <div style="margin-right: 20px; margin-bottom: 20px; float: right;">
-            <button id="addButton" type="submit" class="btn btn-default">Adauga client</button>
+            <button onclick="ClientsManagerJS.renderAddPage();" type="submit" class="btn btn-default">Adauga client</button>
         </div>
     </div>
 </body>
