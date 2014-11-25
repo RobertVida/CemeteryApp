@@ -50,7 +50,7 @@ public class CemeteryController {
         cemeteryFilterDTO.setParentId(null);
         cemeteries = CemeteryRestClient.getCemeteriesByFilter(cemeteryFilterDTO);
 
-        model.addAttribute("pages", cemeteries.size());
+        model.addAttribute("pages", cemeteries.size()/PAGE_SIZE);
         model.addAttribute("cemeteryList", cemeteries);
         model.addAttribute("cemeteryPath", CEMETERY);
         return "cemetery/cemeteryPage";
