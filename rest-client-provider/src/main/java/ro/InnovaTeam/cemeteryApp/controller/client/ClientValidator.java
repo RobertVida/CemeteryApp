@@ -13,11 +13,11 @@ import java.util.regex.Pattern;
  * Created by Catalin Sorecau on 11/23/2014.
  */
 @Component
-@Qualifier("jobTypeValidator")
+@Qualifier("clientValidator")
 public class ClientValidator implements Validator {
     @Override
-    public boolean supports(Class<?> zaClass) {
-        return ClientDTO.class.equals(zaClass);
+    public boolean supports(Class<?> clazz) {
+        return ClientDTO.class.equals(clazz);
     }
 
     @Override

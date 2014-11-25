@@ -8,7 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.client.ClientDTO;
-import ro.InnovaTeam.cemeteryApp.client.ClientFilterDTO;
+import ro.InnovaTeam.cemeteryApp.client.FilterDTO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,12 +30,12 @@ public class ClientsController {
     public static final int PAGE_SIZE = 20;
 
     @Autowired
-    @Qualifier("jobTypeValidator")
+    @Qualifier("clientValidator")
     private Validator clientValidator;
-
+    //TODO: update this class according to CemeteryController
     @RequestMapping(method = RequestMethod.GET)
     public String render(Model model, HttpServletRequest request) {
-        ClientFilterDTO clientFilterDTO = (ClientFilterDTO) request.getSession().getAttribute(CLIENT_FILTER);
+        FilterDTO clientFilterDTO = (FilterDTO) request.getSession().getAttribute(CLIENT_FILTER);
 
         if (clientFilterDTO != null) {
             clientFilterDTO.setPageNo(0);
@@ -59,7 +59,7 @@ public class ClientsController {
     @RequestMapping(value = CLIENTS, method = RequestMethod.GET)
     public String getClients(Model model, HttpServletRequest request) {
         Integer pageNo = Integer.valueOf(request.getParameter("pageNo"));
-        ClientFilterDTO clientFilterDTO = (ClientFilterDTO) request.getSession().getAttribute(CLIENT_FILTER);
+        FilterDTO clientFilterDTO = (FilterDTO) request.getSession().getAttribute(CLIENT_FILTER);
 
         if (clientFilterDTO != null) {
             clientFilterDTO.setPageNo(pageNo);
@@ -110,7 +110,7 @@ public class ClientsController {
     public void applyFilter(HttpServletRequest request, HttpServletResponse response) {
         String searchCriteria = request.getParameter("searchCriteria");
 
-        ClientFilterDTO clientFilterDTO = new ClientFilterDTO();
+        FilterDTO clientFilterDTO = new FilterDTO();
         clientFilterDTO.setSearchCriteria(searchCriteria);
         request.getSession().setAttribute(CLIENT_FILTER, clientFilterDTO);
 

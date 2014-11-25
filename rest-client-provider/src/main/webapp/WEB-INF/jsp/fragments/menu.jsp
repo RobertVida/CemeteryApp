@@ -51,7 +51,7 @@
         </div>
         <div class="submenu-right">
             <div class="submenu-item">
-                <a href="#">
+                <a href="${contextPath}/cemetery">
                     <img src="<c:url value="/resources/icons/cemetery.png" />"/>
                     <span>Cimitire</span>
                 </a>
