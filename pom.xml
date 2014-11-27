@@ -29,7 +29,6 @@
         <module>business-entities</module>
         <module>business-service-provider</module>
         <module>rest-client-provider</module>
-        <module>integration-tests</module>
     </modules>
 
     <properties>
