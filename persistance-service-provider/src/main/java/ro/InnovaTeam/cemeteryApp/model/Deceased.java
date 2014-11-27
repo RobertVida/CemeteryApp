@@ -1,6 +1,4 @@
 package ro.InnovaTeam.cemeteryApp.model;
-
-import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 /**
@@ -8,25 +6,18 @@ import java.sql.Date;
  */
 public class Deceased extends BaseEntity {
 
-    @NotNull
     private String firstName;
-    @NotNull
     private String lastName;
-    @NotNull
     private String cnp;
-    @NotNull
     private String religion;
-    @NotNull
     private Date diedOn;
-    @NotNull
     private Integer burialDocumentId;
-    @NotNull
     private Date burialOn;
 
     public Deceased() {
     }
 
-    public Deceased(String firstName, String lastName, String cnp, String religion, Date diedOn, Integer burialDocumentId, Date burialOn) {
+    public Deceased( String firstName, String lastName, String cnp, String religion, Date diedOn, Integer burialDocumentId, Date burialOn) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.cnp = cnp;

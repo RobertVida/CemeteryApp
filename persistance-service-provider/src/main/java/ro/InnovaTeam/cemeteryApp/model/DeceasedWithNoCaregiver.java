@@ -1,5 +1,4 @@
 package ro.InnovaTeam.cemeteryApp.model;
-import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 /**
@@ -7,13 +6,9 @@ import java.sql.Date;
  */
 public class DeceasedWithNoCaregiver extends Deceased{
 
-    @NotNull
     private Integer noCareGiverDocumentId;
-    @NotNull
     private Integer certificateId;
-    @NotNull
     private Integer requestIMLid;
-    @NotNull
     private String map;
 
     public DeceasedWithNoCaregiver() {
