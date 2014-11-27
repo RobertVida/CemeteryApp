@@ -71,7 +71,7 @@ var CemeteriesManagerJS = (function($) {
             type: "POST",
             url: refreshFilterURL,
             success: function (response) {
-                $('#container').html($(response).filter('#clients-container').html());
+                $('#container').html($(response).filter('#cemetery-details').html());
             }
         });
     };
