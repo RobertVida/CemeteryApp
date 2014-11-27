@@ -5,11 +5,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ro.InnovaTeam.cemeteryApp.FilterDTO;
+import ro.InnovaTeam.cemeteryApp.model.Filter;
 import ro.InnovaTeam.cemeteryApp.model.Parcel;
+import ro.InnovaTeam.cemeteryApp.ParcelDTO;
+import ro.InnovaTeam.cemeteryApp.ParcelList;
 import ro.InnovaTeam.cemeteryApp.service.ParcelService;
 
 import javax.validation.Valid;
-import java.util.List;
+
+import static ro.InnovaTeam.cemeteryApp.util.ParcelUtil.toDB;
+import static ro.InnovaTeam.cemeteryApp.util.FilterUtil.toDB;
+import static ro.InnovaTeam.cemeteryApp.util.ParcelUtil.toDTO;
 
 /**
  * Created by robert on 11/18/2014.
@@ -28,43 +35,45 @@ public class ParcelController {
     @RequestMapping(value = PARCEL_URL, method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Integer create(@RequestBody @Valid Parcel parcel) {
-        return parcelService.create(parcel);
+    public Integer create(@RequestBody @Valid ParcelDTO parcelDTO) {
+        return parcelService.create(toDB(parcelDTO));
     }
 
     @RequestMapping(value = SPECIFIC_PARCEL_URL, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Parcel delete(@PathVariable Integer parcelId) {
-        return parcelService.delete(parcelId);
+    public ParcelDTO delete(@PathVariable Integer parcelId) {
+        return toDTO(parcelService.delete(parcelId));
     }
 
     @RequestMapping(value = SPECIFIC_PARCEL_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Parcel update(@PathVariable Integer parcelId, @RequestBody @Valid Parcel parcel) {
+    public ParcelDTO update(@PathVariable Integer parcelId, @RequestBody @Valid ParcelDTO parcelDTO) {
+        Parcel parcel = toDB(parcelDTO);
         parcel.setId(parcelId);
-        return parcelService.update(parcel);
+        return toDTO(parcelService.update(parcel));
     }
 
     @RequestMapping(value = SPECIFIC_PARCEL_URL, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Parcel findById(@PathVariable Integer parcelId) {
-        return parcelService.findById(parcelId);
+    public ParcelDTO findById(@PathVariable Integer parcelId) {
+        return toDTO(parcelService.findById(parcelId));
+    }
+
+
+    @RequestMapping(value = PARCELS_URL, method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public ParcelList findByFilter(FilterDTO filterDTO) {
+        return new ParcelList(toDTO(parcelService.findByFilter(toDB(filterDTO))));
     }
 
     @RequestMapping(value = SPECIFIC_CEMETERY_PARCELS_URL, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<Parcel> findByCemeteryId(@PathVariable Integer cemeteryId) {
-        return parcelService.findByCemeteryId(cemeteryId);
-    }
-
-    @RequestMapping(value = PARCELS_URL, method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    public List<Parcel> findByFilter() {
-        return parcelService.findByFilter();
+    public ParcelList findByCemeteryId(@PathVariable Integer cemeteryId) {
+        return new ParcelList(toDTO(parcelService.findByFilter(new Filter(cemeteryId))));
     }
 }

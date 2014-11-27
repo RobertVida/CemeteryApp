@@ -1,5 +1,7 @@
 package ro.InnovaTeam.cemeteryApp.service;
 
+import ro.InnovaTeam.cemeteryApp.model.Filter;
+
 import java.util.List;
 
 /**
@@ -14,5 +16,5 @@ public interface EntityService<Entity> {
 
     public Entity findById(Integer id);
 
-    public List<Entity> findByFilter();
+    public List<Entity> findByFilter(Filter filter);
 }

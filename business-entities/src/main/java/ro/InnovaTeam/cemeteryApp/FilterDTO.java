@@ -1,4 +1,4 @@
-package ro.InnovaTeam.cemeteryApp.client;
+package ro.InnovaTeam.cemeteryApp;
 
 /**
  * Created by Catalin Sorecau on 11/23/2014.

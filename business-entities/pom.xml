@@ -12,5 +12,11 @@
     <artifactId>business-entities</artifactId>
     <name>Business Entities</name>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.1.0.Final</version>
+        </dependency>
+    </dependencies>
 </project>

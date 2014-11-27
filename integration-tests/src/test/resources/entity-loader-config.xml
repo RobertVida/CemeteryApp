@@ -36,6 +36,13 @@
             <property name="createFile" value="/create/createParcel_2.json"/>
             <property name="deleteFile" value="/delete/deleteParcel.json"/>
         </bean>
+
+        <!-- PARCEL_ID_3 -->
+        <bean class="ro.InnovaTeam.cemeteryApp.tests.helpers.EntityLoader">
+            <property name="id" value="PARCEL_ID_3"/>
+            <property name="createFile" value="/create/createParcel_3.json"/>
+            <property name="deleteFile" value="/delete/deleteParcel.json"/>
+        </bean>
     </util:list>
 
     <bean id="entityHolder" class="ro.InnovaTeam.cemeteryApp.tests.helpers.EntityHolder">

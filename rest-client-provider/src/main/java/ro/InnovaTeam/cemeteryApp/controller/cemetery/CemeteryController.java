@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ro.InnovaTeam.cemeteryApp.cemetery.CemeteryDTO;
-import ro.InnovaTeam.cemeteryApp.client.FilterDTO;
+import ro.InnovaTeam.cemeteryApp.CemeteryDTO;
+import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.restClient.cemetery.CemeteryRestClient;
 
 import javax.servlet.http.HttpServletRequest;

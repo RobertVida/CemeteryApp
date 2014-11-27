@@ -17,8 +17,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by robert on 11/23/2014.
- */
+* Created by robert on 11/23/2014.
+*/
 @ContextConfiguration(locations = {"classpath:business-service-provider-application-context.xml", "classpath:integration-context.xml"})
 @WebAppConfiguration
 @EnableWebMvc
@@ -36,8 +36,7 @@ public class BaseTest {
     protected static final String GET = "/get";
     protected static final String UPDATE = "/update";
 
-    @Before
-    public void before() throws Exception {
+    @Before public void before() throws Exception {
         mvc = MockMvcBuilders.webAppContextSetup(wac).build();
         requestPerformer.setMvc(mvc);
         initializeEntities();
@@ -65,10 +64,10 @@ public class BaseTest {
     }
 
     private List<String> getDeleteTestSuitesFiles() throws Exception {
-        List<EntityLoader> array = new ArrayList<>(entities.getEntities());
+        List<EntityLoader> array = new ArrayList<EntityLoader>(entities.getEntities());
         Collections.reverse(array);
 
-        List<String> deleteFiles = new ArrayList<>();
+        List<String> deleteFiles = new ArrayList<String>();
         for (EntityLoader entity : array) {
             if (!deleteFiles.contains(entity.getDeleteFile())) {
                 deleteFiles.add(entity.getDeleteFile());

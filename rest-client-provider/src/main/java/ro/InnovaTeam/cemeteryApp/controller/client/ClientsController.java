@@ -7,8 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
-import ro.InnovaTeam.cemeteryApp.client.ClientDTO;
-import ro.InnovaTeam.cemeteryApp.client.FilterDTO;
+import ro.InnovaTeam.cemeteryApp.ClientDTO;
+import ro.InnovaTeam.cemeteryApp.FilterDTO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

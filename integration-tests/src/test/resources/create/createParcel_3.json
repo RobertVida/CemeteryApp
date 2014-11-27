@@ -7,8 +7,8 @@
         },
         "data" : {
             "id" : null,
-            "name" : "yet another random parcel name",
-            "cemeteryId" : "${CEMETERY_ID_2}"
+            "name" : "and still yet another random parcel name",
+            "cemeteryId" : "${CEMETERY_ID_1}"
         }
     },
 

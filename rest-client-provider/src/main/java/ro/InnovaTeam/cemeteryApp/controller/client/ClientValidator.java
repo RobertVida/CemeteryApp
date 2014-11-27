@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ro.InnovaTeam.cemeteryApp.client.ClientDTO;
+import ro.InnovaTeam.cemeteryApp.ClientDTO;
 
 import java.util.regex.Pattern;
 

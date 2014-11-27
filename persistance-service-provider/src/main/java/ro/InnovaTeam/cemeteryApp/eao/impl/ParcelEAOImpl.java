@@ -2,7 +2,8 @@ package ro.InnovaTeam.cemeteryApp.eao.impl;
 
 import org.springframework.stereotype.Component;
 import ro.InnovaTeam.cemeteryApp.eao.ParcelEAO;
-import ro.InnovaTeam.cemeteryApp.helpers.QueryBuilder;
+import ro.InnovaTeam.cemeteryApp.helpers.FilteredQueryBuilder;
+import ro.InnovaTeam.cemeteryApp.model.Filter;
 import ro.InnovaTeam.cemeteryApp.model.Parcel;
 
 import java.util.List;
@@ -42,18 +43,18 @@ public class ParcelEAOImpl extends EntityEAOImpl<Parcel> implements ParcelEAO {
     }
 
     @Override
-    public List<Parcel> findByFilter() {
-        return findByFilter(TABLE);
+    public List<Parcel> findByFilter(Filter filter) {
+        return findByFilter(TABLE, filter);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Parcel> findByCemeteryId(Integer cemeteryId) {
-        return getSession().createQuery(
-                QueryBuilder.instance()
-                        .from(TABLE)
-                        .where("cemetery_id").is(cemeteryId)
-                        .build()
-        ).list();
+    public List<Parcel> findByFilter(String tableName, Filter filter) {
+        return FilteredQueryBuilder.instance()
+                .from(tableName)
+                .setFilter(filter)
+                .setCriteriaSearchableColumns("name")
+                .setParentIdColumn("cemetery_id")
+                .build(getSession()).list();
     }
 }

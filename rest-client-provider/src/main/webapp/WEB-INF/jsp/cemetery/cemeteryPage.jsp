@@ -14,7 +14,7 @@
 <body>
     <jsp:include page="../fragments/menu.jsp"/>
     <c:set var="contextPath" value="${pageContext.request.contextPath}/cemetery"/>
-    <div id="cemetery-container" style="display: none;">
+    <div id="cemetery-details" style="display: none;">
         <h4 class="text-center">
             <b>Lista cimitirelor</b>
         </h4>

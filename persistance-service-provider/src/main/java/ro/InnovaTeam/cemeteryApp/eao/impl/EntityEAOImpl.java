@@ -5,7 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 import ro.InnovaTeam.cemeteryApp.eao.EntityEAO;
-import ro.InnovaTeam.cemeteryApp.helpers.QueryBuilder;
+import ro.InnovaTeam.cemeteryApp.helpers.FilteredQueryBuilder;
+import ro.InnovaTeam.cemeteryApp.model.Filter;
 
 import java.util.List;
 
@@ -46,12 +47,10 @@ public abstract class EntityEAOImpl<Entity> implements EntityEAO<Entity> {
     }
 
     @Override
-    public List<Entity> findByFilter(String tableName) {
-        return getSession().createQuery(
-                QueryBuilder.instance()
-                        .from(tableName)
-                        .build()
-        ).list();
+    public List<Entity> findByFilter(String tableName, Filter filter) {
+        return FilteredQueryBuilder.instance()
+                .from(tableName)
+                .build(getSession()).list();
     }
 
     protected void flush() {

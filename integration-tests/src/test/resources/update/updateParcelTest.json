@@ -1,0 +1,48 @@
+{
+    "tests": [
+        {
+            "request": {
+                "url": "/parcel/${PARCEL_ID_1}",
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "id": "${PARCEL_ID_2}",
+                    "name": "new random parcel name",
+                    "cemeteryId": "${CEMETERY_ID_2}"
+                }
+            },
+
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "id": "${PARCEL_ID_1}",
+                    "name": "new random parcel name",
+                    "cemeteryId": "${CEMETERY_ID_1}"
+                }
+            }
+        },
+        {
+            "request": {
+                "url": "/parcel/${PARCEL_ID_1}",
+                "method": "GET"
+            },
+
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "id": "${PARCEL_ID_1}",
+                    "name": "new random parcel name",
+                    "cemeteryId": "${CEMETERY_ID_1}"
+                }
+            }
+        }
+    ]
+}

@@ -1,6 +1,5 @@
 package ro.InnovaTeam.cemeteryApp.model;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -8,9 +7,7 @@ import java.util.List;
  */
 public class Parcel extends BaseEntity {
 
-    @NotNull
     private String name;
-    @NotNull
     private Integer cemeteryId;
     private Structure structure;
     private List<ParcelHistoryEntry> history;

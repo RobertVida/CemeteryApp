@@ -1,20 +1,51 @@
 package ro.InnovaTeam.cemeteryApp.util;
 
 import ro.InnovaTeam.cemeteryApp.model.Parcel;
-import ro.InnovaTeam.cemeteryApp.parcel.ParcelDTO;
+import ro.InnovaTeam.cemeteryApp.ParcelDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Catalin Sorecau on 11/24/2014.
  */
-public class ParcelUtil {
+public abstract class ParcelUtil {
 
-    public static ParcelDTO getParcelDTO(Parcel parcel) {
-        return null;
+    public static Parcel toDB(ParcelDTO parcelDTO){
+        Parcel parcel = new Parcel();
+        parcel.setId(parcelDTO.getId());
+        parcel.setCemeteryId(parcelDTO.getCemeteryId());
+        parcel.setName(parcelDTO.getName());
+//        parcel.setStructure(parcelDTO.getStructure());
+//        parcel.setHistory(parcelDTO.getHistory());
+
+        return parcel;
     }
 
-    public static void setParcelFromDTOs(List<Parcel> parcels, List<ParcelDTO> parcelDTOs) {
+    public static ParcelDTO toDTO(Parcel parcel){
+        ParcelDTO parcelDTO = new ParcelDTO();
+        parcelDTO.setId(parcel.getId());
+        parcelDTO.setCemeteryId(parcel.getCemeteryId());
+        parcelDTO.setName(parcel.getName());
+//        parcelDTO.setStructure(parcel.getStructure());
+//        parcelDTO.setHistory(parcel.getHistory());
 
+        return parcelDTO;
+    }
+
+    public static List<Parcel> toDB(List<ParcelDTO> parcelDTOs){
+        List<Parcel> parcels = new ArrayList<Parcel>();
+        for(ParcelDTO parcelDTO : parcelDTOs){
+            parcels.add(toDB(parcelDTO));
+        }
+        return parcels;
+    }
+
+    public static List<ParcelDTO> toDTO(List<Parcel> parcels){
+        List<ParcelDTO> parcelDTOs = new ArrayList<ParcelDTO>();
+        for(Parcel parcel : parcels){
+            parcelDTOs.add(toDTO(parcel));
+        }
+        return parcelDTOs;
     }
 }

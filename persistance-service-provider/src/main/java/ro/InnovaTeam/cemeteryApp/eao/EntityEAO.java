@@ -1,5 +1,7 @@
 package ro.InnovaTeam.cemeteryApp.eao;
 
+import ro.InnovaTeam.cemeteryApp.model.Filter;
+
 import java.util.List;
 
 /**
@@ -19,6 +21,6 @@ public interface EntityEAO<Entity> {
     public Entity findById(String tableName, Integer id);
     public Entity findById(Integer id);
 
-    public List<Entity> findByFilter(String entityName);
-    public List<Entity> findByFilter();
+    public List<Entity> findByFilter(String entityName, Filter filter);
+    public List<Entity> findByFilter(Filter filter);
 }

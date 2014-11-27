@@ -1,8 +1,6 @@
-package ro.InnovaTeam.cemeteryApp.cemetery;
+package ro.InnovaTeam.cemeteryApp;
 
-import ro.InnovaTeam.cemeteryApp.BaseDTO;
-import ro.InnovaTeam.cemeteryApp.parcel.ParcelDTO;
-
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -10,8 +8,9 @@ import java.util.List;
  */
 public class CemeteryDTO extends BaseDTO{
 
+    @NotNull
     private String name;
-
+    @NotNull
     private String address;
 
     private List<ParcelDTO> parcels;
@@ -38,5 +37,15 @@ public class CemeteryDTO extends BaseDTO{
 
     public void setParcels(List<ParcelDTO> parcels) {
         this.parcels = parcels;
+    }
+
+    @Override
+    public String toString() {
+        return "CemeteryDTO{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", parcels=" + parcels +
+                '}';
     }
 }

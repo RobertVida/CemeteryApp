@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ro.InnovaTeam.cemeteryApp.eao.CemeteryEAO;
 import ro.InnovaTeam.cemeteryApp.eao.ParcelEAO;
 import ro.InnovaTeam.cemeteryApp.model.Cemetery;
+import ro.InnovaTeam.cemeteryApp.model.Filter;
 import ro.InnovaTeam.cemeteryApp.model.Parcel;
 import ro.InnovaTeam.cemeteryApp.service.CemeteryService;
 
@@ -46,12 +47,12 @@ public class CemeteryServiceImpl implements CemeteryService {
     }
 
     @Override
-    public List<Cemetery> findByFilter() {
-        return cemeteryEAO.findByFilter();
+    public List<Cemetery> findByFilter(Filter filter) {
+        return cemeteryEAO.findByFilter(filter);
     }
 
     private void deleteCemeteryParcels(Integer id) {
-        List<Parcel> parcels = parcelEAO.findByCemeteryId(id);
+        List<Parcel> parcels = parcelEAO.findByFilter(new Filter(null, null, null, id));
         for(Parcel parcel : parcels){
             parcelEAO.delete(parcel.getId());
         }

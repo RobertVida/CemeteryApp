@@ -13,9 +13,10 @@ public class BaseRestClient {
     public static final String BASE_URL = getBasePath();
 
     private static String getBasePath() {
-        String basePath = "http://localhost:8080/businessServiceProvider";
-
-        return basePath;
+        String port = "8080";
+        String name = "rest-server";
+        String address = "localhost";
+        return String.format("http://%s:%s/%s", address, port, name);
     }
 
     protected static RestTemplate getJSONRestTemplate() {

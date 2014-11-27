@@ -1,4 +1,4 @@
-package ro.InnovaTeam.cemeteryApp.client;
+package ro.InnovaTeam.cemeteryApp;
 
 
 import ro.InnovaTeam.cemeteryApp.BaseDTO;

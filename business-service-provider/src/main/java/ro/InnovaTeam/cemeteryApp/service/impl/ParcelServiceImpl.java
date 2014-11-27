@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.InnovaTeam.cemeteryApp.eao.ParcelEAO;
+import ro.InnovaTeam.cemeteryApp.model.Filter;
 import ro.InnovaTeam.cemeteryApp.model.Parcel;
 import ro.InnovaTeam.cemeteryApp.service.ParcelService;
 
@@ -41,12 +42,7 @@ public class ParcelServiceImpl implements ParcelService {
     }
 
     @Override
-    public List<Parcel> findByFilter() {
-        return parcelEAO.findByFilter();
-    }
-
-    @Override
-    public List<Parcel> findByCemeteryId(Integer cemeteryId) {
-        return parcelEAO.findByCemeteryId(cemeteryId);
+    public List<Parcel> findByFilter(Filter filter) {
+        return parcelEAO.findByFilter(filter);
     }
 }

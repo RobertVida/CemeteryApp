@@ -11,7 +11,7 @@ var CemeteriesManagerJS = (function($) {
         $('#container').html($('#cemetery-container').html());
         $('#container').html($('#cemetery-details').html());
 
-        ClientsManagerJS.refreshFilter();
+        CemeteriesManagerJS.refreshFilter();
     };
 
     var renderAddPage = function () {

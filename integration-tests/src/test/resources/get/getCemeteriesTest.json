@@ -1,27 +1,170 @@
 {
-    "request": {
-        "url": "/cemeteries",
-        "method": "GET"
-    },
-
-    "response": {
-        "status": 200,
-        "headers": {
-            "Content-Type": "application/json"
-        },
-        "data": [
-            {
-                "id": "${CEMETERY_ID_1}",
-                "name": "random cemetery name",
-                "address": "random cemetery address",
-                "parcels": null
+    "tests": [
+        {
+            "request": {
+                "url": "/cemeteries",
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "searchCriteria": null,
+                    "pageNo": null,
+                    "pageSize": null,
+                    "parentId": null
+                }
             },
-            {
-                "id": "${CEMETERY_ID_2}",
-                "name": "yet another random cemetery name",
-                "address": "yet another random cemetery address",
-                "parcels": null
+
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "content": [
+                        {
+                            "id": "${CEMETERY_ID_1}",
+                            "name": "random cemetery name",
+                            "address": "random cemetery address",
+                            "parcels": null
+                        },
+                        {
+                            "id": "${CEMETERY_ID_2}",
+                            "name": "yet another random cemetery name",
+                            "address": "yet another random cemetery address",
+                            "parcels": null
+                        }
+                    ]
+                }
             }
-        ]
-    }
+        },
+        {
+            "request": {
+                "url": "/cemeteries",
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "searchCriteria": null,
+                    "pageNo": null,
+                    "pageSize": 1,
+                    "parentId": null
+                }
+            },
+
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "content": [
+                        {
+                            "id": "${CEMETERY_ID_1}",
+                            "name": "random cemetery name",
+                            "address": "random cemetery address",
+                            "parcels": null
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "request": {
+                "url": "/cemeteries",
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "searchCriteria": null,
+                    "pageNo": 2,
+                    "pageSize": 1,
+                    "parentId": null
+                }
+            },
+
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "content": [
+                        {
+                            "id": "${CEMETERY_ID_2}",
+                            "name": "yet another random cemetery name",
+                            "address": "yet another random cemetery address",
+                            "parcels": null
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "request": {
+                "url": "/cemeteries",
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "searchCriteria": "yet",
+                    "pageNo": null,
+                    "pageSize": null,
+                    "parentId": null
+                }
+            },
+
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "content": [
+                        {
+                            "id": "${CEMETERY_ID_2}",
+                            "name": "yet another random cemetery name",
+                            "address": "yet another random cemetery address",
+                            "parcels": null
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "request": {
+                "url": "/cemeteries",
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "searchCriteria": "yet anx",
+                    "pageNo": null,
+                    "pageSize": null,
+                    "parentId": null
+                }
+            },
+
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "content": [
+                        {
+                            "id": "${CEMETERY_ID_2}",
+                            "name": "yet another random cemetery name",
+                            "address": "yet another random cemetery address",
+                            "parcels": null
+                        }
+                    ]
+                }
+            }
+        }
+    ]
 }

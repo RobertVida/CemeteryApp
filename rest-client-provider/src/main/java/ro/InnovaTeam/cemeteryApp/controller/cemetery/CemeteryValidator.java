@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ro.InnovaTeam.cemeteryApp.cemetery.CemeteryDTO;
+import ro.InnovaTeam.cemeteryApp.CemeteryDTO;
 
 /**
  * Created by Catalin Sorecau on 11/24/2014.
