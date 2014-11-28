@@ -5,11 +5,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ro.InnovaTeam.cemeteryApp.DeceasedDTO;
+import ro.InnovaTeam.cemeteryApp.DeceasedList;
+import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.model.Deceased;
 import ro.InnovaTeam.cemeteryApp.service.DeceasedService;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static ro.InnovaTeam.cemeteryApp.util.DeceasedUtil.toDTO;
+import static ro.InnovaTeam.cemeteryApp.util.FilterUtil.toDB;
+import static ro.InnovaTeam.cemeteryApp.util.DeceasedUtil.toDB;
 
 /**
  * Created by amalia on 11/27/2014.
@@ -26,37 +33,38 @@ public class DeceasedController {
     @RequestMapping(value = DECEASED_URL, method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Integer create(@RequestBody @Valid Deceased deceased) {
-        return deceasedService.create(deceased);
+    public Integer create(@RequestBody @Valid DeceasedDTO deceasedDTO) {
+        return deceasedService.create(toDB(deceasedDTO));
     }
 
     @RequestMapping(value = SPECIFIC_DECEASED_URL, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Deceased delete(@PathVariable Integer deceasedId) {
-        return deceasedService.delete(deceasedId);
+    public DeceasedDTO delete(@PathVariable Integer deceasedId) {
+        return toDTO(deceasedService.delete(deceasedId));
     }
 
     @RequestMapping(value = SPECIFIC_DECEASED_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Deceased update(@PathVariable Integer deceasedId, @RequestBody @Valid Deceased deceased) {
+    public DeceasedDTO update(@PathVariable Integer deceasedId, @RequestBody @Valid DeceasedDTO deceasedDTO) {
+        Deceased deceased = toDB(deceasedDTO);
         deceased.setId(deceasedId);
-        return deceasedService.update(deceased);
+        return toDTO(deceasedService.update(deceased));
     }
     
     @RequestMapping(value = SPECIFIC_DECEASED_URL, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Deceased findById(@PathVariable Integer deceasedId) {
-        return deceasedService.findById(deceasedId);
+    public DeceasedDTO findById(@PathVariable Integer deceasedId) {
+        return toDTO(deceasedService.findById(deceasedId));
     }
 
     @RequestMapping(value = DECEASED_URL, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<Deceased> findByFilter() {
-        return deceasedService.findByFilter();
+    public DeceasedList findByFilter(@RequestBody FilterDTO filterDTO) {
+        return new DeceasedList(toDTO(deceasedService.findByFilter(toDB(filterDTO))));
     }
 
 }

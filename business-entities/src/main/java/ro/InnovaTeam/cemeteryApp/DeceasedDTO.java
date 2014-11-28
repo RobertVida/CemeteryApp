@@ -1,24 +1,33 @@
-package ro.InnovaTeam.cemeteryApp.model;
+package ro.InnovaTeam.cemeteryApp;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
-public class Deceased extends BaseEntity {
+public class DeceasedDTO extends BaseDTO {
 
+    @NotNull
     private String firstName;
+    @NotNull
     private String lastName;
+    @NotNull
     private String cnp;
+    @NotNull
     private String religion;
+    @NotNull
     private Date diedOn;
+    @NotNull
     private Integer burialDocumentId;
+    @NotNull
     private Integer structureId;
+    @NotNull
     private Date burialOn;
 
-    public Deceased() {
+    public DeceasedDTO() {
     }
 
-    public Deceased(String firstName, String lastName, String cnp, String religion, Date diedOn, Integer burialDocumentId, Integer structureId, Date burialOn) {
+    public DeceasedDTO(String firstName, String lastName, String cnp, String religion, Date diedOn, Integer burialDocumentId, Integer structureId, Date burialOn) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.cnp = cnp;

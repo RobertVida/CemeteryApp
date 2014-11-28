@@ -2,7 +2,9 @@ package ro.InnovaTeam.cemeteryApp.eao.impl;
 
 import org.springframework.stereotype.Component;
 import ro.InnovaTeam.cemeteryApp.eao.DeceasedEAO;
+import ro.InnovaTeam.cemeteryApp.helpers.FilteredQueryBuilder;
 import ro.InnovaTeam.cemeteryApp.model.Deceased;
+import ro.InnovaTeam.cemeteryApp.model.Filter;
 
 import java.util.List;
 
@@ -41,7 +43,17 @@ public class DeceasedEAOImpl extends EntityEAOImpl<Deceased> implements Deceased
     }
 
     @Override
-    public List<Deceased> findByFilter() {
-        return findByFilter(TABLE);
+    public List<Deceased> findByFilter(Filter filter) {
+        return findByFilter(TABLE, filter);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Deceased> findByFilter(String tableName, Filter filter) {
+        return FilteredQueryBuilder.instance()
+                .from(tableName)
+                .setFilter(filter)
+                .setCriteriaSearchableColumns("first_name", "last_name", "cnp", "religion")
+                .build(getSession()).list();
     }
 }

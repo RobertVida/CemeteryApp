@@ -40,6 +40,140 @@
                     ]
                 }
             }
+        },
+        {
+            "request": {
+                "url": "/parcels",
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "searchCriteria": null,
+                    "pageNo": 1,
+                    "pageSize": 2,
+                    "parentId": null
+                }
+            },
+
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "content": [
+                        {
+                            "id": "${PARCEL_ID_1}",
+                            "name": "random parcel name",
+                            "cemeteryId": "${CEMETERY_ID_1}"
+                        },
+                        {
+                            "id": "${PARCEL_ID_2}",
+                            "name": "yet another random parcel name",
+                            "cemeteryId": "${CEMETERY_ID_2}"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "request": {
+                "url": "/parcels",
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "searchCriteria": null,
+                    "pageNo": 2,
+                    "pageSize": 1,
+                    "parentId": null
+                }
+            },
+
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "content": [
+                        {
+                            "id": "${PARCEL_ID_2}",
+                            "name": "yet another random parcel name",
+                            "cemeteryId": "${CEMETERY_ID_2}"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "request": {
+                "url": "/parcels",
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "searchCriteria": null,
+                    "pageNo": null,
+                    "pageSize": null,
+                    "parentId": "${CEMETERY_ID_1}"
+                }
+            },
+
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "content": [
+                        {
+                            "id": "${PARCEL_ID_1}",
+                            "name": "random parcel name",
+                            "cemeteryId": "${CEMETERY_ID_1}"
+                        },
+                        {
+                            "id": "${PARCEL_ID_3}",
+                            "name": "and still yet another random parcel name",
+                            "cemeteryId": "${CEMETERY_ID_1}"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "request": {
+                "url": "/parcels",
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "searchCriteria": "yet",
+                    "pageNo": null,
+                    "pageSize": null,
+                    "parentId": "${CEMETERY_ID_1}"
+                }
+            },
+
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "content": [
+                        {
+                            "id": "${PARCEL_ID_3}",
+                            "name": "and still yet another random parcel name",
+                            "cemeteryId": "${CEMETERY_ID_1}"
+                        }
+                    ]
+                }
+            }
         }
     ]
 }

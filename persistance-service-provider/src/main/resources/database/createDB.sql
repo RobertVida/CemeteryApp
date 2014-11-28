@@ -91,7 +91,8 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `cnp` varchar(13) NOT NULL,
   `phone_number` varchar(50) NOT NULL,
   `home_address` varchar(150) NOT NULL,
-  PRIMARY KEY(`client_id`)
+  PRIMARY KEY(`client_id`),
+  UNIQUE(`cnp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table containing info about all the clients';
 
 -- --------------------------------------------------------
@@ -142,7 +143,8 @@ CREATE TABLE IF NOT EXISTS `deceased` (
   `cnp` varchar(13) NOT NULL,
   `religion` varchar(50) NOT NULL,
   `died_on` datetime NOT NULL,
-  PRIMARY KEY(`deceased_id`)
+  PRIMARY KEY(`deceased_id`),
+  UNIQUE(`cnp`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table containing info about the deceased people';
 
 -- --------------------------------------------------------

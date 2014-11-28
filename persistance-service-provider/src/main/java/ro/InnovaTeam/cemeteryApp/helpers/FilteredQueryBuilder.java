@@ -48,7 +48,7 @@ public class FilteredQueryBuilder{
                 query.setMaxResults(filter.getPageSize());
             }
             if (filter.getPageNo() != null) {
-                query.setFirstResult((filter.getPageNo() - 1) * (filter.getPageSize() != null && filter.getPageSize() != 0 ? filter.getPageSize() : 1));
+                query.setFirstResult((filter.getPageNo() - 1) * (filter.getPageSize() != null && filter.getPageSize() != 0 ? filter.getPageSize() : 0));
             }
         }
     }

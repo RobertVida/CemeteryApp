@@ -66,7 +66,7 @@ public class ParcelController {
     @RequestMapping(value = PARCELS_URL, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public ParcelList findByFilter(FilterDTO filterDTO) {
+    public ParcelList findByFilter(@RequestBody FilterDTO filterDTO) {
         return new ParcelList(toDTO(parcelService.findByFilter(toDB(filterDTO))));
     }
 
