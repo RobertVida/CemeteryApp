@@ -1,0 +1,21 @@
+{
+    "request" : {
+        "url" : "/grave/${GRAVE_ID_1}",
+        "method" : "GET"
+    },
+
+    "response" : {
+        "status" : 200,
+        "headers" : {
+            "Content-Type" : "application/json"
+        },
+        "data" : {
+            "id" : "${GRAVE_ID_1}",
+            "parcelId" : "${PARCEL_ID_1}",
+            "createdOn" : "2014-21-22",
+            "type" : "Grave",
+            "width" : 100,
+            "length" : 50
+        }
+    }
+}

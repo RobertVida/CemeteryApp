@@ -12,7 +12,10 @@ public class EntityHolder {
         CEMETERY_ID_2,
         PARCEL_ID_1,
         PARCEL_ID_2,
-        PARCEL_ID_3
+        PARCEL_ID_3,
+        GRAVE_ID_1,
+        GRAVE_ID_2,
+        GRAVE_ID_3
     }
 
     private List<EntityLoader> entities;

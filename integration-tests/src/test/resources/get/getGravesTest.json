@@ -1,0 +1,54 @@
+{
+    "tests": [
+        {
+            "request": {
+                "url": "/graves",
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "searchCriteria": null,
+                    "pageNo": null,
+                    "pageSize": null,
+                    "parentId": null
+                }
+            },
+
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "content": [
+                        {
+                            "id": "${GRAVE_ID_1}",
+                            "parcelId": "${PARCEL_ID_1}",
+                            "createdOn": "2014-21-22",
+                            "type": "Grave",
+                            "width": 100,
+                            "length": 50
+                        },
+                        {
+                            "id": "${GRAVE_ID_2}",
+                            "parcelId": "${PARCEL_ID_2}",
+                            "createdOn": "2014-21-22",
+                            "type": "Grave",
+                            "width": 50,
+                            "length": 25
+                        },
+                        {
+                            "id": "${GRAVE_ID_3}",
+                            "parcelId": "${PARCEL_ID_3}",
+                            "createdOn": "2014-21-22",
+                            "type": "Grave",
+                            "width": 25,
+                            "length": 12
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

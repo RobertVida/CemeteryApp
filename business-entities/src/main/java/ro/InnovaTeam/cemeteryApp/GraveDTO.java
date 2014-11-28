@@ -1,24 +1,30 @@
-package ro.InnovaTeam.cemeteryApp.model;
+package ro.InnovaTeam.cemeteryApp;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.List;
 
 /**
- * Created by lucian.vaida on 2/11/2014.
+ * Created by robert on 11/28/2014.
  */
-public class Structure extends BaseEntity {
+public class GraveDTO extends BaseDTO {
 
+    @NotNull
     private Integer parcelId;
+    @NotNull
     private Date createdOn;
+    @NotNull
     private String type;
+    @NotNull
     private Integer width;
+    @NotNull
     private Integer length;
-    private List<Deceased> deceased;
+    private List<DeceasedDTO> deceased;
 
-    public Structure() {
+    public GraveDTO() {
     }
 
-    public Structure(Integer parcelId, Date createdOn, String type, Integer width, Integer length) {
+    public GraveDTO(Integer parcelId, Date createdOn, String type, Integer width, Integer length) {
         this.parcelId = parcelId;
         this.createdOn = createdOn;
         this.type = type;
@@ -66,11 +72,11 @@ public class Structure extends BaseEntity {
         this.length = length;
     }
 
-    public List<Deceased> getDeceased() {
+    public List<DeceasedDTO> getDeceased() {
         return deceased;
     }
 
-    public void setDeceased(List<Deceased> deceased) {
+    public void setDeceased(List<DeceasedDTO> deceased) {
         this.deceased = deceased;
     }
 
