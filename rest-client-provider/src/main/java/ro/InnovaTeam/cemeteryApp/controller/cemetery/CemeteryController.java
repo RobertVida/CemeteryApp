@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ro.InnovaTeam.cemeteryApp.CemeteryDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
-import ro.InnovaTeam.cemeteryApp.restClient.cemetery.CemeteryRestClient;
+import ro.InnovaTeam.cemeteryApp.restClient.CemeteryRestClient;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,7 +50,8 @@ public class CemeteryController {
         cemeteryFilterDTO.setParentId(null);
         cemeteries = CemeteryRestClient.getCemeteriesByFilter(cemeteryFilterDTO);
 
-        model.addAttribute("pages", cemeteries.size()/PAGE_SIZE);
+        int pages = cemeteries.size()/PAGE_SIZE;
+        model.addAttribute("pages", pages != 0 ? pages + 1 : pages);
         model.addAttribute("cemeteryList", cemeteries);
         model.addAttribute("cemeteryPath", CEMETERY);
         return "cemetery/cemeteryPage";

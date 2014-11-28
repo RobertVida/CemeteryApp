@@ -57,7 +57,7 @@
                 </a>
             </div>
             <div class="submenu-item">
-                <a href="#">
+                <a href="${contextPath}/parcel">
                     <img src="<c:url value="/resources/icons/parcels.png" />"/>
                     <span>Parcele</span>
                 </a>
