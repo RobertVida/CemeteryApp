@@ -31,6 +31,7 @@
         <property column="died_on" name="diedOn"/>
     </class>
 
+    <!--Grave-->
     <class name="ro.InnovaTeam.cemeteryApp.model.Grave" entity-name="graves" table="structures">
         <id column="structure_id" name="id">
             <generator class="native" />
@@ -42,6 +43,18 @@
         <property column="length" name="length"/>
     </class>
 
+    <!--Client-->
+    <class name="ro.InnovaTeam.cemeteryApp.model.Client" entity-name="clients" table="clients">
+        <id column="client_id" name="id">
+            <generator class="native" />
+        </id>
+        <property column="first_name" name="firstName"/>
+        <property column="last_name" name="lastName"/>
+        <property column="cnp" name="cnp"/>
+        <property column="phone_number" name="phoneNumber"/>
+        <property column="home_address" name="address"/>
+    </class>
+
     <!--Todo:Someone is going to fix this-->
     <!--<class name="ro.InnovaTeam.cemeteryApp.model.Deceased" entity-name="burialdocuments" table="burialdocuments">-->
         <!--<id column="burial_document_id" name="id">-->
@@ -49,5 +62,7 @@
         <!--</id>-->
         <!--<property column="structure_id" name="str"/>-->
     <!--</class>-->
+
+
 
 </hibernate-mapping>

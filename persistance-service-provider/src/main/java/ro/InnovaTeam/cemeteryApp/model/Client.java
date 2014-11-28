@@ -1,6 +1,5 @@
 package ro.InnovaTeam.cemeteryApp.model;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -8,15 +7,10 @@ import java.util.List;
  */
 public class Client extends BaseEntity{
 
-    @NotNull
     private String firstName;
-    @NotNull
     private String lastName;
-    @NotNull
     private String cnp;
-    @NotNull
     private String phoneNumber;
-    @NotNull
     private String address;
     private List<Contract> contracts;
     private List<RestingPlaceRequest> requests;
