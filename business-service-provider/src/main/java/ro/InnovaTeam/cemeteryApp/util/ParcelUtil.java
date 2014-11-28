@@ -1,7 +1,7 @@
 package ro.InnovaTeam.cemeteryApp.util;
 
-import ro.InnovaTeam.cemeteryApp.model.Parcel;
 import ro.InnovaTeam.cemeteryApp.ParcelDTO;
+import ro.InnovaTeam.cemeteryApp.model.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public abstract class ParcelUtil {
 
-    public static Parcel toDB(ParcelDTO parcelDTO){
+    public static Parcel toDB(ParcelDTO parcelDTO) {
         Parcel parcel = new Parcel();
         parcel.setId(parcelDTO.getId());
         parcel.setCemeteryId(parcelDTO.getCemeteryId());
@@ -22,7 +22,7 @@ public abstract class ParcelUtil {
         return parcel;
     }
 
-    public static ParcelDTO toDTO(Parcel parcel){
+    public static ParcelDTO toDTO(Parcel parcel) {
         ParcelDTO parcelDTO = new ParcelDTO();
         parcelDTO.setId(parcel.getId());
         parcelDTO.setCemeteryId(parcel.getCemeteryId());
@@ -33,17 +33,17 @@ public abstract class ParcelUtil {
         return parcelDTO;
     }
 
-    public static List<Parcel> toDB(List<ParcelDTO> parcelDTOs){
+    public static List<Parcel> toDB(List<ParcelDTO> parcelDTOs) {
         List<Parcel> parcels = new ArrayList<Parcel>();
-        for(ParcelDTO parcelDTO : parcelDTOs){
+        for (ParcelDTO parcelDTO : parcelDTOs) {
             parcels.add(toDB(parcelDTO));
         }
         return parcels;
     }
 
-    public static List<ParcelDTO> toDTO(List<Parcel> parcels){
+    public static List<ParcelDTO> toDTO(List<Parcel> parcels) {
         List<ParcelDTO> parcelDTOs = new ArrayList<ParcelDTO>();
-        for(Parcel parcel : parcels){
+        for (Parcel parcel : parcels) {
             parcelDTOs.add(toDTO(parcel));
         }
         return parcelDTOs;

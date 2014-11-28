@@ -1,9 +1,7 @@
 package ro.InnovaTeam.cemeteryApp.util;
 
 import ro.InnovaTeam.cemeteryApp.DeceasedDTO;
-import ro.InnovaTeam.cemeteryApp.ParcelDTO;
 import ro.InnovaTeam.cemeteryApp.model.Deceased;
-import ro.InnovaTeam.cemeteryApp.model.Parcel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +11,7 @@ import java.util.List;
  */
 public abstract class DeceasedUtil {
 
-    public static Deceased toDB(DeceasedDTO deceasedDTO){
+    public static Deceased toDB(DeceasedDTO deceasedDTO) {
         Deceased deceased = new Deceased();
         deceased.setId(deceasedDTO.getId());
         deceased.setFirstName(deceasedDTO.getFirstName());
@@ -28,7 +26,7 @@ public abstract class DeceasedUtil {
         return deceased;
     }
 
-    public static DeceasedDTO toDTO(Deceased deceased){
+    public static DeceasedDTO toDTO(Deceased deceased) {
         DeceasedDTO deceasedDTO = new DeceasedDTO();
         deceasedDTO.setId(deceased.getId());
         deceasedDTO.setFirstName(deceased.getFirstName());
@@ -43,17 +41,17 @@ public abstract class DeceasedUtil {
         return deceasedDTO;
     }
 
-    public static List<Deceased> toDB(List<DeceasedDTO> deceasedDTOs){
+    public static List<Deceased> toDB(List<DeceasedDTO> deceasedDTOs) {
         List<Deceased> deceased = new ArrayList<Deceased>();
-        for(DeceasedDTO deceasedDTO : deceasedDTOs){
+        for (DeceasedDTO deceasedDTO : deceasedDTOs) {
             deceased.add(toDB(deceasedDTO));
         }
         return deceased;
     }
 
-    public static List<DeceasedDTO> toDTO(List<Deceased> deceased){
+    public static List<DeceasedDTO> toDTO(List<Deceased> deceased) {
         List<DeceasedDTO> deceasedDTOs = new ArrayList<DeceasedDTO>();
-        for(Deceased d : deceased){
+        for (Deceased d : deceased) {
             deceasedDTOs.add(toDTO(d));
         }
         return deceasedDTOs;

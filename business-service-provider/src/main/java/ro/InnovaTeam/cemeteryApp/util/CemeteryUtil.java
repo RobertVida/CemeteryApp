@@ -1,9 +1,9 @@
 package ro.InnovaTeam.cemeteryApp.util;
 
 import ro.InnovaTeam.cemeteryApp.CemeteryDTO;
+import ro.InnovaTeam.cemeteryApp.ParcelDTO;
 import ro.InnovaTeam.cemeteryApp.model.Cemetery;
 import ro.InnovaTeam.cemeteryApp.model.Parcel;
-import ro.InnovaTeam.cemeteryApp.ParcelDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  */
 public abstract class CemeteryUtil {
 
-    public static Cemetery toDB(CemeteryDTO cemeteryDTO){
+    public static Cemetery toDB(CemeteryDTO cemeteryDTO) {
         Cemetery cemetery = new Cemetery();
         cemetery.setId(cemeteryDTO.getId());
         cemetery.setName(cemeteryDTO.getName());
@@ -23,7 +23,7 @@ public abstract class CemeteryUtil {
         return cemetery;
     }
 
-    public static CemeteryDTO toDTO(Cemetery cemetery){
+    public static CemeteryDTO toDTO(Cemetery cemetery) {
         CemeteryDTO cemeteryDTO = new CemeteryDTO();
         cemeteryDTO.setId(cemetery.getId());
         cemeteryDTO.setName(cemetery.getName());
@@ -33,17 +33,17 @@ public abstract class CemeteryUtil {
         return cemeteryDTO;
     }
 
-    public static List<Cemetery> toDB(List<CemeteryDTO> cemeteryDTOs){
+    public static List<Cemetery> toDB(List<CemeteryDTO> cemeteryDTOs) {
         List<Cemetery> cemeteries = new ArrayList<Cemetery>();
-        for(CemeteryDTO cemeteryDTO : cemeteryDTOs){
+        for (CemeteryDTO cemeteryDTO : cemeteryDTOs) {
             cemeteries.add(toDB(cemeteryDTO));
         }
         return cemeteries;
     }
 
-    public static List<CemeteryDTO> toDTO(List<Cemetery> cemeteries){
+    public static List<CemeteryDTO> toDTO(List<Cemetery> cemeteries) {
         List<CemeteryDTO> cemeteryDTOs = new ArrayList<CemeteryDTO>();
-        for(Cemetery cemetery : cemeteries){
+        for (Cemetery cemetery : cemeteries) {
             cemeteryDTOs.add(toDTO(cemetery));
         }
         return cemeteryDTOs;
