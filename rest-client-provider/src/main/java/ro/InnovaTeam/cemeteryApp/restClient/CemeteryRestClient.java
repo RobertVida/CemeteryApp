@@ -1,11 +1,10 @@
-package ro.InnovaTeam.cemeteryApp.restClient.cemetery;
+package ro.InnovaTeam.cemeteryApp.restClient;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 import ro.InnovaTeam.cemeteryApp.CemeteryDTO;
 import ro.InnovaTeam.cemeteryApp.CemeteryList;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
-import ro.InnovaTeam.cemeteryApp.restClient.BaseRestClient;
 
 import java.util.List;
 

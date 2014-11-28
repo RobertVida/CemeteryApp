@@ -16,6 +16,7 @@
     <link href="<c:url value="/resources/css/clients.css"/>" rel="stylesheet">
     <link href="<c:url value="/resources/css/cemeteries.css"/>" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/resources/js/clients.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/parcel.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/cemetery.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/graves.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
