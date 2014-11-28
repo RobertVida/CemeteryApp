@@ -8,6 +8,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import ro.InnovaTeam.cemeteryApp.model.Cemetery;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -81,8 +83,12 @@ public class RequestPerformer {
         return readJsonFromString(result.getResponse().getContentAsString(), targetClass);
     }
 
-    public String getFile(String file) {
-        return this.getClass().getResource(file).getFile();
+    public URI getFile(String file) {
+        try {
+            return this.getClass().getResource(file).toURI();
+        } catch (Exception e) {
+            throw new RuntimeException("File '" + file + "' not found!\n");
+        }
     }
 
     public MockMvc getMvc() {

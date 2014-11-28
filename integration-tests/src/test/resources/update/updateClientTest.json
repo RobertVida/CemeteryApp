@@ -1,0 +1,57 @@
+{
+    "tests": [
+        {
+            "request": {
+                "url": "/client/${CLIENT_ID_1}",
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "id": null,
+                    "firstName": "Madalina",
+                    "lastName": "Lazar",
+                    "cnp": "999999999",
+                    "phoneNumber": "99999999",
+                    "address": "adresa"
+                }
+            },
+
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "id": "${CLIENT_ID_1}",
+                    "firstName": "Madalina",
+                    "lastName": "Lazar",
+                    "cnp": "999999999",
+                    "phoneNumber": "99999999",
+                    "address": "adresa"
+                }
+            }
+        },
+        {
+            "request": {
+                "url": "/client/${CLIENT_ID_1}",
+                "method": "GET"
+            },
+
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "id": "${CLIENT_ID_1}",
+                    "firstName": "Madalina",
+                    "lastName": "Lazar",
+                    "cnp": "999999999",
+                    "phoneNumber": "99999999",
+                    "address": "adresa"
+                }
+            }
+        }
+    ]
+}

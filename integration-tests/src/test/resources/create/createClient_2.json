@@ -1,0 +1,21 @@
+{
+    "request" : {
+        "url" : "/client",
+        "method" : "PUT",
+        "headers" : {
+            "Content-Type" : "application/json"
+        },
+        "data" : {
+            "id" : null,
+            "firstName" : "Roxana",
+            "lastName" : "Lazar",
+            "cnp" : "2931019324540",
+            "phoneNumber" : "12312312313",
+            "address" : "adresa"
+        }
+    },
+
+    "response" : {
+        "status" : 200
+    }
+}

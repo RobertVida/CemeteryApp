@@ -64,6 +64,20 @@
             <property name="createFile" value="/create/createGrave_3.json"/>
             <property name="deleteFile" value="/delete/deleteGrave.json"/>
         </bean>
+
+        <!-- CLIENT_ID_1 -->
+        <bean class="ro.InnovaTeam.cemeteryApp.tests.helpers.EntityLoader">
+            <property name="id" value="CLIENT_ID_1"/>
+            <property name="createFile" value="/create/createClient_1.json"/>
+            <property name="deleteFile" value="/delete/deleteClient.json"/>
+        </bean>
+
+        <!-- CLIENT_ID_2 -->
+        <bean class="ro.InnovaTeam.cemeteryApp.tests.helpers.EntityLoader">
+            <property name="id" value="CLIENT_ID_2"/>
+            <property name="createFile" value="/create/createClient_2.json"/>
+            <property name="deleteFile" value="/delete/deleteClient.json"/>
+        </bean>
     </util:list>
 
     <bean id="entityHolder" class="ro.InnovaTeam.cemeteryApp.tests.helpers.EntityHolder">
