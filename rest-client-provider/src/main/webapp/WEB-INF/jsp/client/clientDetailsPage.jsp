@@ -7,14 +7,25 @@
     <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
 </head>
 <body>
-<jsp:include page="fragments/menu.jsp"/>
-<div id="client-add-details" style="margin-top: 20px; display: none;">
+    <jsp:include page="../fragments/menu.jsp"/>
+    <c:set var="contextPath" value="${pageContext.request.contextPath}/clients"/>
+    <div id="client-details" style="margin-top: 20px; display: none;">
     <h4 class="text-center">
-        <b>Informa&#355;iile clientului</b>
+        <c:choose>
+            <c:when test="${view eq true}">
+                <c:set var="actionURL" value="${contextPath}/update"/>
+                <b>Informa&#355;iile clientului ${client.firstName} ${client.lastName}</b>
+            </c:when>
+            <c:otherwise>
+                <c:set var="actionURL" value="${contextPath}/add"/>
+                <b>Informa&#355;iile clientului</b>
+            </c:otherwise>
+        </c:choose>
     </h4>
-    <form:form action="${pageContext.request.contextPath}/clients/add" commandName="clientDetails">
+    <form:form action="${actionURL}" commandName="client">
         <div class="details">
             <div class="form-group h35">
+                <form:input id="clientId" path="id" class="form-control" type="hidden"/>
                 <div class="col-lg-4" style="float: left;">
                     <form:label class="control-label" path="lastName">Nume</form:label>
                 </div>
@@ -74,15 +85,13 @@
                 </div>
             </div>
 
+            <c:if test="${view eq true}">
+                <input type="button" onclick="ClientsManagerJS.deleteClient();" value="Sterge" class="btn btn-default pull-right" style="margin-right: 15px;"/>
+            </c:if>
             <button id="saveClient" type="submit" class="btn btn-default pull-right" style="margin-right: 15px;">Salveaz&#259;</button>
         </div>
     </form:form>
 </div>
+<input id="deleteClientURL" type="hidden" value="${pageContext.request.contextPath}/clients/delete/"/>
 </body>
 </html>
-<script type="text/javascript">
-    $(document).ready( function() {
-        $('#container').html($('#client-add-details')).html();
-        $('#client-add-details').css("display", "inline");
-    });
-</script>

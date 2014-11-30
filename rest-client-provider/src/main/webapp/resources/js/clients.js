@@ -2,14 +2,7 @@
  * Created by Catalin Sorecau on 11/15/2014.
  */
 $(document).ready(function () {
-    $('#container').html($('#clients-container').html());
-
     $('#container').html($('#client-details').html());
-
-    $(".dropdown-menu li a").click(function(){
-        var selText = $(this).text();
-        $(this).parents('.btn-group').find('.dropdown-toggle').html(selText+' <span class="caret"></span>');
-    });
 
     ClientsManagerJS.init();
     ClientsManagerJS.refreshFilter();
@@ -45,11 +38,11 @@ var ClientsManagerJS = (function($) {
                 searchCriteria.removeClass("required-input");
             }
             $.ajax({
-                type: "POST",
+                type: "GET",
                 url: url,
                 data: { "searchCriteria" : searchCriteria.val() },
                 success: function (response) {
-                    $('#container').html($(response).filter('#clients-container').html());
+                    $('#container').html($(response).filter('#client-details').html());
                 }
             });
         } else {
@@ -63,7 +56,7 @@ var ClientsManagerJS = (function($) {
             type: "POST",
             url: refreshFilterURL,
             success: function (response) {
-                $('#container').html($(response).filter('#clients-container').html());
+                $('#container').html($(response).filter('#client-details').html());
             }
         });
     };
@@ -74,16 +67,23 @@ var ClientsManagerJS = (function($) {
             type: "GET",
             url: addPageURL,
             success: function (response) {
-                $('#container').html($(response).filter('#client-add-details').html()).css("display: inline;");
+                $('#container').html($(response).filter('#client-details').html()).css("display: inline;");
             }
         });
+    };
+
+    var deleteClient = function() {
+        var url = $("#deleteClientURL").val() + $("#clientId").val();
+        console.log(url);
+        window.location.href = url;
     };
 
     return {
         init: init,
         submitFilterForm : submitFilterForm,
         refreshFilter : refreshFilter,
-        renderAddPage : renderAddPage
+        renderAddPage : renderAddPage,
+        deleteClient : deleteClient
     }
 })(jQuery);
 

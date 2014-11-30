@@ -13,8 +13,9 @@
     <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
 </head>
 <body>
-    <jsp:include page="fragments/menu.jsp"/>
-    <div id="clients-container" style="display: none;">
+    <jsp:include page="../fragments/menu.jsp"/>
+    <c:set var="contextPath" value="${pageContext.request.contextPath}/clients"/>
+    <div id="client-details" style="display: none;">
         <h4 class="text-center">
             <b>Lista clien&#355;ilor</b>
         </h4>
@@ -27,7 +28,7 @@
         <table id="clients-table" class="table-margins table table-bordered text-center">
             <thead>
             <tr style="background-color: #0080F8;">
-                <th class="text-center">Id</th>
+                <%--<th class="text-center">Id</th>--%>
                 <th class="text-center">Nume</th>
                 <th class="text-center">Prenume</th>
                 <th class="text-center">CNP</th>
@@ -37,14 +38,18 @@
             </tr>
             </thead>
             <tbody>
-                <c:forEach var="client" items="${clientsList}">
+                <c:forEach var="client" items="${clientList}">
                     <tr>
-                        <td>${client.id}</td>
+                        <%--<td>${client.id}</td>--%>
                         <td>${client.lastName}</td>
                         <td>${client.firstName}</td>
                         <td>${client.cnp}</td>
                         <td>${client.phoneNumber}</td>
                         <td>${client.address}</td>
+                            <td>
+                                <a href="${contextPath}/get/${client.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
+                                <a href="${contextPath}/delete/${client.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                            </td>
                     </tr>
                 </c:forEach>
             </tbody>
