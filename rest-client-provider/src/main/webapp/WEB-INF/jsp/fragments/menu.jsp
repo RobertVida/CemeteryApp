@@ -29,7 +29,7 @@
                 </a>
             </div>
             <div class="submenu-item">
-                <a href="#">
+                <a href="${contextPath}/deceased">
                     <img src="<c:url value="/resources/icons/deceased.png" />"/>
                     <span>Deceda&#355;i</span>
                 </a>
@@ -63,7 +63,7 @@
                 </a>
             </div>
             <div class="submenu-item">
-                <a href="${contextPath}/graves">
+                <a href="${contextPath}/grave">
                     <img src="<c:url value="/resources/icons/graves.png" />"/>
                     <span>Morminte</span>
                 </a>

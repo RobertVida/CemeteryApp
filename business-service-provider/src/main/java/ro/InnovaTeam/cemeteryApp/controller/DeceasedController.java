@@ -60,7 +60,7 @@ public class DeceasedController {
         return toDTO(deceasedService.findById(deceasedId));
     }
 
-    @RequestMapping(value = DECEASED_URL, method = RequestMethod.GET)
+    @RequestMapping(value = DECEASED_URL, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public DeceasedList findByFilter(@RequestBody FilterDTO filterDTO) {
