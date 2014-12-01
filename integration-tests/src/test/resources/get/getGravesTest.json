@@ -49,6 +49,40 @@
                     ]
                 }
             }
+        },
+        {
+            "request": {
+                "url": "/graves",
+                "method": "POST",
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "searchCriteria": "sdasd",
+                    "pageNo": null,
+                    "pageSize": null,
+                    "parentId": "${PARCEL_ID_1}"
+                }
+            },
+
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": {
+                    "content": [
+                        {
+                            "id": "${GRAVE_ID_1}",
+                            "parcelId": "${PARCEL_ID_1}",
+                            "createdOn": "2014-21-22",
+                            "type": "Grave",
+                            "width": 100,
+                            "length": 50
+                        }
+                    ]
+                }
+            }
         }
     ]
 }

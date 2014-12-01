@@ -116,7 +116,8 @@ public class FilteredQueryBuilder{
     }
 
     private boolean hasSearchCriteria() {
-        return filter != null && filter.getSearchCriteria() != null && !filter.getSearchCriteria().equals("");
+        return filter != null && filter.getSearchCriteria() != null && !filter.getSearchCriteria().equals("")
+                && criteriaSearchableColumns != null && criteriaSearchableColumns.length > 0;
     }
 
 

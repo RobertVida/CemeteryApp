@@ -56,7 +56,7 @@ public class StructureController {
         return toDTO(graveService.update(grave));
     }
 
-    @RequestMapping(value = SPECIFIC_GRAVE_URL, method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = SPECIFIC_GRAVE_URL, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public GraveDTO findGraveById(@PathVariable Integer graveId){
