@@ -58,7 +58,7 @@ var GraveManagerJS = (function($) {
     };
 
     var refreshFilter = function() {
-        var refreshFilterURL = $("#refreshFilterURL").val();
+        var refreshFilterURL = $("#refreshGraveFilterURL").val();
         $.ajax({
             type: "POST",
             url: refreshFilterURL,
