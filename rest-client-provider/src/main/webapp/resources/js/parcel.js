@@ -34,26 +34,18 @@ var ParcelsManagerJS = (function($) {
         var url = $('#parcelFilterURL').val();
         var searchCriteria = $('#parcelSearchInput');
         var cemeteryId = $('#parcelCemeteryId');
-        //TODO validate cemeteryId
-        if (searchCriteria.val() != "") {
-            if (searchCriteria.hasClass("required-input")) {
-                searchCriteria.removeClass("required-input");
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: {
+                "searchCriteria" : searchCriteria.val(),
+                "cemeteryId" : cemeteryId.val()
+            },
+            success: function (response) {
+                $('#container').html($(response).filter('#parcel-details').html());
+                console.log($(response).filter('#parcel-details').html());
             }
-            $.ajax({
-                type: "GET",
-                url: url,
-                data: {
-                    "searchCriteria" : searchCriteria.val(),
-                    "cemeteryId" : cemeteryId.val()
-                },
-                success: function (response) {
-                    $('#container').html($(response).filter('#parcel-details').html());
-                    console.log($(response).filter('#parcel-details').html());
-                }
-            });
-        } else {
-            searchCriteria.addClass("required-input");
-        }
+        });
     };
 
     var getParcelsPerPage = function(pageNo) {
