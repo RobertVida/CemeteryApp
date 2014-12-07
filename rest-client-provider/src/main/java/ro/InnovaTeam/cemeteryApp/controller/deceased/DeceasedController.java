@@ -1,5 +1,6 @@
 package ro.InnovaTeam.cemeteryApp.controller.deceased;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,8 +114,9 @@ public class DeceasedController {
         //TODO: validate cemeteryId
         FilterDTO deceasedFilterDTO = new FilterDTO();
         deceasedFilterDTO.setSearchCriteria(searchCriteria);
-        deceasedFilterDTO.setParentId(Integer.valueOf(cemeteryId));
-
+        if(StringUtils.isNotEmpty(cemeteryId)) {
+            deceasedFilterDTO.setParentId(Integer.valueOf(cemeteryId));
+        }
         request.getSession().setAttribute(DECEASED_FILTER, deceasedFilterDTO);
 
         try {

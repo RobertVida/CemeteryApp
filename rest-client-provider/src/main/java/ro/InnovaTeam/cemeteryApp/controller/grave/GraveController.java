@@ -1,5 +1,6 @@
 package ro.InnovaTeam.cemeteryApp.controller.grave;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,7 +115,9 @@ public class GraveController {
         //TODO validate data
         FilterDTO graveFilterDTO = new FilterDTO();
         graveFilterDTO.setSearchCriteria(searchCriteria);
-        graveFilterDTO.setParentId(Integer.valueOf(parcelId));
+        if(StringUtils.isNotEmpty(parcelId)) {
+            graveFilterDTO.setParentId(Integer.valueOf(parcelId));
+        }
 
         request.getSession().setAttribute(GRAVE_FILTER, graveFilterDTO);
 

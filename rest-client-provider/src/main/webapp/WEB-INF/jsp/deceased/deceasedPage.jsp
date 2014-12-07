@@ -35,8 +35,6 @@
             <th class="text-center">CNP</th>
             <th class="text-center">Religie</th>
             <th class="text-center">Data mortii</th>
-            <th class="text-center">Id-ul documentului de inmormantare</th>
-            <th class="text-center">Id-ul mormantului</th>
             <th class="text-center">Data ingroparii</th>
             <th></th>
         </tr>
@@ -49,8 +47,6 @@
                 <td>${deceased.cnp}</td>
                 <td>${deceased.religion}</td>
                 <td>${deceased.diedOn}</td>
-                <td>${deceased.burialDocumentId}</td>
-                <td>${deceased.structureId}</td>
                 <td>${deceased.burialOn}</td>
                 <td>
                     <a href="${contextPath}/get/${deceased.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>

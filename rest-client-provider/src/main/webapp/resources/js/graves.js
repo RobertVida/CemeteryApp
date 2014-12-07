@@ -30,10 +30,7 @@ var GraveManagerJS = (function($) {
         var url = $('#graveFilterURL').val();
         var searchCriteria = $('#graveSearchInput');
         var parcelId = $("#graveParcelIdInput");
-        if (searchCriteria.val() != "") {
-            if (searchCriteria.hasClass("required-input")) {
-                searchCriteria.removeClass("required-input");
-            }
+
             $.ajax({
                 type: "GET",
                 url: url,
@@ -46,9 +43,6 @@ var GraveManagerJS = (function($) {
                     console.log($(response).filter('#grave-details').html());
                 }
             });
-        } else {
-            searchCriteria.addClass("required-input");
-        }
     };
 
     var getGravePerPage = function(pageNo) {

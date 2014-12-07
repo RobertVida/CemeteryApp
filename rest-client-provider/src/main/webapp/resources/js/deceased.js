@@ -34,10 +34,10 @@ var DeceasedManagerJS = (function($) {
         var searchCriteria = $('#deceasedSearchInput');
         var structureId = $('#structureId');
         //TODO validate cemeteryId
-        if (searchCriteria.val() != "") {
-            if (searchCriteria.hasClass("required-input")) {
-                searchCriteria.removeClass("required-input");
-            }
+//        if (searchCriteria.val() != "") {
+//            if (searchCriteria.hasClass("required-input")) {
+//                searchCriteria.removeClass("required-input");
+//            }
             $.ajax({
                 type: "GET",
                 url: url,
@@ -49,9 +49,9 @@ var DeceasedManagerJS = (function($) {
                     $('#container').html($(response).filter('#deceased-details').html());
                 }
             });
-        } else {
-            searchCriteria.addClass("required-input");
-        }
+//        } else {
+//            searchCriteria.addClass("required-input");
+//        }
     };
 
     var getPerPage = function(pageNo) {
