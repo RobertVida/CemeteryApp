@@ -35,7 +35,7 @@ public class LogEntryEAOImpl extends EntityEAOImpl<LogEntry> implements LogEntry
 
     @Override
     public LogEntry findById(Integer id) {
-        return null;
+        return findById(TABLE, id);
     }
 
     @Override
