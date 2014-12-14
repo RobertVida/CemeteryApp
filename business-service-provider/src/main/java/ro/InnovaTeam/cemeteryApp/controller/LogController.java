@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.LogEntryDTO;
 import ro.InnovaTeam.cemeteryApp.LogEntryList;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
 import ro.InnovaTeam.cemeteryApp.service.LogEntryService;
 
 import static ro.InnovaTeam.cemeteryApp.util.LogEntryUtil.toDTO;
+import static ro.InnovaTeam.cemeteryApp.util.FilterUtil.toDB;
 
 /**
  * Created by robert on 12/14/2014.
@@ -28,22 +30,22 @@ public class LogController {
     @RequestMapping(value = LOGS_URL, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public LogEntryList getLogs(){
-        return new LogEntryList(toDTO(logEntryService.findByFilter(new Filter())));
+    public LogEntryList getLogs(@RequestBody FilterDTO filterDTO){
+        return new LogEntryList(toDTO(logEntryService.findByFilter(toDB(filterDTO))));
     }
 
     @RequestMapping(value = LOGS_FOR_ENTITY_URL, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public LogEntryList getLogs(@PathVariable String entityName){
-        return new LogEntryList(toDTO(logEntryService.findByFilter(new Filter(), entityName)));
+    public LogEntryList getLogs(@RequestBody FilterDTO filterDTO, @PathVariable String entityName){
+        return new LogEntryList(toDTO(logEntryService.findByFilter(toDB(filterDTO), entityName)));
     }
 
     @RequestMapping(value = LOGS_FOR_ENTITY_AND_ID_URL, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public LogEntryList getLogs(@PathVariable String entityName, @PathVariable Integer entityId){
-        return new LogEntryList(toDTO(logEntryService.findByFilter(new Filter(), entityName, entityId)));
+    public LogEntryList getLogs(@RequestBody FilterDTO filterDTO, @PathVariable String entityName, @PathVariable Integer entityId){
+        return new LogEntryList(toDTO(logEntryService.findByFilter(toDB(filterDTO), entityName, entityId)));
     }
 
     @RequestMapping(value = LOG_URL, method = RequestMethod.GET)
