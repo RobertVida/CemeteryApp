@@ -55,6 +55,20 @@
         <property column="home_address" name="address"/>
     </class>
 
+    <!--LogEntry-->
+    <class name="ro.InnovaTeam.cemeteryApp.model.LogEntry" entity-name="logs" table="logs">
+        <id column="log_id" name="id">
+            <generator class="native"/>
+        </id>
+        <property column="user_id" name="userId"/>
+        <property column="table_changed" name="tableChanged"/>
+        <property column="id_affected" name="idAffected"/>
+        <property column="took_place_on" name="tookPlaceOn"/>
+        <property column="action" name="action"/>
+        <property column="old_value" name="oldValue"/>
+        <property column="new_value" name="newValue"/>
+    </class>
+
     <!--Todo:Someone is going to fix this-->
     <!--<class name="ro.InnovaTeam.cemeteryApp.model.Deceased" entity-name="burialdocuments" table="burialdocuments">-->
         <!--<id column="burial_document_id" name="id">-->

@@ -1,32 +1,18 @@
-package ro.InnovaTeam.cemeteryApp.model;
-import javax.validation.constraints.NotNull;
+package ro.InnovaTeam.cemeteryApp;
+
 import java.util.Date;
 
 /**
- * Created by lucian.vaida on 2/11/2014.
+ * Created by robert on 12/14/2014.
  */
-public class LogEntry extends BaseEntity{
+public class LogEntryDTO extends BaseDTO{
 
-    @NotNull
     private String tableChanged;
-    @NotNull
     private Integer idAffected;
-    @NotNull
     private Date tookPlaceOn;
-    @NotNull
     private String action;
     private String oldValue;
     private String newValue;
-
-    public LogEntry() {
-    }
-
-    public LogEntry(String tableChanged, Integer idAffected, Date tookPlaceOn, String action) {
-        this.tableChanged = tableChanged;
-        this.idAffected = idAffected;
-        this.tookPlaceOn = tookPlaceOn;
-        this.action = action;
-    }
 
     public String getTableChanged() {
         return tableChanged;
@@ -78,8 +64,8 @@ public class LogEntry extends BaseEntity{
 
     @Override
     public String toString() {
-        return "LogEntry{" +
-                "id=" + id +
+        return "LogEntryDTO{" +
+                "id='" + id + '\'' +
                 ", userId='" + userId + '\'' +
                 ", tableChanged='" + tableChanged + '\'' +
                 ", idAffected='" + idAffected + '\'' +

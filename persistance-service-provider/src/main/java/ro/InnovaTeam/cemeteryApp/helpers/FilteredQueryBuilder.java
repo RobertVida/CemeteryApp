@@ -4,6 +4,9 @@ import org.hibernate.Query;
 import org.hibernate.classic.Session;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by robert on 11/26/2014.
  */
@@ -13,6 +16,7 @@ public class FilteredQueryBuilder{
     private String table;
     private String[] criteriaSearchableColumns;
     private String parentIdColumn;
+    private Map<String, String> extra = null;
 
     private FilteredQueryBuilder() {
         super();
@@ -34,6 +38,14 @@ public class FilteredQueryBuilder{
 
     public FilteredQueryBuilder setParentIdColumn(String column){
         this.parentIdColumn = column;
+        return this;
+    }
+
+    public FilteredQueryBuilder where(String column, String value){
+        if(extra == null){
+            extra = new HashMap<String, String>();
+        }
+        extra.put(column, value);
         return this;
     }
 
@@ -69,7 +81,7 @@ public class FilteredQueryBuilder{
     }
 
     private void addWhere(StringBuilder sb){
-        if(hasSearchCriteria() || hasParentId()){
+        if(hasSearchCriteria() || hasParentId() || hasExtra()){
             sb.append(" WHERE ");
         }
         if(hasSearchCriteria()){
@@ -80,6 +92,12 @@ public class FilteredQueryBuilder{
         }
         if(hasParentId()){
             addParentIdConstraint(sb);
+        }
+        if((hasSearchCriteria() && hasExtra()) || (hasParentId() && hasExtra())){
+            sb.append(" AND ");
+        }
+        if(hasExtra()){
+            addExtra(sb);
         }
     }
 
@@ -96,6 +114,7 @@ public class FilteredQueryBuilder{
     }
 
     private void addKeywordContraintsToColumn(StringBuilder sb, String column, String[] keywords) {
+        // ToDo : make such that a keyword should be in at least one column
         for(String keyword : keywords){
             sb.append(String.format(" %s ", column))
                     .append(" LIKE ")
@@ -104,11 +123,26 @@ public class FilteredQueryBuilder{
         }
     }
 
+    private void addExtra(StringBuilder sb) {
+        Integer len = extra.keySet().size();
+        for(String column : extra.keySet()){
+            sb.append(String.format(" %s = %s ", column, extra.get(column)));
+            len--;
+            if(len != 0){
+                sb.append(" AND ");
+            }
+        }
+    }
+
     private void addParentIdConstraint(StringBuilder sb) {
         if(hasParentId()) {
             sb.append(String.format(" %s ", parentIdColumn))
                     .append(" = ").append(filter.getParentId()).append(" ");
         }
+    }
+
+    private boolean hasExtra() {
+        return extra != null;
     }
 
     private boolean hasParentId() {
