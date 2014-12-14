@@ -11,6 +11,8 @@
 <html>
 <head>
     <title>Morminte</title>
+    <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/graves.js"></script>
 </head>
 <body>
 <jsp:include page="../fragments/menu.jsp"/>

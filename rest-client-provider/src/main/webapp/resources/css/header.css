@@ -14,11 +14,22 @@
     height: 30px;
 }
 
+.login {
+    float: right;
+    margin-right: 20%;
+    margin-top: 15px;
+    color: #ffffff;
+}
+
 .hello-username {
     float: right;
     margin-right: 20%;
-    font-size: 25px;
-    margin-top: 8px;
+    margin-top: 15px;
+    color: #ffffff;
+}
+
+.header-link:hover {
+    color: #000000;
 }
 
 a {

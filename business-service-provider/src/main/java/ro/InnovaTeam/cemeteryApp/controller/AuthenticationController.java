@@ -14,7 +14,7 @@ public class AuthenticationController {
 
     public static final String LOGIN_URL = "/login/{username}/{password}";
 
-    @RequestMapping(value = LOGIN_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = LOGIN_URL, method = RequestMethod.GET, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public UserDTO login(@PathVariable String username, @PathVariable String password){

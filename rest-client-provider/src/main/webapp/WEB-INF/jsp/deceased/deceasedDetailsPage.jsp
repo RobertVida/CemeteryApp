@@ -11,6 +11,8 @@
 <html>
 <head>
     <title>Decedati</title>
+    <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/deceased.js"></script>
 </head>
 <body>
 <jsp:include page="../fragments/menu.jsp"/>
@@ -84,7 +86,10 @@
                     <form:label class="control-label" path="diedOn">Data mortii</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input path="diedOn" class="form-control" type="text"/>
+                    <div  class="input-group date" >
+                        <form:input id="datepicker" path="diedOn" class="form-control" type="text" readonly="true"/>
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="diedOn"/>

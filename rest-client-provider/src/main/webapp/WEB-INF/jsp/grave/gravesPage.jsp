@@ -4,6 +4,7 @@
 <head>
     <title>Morminte</title>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/graves.js"></script>
 </head>
 <body>
     <c:set var="contextPath" value="${pageContext.request.contextPath}/grave"/>
