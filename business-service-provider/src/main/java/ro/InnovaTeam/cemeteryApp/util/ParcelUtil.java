@@ -18,6 +18,7 @@ public abstract class ParcelUtil {
         parcel.setName(parcelDTO.getName());
 //        parcel.setStructure(parcelDTO.getStructure());
 //        parcel.setHistory(parcelDTO.getHistory());
+        parcel.setUserId(parcelDTO.getUserId());
 
         return parcel;
     }

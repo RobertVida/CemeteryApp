@@ -26,6 +26,7 @@ public class DeceasedController {
 
     public static final String DECEASED_URL = "/deceased";
     public static final String SPECIFIC_DECEASED_URL = DECEASED_URL + "/{deceasedId}";
+    public static final String SPECIFIC_USER_DECEASED_URL = DECEASED_URL + "/{userId}/{deceasedId}";
 
     @Autowired
     private DeceasedService deceasedService;
@@ -37,10 +38,10 @@ public class DeceasedController {
         return deceasedService.create(toDB(deceasedDTO));
     }
 
-    @RequestMapping(value = SPECIFIC_DECEASED_URL, method = RequestMethod.DELETE)
+    @RequestMapping(value = SPECIFIC_USER_DECEASED_URL, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public DeceasedDTO delete(@PathVariable Integer deceasedId) {
+    public DeceasedDTO delete(@PathVariable Integer userId, @PathVariable Integer deceasedId) {
         return toDTO(deceasedService.delete(deceasedId));
     }
 

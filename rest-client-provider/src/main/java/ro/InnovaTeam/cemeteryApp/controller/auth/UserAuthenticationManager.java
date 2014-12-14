@@ -5,6 +5,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import ro.InnovaTeam.cemeteryApp.UserDTO;
 import ro.InnovaTeam.cemeteryApp.restClient.AuthenticationRestClient;
 
 /**
@@ -17,8 +18,9 @@ public class UserAuthenticationManager implements org.springframework.security.a
         String username = authentication.getName();
         String password = (String) authentication.getCredentials();
 
-        if (AuthenticationRestClient.checkCredentials(username, password) != null) {
-            return new UsernamePasswordAuthenticationToken(authentication.getName(), authentication.getCredentials());
+        UserDTO userDTO = AuthenticationRestClient.checkCredentials(username, password);
+        if (userDTO != null) {
+            return new UsernamePasswordAuthenticationToken(authentication.getName(), userDTO.getId());
         }
         throw new BadCredentialsException("Bad Credentials");
     }

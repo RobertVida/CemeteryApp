@@ -14,6 +14,7 @@ public class ClientRestClient extends BaseRestClient {
     public static final String CLIENT_URL = "/client";
     public static final String CLIENTS_URL = "/clients";
     public static final String SPECIFIC_CLIENT_URL = CLIENT_URL + "/{clientId}";
+    public static final String SPECIFIC_USER_CLIENT_URL = CLIENT_URL + "/{userId}/{clientId}";
 
     public static List<ClientDTO> getClientsByFilter(FilterDTO clientFilterDTO) {
         RestTemplate restTemplate = getJSONRestTemplate();
@@ -34,6 +35,7 @@ public class ClientRestClient extends BaseRestClient {
     public static ClientDTO update(@PathVariable Integer clientId, ClientDTO clientDTO) {
         RestTemplate restTemplate = getJSONRestTemplate();
         String endPointURL = BASE_URL + SPECIFIC_CLIENT_URL;
+        clientDTO.setUserId(getLoggedInUserId());
 
         return restTemplate.postForObject(endPointURL, clientDTO, ClientDTO.class, clientId);
     }
@@ -47,8 +49,8 @@ public class ClientRestClient extends BaseRestClient {
 
     public static void delete(@PathVariable Integer clientId) {
         RestTemplate restTemplate = getJSONRestTemplate();
-        String endPointURL = BASE_URL + SPECIFIC_CLIENT_URL;
+        String endPointURL = BASE_URL + SPECIFIC_USER_CLIENT_URL;
 
-        restTemplate.delete(endPointURL, clientId);
+        restTemplate.delete(endPointURL, getLoggedInUserId(), clientId);
     }
 }

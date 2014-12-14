@@ -22,6 +22,7 @@ public abstract class DeceasedUtil {
         deceased.setBurialDocumentId(deceasedDTO.getBurialDocumentId());
         deceased.setStructureId(deceasedDTO.getStructureId());
         deceased.setBurialOn(deceasedDTO.getBurialOn());
+        deceased.setUserId(deceasedDTO.getUserId());
 
         return deceased;
     }

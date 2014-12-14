@@ -27,6 +27,7 @@ public class ParcelController {
     public static final String PARCEL_URL = "/parcel";
     public static final String PARCELS_URL = "/parcels";
     public static final String SPECIFIC_PARCEL_URL = PARCEL_URL + "/{parcelId}";
+    public static final String SPECIFIC_USER_PARCEL_URL = PARCEL_URL + "/{userId}/{parcelId}";
     public static final String SPECIFIC_CEMETERY_PARCELS_URL = PARCELS_URL + "/cemetery/{cemeteryId}";
 
     @Autowired
@@ -39,10 +40,10 @@ public class ParcelController {
         return parcelService.create(toDB(parcelDTO));
     }
 
-    @RequestMapping(value = SPECIFIC_PARCEL_URL, method = RequestMethod.DELETE)
+    @RequestMapping(value = SPECIFIC_USER_PARCEL_URL, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public ParcelDTO delete(@PathVariable Integer parcelId) {
+    public ParcelDTO delete(@PathVariable Integer userId, @PathVariable Integer parcelId) {
         return toDTO(parcelService.delete(parcelId));
     }
 

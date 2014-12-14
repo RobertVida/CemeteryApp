@@ -26,6 +26,7 @@ public class ClientController {
     public static final String CLIENT_URL = "/client";
     public static final String CLIENTS_URL = "/clients";
     public static final String SPECIFIC_CLIENT_URL = CLIENT_URL + "/{clientId}";
+    public static final String SPECIFIC_USER_CLIENT_URL = CLIENT_URL + "/{userId}/{clientId}";
 
     @Autowired
     private ClientService clientService;
@@ -37,10 +38,10 @@ public class ClientController {
         return clientService.create(toDB(clientDTO));
     }
 
-    @RequestMapping(value = SPECIFIC_CLIENT_URL, method = RequestMethod.DELETE)
+    @RequestMapping(value = SPECIFIC_USER_CLIENT_URL, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public ClientDTO delete(@PathVariable Integer clientId) {
+    public ClientDTO delete(@PathVariable Integer userId, @PathVariable Integer clientId) {
         return toDTO(clientService.delete(clientId));
     }
 

@@ -27,6 +27,7 @@ public class StructureController {
     public static final String GRAVE_URL = "/grave";
     public static final String GRAVES_URL = "/graves";
     public static final String SPECIFIC_GRAVE_URL = GRAVE_URL + "/{graveId}";
+    public static final String SPECIFIC_USER_GRAVE_URL = GRAVE_URL + "/{userId}/{graveId}";
 
     @Autowired
     private GraveService graveService;
@@ -39,10 +40,10 @@ public class StructureController {
         return graveService.create(toDB(graveDTO));
     }
 
-    @RequestMapping(value = SPECIFIC_GRAVE_URL, method = RequestMethod.DELETE)
+    @RequestMapping(value = SPECIFIC_USER_GRAVE_URL, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    private GraveDTO deleteGrave(@PathVariable Integer graveId){
+    private GraveDTO deleteGrave(@PathVariable Integer userId, @PathVariable Integer graveId){
         return toDTO(graveService.delete(graveId));
     }
 

@@ -21,6 +21,7 @@ public abstract class StructureUtil {
         grave.setWidth(graveDTO.getWidth());
         grave.setLength(graveDTO.getLength());
 //        grave.setDeceased(DeceasedUtil.toDB(graveDTO.getDeceased()));
+        grave.setUserId(graveDTO.getUserId());
 
         return grave;
     }

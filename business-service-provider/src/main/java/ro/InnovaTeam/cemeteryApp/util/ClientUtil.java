@@ -19,6 +19,7 @@ public abstract class ClientUtil {
         client.setCnp(clientDTO.getCnp());
         client.setPhoneNumber(clientDTO.getPhoneNumber());
         client.setAddress(clientDTO.getAddress());
+        client.setUserId(clientDTO.getUserId());
 
         return client;
     }

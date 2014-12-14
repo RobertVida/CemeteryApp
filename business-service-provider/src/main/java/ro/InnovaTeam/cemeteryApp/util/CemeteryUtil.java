@@ -19,6 +19,7 @@ public abstract class CemeteryUtil {
         cemetery.setName(cemeteryDTO.getName());
         cemetery.setAddress(cemeteryDTO.getAddress());
         cemetery.setParcels(getParcels(cemeteryDTO));
+        cemetery.setUserId(cemeteryDTO.getUserId());
 
         return cemetery;
     }

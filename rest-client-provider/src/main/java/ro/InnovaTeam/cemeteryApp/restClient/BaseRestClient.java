@@ -3,6 +3,7 @@ package ro.InnovaTeam.cemeteryApp.restClient;
 
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -25,5 +26,9 @@ public class BaseRestClient {
         messageConverters.add(new MappingJacksonHttpMessageConverter());
         restTemplate.setMessageConverters(messageConverters);
         return restTemplate;
+    }
+
+    protected static Integer getLoggedInUserId() {
+        return (Integer) SecurityContextHolder.getContext().getAuthentication().getCredentials();
     }
 }

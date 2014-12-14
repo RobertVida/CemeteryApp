@@ -13,6 +13,7 @@ public class DeceasedRestClient extends BaseRestClient {
 
     public static final String DECEASED_URL = "/deceased";
     public static final String SPECIFIC_DECEASED_URL = DECEASED_URL + "/{deceasedId}";
+    public static final String SPECIFIC_USER_DECEASED_URL = DECEASED_URL + "/{userId}/{deceasedId}";
 
     public static List<DeceasedDTO> findByFilter(FilterDTO deceasedFilterDTO) {
         RestTemplate restTemplate = getJSONRestTemplate();
@@ -33,6 +34,7 @@ public class DeceasedRestClient extends BaseRestClient {
     public static DeceasedDTO update(@PathVariable Integer deceasedId, DeceasedDTO deceasedDTO) {
         RestTemplate restTemplate = getJSONRestTemplate();
         String endPointURL = BASE_URL + SPECIFIC_DECEASED_URL;
+        deceasedDTO.setUserId(getLoggedInUserId());
 
         return restTemplate.postForObject(endPointURL, deceasedDTO, DeceasedDTO.class, deceasedId);
     }
@@ -40,14 +42,15 @@ public class DeceasedRestClient extends BaseRestClient {
     public static void add(DeceasedDTO deceasedDTO) {
         RestTemplate restTemplate = getJSONRestTemplate();
         String endPointURL = BASE_URL + DECEASED_URL;
+        deceasedDTO.setUserId(getLoggedInUserId());
 
         restTemplate.put(endPointURL, deceasedDTO);
     }
 
     public static void delete(@PathVariable Integer deceasedId) {
         RestTemplate restTemplate = getJSONRestTemplate();
-        String endPointURL = BASE_URL + SPECIFIC_DECEASED_URL;
+        String endPointURL = BASE_URL + SPECIFIC_USER_DECEASED_URL;
 
-        restTemplate.delete(endPointURL, deceasedId);
+        restTemplate.delete(endPointURL, getLoggedInUserId(), deceasedId);
     }
 }

@@ -26,6 +26,7 @@ public class CemeteryController{
     public static final String CEMETERY_URL = "/cemetery";
     public static final String CEMETERIES_URL = "/cemeteries";
     public static final String SPECIFIC_CEMETERY_URL = CEMETERY_URL + "/{cemeteryId}";
+    public static final String SPECIFIC_USER_CEMETERY_URL = CEMETERY_URL + "/{userId}/{cemeteryId}";
 
     @Autowired
     private CemeteryService cemeteryService;
@@ -37,10 +38,10 @@ public class CemeteryController{
         return cemeteryService.create(toDB(cemeteryDTO));
     }
 
-    @RequestMapping(value = SPECIFIC_CEMETERY_URL, method = RequestMethod.DELETE)
+    @RequestMapping(value = SPECIFIC_USER_CEMETERY_URL, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public CemeteryDTO delete(@PathVariable Integer cemeteryId) {
+    public CemeteryDTO delete(@PathVariable Integer userId, @PathVariable Integer cemeteryId) {
         return toDTO(cemeteryService.delete(cemeteryId));
     }
 
