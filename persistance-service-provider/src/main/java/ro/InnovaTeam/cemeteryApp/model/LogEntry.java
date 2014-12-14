@@ -8,8 +8,6 @@ import java.sql.Date;
 public class LogEntry extends BaseEntity{
 
     @NotNull
-    private String userId;
-    @NotNull
     private String tableChanged;
     @NotNull
     private String idAffected;
@@ -17,27 +15,20 @@ public class LogEntry extends BaseEntity{
     private Date tookPlaceOn;
     @NotNull
     private String action;
+    private String oldValue;
+    private String newValue;
     @NotNull
     private String details;
 
     public LogEntry() {
     }
 
-    public LogEntry(String userId, String tableChanged, String idAffected, Date tookPlaceOn, String action, String details) {
-        this.userId = userId;
+    public LogEntry(String tableChanged, String idAffected, Date tookPlaceOn, String action, String details) {
         this.tableChanged = tableChanged;
         this.idAffected = idAffected;
         this.tookPlaceOn = tookPlaceOn;
         this.action = action;
         this.details = details;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getTableChanged() {
@@ -72,6 +63,22 @@ public class LogEntry extends BaseEntity{
         this.action = action;
     }
 
+    public String getOldValue() {
+        return oldValue;
+    }
+
+    public void setOldValue(String oldValue) {
+        this.oldValue = oldValue;
+    }
+
+    public String getNewValue() {
+        return newValue;
+    }
+
+    public void setNewValue(String newValue) {
+        this.newValue = newValue;
+    }
+
     public String getDetails() {
         return details;
     }
@@ -89,6 +96,8 @@ public class LogEntry extends BaseEntity{
                 ", idAffected='" + idAffected + '\'' +
                 ", tookPlaceOn=" + tookPlaceOn +
                 ", action='" + action + '\'' +
+                ", oldValue='" + oldValue + '\'' +
+                ", newValue='" + newValue + '\'' +
                 ", details='" + details + '\'' +
                 '}';
     }
