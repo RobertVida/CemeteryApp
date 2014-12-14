@@ -41,7 +41,7 @@
                 </a>
             </div>
             <div class="submenu-item last-item">
-                <a href="#">
+                <a href="${contextPath}/logs">
                     <img src="<c:url value="/resources/icons/changes_history.png" />"/>
                     <span>Istoric modific&#259;ri</span>
                 </a>

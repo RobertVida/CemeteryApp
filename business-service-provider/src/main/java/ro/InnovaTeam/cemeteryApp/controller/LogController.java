@@ -27,21 +27,21 @@ public class LogController {
     @Autowired
     private LogEntryService logEntryService;
 
-    @RequestMapping(value = LOGS_URL, method = RequestMethod.GET)
+    @RequestMapping(value = LOGS_URL, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public LogEntryList getLogs(@RequestBody FilterDTO filterDTO){
         return new LogEntryList(toDTO(logEntryService.findByFilter(toDB(filterDTO))));
     }
 
-    @RequestMapping(value = LOGS_FOR_ENTITY_URL, method = RequestMethod.GET)
+    @RequestMapping(value = LOGS_FOR_ENTITY_URL, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public LogEntryList getLogs(@RequestBody FilterDTO filterDTO, @PathVariable String entityName){
         return new LogEntryList(toDTO(logEntryService.findByFilter(toDB(filterDTO), entityName)));
     }
 
-    @RequestMapping(value = LOGS_FOR_ENTITY_AND_ID_URL, method = RequestMethod.GET)
+    @RequestMapping(value = LOGS_FOR_ENTITY_AND_ID_URL, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public LogEntryList getLogs(@RequestBody FilterDTO filterDTO, @PathVariable String entityName, @PathVariable Integer entityId){
