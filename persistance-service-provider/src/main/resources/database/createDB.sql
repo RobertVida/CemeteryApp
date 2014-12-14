@@ -45,8 +45,7 @@ CREATE TABLE IF NOT EXISTS `structures` (
   `width` float NOT NULL,
   `length` float NOT NULL,
   PRIMARY KEY(`structure_id`),
-  FOREIGN KEY(`parcel_id`) REFERENCES `parcels`(`parcel_id`),
-  UNIQUE(`parcel_id`)
+  FOREIGN KEY(`parcel_id`) REFERENCES `parcels`(`parcel_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table containing the structure of a parcel (Grave/Monument)';
 
 -- --------------------------------------------------------
@@ -192,6 +191,7 @@ CREATE TABLE IF NOT EXISTS `logs` (
   `id_affected` varchar(100) NOT NULL,
   `took_place_on` datetime NOT NULL,
   `action` varchar(100) NOT NULL,
-  `details` text,
+  `old_value` text,
+  `new_value` text,
   PRIMARY KEY(`log_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table containing info with all the logs';
