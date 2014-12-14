@@ -7,9 +7,9 @@ package ro.InnovaTeam.cemeteryApp.model;
 public class BaseEntity {
 
     protected Integer id;
+    protected Integer userId;
 
     public BaseEntity() {}
-
 
     public Integer getId() {
         return id;
@@ -17,5 +17,13 @@ public class BaseEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

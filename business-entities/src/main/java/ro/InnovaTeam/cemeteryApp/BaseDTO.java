@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class BaseDTO implements Serializable{
 
     protected Integer id;
+    protected Integer userId;
 
     public Integer getId() {
         return id;
@@ -14,4 +15,11 @@ public class BaseDTO implements Serializable{
         this.id = id;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 }
