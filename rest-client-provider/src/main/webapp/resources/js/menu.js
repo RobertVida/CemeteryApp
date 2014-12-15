@@ -10,4 +10,6 @@ $(document).ready(function () {
             me.children("span").css("color", "black");
         }
     });
+
+    $('.selectpicker').selectpicker();
 });

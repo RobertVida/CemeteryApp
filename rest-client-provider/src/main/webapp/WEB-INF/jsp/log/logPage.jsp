@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title></title>
@@ -25,20 +26,20 @@
             <div class="form-group col-lg-3">
                 <input id="logSearchInput" type="text" class="form-control" placeholder="Cuvint cheie">
             </div>
-            <div class="col-lg-2">
-                <select id="tableSelect">
+            <div class="col-lg-4">
+                <select id="tableSelect" class="selectpicker">
                     <option>--Tabela--</option>
-                    <option>restingplacerequests</option>
-                    <option>cemeteries</option>
-                    <option>clients</option>
-                    <option>contracts</option>
-                    <option>deceased</option>
-                    <option>graves</option>
-                    <option>monuments</option>
-                    <option>parcels</option>
+                    <option value="restingplacerequests">Cereri</option>
+                    <option value="cemeteries">Cimitire</option>
+                    <option value="clients">Clienti</option>
+                    <option value="contracts">Contracte</option>
+                    <option value="deceased">Decedati</option>
+                    <option value="graves">Morminte</option>
+                    <option value="monuments">Monumente</option>
+                    <option value="parcels">Parcele</option>
                 </select>
             </div>
-            <div class="form-group col-lg-4">
+            <div class="form-group col-lg-2">
                 <input id="tableIdInput" name="tableIdInput" type="text" class="form-control" placeholder="Id-ul tabelei"/>
             </div>
             <button type="button" onclick="LogsManagerJS.submitFilter();" class="btn btn-default">Cauta</button>
@@ -59,7 +60,8 @@
                 <tr>
                     <td>${log.tableChanged}</td>
                     <td>${log.idAffected}</td>
-                    <td>${log.tookPlaceOn}</td>
+                    <fmt:message key="date.pattern" var="pattern"/>
+                    <td><fmt:formatDate value="${log.tookPlaceOn}" pattern="${pattern}"/></td>
                     <td>${log.action}</td>
                     <td>
                         <a href="${contextPath}/get/${log.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>

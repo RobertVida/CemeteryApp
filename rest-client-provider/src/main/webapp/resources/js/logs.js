@@ -14,9 +14,9 @@ var LogsManagerJS = (function($) {
 
     var submitFilter = function() {
         var url = $('#logsFilterURL').val();
-        var tableName = "";
-        if ($('#tableSelect').val() != "--Tabela--") {
-            tableName = $('#tableSelect').val();
+        var tableName = $( "#tableSelect").find("option:selected" ).val();
+        if (tableName == "--Tabela--") {
+            tableName = "";
         }
         var tableId = $("#tableIdInput");
         var searchCriteria = $("#logSearchInput").val();
