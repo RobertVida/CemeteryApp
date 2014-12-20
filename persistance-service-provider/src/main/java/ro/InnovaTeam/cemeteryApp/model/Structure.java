@@ -16,9 +16,15 @@ public class Structure extends BaseEntity {
     private List<Deceased> deceased;
 
     public Structure() {
+        super("structures");
     }
 
-    public Structure(Integer parcelId, Date createdOn, String type, Integer width, Integer length) {
+    public Structure(String tableName) {
+        super(tableName);
+    }
+
+    public Structure(String tableName, Integer parcelId, Date createdOn, String type, Integer width, Integer length) {
+        super(tableName);
         this.parcelId = parcelId;
         this.createdOn = createdOn;
         this.type = type;
@@ -83,7 +89,6 @@ public class Structure extends BaseEntity {
                 ", type='" + type + '\'' +
                 ", width=" + width +
                 ", length=" + length +
-                ", deceased=" + deceased +
                 '}';
     }
 }

@@ -18,9 +18,11 @@ public class ParcelHistoryEntry extends BaseEntity{
     private List<Document> documents;
 
     public ParcelHistoryEntry() {
+        super("parcelhistory");
     }
 
     public ParcelHistoryEntry(Integer parcelId, String description, Date date) {
+        super("parcelhistory");
         this.parcelId = parcelId;
         this.description = description;
         this.date = date;
@@ -65,7 +67,6 @@ public class ParcelHistoryEntry extends BaseEntity{
                 ", parcelId=" + parcelId +
                 ", description='" + description + '\'' +
                 ", date=" + date +
-                ", documents=" + documents +
                 '}';
     }
 }

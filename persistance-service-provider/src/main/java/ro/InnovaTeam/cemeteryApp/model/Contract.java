@@ -24,9 +24,11 @@ public class Contract extends BaseEntity {
     private Client client;
 
     public Contract() {
+        super("contracts");
     }
 
     public Contract(Integer structureId, Integer clientId, Date signedOn, Date updatedOn, String type, Date expiresOn) {
+        super("contracts");
         this.structureId = structureId;
         this.clientId = clientId;
         this.signedOn = signedOn;
@@ -109,8 +111,6 @@ public class Contract extends BaseEntity {
                 ", updatedOn=" + updatedOn +
                 ", type='" + type + '\'' +
                 ", expiresOn=" + expiresOn +
-                ", structure=" + structure +
-                ", client=" + client +
                 '}';
     }
 }

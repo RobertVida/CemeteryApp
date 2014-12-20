@@ -17,9 +17,11 @@ public class RestingPlaceRequest extends BaseEntity{
     private String status;
 
     public RestingPlaceRequest() {
+        super("restingplacerequests");
     }
 
     public RestingPlaceRequest(Integer clientId, Date createdOn, Integer infocetNumber, String status) {
+        super("restingplacerequests");
         this.clientId = clientId;
         this.createdOn = createdOn;
         this.infocetNumber = infocetNumber;

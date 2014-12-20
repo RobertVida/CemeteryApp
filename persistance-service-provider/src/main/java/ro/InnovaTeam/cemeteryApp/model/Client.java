@@ -16,9 +16,11 @@ public class Client extends BaseEntity{
     private List<RestingPlaceRequest> requests;
 
     public Client() {
+        super("clients");
     }
 
     public Client(String firstName, String lastName, String cnp, String phoneNumber, String address) {
+        super("clients");
         this.firstName = firstName;
         this.lastName = lastName;
         this.cnp = cnp;
@@ -91,8 +93,6 @@ public class Client extends BaseEntity{
                 ", cnp='" + cnp + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
-                ", contracts=" + contracts +
-                ", requests=" + requests +
                 '}';
     }
 }

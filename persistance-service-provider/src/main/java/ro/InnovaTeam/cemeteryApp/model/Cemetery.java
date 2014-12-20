@@ -12,9 +12,11 @@ public class Cemetery extends BaseEntity{
     private List<Parcel> parcels;
 
     public Cemetery() {
+        super("cemeteries");
     }
 
     public Cemetery(String name, String address) {
+        super("cemeteries");
         this.name = name;
         this.address = address;
     }
@@ -49,7 +51,6 @@ public class Cemetery extends BaseEntity{
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
-                ", parcels=" + parcels +
                 '}';
     }
 }

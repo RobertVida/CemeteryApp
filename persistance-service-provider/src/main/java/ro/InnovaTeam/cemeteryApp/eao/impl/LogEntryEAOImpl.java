@@ -64,7 +64,7 @@ public class LogEntryEAOImpl extends EntityEAOImpl<LogEntry> implements LogEntry
                 .from(tableName)
                 .setFilter(filter)
                 .setCriteriaSearchableColumns("details")
-                .where("table_changed", entityName)
+                .where("table_changed", "'" + entityName + "'")
                 .build(getSession()).list();
     }
 
@@ -79,7 +79,7 @@ public class LogEntryEAOImpl extends EntityEAOImpl<LogEntry> implements LogEntry
                 .from(tableName)
                 .setFilter(filter)
                 .setCriteriaSearchableColumns("details")
-                .where("table_changed", entityName)
+                .where("table_changed", "'" + entityName + "'")
                 .where("id_affected", entityId.toString())
                 .build(getSession()).list();
     }

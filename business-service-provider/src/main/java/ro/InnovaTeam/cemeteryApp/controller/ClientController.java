@@ -42,7 +42,7 @@ public class ClientController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public ClientDTO delete(@PathVariable Integer userId, @PathVariable Integer clientId) {
-        return toDTO(clientService.delete(clientId));
+        return toDTO(clientService.delete(userId, clientId));
     }
 
     @RequestMapping(value = SPECIFIC_CLIENT_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

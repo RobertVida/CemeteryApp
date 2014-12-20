@@ -43,6 +43,7 @@ public class ClientRestClient extends BaseRestClient {
     public static void add(ClientDTO clientDTO) {
         RestTemplate restTemplate = getJSONRestTemplate();
         String endPointURL = BASE_URL + CLIENT_URL;
+        clientDTO.setUserId(getLoggedInUserId());
 
         restTemplate.put(endPointURL, clientDTO);
     }

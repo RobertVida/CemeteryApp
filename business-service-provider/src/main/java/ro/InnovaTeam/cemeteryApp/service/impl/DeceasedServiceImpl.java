@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.InnovaTeam.cemeteryApp.eao.DeceasedEAO;
-import ro.InnovaTeam.cemeteryApp.eao.ParcelEAO;
 import ro.InnovaTeam.cemeteryApp.model.Deceased;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
 import ro.InnovaTeam.cemeteryApp.service.DeceasedService;
+import ro.InnovaTeam.cemeteryApp.service.LogEntryService;
 
 import java.util.List;
 
@@ -16,25 +16,27 @@ import java.util.List;
  */
 @Transactional
 @Service
-public class DeceasedServiceImpl implements DeceasedService {
+public class DeceasedServiceImpl extends LoggableService<Deceased, DeceasedEAO, LogEntryService> implements DeceasedService {
 
     @Autowired
     private DeceasedEAO deceasedEAO;
+    @Autowired
+    private LogEntryService logService;
 
     @Override
     public Integer create(Deceased deceased) {
-        return deceasedEAO.create(deceased);
+        return loggedCreate(deceasedEAO, logService, deceased);
     }
 
     @Override
-    public Deceased delete(Integer id) {
+    public Deceased delete(Integer userId, Integer id) {
         //Todo make atomic
-        return deceasedEAO.delete(id);
+        return loggedDelete(deceasedEAO, logService, userId, id);
     }
 
     @Override
     public Deceased update(Deceased deceased) {
-        return deceasedEAO.update(deceased);
+        return loggedUpdate(deceasedEAO, logService, deceased);
     }
 
     @Override

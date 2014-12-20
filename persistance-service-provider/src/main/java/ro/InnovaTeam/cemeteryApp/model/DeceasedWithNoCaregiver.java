@@ -12,11 +12,12 @@ public class DeceasedWithNoCaregiver extends Deceased{
     private String map;
 
     public DeceasedWithNoCaregiver() {
+        super("nocaregiverdocuments");
     }
 
     public DeceasedWithNoCaregiver(String firstName, String lastName, String cnp, String religion, Date diedOn,
                                    Integer burialDocumentId, Integer structureId, Date burialOn, Integer noCareGiverDocumentId, Integer certificateId, Integer requestIMLid, String map) {
-        super(firstName, lastName, cnp, religion, diedOn, burialDocumentId, structureId, burialOn);
+        super("nocaregiverdocuments", firstName, lastName, cnp, religion, diedOn, burialDocumentId, structureId, burialOn);
         this.noCareGiverDocumentId = noCareGiverDocumentId;
         this.certificateId = certificateId;
         this.requestIMLid = requestIMLid;

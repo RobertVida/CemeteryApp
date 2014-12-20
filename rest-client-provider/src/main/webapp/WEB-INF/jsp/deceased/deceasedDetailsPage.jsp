@@ -87,7 +87,7 @@
                 </div>
                 <div class="col-lg-4" style="float: left;">
                     <div  class="input-group date" >
-                        <form:input id="datepicker" path="diedOn" class="form-control" type="text" readonly="true"/>
+                        <form:input id="datepicker" path="diedOn" class="form-control" type="text"/>
                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                     </div>
                 </div>

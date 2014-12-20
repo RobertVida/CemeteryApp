@@ -44,7 +44,7 @@ public class ParcelController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public ParcelDTO delete(@PathVariable Integer userId, @PathVariable Integer parcelId) {
-        return toDTO(parcelService.delete(parcelId));
+        return toDTO(parcelService.delete(userId, parcelId));
     }
 
     @RequestMapping(value = SPECIFIC_PARCEL_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

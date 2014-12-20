@@ -42,7 +42,7 @@ public class CemeteryController{
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public CemeteryDTO delete(@PathVariable Integer userId, @PathVariable Integer cemeteryId) {
-        return toDTO(cemeteryService.delete(cemeteryId));
+        return toDTO(cemeteryService.delete(userId, cemeteryId));
     }
 
     @RequestMapping(value = SPECIFIC_CEMETERY_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

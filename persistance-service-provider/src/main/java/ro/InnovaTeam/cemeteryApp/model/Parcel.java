@@ -13,9 +13,11 @@ public class Parcel extends BaseEntity {
     private List<ParcelHistoryEntry> history;
 
     public Parcel() {
+        super("parcel");
     }
 
     public Parcel(Integer cemeteryId, String name) {
+        super("parcel");
         this.cemeteryId = cemeteryId;
         this.name = name;
     }
@@ -58,8 +60,6 @@ public class Parcel extends BaseEntity {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", cemeteryId=" + cemeteryId +
-                ", structure=" + structure +
-                ", history=" + history +
                 '}';
     }
 }

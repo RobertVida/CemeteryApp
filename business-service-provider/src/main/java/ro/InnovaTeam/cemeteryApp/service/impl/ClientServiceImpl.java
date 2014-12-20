@@ -7,6 +7,7 @@ import ro.InnovaTeam.cemeteryApp.eao.ClientEAO;
 import ro.InnovaTeam.cemeteryApp.model.Client;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
 import ro.InnovaTeam.cemeteryApp.service.ClientService;
+import ro.InnovaTeam.cemeteryApp.service.LogEntryService;
 
 import java.util.List;
 
@@ -15,25 +16,27 @@ import java.util.List;
  */
 @Transactional
 @Service
-public class ClientServiceImpl implements ClientService {
+public class ClientServiceImpl extends LoggableService<Client, ClientEAO, LogEntryService> implements ClientService {
 
     @Autowired
     private ClientEAO clientEAO;
+    @Autowired
+    private LogEntryService logService;
 
     @Override
     public Integer create(Client client) {
-        return clientEAO.create(client);
+        return loggedCreate(clientEAO, logService, client);
     }
 
     @Override
-    public Client delete(Integer id) {
+    public Client delete(Integer userId, Integer id) {
         //TODO cascade delete
-        return clientEAO.delete(id);
+        return loggedDelete(clientEAO, logService, userId, id);
     }
 
     @Override
     public Client update(Client client) {
-        return clientEAO.update(client);
+        return loggedUpdate(clientEAO, logService, client);
     }
 
     @Override

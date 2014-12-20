@@ -8,8 +8,15 @@ public class BaseEntity {
 
     protected Integer id;
     protected Integer userId;
+    protected final String tableName;
 
-    public BaseEntity() {}
+    public BaseEntity() {
+        this("");
+    }
+
+    public BaseEntity(String tableName) {
+        this.tableName = tableName;
+    }
 
     public Integer getId() {
         return id;
@@ -25,5 +32,9 @@ public class BaseEntity {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getTableName() {
+        return tableName;
     }
 }

@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ro.InnovaTeam.cemeteryApp.eao.GraveEAO;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
 import ro.InnovaTeam.cemeteryApp.model.Grave;
-import ro.InnovaTeam.cemeteryApp.model.Parcel;
 import ro.InnovaTeam.cemeteryApp.service.GraveService;
+import ro.InnovaTeam.cemeteryApp.service.LogEntryService;
 
 import java.util.List;
 
@@ -16,25 +16,27 @@ import java.util.List;
  */
 @Transactional
 @Service
-public class GraveServiceImpl implements GraveService {
+public class GraveServiceImpl extends LoggableService<Grave, GraveEAO, LogEntryService> implements GraveService {
 
     @Autowired
     private GraveEAO graveEAO;
+    @Autowired
+    private LogEntryService logService;
 
     @Override
     public Integer create(Grave grave) {
-        return graveEAO.create(grave);
+        return loggedCreate(graveEAO, logService, grave);
     }
 
     @Override
-    public Grave delete(Integer id) {
+    public Grave delete(Integer userId, Integer id) {
         //ToDo delete deceased
-        return graveEAO.delete(id);
+        return loggedDelete(graveEAO, logService, userId, id);
     }
 
     @Override
     public Grave update(Grave grave) {
-        return graveEAO.update(grave);
+        return loggedUpdate(graveEAO, logService, grave);
     }
 
     @Override

@@ -28,7 +28,7 @@ public class AuthenticationController {
             user = new UserDTO();
             user.setUsername("u");
             user.setPassword("p");
-            user.setId(1);
+            user.setId(2);
         }
         return user;
     }

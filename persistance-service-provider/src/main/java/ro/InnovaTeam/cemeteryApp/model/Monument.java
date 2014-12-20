@@ -14,11 +14,12 @@ public class Monument extends Structure {
 	private String description;
 
     public Monument() {
+        super("monument");
     }
 
     public Monument(Integer parcelId, Date createdOn, String type, Integer width, Integer length,
                     String name, String description) {
-		super(parcelId, createdOn, type, width, length);
+		super("monument", parcelId, createdOn, type, width, length);
 		this.name = name;
 		this.description = description;
 	}

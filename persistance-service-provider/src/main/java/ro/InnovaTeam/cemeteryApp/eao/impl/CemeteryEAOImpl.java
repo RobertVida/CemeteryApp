@@ -34,12 +34,14 @@ public class CemeteryEAOImpl extends EntityEAOImpl<Cemetery> implements Cemetery
     public Cemetery update(Cemetery cemetery) {
         update(TABLE, cemetery);
         flush();
-        return findById(TABLE, cemetery.getId());
+        return findById(cemetery.getId());
     }
 
     @Override
     public Cemetery findById(Integer id) {
-        return findById(TABLE, id);
+        Cemetery cemetery = findById(TABLE, id);
+        flush();
+        return cemetery;
     }
 
     @Override

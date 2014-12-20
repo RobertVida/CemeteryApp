@@ -42,7 +42,7 @@ public class DeceasedController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public DeceasedDTO delete(@PathVariable Integer userId, @PathVariable Integer deceasedId) {
-        return toDTO(deceasedService.delete(deceasedId));
+        return toDTO(deceasedService.delete(userId, deceasedId));
     }
 
     @RequestMapping(value = SPECIFIC_DECEASED_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

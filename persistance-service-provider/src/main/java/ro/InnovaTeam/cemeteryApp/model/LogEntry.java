@@ -19,9 +19,11 @@ public class LogEntry extends BaseEntity{
     private String newValue;
 
     public LogEntry() {
+        super("logs");
     }
 
     public LogEntry(String tableChanged, Integer idAffected, Date tookPlaceOn, String action) {
+        super("logs");
         this.tableChanged = tableChanged;
         this.idAffected = idAffected;
         this.tookPlaceOn = tookPlaceOn;

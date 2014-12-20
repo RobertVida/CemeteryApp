@@ -34,12 +34,14 @@ public class ParcelEAOImpl extends EntityEAOImpl<Parcel> implements ParcelEAO {
     public Parcel update(Parcel parcel) {
         update(TABLE, parcel);
         flush();
-        return findById(TABLE, parcel.getId());
+        return findById(parcel.getId());
     }
 
     @Override
     public Parcel findById(Integer id) {
-        return findById(TABLE, id);
+        Parcel parcel = findById(TABLE, id);
+        flush();
+        return parcel;
     }
 
     @Override

@@ -14,9 +14,11 @@ public class Document extends BaseEntity {
     private byte[] document;
 
     public Document() {
+        super("documents");
     }
 
     public Document(Integer parcelHistoryEntryId, byte[] document) {
+        super("documents");
         this.parcelHistoryEntryId = parcelHistoryEntryId;
         this.document = document;
     }

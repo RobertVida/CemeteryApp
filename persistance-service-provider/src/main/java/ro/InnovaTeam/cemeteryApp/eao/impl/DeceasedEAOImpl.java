@@ -34,12 +34,14 @@ public class DeceasedEAOImpl extends EntityEAOImpl<Deceased> implements Deceased
     public Deceased update(Deceased deceased) {
         update(TABLE, deceased);
         flush();
-        return findById(TABLE, deceased.getId());
+        return findById(deceased.getId());
     }
 
     @Override
     public Deceased findById(Integer id) {
-        return findById(TABLE, id);
+        Deceased deceased = findById(TABLE, id);
+        flush();
+        return deceased;
     }
 
     @Override

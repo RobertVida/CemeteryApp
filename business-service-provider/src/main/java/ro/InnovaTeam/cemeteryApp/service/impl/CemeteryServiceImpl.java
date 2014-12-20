@@ -4,15 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.InnovaTeam.cemeteryApp.eao.CemeteryEAO;
-import ro.InnovaTeam.cemeteryApp.eao.LogEntryEAO;
 import ro.InnovaTeam.cemeteryApp.eao.ParcelEAO;
 import ro.InnovaTeam.cemeteryApp.model.Cemetery;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
-import ro.InnovaTeam.cemeteryApp.model.LogEntry;
 import ro.InnovaTeam.cemeteryApp.model.Parcel;
 import ro.InnovaTeam.cemeteryApp.service.CemeteryService;
+import ro.InnovaTeam.cemeteryApp.service.LogEntryService;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,41 +18,30 @@ import java.util.List;
  */
 @Transactional
 @Service
-public class CemeteryServiceImpl implements CemeteryService {
+public class CemeteryServiceImpl extends LoggableService<Cemetery, CemeteryEAO, LogEntryService> implements CemeteryService{
 
     @Autowired
     private CemeteryEAO cemeteryEAO;
     @Autowired
     private ParcelEAO parcelEAO;
     @Autowired
-    private LogEntryEAO logEntryEAO;
+    private LogEntryService logService;
 
     @Override
     public Integer create(Cemetery cemetery) {
-        return cemeteryEAO.create(cemetery);
+        return loggedCreate(cemeteryEAO, logService, cemetery);
     }
 
     @Override
-    public Cemetery delete(Integer id) {
+    public Cemetery delete(Integer userId, Integer id) {
         //Todo make atomic
         deleteCemeteryParcels(id);
-        Cemetery c = cemeteryEAO.delete(id);
-        logDelete(c);
-        return c;
-    }
-
-    private void logDelete(Cemetery c) {
-        //Todo : make better
-        LogEntry entry = new LogEntry("cemetery", c.getId(), new Date(), "delete");
-        entry.setOldValue(c.toString());
-        entry.setNewValue("NONE");
-        entry.setUserId(1);
-        logEntryEAO.create(entry);
+        return loggedDelete(cemeteryEAO, logService, userId, id);
     }
 
     @Override
     public Cemetery update(Cemetery cemetery) {
-        return cemeteryEAO.update(cemetery);
+        return loggedUpdate(cemeteryEAO, logService, cemetery);
     }
 
     @Override

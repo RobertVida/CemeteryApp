@@ -34,12 +34,14 @@ public class ClientEAOImpl extends EntityEAOImpl<Client> implements ClientEAO {
     public Client update(Client client) {
         update(TABLE, client);
         flush();
-        return findById(TABLE, client.getId());
+        return findById(client.getId());
     }
 
     @Override
     public Client findById(Integer id) {
-        return findById(TABLE, id);
+        Client client = findById(TABLE, id);
+        flush();
+        return client;
     }
 
     @Override

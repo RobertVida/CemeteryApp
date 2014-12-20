@@ -35,12 +35,14 @@ public class GraveEAOImpl extends EntityEAOImpl<Grave> implements GraveEAO {
     public Grave update(Grave grave) {
         update(ENTITY, grave);
         flush();
-        return findById(ENTITY, grave.getId());
+        return findById(grave.getId());
     }
 
     @Override
     public Grave findById(Integer id) {
-        return findById(ENTITY, id);
+        Grave grave = findById(ENTITY, id);
+        flush();
+        return grave;
     }
 
     @Override

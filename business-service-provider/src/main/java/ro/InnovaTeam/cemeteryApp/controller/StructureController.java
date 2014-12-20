@@ -44,7 +44,7 @@ public class StructureController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     private GraveDTO deleteGrave(@PathVariable Integer userId, @PathVariable Integer graveId){
-        return toDTO(graveService.delete(graveId));
+        return toDTO(graveService.delete(userId, graveId));
     }
 
     @RequestMapping(value = SPECIFIC_GRAVE_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)

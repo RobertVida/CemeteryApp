@@ -16,9 +16,15 @@ public class Deceased extends BaseEntity {
     private Date burialOn;
 
     public Deceased() {
+        super("deceased");
     }
 
-    public Deceased(String firstName, String lastName, String cnp, String religion, Date diedOn, Integer burialDocumentId, Integer structureId, Date burialOn) {
+    public Deceased(String tableName) {
+        super(tableName);
+    }
+
+    public Deceased(String tableName, String firstName, String lastName, String cnp, String religion, Date diedOn, Integer burialDocumentId, Integer structureId, Date burialOn) {
+        super(tableName);
         this.firstName = firstName;
         this.lastName = lastName;
         this.cnp = cnp;

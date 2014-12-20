@@ -11,9 +11,10 @@ public class Grave extends Structure {
     //yes but all work and no play makes Jack a dull boy
 
     public Grave() {
+        super("graves");
     }
 
     public Grave(Integer parcelId, Date createdOn, String type, Integer width, Integer length) {
-        super(parcelId, createdOn, type, width, length);
+        super("graves", parcelId, createdOn, type, width, length);
     }
 }

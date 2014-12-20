@@ -10,7 +10,7 @@ import java.util.List;
 public interface EntityService<Entity> {
     public Integer create(Entity entity);
 
-    public Entity delete(Integer id);
+    public Entity delete(Integer userId, Integer id);
 
     public Entity update(Entity entity);
 

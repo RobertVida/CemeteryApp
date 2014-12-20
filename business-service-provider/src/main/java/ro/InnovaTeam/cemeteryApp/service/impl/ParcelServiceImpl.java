@@ -8,6 +8,7 @@ import ro.InnovaTeam.cemeteryApp.eao.ParcelEAO;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
 import ro.InnovaTeam.cemeteryApp.model.Grave;
 import ro.InnovaTeam.cemeteryApp.model.Parcel;
+import ro.InnovaTeam.cemeteryApp.service.LogEntryService;
 import ro.InnovaTeam.cemeteryApp.service.ParcelService;
 
 import java.util.List;
@@ -17,28 +18,30 @@ import java.util.List;
  */
 @Transactional
 @Service
-public class ParcelServiceImpl implements ParcelService {
+public class ParcelServiceImpl extends LoggableService<Parcel, ParcelEAO, LogEntryService> implements ParcelService {
 
     @Autowired
     private ParcelEAO parcelEAO;
     @Autowired
     private GraveEAO graveEAO;
+    @Autowired
+    private LogEntryService logService;
 
     @Override
     public Integer create(Parcel parcel) {
-        return parcelEAO.create(parcel);
+        return loggedCreate(parcelEAO, logService, parcel);
     }
 
     @Override
-    public Parcel delete(Integer id) {
+    public Parcel delete(Integer userId, Integer id) {
         //ToDo delete structure on it
         deleteParcelStructures(id);
-        return parcelEAO.delete(id);
+        return loggedDelete(parcelEAO, logService, userId, id);
     }
 
     @Override
     public Parcel update(Parcel parcel) {
-        return parcelEAO.update(parcel);
+        return loggedUpdate(parcelEAO, logService, parcel);
     }
 
     @Override
