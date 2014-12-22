@@ -26,4 +26,10 @@
         <property name="basename" value="messages" />
         <property name="fallbackToSystemLocale" value="false" />
     </bean>
+
+    <bean id="messagesConfig" class="org.apache.commons.configuration.PropertiesConfiguration">
+        <constructor-arg>
+            <value>messages.properties</value>
+        </constructor-arg>
+    </bean>
 </beans>

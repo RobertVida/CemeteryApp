@@ -17,13 +17,14 @@
     <link href="<c:url value="/resources/css/clients.css"/>" rel="stylesheet">
     <link href="<c:url value="/resources/css/cemeteries.css"/>" rel="stylesheet">
     <link href="<c:url value="/resources/css/bootstrap-select.min.css"/>" rel="stylesheet">
+    <link href="<c:url value="/resources/css/zebra_datepicker.css"/>" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/menu.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-select.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/bootstrap-select.min.js"></script>
     <script type="text/plain" src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js.map"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/zebra_datepicker.src.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-static-top" role="navigation">

@@ -5,21 +5,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.DeceasedDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.restClient.DeceasedRestClient;
+import org.apache.commons.configuration.Configuration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,6 +39,17 @@ public class DeceasedController {
     @Autowired
     @Qualifier("deceasedValidator")
     private Validator deceasedValidator;
+
+    @Autowired
+    @Qualifier("messagesConfig")
+    private Configuration config;
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(config.getString("date.pattern"));
+        // true passed to CustomDateEditor constructor means convert empty String to null
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+    }
 
     @RequestMapping
     public String renderHome(Model model, HttpServletRequest request) {

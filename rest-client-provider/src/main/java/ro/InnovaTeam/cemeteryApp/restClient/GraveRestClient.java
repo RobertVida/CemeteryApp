@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Catalin Sorecau on 11/30/2014.
  */
-public class GraveRestClient extends BaseRestClient {
+public class GraveRestClient extends GenericRestClient {
 
     public static final String GRAVE_URL = "/grave";
     public static final String GRAVES_URL = "/graves";
@@ -19,41 +19,22 @@ public class GraveRestClient extends BaseRestClient {
     public static final String SPECIFIC_USER_GRAVE_URL = GRAVE_URL + "/{userId}/{graveId}";
 
     public static List<GraveDTO> getByFilter(FilterDTO graveFilterDTO) {
-        RestTemplate restTemplate = getJSONRestTemplate();
-        String endPointURL = BASE_URL + GRAVES_URL;
-
-        GraveList graveList = restTemplate.postForObject(endPointURL, graveFilterDTO, GraveList.class);
-
-        return graveList.getContent();
+        return getByFilter(graveFilterDTO, BASE_URL + GRAVES_URL, GraveList.class);
     }
 
     public static GraveDTO findById(@PathVariable Integer graveId) {
-        RestTemplate restTemplate = getJSONRestTemplate();
-        String endPointURL = BASE_URL + SPECIFIC_GRAVE_URL;
-
-        return restTemplate.getForObject(endPointURL, GraveDTO.class, graveId);
+        return findById(graveId, BASE_URL + SPECIFIC_GRAVE_URL, GraveDTO.class);
     }
 
     public static GraveDTO update(@PathVariable Integer graveId, GraveDTO graveDTO) {
-        RestTemplate restTemplate = getJSONRestTemplate();
-        String endPointURL = BASE_URL + SPECIFIC_GRAVE_URL;
-        graveDTO.setUserId(getLoggedInUserId());
-
-        return restTemplate.postForObject(endPointURL, graveDTO, GraveDTO.class, graveId);
+        return update(graveId, BASE_URL + SPECIFIC_GRAVE_URL, graveDTO, GraveDTO.class);
     }
 
     public static void add(GraveDTO graveDTO) {
-        RestTemplate restTemplate = getJSONRestTemplate();
-        String endPointURL = BASE_URL + GRAVE_URL;
-        graveDTO.setUserId(getLoggedInUserId());
-
-        restTemplate.put(endPointURL, graveDTO);
+        add(graveDTO, BASE_URL + GRAVE_URL);
     }
 
     public static void delete(@PathVariable Integer graveId) {
-        RestTemplate restTemplate = getJSONRestTemplate();
-        String endPointURL = BASE_URL + SPECIFIC_USER_GRAVE_URL;
-
-        restTemplate.delete(endPointURL, getLoggedInUserId(), graveId);
+        delete(graveId, BASE_URL + SPECIFIC_USER_GRAVE_URL);
     }
 }

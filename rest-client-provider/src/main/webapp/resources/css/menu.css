@@ -62,15 +62,15 @@ button{
     background-color: #F0F0F0!important;
 }
 
-tr:nth-child(even) {
+.content tr:nth-child(even) {
     background: #DDF0FF;
 }
 
-tr:nth-child(odd) {
+.content tr:nth-child(odd) {
     background: #fff;
 }
 
-table.table-margins {
+.content table.table-margins {
     margin: 20px 10px;
     width: 97%;
 }

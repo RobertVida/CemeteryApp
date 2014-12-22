@@ -27,6 +27,9 @@ public abstract class StructureUtil {
     }
 
     public static GraveDTO toDTO(Grave grave) {
+        if (grave == null) {
+            return null;
+        }
         GraveDTO graveDTO = new GraveDTO();
         graveDTO.setId(grave.getId());
         graveDTO.setParcelId(grave.getParcelId());

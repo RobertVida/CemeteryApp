@@ -6,8 +6,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import ro.InnovaTeam.cemeteryApp.ClientDTO;
-
-import java.util.regex.Pattern;
+import ro.InnovaTeam.cemeteryApp.util.ValidatorUtil;
 
 /**
  * Created by Catalin Sorecau on 11/23/2014.
@@ -28,15 +27,12 @@ public class ClientValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cnp", "empty.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phoneNumber", "empty.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "empty.field");
-        if (clientDTO.getCnp().length() != 13 || !isInteger(clientDTO.getCnp())) {
+        if (ValidatorUtil.isValidCNP(clientDTO.getCnp())) {
             errors.rejectValue("cnp", "cnp.invalid");
         }
-        if (clientDTO.getPhoneNumber().length() != 10 || !isInteger(clientDTO.getPhoneNumber())) {
+        if (ValidatorUtil.isValidPhoneNumber(clientDTO.getPhoneNumber())) {
             errors.rejectValue("phoneNumber", "phoneNumber.invalid");
         }
     }
 
-    private Boolean isInteger(String input) {
-        return Pattern.matches("[0-9]+", input);
-    }
 }

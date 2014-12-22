@@ -10,7 +10,6 @@ var DeceasedManagerJS = (function($) {
     var init = function() {
         $('#container').html($('#deceased-details').html());
 
-        DeceasedManagerJS.refreshFilter();
     };
 
     var renderAddPage = function () {

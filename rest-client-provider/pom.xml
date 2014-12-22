@@ -142,5 +142,12 @@
             </exclusions>
             <scope>runtime</scope>
         </dependency>
+
+        <!--Commons-->
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>${commons-configuration}</version>
+        </dependency>
     </dependencies>
 </project>

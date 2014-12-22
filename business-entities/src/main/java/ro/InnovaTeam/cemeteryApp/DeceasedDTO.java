@@ -1,6 +1,6 @@
 package ro.InnovaTeam.cemeteryApp;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Created by lucian.vaida on 2/11/2014.

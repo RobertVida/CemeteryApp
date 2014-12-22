@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>Morminte</title>
@@ -36,7 +37,8 @@
             <c:forEach var="grave" items="${graveList}">
                 <tr>
                     <td>${grave.parcelId}</td>
-                    <td>${grave.createdOn}</td>
+                    <fmt:message key="date.pattern" var="pattern"/>
+                    <td><fmt:formatDate value="${grave.createdOn}" pattern="${pattern}"/></td>
                     <td>${grave.width}</td>
                     <td>${grave.length}</td>
                     <td>

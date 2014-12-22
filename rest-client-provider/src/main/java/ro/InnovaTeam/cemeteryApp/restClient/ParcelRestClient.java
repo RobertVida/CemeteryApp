@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Catalin Sorecau on 11/27/2014.
  */
-public class ParcelRestClient extends BaseRestClient{
+public class ParcelRestClient extends GenericRestClient{
 
     public static final String PARCEL_URL = "/parcel";
     public static final String PARCELS_URL = "/parcels";
@@ -18,41 +18,22 @@ public class ParcelRestClient extends BaseRestClient{
     public static final String SPECIFIC_USER_PARCEL_URL = PARCEL_URL + "/{userId}/{parcelId}";
 
     public static List<ParcelDTO> getParcelsByFilter(FilterDTO parcelFilterDTO) {
-        RestTemplate restTemplate = getJSONRestTemplate();
-        String endPointURL = BASE_URL + PARCELS_URL;
-
-        ParcelList parcelList = restTemplate.postForObject(endPointURL, parcelFilterDTO, ParcelList.class);
-
-        return parcelList.getContent();
+        return getByFilter(parcelFilterDTO, BASE_URL + PARCELS_URL, ParcelList.class);
     }
 
     public static ParcelDTO findById(@PathVariable Integer parcelId) {
-        RestTemplate restTemplate = getJSONRestTemplate();
-        String endPointURL = BASE_URL + SPECIFIC_PARCEL_URL;
-
-        return restTemplate.getForObject(endPointURL, ParcelDTO.class, parcelId);
+        return findById(parcelId, BASE_URL + SPECIFIC_PARCEL_URL, ParcelDTO.class);
     }
 
     public static ParcelDTO update(@PathVariable Integer parcelId, ParcelDTO parcelDTO) {
-        RestTemplate restTemplate = getJSONRestTemplate();
-        String endPointURL = BASE_URL + SPECIFIC_PARCEL_URL;
-        parcelDTO.setUserId(getLoggedInUserId());
-
-        return restTemplate.postForObject(endPointURL, parcelDTO, ParcelDTO.class, parcelId);
+        return update(parcelId, BASE_URL + SPECIFIC_PARCEL_URL, parcelDTO, ParcelDTO.class);
     }
 
     public static void add(ParcelDTO parcelDTO) {
-        RestTemplate restTemplate = getJSONRestTemplate();
-        String endPointURL = BASE_URL + PARCEL_URL;
-        parcelDTO.setUserId(getLoggedInUserId());
-
-        restTemplate.put(endPointURL, parcelDTO);
+        add(parcelDTO, BASE_URL + PARCEL_URL);
     }
 
     public static void delete(@PathVariable Integer parcelId) {
-        RestTemplate restTemplate = getJSONRestTemplate();
-        String endPointURL = BASE_URL + SPECIFIC_USER_PARCEL_URL;
-
-        restTemplate.delete(endPointURL, getLoggedInUserId(), parcelId);
+        delete(parcelId, BASE_URL + SPECIFIC_USER_PARCEL_URL);
     }
 }

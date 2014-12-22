@@ -6,22 +6,13 @@ import java.util.List;
 /**
  * Created by Roxana on 11/28/2014.
  */
-public class ClientList implements Serializable {
+public class ClientList extends BaseList<ClientDTO> implements Serializable {
 
-    private List<ClientDTO> content;
-
-    public ClientList(){}
-
-    public ClientList(List<ClientDTO> content){
-        this.content = content;
+    public ClientList() {
     }
 
-    public List<ClientDTO> getContent(){
-        return content;
-    }
-
-    public void setContent(List<ClientDTO> content){
-        this.content = content;
+    public ClientList(List<ClientDTO> content) {
+        super(content);
     }
 
     @Override

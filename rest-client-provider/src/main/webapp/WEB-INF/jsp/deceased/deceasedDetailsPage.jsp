@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>Decedati</title>
@@ -33,7 +34,7 @@
     <form:form action="${actionURL}" commandName="deceased" method="post">
         <div class="details">
             <div class="form-group h35">
-                <form:input id="deceasedId" path="id" class="form-control" type="hidden"/>
+                <form:input path="id" class="form-control" type="hidden"/>
                 <div class="col-lg-4" style="float: left;">
                     <form:label class="control-label" path="lastName">Nume</form:label>
                 </div>
@@ -86,10 +87,7 @@
                     <form:label class="control-label" path="diedOn">Data mortii</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <div  class="input-group date" >
-                        <form:input id="datepicker" path="diedOn" class="form-control" type="text"/>
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                    </div>
+                    <form:input id="diedOn" path="diedOn" class="form-control" type="text"/>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="diedOn"/>
@@ -125,7 +123,7 @@
                     <form:label class="control-label" path="burialOn">Data ingroparii</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input path="burialOn" class="form-control" type="text" />
+                    <form:input id="burialOn" path="burialOn" class="form-control" type="text" />
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="burialOn"/>
@@ -142,3 +140,30 @@
 <input id="deleteDeceasedURL" type="hidden" value="${contextPath}/delete/"/>
 </body>
 </html>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#diedOn").Zebra_DatePicker({
+            format: "d/m/Y",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "1960:+50",
+            show_icon: false
+        });
+
+        $("#burialOn").Zebra_DatePicker({
+            format: "d/m/Y",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "1960:+50",
+            show_icon: false
+        });
+
+        $("#diedOn").keydown(function() {
+            return false;
+        });
+
+        $("#burialOn").keydown(function() {
+            return false;
+        });
+    })
+</script>

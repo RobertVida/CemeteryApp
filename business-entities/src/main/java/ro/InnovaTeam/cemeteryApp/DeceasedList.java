@@ -1,29 +1,18 @@
 package ro.InnovaTeam.cemeteryApp;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by Catalin Sorecau on 11/24/2014.
  */
-public class DeceasedList implements Serializable {
-
-    private List<DeceasedDTO> content;
+public class DeceasedList extends BaseList<DeceasedDTO> implements Serializable {
 
     public DeceasedList() {
     }
 
     public DeceasedList(List<DeceasedDTO> content) {
-        this.content = content;
-    }
-
-    public List<DeceasedDTO> getContent() {
-        return content;
-    }
-
-    public void setContent(List<DeceasedDTO> content) {
-        this.content = content;
+        super(content);
     }
 
     @Override

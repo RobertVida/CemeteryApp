@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>Decedati</title>
@@ -28,6 +29,7 @@
             <input id="structureId" name="structureId" type="text" class="form-control" placeholder="Id-ul mormantului"/>
         </div>
         <button type="button" onclick="DeceasedManagerJS.submitFilterForm();" class="btn btn-default">Cauta</button>
+        <button type="button" onclick="DeceasedManagerJS.refreshFilter();" class="btn btn-default">Resetati filtrele</button>
     </div>
     <table id="deceased-table" class="table-margins table table-bordered text-center">
         <thead>
@@ -48,8 +50,9 @@
                 <td>${deceased.firstName}</td>
                 <td>${deceased.cnp}</td>
                 <td>${deceased.religion}</td>
-                <td>${deceased.diedOn}</td>
-                <td>${deceased.burialOn}</td>
+                <fmt:message key="date.pattern" var="pattern"/>
+                <td><fmt:formatDate value="${deceased.diedOn}" pattern="${pattern}"/></td>
+                <td><fmt:formatDate value="${deceased.burialOn}" pattern="${pattern}"/></td>
                 <td>
                     <a href="${contextPath}/get/${deceased.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
                     <a href="${contextPath}/delete/${deceased.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
