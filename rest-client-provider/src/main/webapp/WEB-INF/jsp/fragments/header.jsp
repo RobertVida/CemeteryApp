@@ -25,7 +25,7 @@
     <script src="${pageContext.request.contextPath}/resources/js/bootstrap-select.min.js"></script>
     <script type="text/plain" src="${pageContext.request.contextPath}/resources/js/bootstrap-select.js.map"></script>
     <script src="${pageContext.request.contextPath}/resources/js/zebra_datepicker.src.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/js/cemeteryJs.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/mainJS.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery.validate.min.js"></script>
 </head>
 <body>
