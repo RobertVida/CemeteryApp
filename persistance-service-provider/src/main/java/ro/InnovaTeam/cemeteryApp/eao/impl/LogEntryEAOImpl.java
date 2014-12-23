@@ -61,7 +61,7 @@ public class LogEntryEAOImpl extends EntityEAOImpl<LogEntry> implements LogEntry
                 .select(
                         from(TABLE).as("l")
                 ).where(
-                        column("l.table_changed").like(entityName)
+                        column("l.tableChanged").like(entityName)
                 )
                 .setMaxResults(filter.getPageSize())
                 .setFirstResult(filter.getPageNo())
