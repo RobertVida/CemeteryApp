@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.GraveDTO;
 import ro.InnovaTeam.cemeteryApp.GraveList;
-import ro.InnovaTeam.cemeteryApp.enums.StructureType;
+import ro.InnovaTeam.cemeteryApp.model.StructureType;
 import ro.InnovaTeam.cemeteryApp.model.Grave;
 import ro.InnovaTeam.cemeteryApp.service.GraveService;
 

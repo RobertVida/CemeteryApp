@@ -1,4 +1,4 @@
-package ro.InnovaTeam.cemeteryApp.enums;
+package ro.InnovaTeam.cemeteryApp.model;
 
 /**
  * Created by robert on 11/28/2014.

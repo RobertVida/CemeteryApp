@@ -2,11 +2,14 @@ package ro.InnovaTeam.cemeteryApp.eao.impl;
 
 import org.springframework.stereotype.Component;
 import ro.InnovaTeam.cemeteryApp.eao.DeceasedEAO;
-import ro.InnovaTeam.cemeteryApp.helpers.FilteredQueryBuilder;
+import ro.InnovaTeam.cemeteryApp.helpers.QueryBuilder;
 import ro.InnovaTeam.cemeteryApp.model.Deceased;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
 
 import java.util.List;
+
+import static ro.InnovaTeam.cemeteryApp.helpers.AliasBuilder.from;
+import static ro.InnovaTeam.cemeteryApp.helpers.AndWithOrRestrictionBuilder.allOf;
 
 /**
  * Created by amalia on 11/27/2014.
@@ -45,17 +48,17 @@ public class DeceasedEAOImpl extends EntityEAOImpl<Deceased> implements Deceased
     }
 
     @Override
-    public List<Deceased> findByFilter(Filter filter) {
-        return findByFilter(TABLE, filter);
-    }
-
-    @Override
     @SuppressWarnings("unchecked")
-    public List<Deceased> findByFilter(String tableName, Filter filter) {
-        return FilteredQueryBuilder.instance()
-                .from(tableName)
-                .setFilter(filter)
-                .setCriteriaSearchableColumns("first_name", "last_name", "cnp", "religion")
-                .build(getSession()).list();
+    public List<Deceased> findByFilter(Filter filter) {
+        return QueryBuilder.instance(getSession())
+                .select(
+                        from(TABLE).as("d")
+                ).where(
+                        allOf(filter.getSearchCriteria())
+                                .areAtLeastOnceInAnyOf("d.firstName", "d.lastName", "d.cnp", "d.religion")
+                )
+                .setMaxResults(filter.getPageSize())
+                .setFirstResult(filter.getPageNo())
+                .build().list();
     }
 }

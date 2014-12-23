@@ -2,11 +2,16 @@ package ro.InnovaTeam.cemeteryApp.eao.impl;
 
 import org.springframework.stereotype.Component;
 import ro.InnovaTeam.cemeteryApp.eao.GraveEAO;
-import ro.InnovaTeam.cemeteryApp.helpers.FilteredQueryBuilder;
+import ro.InnovaTeam.cemeteryApp.helpers.QueryBuilder;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
 import ro.InnovaTeam.cemeteryApp.model.Grave;
+import ro.InnovaTeam.cemeteryApp.model.StructureType;
 
 import java.util.List;
+
+import static ro.InnovaTeam.cemeteryApp.helpers.AliasBuilder.from;
+import static ro.InnovaTeam.cemeteryApp.helpers.ColumnConstraintBuilder.column;
+import static ro.InnovaTeam.cemeteryApp.helpers.ConstraintWrapper.AndConstraintWrapper.and;
 
 /**
  * Created by robert on 11/28/2014.
@@ -46,17 +51,19 @@ public class GraveEAOImpl extends EntityEAOImpl<Grave> implements GraveEAO {
     }
 
     @Override
-    public List<Grave> findByFilter(Filter filter) {
-        return findByFilter(ENTITY, filter);
-    }
-
-    @Override
     @SuppressWarnings("unchecked")
-    public List<Grave> findByFilter(String tableName, Filter filter) {
-        return FilteredQueryBuilder.instance()
-                .from(tableName)
-                .setFilter(filter)
-                .setParentIdColumn("parcel_id")
-                .build(getSession()).list();
+    public List<Grave> findByFilter(Filter filter) {
+        return QueryBuilder.instance(getSession())
+                .select(
+                        from(ENTITY).as("g")
+                ).where(
+                        and(
+                            column("g.parcelId").is(filter.getParentId()),
+                            column("g.type").like(StructureType.Grave.toString())
+                        )
+                )
+                .setMaxResults(filter.getPageSize())
+                .setFirstResult(filter.getPageNo())
+                .build().list();
     }
 }

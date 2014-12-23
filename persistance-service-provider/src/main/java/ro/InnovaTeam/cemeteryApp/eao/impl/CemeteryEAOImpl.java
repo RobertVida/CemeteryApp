@@ -2,11 +2,14 @@ package ro.InnovaTeam.cemeteryApp.eao.impl;
 
 import org.springframework.stereotype.Component;
 import ro.InnovaTeam.cemeteryApp.eao.CemeteryEAO;
-import ro.InnovaTeam.cemeteryApp.helpers.FilteredQueryBuilder;
+import ro.InnovaTeam.cemeteryApp.helpers.QueryBuilder;
 import ro.InnovaTeam.cemeteryApp.model.Cemetery;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
 
 import java.util.List;
+
+import static ro.InnovaTeam.cemeteryApp.helpers.AliasBuilder.from;
+import static ro.InnovaTeam.cemeteryApp.helpers.AndWithOrRestrictionBuilder.allOf;
 
 /**
  * Created by robert on 11/18/2014.
@@ -45,17 +48,17 @@ public class CemeteryEAOImpl extends EntityEAOImpl<Cemetery> implements Cemetery
     }
 
     @Override
-    public List<Cemetery> findByFilter(Filter filter) {
-        return findByFilter(TABLE, filter);
-    }
-
-    @Override
     @SuppressWarnings("unchecked")
-    public List<Cemetery> findByFilter(String tableName, Filter filter) {
-        return FilteredQueryBuilder.instance()
-                .from(tableName)
-                .setFilter(filter)
-                .setCriteriaSearchableColumns("name", "address")
-                .build(getSession()).list();
+    public List<Cemetery> findByFilter(Filter filter) {
+        return QueryBuilder.instance(getSession())
+                .select(
+                        from(TABLE).as("c")
+                ).where(
+                        allOf(filter.getSearchCriteria())
+                                .areAtLeastOnceInAnyOf("c.name", "c.address")
+                )
+                .setMaxResults(filter.getPageSize())
+                .setFirstResult(filter.getPageNo())
+                .build().list();
     }
 }

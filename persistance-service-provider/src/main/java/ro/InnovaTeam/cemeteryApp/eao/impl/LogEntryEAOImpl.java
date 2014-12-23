@@ -2,11 +2,16 @@ package ro.InnovaTeam.cemeteryApp.eao.impl;
 
 import org.springframework.stereotype.Component;
 import ro.InnovaTeam.cemeteryApp.eao.LogEntryEAO;
-import ro.InnovaTeam.cemeteryApp.helpers.FilteredQueryBuilder;
+import ro.InnovaTeam.cemeteryApp.helpers.QueryBuilder;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
 import ro.InnovaTeam.cemeteryApp.model.LogEntry;
 
 import java.util.List;
+
+import static ro.InnovaTeam.cemeteryApp.helpers.AliasBuilder.from;
+import static ro.InnovaTeam.cemeteryApp.helpers.ColumnConstraintBuilder.column;
+import static ro.InnovaTeam.cemeteryApp.helpers.ConstraintWrapper.AndConstraintWrapper.and;
+
 
 /**
  * Created by robert on 12/14/2014.
@@ -39,48 +44,44 @@ public class LogEntryEAOImpl extends EntityEAOImpl<LogEntry> implements LogEntry
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public List<LogEntry> findByFilter(Filter filter) {
-        return findByFilter(TABLE, filter);
+        return QueryBuilder.instance(getSession())
+                .select(
+                        from(TABLE).as("l"))
+                .setMaxResults(filter.getPageSize())
+                .setFirstResult(filter.getPageNo())
+                .build().list();
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<LogEntry> findByFilter(String tableName, Filter filter) {
-        return FilteredQueryBuilder.instance()
-                .from(tableName)
-                .setFilter(filter)
-                .setCriteriaSearchableColumns("details")
-                .build(getSession()).list();
-    }
-
-    @Override
     public List<LogEntry> findByFilter(Filter filter, String entityName) {
-        return findByFilter(TABLE, filter, entityName);
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<LogEntry> findByFilter(String tableName, Filter filter, String entityName) {
-        return FilteredQueryBuilder.instance()
-                .from(tableName)
-                .setFilter(filter)
-                .setCriteriaSearchableColumns("details")
-                .where("table_changed", "'" + entityName + "'")
-                .build(getSession()).list();
+        return QueryBuilder.instance(getSession())
+                .select(
+                        from(TABLE).as("l")
+                ).where(
+                        column("l.table_changed").like(entityName)
+                )
+                .setMaxResults(filter.getPageSize())
+                .setFirstResult(filter.getPageNo())
+                .build().list();
     }
 
     @Override
-    public List<LogEntry> findByFilter(Filter filter, String entityName, Integer entityId) {
-        return findByFilter(TABLE, filter, entityName, entityId);
-    }
-
     @SuppressWarnings("unchecked")
-    public List<LogEntry> findByFilter(String tableName, Filter filter, String entityName, Integer entityId) {
-        return FilteredQueryBuilder.instance()
-                .from(tableName)
-                .setFilter(filter)
-                .setCriteriaSearchableColumns("details")
-                .where("table_changed", "'" + entityName + "'")
-                .where("id_affected", entityId.toString())
-                .build(getSession()).list();
+    public List<LogEntry> findByFilter(Filter filter, String entityName, Integer entityId) {
+        return QueryBuilder.instance(getSession())
+                .select(
+                        from(TABLE).as("l")
+                ).where(
+                        and(
+                                column("l.tableChanged").like(entityName),
+                                column("l.idAffected").is(entityId)
+                        )
+                )
+                .setMaxResults(filter.getPageSize())
+                .setFirstResult(filter.getPageNo())
+                .build().list();
     }
 }
