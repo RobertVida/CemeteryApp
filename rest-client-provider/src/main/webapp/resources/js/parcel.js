@@ -10,65 +10,35 @@ var ParcelsManagerJS = (function($) {
     var init = function() {
         $('#container').html($('#parcel-details').html());
 
-        ParcelsManagerJS.refreshFilter();
     };
 
     var renderAddPage = function () {
-        var addPageURL = $("#addParcelPageURL").val();
-        $.ajax({
-            type: "GET",
-            url: addPageURL,
-            success: function (response) {
-                $('#container').html($(response).filter('#parcel-details').html()).css("display: inline;");
-            }
-        });
+        var url = $("#addParcelPageURL").val();
+        CemeteryJs.ajaxCall("GET", url, null, 1, '#parcel-details');
     };
 
     var deleteParcel = function() {
         var url = $("#deleteParcelURL").val() + $("#parcelId").val();
-        console.log(url);
         window.location.href = url;
     };
 
     var submitFilterForm = function () {
         var url = $('#parcelFilterURL').val();
-        var searchCriteria = $('#parcelSearchInput');
-        var cemeteryId = $('#parcelCemeteryId');
-        $.ajax({
-            type: "GET",
-            url: url,
-            data: {
-                "searchCriteria" : searchCriteria.val(),
-                "cemeteryId" : cemeteryId.val()
-            },
-            success: function (response) {
-                $('#container').html($(response).filter('#parcel-details').html());
-                console.log($(response).filter('#parcel-details').html());
-            }
-        });
+        var searchCriteria = $('#parcelSearchInput').val();
+        var cemeteryId = $('#parcelCemeteryId').val();
+        var data = { searchCriteria : searchCriteria, cemeteryId : cemeteryId };
+        CemeteryJs.ajaxCall("GET", url, data, 1, '#parcel-details');
     };
 
     var getParcelsPerPage = function(pageNo) {
         var url = $("#parcelsURL").val();
-        $.ajax({
-            type: "GET",
-            url: url,
-            data: { "pageNo" : pageNo },
-            success: function (response) {
-                $('#parcels-table').html($(response).find('#parcels-table').html());
-            }
-        });
+        var data = { pageNo : pageNo };
+        CemeteryJs.ajaxCall("GET", url, data, 0, "#parcels-table");
     };
 
     var refreshFilter = function() {
-        var refreshFilterURL = $("#refreshParcelFilterURL").val();
-        $.ajax({
-            type: "POST",
-            url: refreshFilterURL,
-            success: function (response) {
-                $('#container').html($(response).filter('#parcel-details').html());
-            }
-        });
+        var url = $("#refreshParcelFilterURL").val();
+        CemeteryJs.ajaxCall("POST", url, null, 1, '#parcel-details');
     };
 
     return {

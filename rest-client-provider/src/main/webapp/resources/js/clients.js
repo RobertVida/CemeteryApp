@@ -5,7 +5,6 @@ $(document).ready(function () {
     $('#container').html($('#client-details').html());
 
     ClientsManagerJS.init();
-    ClientsManagerJS.refreshFilter();
 });
 var ClientsManagerJS = (function($) {
 
@@ -19,62 +18,29 @@ var ClientsManagerJS = (function($) {
 
     var getClientsPerPage = function(pageNo) {
         var url = $("#getClientsURL").val();
-        $.ajax({
-            type: "GET",
-            url: url,
-            data: { "pageNo" : pageNo },
-            success: function (response) {
-                $('#clients-table').html($(response).find('#clients-table').html());
-            }
-        });
+        var data = { pageNo : pageNo };
+        CemeteryJs.ajaxCall("GET", url, data, 0, "#clients-table");
     };
 
     var submitFilterForm = function () {
         var url = $('#filterURL').val();
-        var searchCriteria = $('#searchInput');
-
-        if (searchCriteria.val() != "") {
-            if (searchCriteria.hasClass("required-input")) {
-                searchCriteria.removeClass("required-input");
-            }
-            $.ajax({
-                type: "GET",
-                url: url,
-                data: { "searchCriteria" : searchCriteria.val() },
-                success: function (response) {
-                    $('#container').html($(response).filter('#client-details').html());
-                }
-            });
-        } else {
-            searchCriteria.addClass("required-input");
-        }
+        var searchCriteria = $('#searchInput').val();
+        var data = { searchCriteria : searchCriteria };
+        CemeteryJs.ajaxCall("GET", url, data, 1, '#client-details');
     };
 
     var refreshFilter = function() {
-        var refreshFilterURL = $("#refreshFilterURL").val();
-        $.ajax({
-            type: "POST",
-            url: refreshFilterURL,
-            success: function (response) {
-                $('#container').html($(response).filter('#client-details').html());
-            }
-        });
+        var url = $("#refreshFilterURL").val();
+        CemeteryJs.ajaxCall("POST", url, null, 1, '#client-details');
     };
 
     var renderAddPage = function () {
-        var addPageURL = $("#addPageURL").val();
-        $.ajax({
-            type: "GET",
-            url: addPageURL,
-            success: function (response) {
-                $('#container').html($(response).filter('#client-details').html()).css("display: inline;");
-            }
-        });
+        var url = $("#addPageURL").val();
+        CemeteryJs.ajaxCall("GET", url, null, 1, '#client-details');
     };
 
     var deleteClient = function() {
         var url = $("#deleteClientURL").val() + $("#clientId").val();
-        console.log(url);
         window.location.href = url;
     };
 

@@ -23,7 +23,7 @@
         </h4>
 
         <div style="margin-top: 20px;">
-            <div class="form-group col-lg-3">
+            <div class="form-group col-lg-2">
                 <input id="logSearchInput" type="text" class="form-control" placeholder="Cuvint cheie">
             </div>
             <div class="col-lg-4">
@@ -43,9 +43,10 @@
                 <input id="tableIdInput" name="tableIdInput" type="text" class="form-control" placeholder="Id-ul tabelei"/>
             </div>
             <button type="button" onclick="LogsManagerJS.submitFilter();" class="btn btn-default">Cauta</button>
+            <button type="button" onclick="LogsManagerJS.refreshFilter();" class="btn btn-default">Resetati filtrele</button>
         </div>
 
-        <table class="table-margins table table-bordered text-center">
+        <table id="logs-table" class="table-margins table table-bordered text-center">
             <thead>
             <tr style="background-color: #0080F8;">
                 <th class="text-center">Tabel modificat</th>
@@ -75,7 +76,7 @@
                 <ul class="pagination">
                     <li><a><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>
                     <c:forEach var="i" begin="1" end="${pages}">
-                        <li><a class="page" page-number="${i}">${i}</a></li>
+                        <li onclick="LogsManagerJS.getLogsPerPage(${i})" style="cursor:pointer;"><a class="page">${i}</a></li>
                     </c:forEach>
                     <li><a><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li>
                 </ul>
@@ -85,4 +86,5 @@
 </body>
 <input id="logsFilterURL" type="hidden" value="${contextPath}/filter"/>
 <input id="refreshLogFilterURL" type="hidden" value="${contextPath}/refreshFilter"/>
+<input id="logsUrl" type="hidden" value="${contextPath}"/>
 </html>

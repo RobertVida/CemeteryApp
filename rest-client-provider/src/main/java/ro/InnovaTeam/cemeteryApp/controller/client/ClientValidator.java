@@ -27,10 +27,12 @@ public class ClientValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cnp", "empty.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phoneNumber", "empty.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "address", "empty.field");
-        if (ValidatorUtil.isValidCNP(clientDTO.getCnp())) {
+
+        if (!ValidatorUtil.isValidCNP(clientDTO.getCnp())) {
             errors.rejectValue("cnp", "cnp.invalid");
         }
-        if (ValidatorUtil.isValidPhoneNumber(clientDTO.getPhoneNumber())) {
+
+        if (!ValidatorUtil.isValidPhoneNumber(clientDTO.getPhoneNumber())) {
             errors.rejectValue("phoneNumber", "phoneNumber.invalid");
         }
     }

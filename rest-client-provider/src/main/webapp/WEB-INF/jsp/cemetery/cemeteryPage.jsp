@@ -25,6 +25,7 @@
                 <input id="cemeterySearchInput" name="searchCriteria" type="text" class="form-control"/>
             </div>
             <button type="button" onclick="CemeteriesManagerJS.submitFilterForm();" class="btn btn-default">Cauta</button>
+            <button type="button" onclick="CemeteriesManagerJS.refreshFilter();" class="btn btn-default">Resetati filtrele</button>
         </div>
         <table id="cemeteries-table" class="table-margins table table-bordered text-center">
             <thead>

@@ -28,6 +28,7 @@
                 <input id="parcelCemeteryId" name="parcelCemeteryId" type="text" class="form-control" placeholder="Id-ul cimitirului"/>
             </div>
             <button type="button" onclick="ParcelsManagerJS.submitFilterForm();" class="btn btn-default">Cauta</button>
+            <button type="button" onclick="ParcelsManagerJS.refreshFilter();" class="btn btn-default">Resetati filtrele</button>
         </div>
         <table id="parcels-table" class="table-margins table table-bordered text-center">
             <thead>

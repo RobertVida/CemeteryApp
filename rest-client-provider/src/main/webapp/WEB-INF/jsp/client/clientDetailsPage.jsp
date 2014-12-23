@@ -23,15 +23,15 @@
             </c:otherwise>
         </c:choose>
     </h4>
-    <form:form action="${actionURL}" commandName="client">
+    <form:form id="clientForm" action="${actionURL}" commandName="client">
         <div class="details">
             <div class="form-group h35">
-                <form:input id="clientId" path="id" class="form-control" type="hidden"/>
+                <form:hidden id="clientId" path="id" class="form-control" />
                 <div class="col-lg-4" style="float: left;">
                     <form:label class="control-label" path="lastName">Nume</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input path="lastName" class="form-control" type="text"/>
+                    <form:input path="lastName" class="form-control" type="text" required="true"/>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="lastName"/>
@@ -43,7 +43,7 @@
                     <form:label class="control-label" path="firstName">Prenume</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input path="firstName" class="form-control" type="text"/>
+                    <form:input path="firstName" class="form-control" type="text" required="true"/>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="firstName"/>
@@ -55,7 +55,7 @@
                     <form:label class="control-label" path="cnp">CNP</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input path="cnp" class="form-control" type="text"/>
+                    <form:input path="cnp" class="form-control" type="text" pattern="^[0-9]{13}$" required="true" />
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="cnp"/>
@@ -67,7 +67,7 @@
                     <form:label class="control-label" path="phoneNumber">Nr. telefon</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input path="phoneNumber" class="form-control" type="text"/>
+                    <form:input path="phoneNumber" class="form-control" type="text" pattern="^[0-9]{10}$" required="true"/>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="phoneNumber"/>
@@ -79,7 +79,7 @@
                     <form:label class="control-label" path="address">Adres&#259;</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input path="address" class="form-control" type="text"/>
+                    <form:input path="address" class="form-control" type="text" required="true"/>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="address"/>
@@ -89,7 +89,7 @@
             <c:if test="${view eq true}">
                 <input type="button" onclick="ClientsManagerJS.deleteClient();" value="Sterge" class="btn btn-default pull-right" style="margin-right: 15px;"/>
             </c:if>
-            <button id="saveClient" type="submit" class="btn btn-default pull-right" style="margin-right: 15px;">Salveaz&#259;</button>
+            <input id="saveClient" onclick="CemeteryJs.validateAndSubmitForm('#clientForm', '#saveClient');" type="submit" class="btn btn-default pull-right" style="margin-right: 15px;" value="Salveaz&#259;"/>
         </div>
     </form:form>
 </div>

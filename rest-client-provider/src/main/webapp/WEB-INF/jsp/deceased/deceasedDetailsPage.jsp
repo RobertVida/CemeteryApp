@@ -13,7 +13,9 @@
 <head>
     <title>Decedati</title>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/jquery.validate.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/deceased.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/zebra_datepicker.src.js"></script>
 </head>
 <body>
 <jsp:include page="../fragments/menu.jsp"/>
@@ -31,15 +33,15 @@
             </c:otherwise>
         </c:choose>
     </h4>
-    <form:form action="${actionURL}" commandName="deceased" method="post">
+    <form:form id="deceasedForm" action="${actionURL}" commandName="deceased" method="post">
         <div class="details">
             <div class="form-group h35">
-                <form:input path="id" class="form-control" type="hidden"/>
+                <form:hidden id="deceasedId" path="id" class="form-control"/>
                 <div class="col-lg-4" style="float: left;">
                     <form:label class="control-label" path="lastName">Nume</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input path="lastName" class="form-control" type="text"/>
+                    <form:input path="lastName" class="form-control" type="text" required="true"/>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="lastName"/>
@@ -51,7 +53,7 @@
                     <form:label class="control-label" path="firstName">Prenume</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input path="firstName" class="form-control" type="text"/>
+                    <form:input path="firstName" class="form-control" type="text" required="true"/>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="firstName"/>
@@ -63,7 +65,7 @@
                     <form:label class="control-label" path="cnp">CNP</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input path="cnp" class="form-control" type="text"/>
+                    <form:input path="cnp" class="form-control" type="text" pattern="^[0-9]{13}$" required="true"/>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="cnp"/>
@@ -75,7 +77,7 @@
                     <form:label class="control-label" path="religion">Religie</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input path="religion" class="form-control" type="text"/>
+                    <form:input path="religion" class="form-control" type="text" required="true"/>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="religion"/>
@@ -87,7 +89,7 @@
                     <form:label class="control-label" path="diedOn">Data mortii</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input id="diedOn" path="diedOn" class="form-control" type="text"/>
+                    <form:input id="diedOn" path="diedOn" class="form-control" type="text" required="true"/>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="diedOn"/>
@@ -99,7 +101,7 @@
                     <form:label class="control-label" path="burialDocumentId">Id-ul documentului de inmormantare</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input path="burialDocumentId" class="form-control" type="text"/>
+                    <form:input path="burialDocumentId" class="form-control number" type="text" pattern="\d*" required="true"/>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="burialDocumentId"/>
@@ -111,7 +113,7 @@
                     <form:label class="control-label" path="structureId">Id-ul mormantului</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input path="structureId" class="form-control" type="text" />
+                    <form:input path="structureId" class="form-control number" type="text" pattern="\d*" required="true"/>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="structureId"/>
@@ -123,7 +125,7 @@
                     <form:label class="control-label" path="burialOn">Data ingroparii</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input id="burialOn" path="burialOn" class="form-control" type="text" />
+                    <form:input id="burialOn" path="burialOn" class="form-control" type="text" required="true"/>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="burialOn"/>
@@ -133,7 +135,7 @@
             <c:if test="${view eq true}">
                 <input type="button" onclick="DeceasedManagerJS.deleteDeceased();" value="Sterge" class="btn btn-default pull-right" style="margin-right: 15px;"/>
             </c:if>
-            <button type="submit" class="btn btn-default pull-right" style="margin-right: 15px;">Salveaz&#259;</button>
+            <input id="saveDeceased" onclick="CemeteryJs.validateAndSubmitForm('#deceasedForm', '#saveDeceased');" type="submit" class="btn btn-default pull-right" style="margin-right: 15px;" value="Salveaz&#259;"/>
         </div>
     </form:form>
 </div>
@@ -142,7 +144,9 @@
 </html>
 <script type="text/javascript">
     $(document).ready(function() {
-        $("#diedOn").Zebra_DatePicker({
+        var $diedOn = $("#diedOn");
+        var $burialOn = $("#burialOn");
+        $diedOn.Zebra_DatePicker({
             format: "d/m/Y",
             changeMonth: true,
             changeYear: true,
@@ -150,7 +154,7 @@
             show_icon: false
         });
 
-        $("#burialOn").Zebra_DatePicker({
+        $burialOn.Zebra_DatePicker({
             format: "d/m/Y",
             changeMonth: true,
             changeYear: true,
@@ -158,12 +162,12 @@
             show_icon: false
         });
 
-        $("#diedOn").keydown(function() {
+        $diedOn.keydown(function() {
             return false;
         });
 
-        $("#burialOn").keydown(function() {
+        $burialOn.keydown(function() {
             return false;
         });
-    })
+    });
 </script>

@@ -9,7 +9,12 @@ var LogsManagerJS = (function($) {
 
     var init = function() {
         $('#container').html($('#log-details').html());
-        LogsManagerJS.refreshFilter();
+    };
+
+    var getLogsPerPage = function(pageNo) {
+        var url = $('#logsUrl').val();
+        var data = { pageNo : pageNo };
+        CemeteryJs.ajaxCall("GET", url, data, 0, "#logs-table");
     };
 
     var submitFilter = function() {
@@ -18,37 +23,22 @@ var LogsManagerJS = (function($) {
         if (tableName == "--Tabela--") {
             tableName = "";
         }
-        var tableId = $("#tableIdInput");
+        var tableId = $("#tableIdInput").val();
         var searchCriteria = $("#logSearchInput").val();
 
-        $.ajax({
-            type: "GET",
-            url: url,
-            data: {
-                "searchCriteria" : searchCriteria,
-                "tableName" : tableName,
-                "tableId" : tableId.val()
-            },
-            success: function (response) {
-                $('#container').html($(response).filter('#log-details').html());
-            }
-        });
+        var data = { searchCriteria : searchCriteria, tableName : tableName, tableId : tableId };
+        CemeteryJs.ajaxCall("GET", url, data, 1, '#log-details');
     };
 
     var refreshFilter = function() {
-        var refreshFilterURL = $("#refreshLogFilterURL").val();
-        $.ajax({
-            type: "POST",
-            url: refreshFilterURL,
-            success: function (response) {
-                $('#container').html($(response).filter('#grave-details').html());
-            }
-        });
+        var url = $("#refreshLogFilterURL").val();
+        CemeteryJs.ajaxCall("POST", url, null, 1, '#log-details');
     };
 
     return {
         init: init,
         submitFilter: submitFilter,
-        refreshFilter: refreshFilter
+        refreshFilter: refreshFilter,
+        getLogsPerPage: getLogsPerPage
     };
 })(jQuery);

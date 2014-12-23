@@ -13,6 +13,7 @@
     <title>Morminte</title>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/graves.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/zebra_datepicker.src.js"></script>
 </head>
 <body>
 <jsp:include page="../fragments/menu.jsp"/>
@@ -29,7 +30,7 @@
                 </c:otherwise>
             </c:choose>
         </h4>
-        <form:form action="${actionURL}" commandName="grave" method="post">
+        <form:form id="graveForm" action="${actionURL}" commandName="grave" method="post">
             <div class="details">
                 <div class="form-group h35">
                     <form:input id="graveId" path="id" class="form-control" type="hidden"/>
@@ -37,7 +38,7 @@
                         <form:label class="control-label" path="parcelId">Id-ul parcelei</form:label>
                     </div>
                     <div class="col-lg-4" style="float: left;">
-                        <form:input path="parcelId" class="form-control" type="text"/>
+                        <form:input path="parcelId" class="form-control" type="text" pattern="\d*" required="true"/>
                     </div>
                     <div class="col-lg-4" style="float: left; color: red">
                         <form:errors path="parcelId"/>
@@ -49,7 +50,7 @@
                         <form:label class="control-label" path="createdOn">Creat in</form:label>
                     </div>
                     <div class="col-lg-4" style="float: left;">
-                        <form:input path="createdOn" class="form-control" type="text"/>
+                        <form:input id="createdOn" path="createdOn" class="form-control" type="text" required="true"/>
                     </div>
                     <div class="col-lg-4" style="float: left; color: red">
                         <form:errors path="createdOn"/>
@@ -63,7 +64,7 @@
                         <form:label class="control-label" path="width">Latime</form:label>
                     </div>
                     <div class="col-lg-4" style="float: left;">
-                        <form:input path="width" class="form-control" type="text"/>
+                        <form:input path="width" class="form-control" type="text" required="true"/>
                     </div>
                     <div class="col-lg-4" style="float: left; color: red">
                         <form:errors path="width"/>
@@ -75,7 +76,7 @@
                         <form:label class="control-label" path="length">Lungime</form:label>
                     </div>
                     <div class="col-lg-4" style="float: left;">
-                        <form:input path="length" class="form-control" type="text"/>
+                        <form:input path="length" class="form-control" type="text" required="true"/>
                     </div>
                     <div class="col-lg-4" style="float: left; color: red">
                         <form:errors path="length"/>
@@ -85,10 +86,26 @@
                 <c:if test="${view eq true}">
                     <input type="button" onclick="GraveManagerJS.deleteGrave();" value="Sterge" class="btn btn-default pull-right" style="margin-right: 15px;"/>
                 </c:if>
-                <button type="submit" class="btn btn-default pull-right" style="margin-right: 15px;">Salveaz&#259;</button>
+                <input id="saveGrave" onclick="CemeteryJs.validateAndSubmitForm('#graveForm', '#saveGrave');" type="submit" class="btn btn-default pull-right" style="margin-right: 15px;" value="Salveaz&#259;" />
             </div>
         </form:form>
     </div>
 <input id="deleteGraveURL" type="hidden" value="${contextPath}/delete/"/>
 </body>
 </html>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var $createdOn = $("#createdOn");
+        $createdOn.Zebra_DatePicker({
+            format: "d/m/Y",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "1960:+50",
+            show_icon: false
+        });
+
+        $createdOn.keydown(function() {
+            return false;
+        });
+    });
+</script>

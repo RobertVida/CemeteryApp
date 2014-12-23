@@ -80,3 +80,17 @@ button{
     box-shadow: 0 1px 1px rgba(255,0,0,0.075) inset, 0 0 8px rgba(255,0,0,0.6);;
     outline: 0 none
 }
+
+.error {
+    font-family: Calibri;
+    font-size: 0.9375em;
+    line-height: 100%;
+    color: red;
+    font-weight: normal;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.form-group {
+    margin-bottom: 20px!important;
+}

@@ -30,7 +30,7 @@
                 </c:otherwise>
             </c:choose>
         </h4>
-        <form:form action="${actionURL}" commandName="parcel" method="post">
+        <form:form id="parcelForm" action="${actionURL}" commandName="parcel" method="post">
             <div class="details">
                 <div class="form-group h35">
                     <form:input id="parcelId" path="id" class="form-control" type="hidden"/>
@@ -38,7 +38,7 @@
                         <form:label class="control-label" path="name">Nume</form:label>
                     </div>
                     <div class="col-lg-4" style="float: left;">
-                        <form:input path="name" class="form-control" type="text"/>
+                        <form:input path="name" class="form-control" type="text" required="true"/>
                     </div>
                     <div class="col-lg-4" style="float: left; color: red">
                         <form:errors path="name"/>
@@ -50,7 +50,7 @@
                         <form:label class="control-label" path="cemeteryId">Cimitir</form:label>
                     </div>
                     <div class="col-lg-4" style="float: left;">
-                        <form:input path="cemeteryId" class="form-control" type="text" readonly="${view}"/>
+                        <form:input path="cemeteryId" class="form-control" type="text" pattern="\d*" required="true" readonly="${view}"/>
                     </div>
                     <div class="col-lg-4" style="float: left; color: red">
                         <form:errors path="cemeteryId"/>
@@ -60,7 +60,7 @@
                 <c:if test="${view eq true}">
                     <input type="button" onclick="ParcelsManagerJS.deleteParcel();" value="Sterge" class="btn btn-default pull-right" style="margin-right: 15px;"/>
                 </c:if>
-                <button type="submit" class="btn btn-default pull-right" style="margin-right: 15px;">Salveaz&#259;</button>
+                <input id="saveParcel" onclick="CemeteryJs.validateAndSubmitForm('#parcelForm', '#saveParcel');" type="submit" class="btn btn-default pull-right" style="margin-right: 15px;" value="Salveaz&#259;"/>
             </div>
         </form:form>
     </div>

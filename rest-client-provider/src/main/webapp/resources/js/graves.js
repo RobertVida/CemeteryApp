@@ -7,18 +7,11 @@ var GraveManagerJS = (function($) {
     var init = function() {
         $('#container').html($('#grave-details').html());
 
-        GraveManagerJS.refreshFilter();
     };
 
     var renderAddPage = function () {
-        var addPageURL = $("#addGravePageURL").val();
-        $.ajax({
-            type: "GET",
-            url: addPageURL,
-            success: function (response) {
-                $('#container').html($(response).filter('#grave-details').html()).css("display: inline;");
-            }
-        });
+        var url = $("#addGravePageURL").val();
+        window.location.href = url;
     };
 
     var deleteGrave = function() {
@@ -28,44 +21,21 @@ var GraveManagerJS = (function($) {
 
     var submitFilterForm = function () {
         var url = $('#graveFilterURL').val();
-        var searchCriteria = $('#graveSearchInput');
-        var parcelId = $("#graveParcelIdInput");
-
-            $.ajax({
-                type: "GET",
-                url: url,
-                data: {
-                    "searchCriteria" : searchCriteria.val(),
-                    "parcelId" : parcelId.val()
-                },
-                success: function (response) {
-                    $('#container').html($(response).filter('#grave-details').html());
-                    console.log($(response).filter('#grave-details').html());
-                }
-            });
+        var searchCriteria = $('#graveSearchInput').val();
+        var parcelId = $("#graveParcelIdInput").val();
+        var data = { searchCriteria : searchCriteria, parcelId : parcelId };
+        CemeteryJs.ajaxCall("GET", url, data, 1, '#grave-details');
     };
 
     var getGravePerPage = function(pageNo) {
         var url = $("#gravesURL").val();
-        $.ajax({
-            type: "GET",
-            url: url,
-            data: { "pageNo" : pageNo },
-            success: function (response) {
-                $('#grave-table').html($(response).find('#grave-table').html());
-            }
-        });
+        var data = { pageNo : pageNo };
+        CemeteryJs.ajaxCall("GET", url, data, 0, "#graves-table");
     };
 
     var refreshFilter = function() {
-        var refreshFilterURL = $("#refreshGraveFilterURL").val();
-        $.ajax({
-            type: "POST",
-            url: refreshFilterURL,
-            success: function (response) {
-                $('#container').html($(response).filter('#grave-details').html());
-            }
-        });
+        var url = $("#refreshGraveFilterURL").val();
+        CemeteryJs.ajaxCall("POST", url, null, 1, '#grave-details');
     };
 
     return {

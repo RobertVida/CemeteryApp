@@ -118,7 +118,7 @@
             inside: true,
 
             //  the caption for the "Clear" button
-            lang_clear_date: 'Clear date',
+            lang_clear_date: 'Sterge data',
 
             //  months names
             months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],

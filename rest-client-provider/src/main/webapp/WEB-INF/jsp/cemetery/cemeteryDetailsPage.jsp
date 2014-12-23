@@ -30,7 +30,7 @@
                 </c:otherwise>
             </c:choose>
         </h4>
-        <form:form action="${actionURL}" commandName="cemetery" method="post">
+        <form:form id="cemeteryForm" action="${actionURL}" commandName="cemetery" method="post">
             <div class="details">
                 <div class="form-group h35">
                     <form:input id="cemeteryId" path="id" class="form-control" type="hidden"/>
@@ -38,7 +38,7 @@
                         <form:label class="control-label" path="name">Nume</form:label>
                     </div>
                     <div class="col-lg-4" style="float: left;">
-                        <form:input path="name" class="form-control" type="text"/>
+                        <form:input path="name" class="form-control" type="text" required="true"/>
                     </div>
                     <div class="col-lg-4" style="float: left; color: red">
                         <form:errors path="name"/>
@@ -50,7 +50,7 @@
                         <form:label class="control-label" path="address">Adres&#259;</form:label>
                     </div>
                     <div class="col-lg-4" style="float: left;">
-                        <form:input path="address" class="form-control" type="text"/>
+                        <form:input path="address" class="form-control" type="text" required="true"/>
                     </div>
                     <div class="col-lg-4" style="float: left; color: red">
                         <form:errors path="address"/>
@@ -60,7 +60,7 @@
                 <c:if test="${view eq true}">
                     <input type="button" onclick="CemeteriesManagerJS.deleteCemetery();" value="Sterge" class="btn btn-default pull-right" style="margin-right: 15px;"/>
                 </c:if>
-                <button type="submit" class="btn btn-default pull-right" style="margin-right: 15px;">Salveaz&#259;</button>
+                <input id="saveCemetery" onclick="CemeteryJs.validateAndSubmitForm('#cemeteryForm', '#saveCemetery');" type="button" class="btn btn-default pull-right" style="margin-right: 15px;" value="Salveaz&#259;"/>
             </div>
         </form:form>
     </div>

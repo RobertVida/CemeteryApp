@@ -13,14 +13,8 @@ var DeceasedManagerJS = (function($) {
     };
 
     var renderAddPage = function () {
-        var addPageURL = $("#addDeceasedPageURL").val();
-        $.ajax({
-            type: "GET",
-            url: addPageURL,
-            success: function (response) {
-                $('#container').html($(response).filter('#deceased-details').html()).css("display: inline;");
-            }
-        });
+        var url = $("#addDeceasedPageURL").val();
+        window.location.href = url;
     };
 
     var deleteDeceased = function() {
@@ -30,50 +24,21 @@ var DeceasedManagerJS = (function($) {
 
     var submitFilterForm = function () {
         var url = $('#deceasedFilterURL').val();
-        var searchCriteria = $('#deceasedSearchInput');
-        var structureId = $('#structureId');
-        //TODO validate cemeteryId
-//        if (searchCriteria.val() != "") {
-//            if (searchCriteria.hasClass("required-input")) {
-//                searchCriteria.removeClass("required-input");
-//            }
-            $.ajax({
-                type: "GET",
-                url: url,
-                data: {
-                    "searchCriteria" : searchCriteria.val(),
-                    "cemeteryId" : structureId.val()
-                },
-                success: function (response) {
-                    $('#container').html($(response).filter('#deceased-details').html());
-                }
-            });
-//        } else {
-//            searchCriteria.addClass("required-input");
-//        }
+        var searchCriteria = $('#deceasedSearchInput').val();
+        var structureId = $('#structureId').val();
+        var data = { searchCriteria : searchCriteria, structureId : structureId };
+        CemeteryJs.ajaxCall("GET", url, data, 1, '#deceased-details');
     };
 
     var getPerPage = function(pageNo) {
         var url = $("#deceasedURL").val();
-        $.ajax({
-            type: "GET",
-            url: url,
-            data: { "pageNo" : pageNo },
-            success: function (response) {
-                $('#deceased-table').html($(response).find('#deceased-table').html());
-            }
-        });
+        var data = { pageNo : pageNo };
+        CemeteryJs.ajaxCall("GET", url, data, 0, "#deceased-table");
     };
 
     var refreshFilter = function() {
-        var refreshFilterURL = $("#refreshDeceasedFilterURL").val();
-        $.ajax({
-            type: "POST",
-            url: refreshFilterURL,
-            success: function (response) {
-                $('#container').html($(response).filter('#deceased-details').html());
-            }
-        });
+        var url = $("#refreshDeceasedFilterURL").val();
+        CemeteryJs.ajaxCall("POST", url, null, 1, '#deceased-details');
     };
 
     return {

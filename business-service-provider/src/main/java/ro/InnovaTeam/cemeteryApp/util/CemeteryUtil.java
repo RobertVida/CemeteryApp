@@ -25,6 +25,9 @@ public abstract class CemeteryUtil {
     }
 
     public static CemeteryDTO toDTO(Cemetery cemetery) {
+        if (cemetery == null) {
+            return null;
+        }
         CemeteryDTO cemeteryDTO = new CemeteryDTO();
         cemeteryDTO.setId(cemetery.getId());
         cemeteryDTO.setName(cemetery.getName());

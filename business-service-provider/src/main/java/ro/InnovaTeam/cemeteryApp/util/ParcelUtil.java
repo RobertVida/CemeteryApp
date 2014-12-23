@@ -24,6 +24,9 @@ public abstract class ParcelUtil {
     }
 
     public static ParcelDTO toDTO(Parcel parcel) {
+        if (parcel == null) {
+            return null;
+        }
         ParcelDTO parcelDTO = new ParcelDTO();
         parcelDTO.setId(parcel.getId());
         parcelDTO.setCemeteryId(parcel.getCemeteryId());

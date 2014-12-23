@@ -6,6 +6,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import ro.InnovaTeam.cemeteryApp.CemeteryDTO;
+import ro.InnovaTeam.cemeteryApp.ParcelDTO;
+import ro.InnovaTeam.cemeteryApp.restClient.CemeteryRestClient;
 
 /**
  * Created by Catalin Sorecau on 11/24/2014.
@@ -15,12 +17,17 @@ import ro.InnovaTeam.cemeteryApp.CemeteryDTO;
 public class ParcelValidator implements Validator {
     @Override
     public boolean supports(Class<?> clazz) {
-        return CemeteryDTO.class.equals(clazz);
+        return ParcelDTO.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
+        ParcelDTO parcelDTO = (ParcelDTO) target;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "empty.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cemeteryId", "empty.field");
+
+        if (CemeteryRestClient.findById(parcelDTO.getCemeteryId()) == null) {
+            errors.rejectValue("cemeteryId", "number.non-existent");
+        }
     }
 }

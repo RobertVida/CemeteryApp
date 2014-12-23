@@ -22,8 +22,9 @@
                 <input id="graveParcelIdInput" type="text" class="form-control" placeholder="Id-ul parcelei">
             </div>
           <button type="submit" onclick="GraveManagerJS.submitFilterForm();" class="btn btn-default">Cauta</button>
+          <button type="submit" onclick="GraveManagerJS.refreshFilter();" class="btn btn-default">Resetati filtrele</button>
         </div>
-        <table class="table-margins table table-bordered text-center">
+        <table id="graves-table" class="table-margins table table-bordered text-center">
             <thead>
             <tr style="background-color: #0080F8;">
                 <th class="text-center">Parcela</th>

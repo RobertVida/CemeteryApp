@@ -25,6 +25,7 @@
                 <input id="searchInput" name="searchCriteria" type="text" class="form-control" required="true"/>
           </div>
           <button id="searchButton" type="button" onclick="ClientsManagerJS.submitFilterForm();" class="btn btn-default">Cauta</button>
+            <button type="button" onclick="ClientsManagerJS.refreshFilter();" class="btn btn-default">Resetati filtrele</button>
         </div>
         <table id="clients-table" class="table-margins table table-bordered text-center">
             <thead>
@@ -71,8 +72,8 @@
         </div>
     </div>
 </body>
-<input id="getClientsURL" type="hidden" value="${pageContext.request.contextPath}/clients${clientsPageURL}"/>
-<input id="addPageURL" type="hidden" value="${pageContext.request.contextPath}/clients${addPageURL}"/>
-<input id="filterURL" type="hidden" value="${pageContext.request.contextPath}/clients${filterURL}"/>
-<input id="refreshFilterURL" type="hidden" value="${pageContext.request.contextPath}/clients${refreshFilterURL}"/>
+<input id="getClientsURL" type="hidden" value="${pageContext.request.contextPath}${clientsPageURL}"/>
+<input id="addPageURL" type="hidden" value="${pageContext.request.contextPath}${clientsPageURL}${addPageURL}"/>
+<input id="filterURL" type="hidden" value="${pageContext.request.contextPath}${clientsPageURL}${filterURL}"/>
+<input id="refreshFilterURL" type="hidden" value="${pageContext.request.contextPath}${clientsPageURL}${refreshFilterURL}"/>
 </html>
