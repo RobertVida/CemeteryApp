@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.ParcelDTO;
+import ro.InnovaTeam.cemeteryApp.controller.grave.GraveController;
 import ro.InnovaTeam.cemeteryApp.restClient.ParcelRestClient;
 
 import javax.servlet.http.HttpServletRequest;
@@ -137,4 +138,19 @@ public class ParcelController {
             e.printStackTrace();
         }
     }
+
+    @RequestMapping(value = "/filterGraves/{parcelId}", method = RequestMethod.GET)
+    public void filterGravesByParcelId(@PathVariable Integer parcelId, HttpServletRequest request, HttpServletResponse response) {
+        FilterDTO graveFilterDTO = new FilterDTO();
+        graveFilterDTO.setSearchCriteria("");
+        graveFilterDTO.setParentId(parcelId);
+
+        request.getSession().setAttribute(GraveController.GRAVE_FILTER, graveFilterDTO);
+        try {
+            response.sendRedirect(request.getContextPath() + GraveController.GRAVE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

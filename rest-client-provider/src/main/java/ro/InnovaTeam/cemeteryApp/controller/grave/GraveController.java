@@ -32,8 +32,8 @@ import java.util.List;
 public class GraveController {
 
     private static final Logger logger = LoggerFactory.getLogger(GraveController.class);
-    private static final String GRAVE = "/grave";
-    private static final String GRAVE_FILTER = "graveFilter";
+    public static final String GRAVE = "/grave";
+    public static final String GRAVE_FILTER = "graveFilter";
     public static final int PAGE_SIZE = 20;
 
     @Autowired
