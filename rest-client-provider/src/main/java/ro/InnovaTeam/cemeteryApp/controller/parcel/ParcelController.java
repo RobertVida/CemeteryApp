@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
+import ro.InnovaTeam.cemeteryApp.GraveDTO;
 import ro.InnovaTeam.cemeteryApp.ParcelDTO;
 import ro.InnovaTeam.cemeteryApp.controller.cemetery.CemeteryController;
 import ro.InnovaTeam.cemeteryApp.controller.grave.GraveController;
@@ -34,6 +35,7 @@ public class ParcelController {
     private static final Logger logger = LoggerFactory.getLogger(ParcelController.class);
     public static final String PARCEL = "/parcel";
     public static final String PARCEL_FILTER = "parcelFilter";
+    public static final String GRAVE_DTO = "graveDTO";
     public static final int PAGE_SIZE = 20;
 
     @Autowired
@@ -156,4 +158,16 @@ public class ParcelController {
         }
     }
 
+    @RequestMapping(value = "/addGrave/{parcelId}", method = RequestMethod.GET)
+    public void addParcelForCemeteryId(@PathVariable Integer parcelId, HttpServletRequest request, HttpServletResponse response) {
+        GraveDTO graveDTO = new GraveDTO();
+        graveDTO.setParcelId(parcelId);
+
+        request.getSession().setAttribute(GRAVE_DTO, graveDTO);
+        try {
+            response.sendRedirect(request.getContextPath() + GraveController.GRAVE + "/add");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

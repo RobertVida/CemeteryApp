@@ -15,6 +15,9 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.GraveDTO;
+import ro.InnovaTeam.cemeteryApp.ParcelDTO;
+import ro.InnovaTeam.cemeteryApp.controller.cemetery.CemeteryController;
+import ro.InnovaTeam.cemeteryApp.controller.parcel.ParcelController;
 import ro.InnovaTeam.cemeteryApp.restClient.GraveRestClient;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,10 +74,12 @@ public class GraveController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String renderAddPage(Model model) {
+    public String renderAddPage(Model model, HttpServletRequest request) {
 
         if (!model.containsAttribute("graveDTOExists")) {
-            model.addAttribute("grave", new GraveDTO());
+            GraveDTO graveDTO = (GraveDTO) request.getSession().getAttribute(ParcelController.GRAVE_DTO);
+            model.addAttribute("grave", graveDTO != null ? graveDTO : new GraveDTO());
+            request.getSession().removeAttribute(ParcelController.GRAVE_DTO);
         }
         return "grave/graveDetailsPage";
     }

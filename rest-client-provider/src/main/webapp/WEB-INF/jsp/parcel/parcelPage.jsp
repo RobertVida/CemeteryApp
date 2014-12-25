@@ -47,6 +47,9 @@
                         <a href="${contextPath}/get/${parcel.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
                         <a href="${contextPath}/delete/${parcel.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
                         <a href="${contextPath}/filterGraves/${parcel.id}" ><img class="action-icon" src="<c:url value="/resources/icons/graves.png" />"/></a>
+                        <a href="${contextPath}/addGrave/${parcel.id}" >
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </a>
                     </td>
                 </tr>
             </c:forEach>
