@@ -30,8 +30,8 @@ import java.util.List;
 public class ParcelController {
 
     private static final Logger logger = LoggerFactory.getLogger(ParcelController.class);
-    private static final String PARCEL = "/parcel";
-    private static final String PARCEL_FILTER = "parcelFilter";
+    public static final String PARCEL = "/parcel";
+    public static final String PARCEL_FILTER = "parcelFilter";
     public static final int PAGE_SIZE = 20;
 
     @Autowired

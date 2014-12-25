@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ro.InnovaTeam.cemeteryApp.CemeteryDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
+import ro.InnovaTeam.cemeteryApp.controller.parcel.ParcelController;
 import ro.InnovaTeam.cemeteryApp.restClient.CemeteryRestClient;
 
 import javax.servlet.http.HttpServletRequest;
@@ -130,6 +130,20 @@ public class CemeteryController {
         request.getSession().removeAttribute(CEMETERY_FILTER);
         try {
             response.sendRedirect(request.getContextPath() + CEMETERY);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/filterParcels/{cemeteryId}", method = RequestMethod.GET)
+    public void filterParcelsByCemeteryId(@PathVariable Integer cemeteryId, HttpServletRequest request, HttpServletResponse response) {
+        FilterDTO parcelFilterDTO = new FilterDTO();
+        parcelFilterDTO.setSearchCriteria("");
+        parcelFilterDTO.setParentId(cemeteryId);
+
+        request.getSession().setAttribute(ParcelController.PARCEL_FILTER, parcelFilterDTO);
+        try {
+            response.sendRedirect(request.getContextPath() + ParcelController.PARCEL);
         } catch (IOException e) {
             e.printStackTrace();
         }

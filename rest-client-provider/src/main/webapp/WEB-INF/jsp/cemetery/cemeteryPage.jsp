@@ -43,6 +43,7 @@
                     <td>
                         <a href="${contextPath}/get/${cemetery.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
                         <a href="${contextPath}/delete/${cemetery.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                        <a href="${contextPath}/filterParcels/${cemetery.id}" ><img class="action-icon" src="<c:url value="/resources/icons/parcels.png" />"/></a>
                     </td>
                 </tr>
             </c:forEach>
