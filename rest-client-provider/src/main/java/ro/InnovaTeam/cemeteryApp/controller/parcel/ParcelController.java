@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.ParcelDTO;
+import ro.InnovaTeam.cemeteryApp.controller.cemetery.CemeteryController;
 import ro.InnovaTeam.cemeteryApp.controller.grave.GraveController;
 import ro.InnovaTeam.cemeteryApp.restClient.ParcelRestClient;
 
@@ -59,10 +60,12 @@ public class ParcelController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String renderAddPage(Model model) {
+    public String renderAddPage(Model model, HttpServletRequest request) {
 
         if (!model.containsAttribute("parcelDTOExists")) {
-            model.addAttribute("parcel", new ParcelDTO());
+            ParcelDTO parcelDTO = (ParcelDTO) request.getSession().getAttribute(CemeteryController.PARCEL_DTO);
+            model.addAttribute("parcel", parcelDTO != null ? parcelDTO : new ParcelDTO());
+            request.getSession().removeAttribute(CemeteryController.PARCEL_DTO);
         }
         return "parcel/parcelDetailsPage";
     }

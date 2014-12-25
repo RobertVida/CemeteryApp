@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ro.InnovaTeam.cemeteryApp.CemeteryDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
+import ro.InnovaTeam.cemeteryApp.ParcelDTO;
 import ro.InnovaTeam.cemeteryApp.controller.parcel.ParcelController;
 import ro.InnovaTeam.cemeteryApp.restClient.CemeteryRestClient;
 
@@ -32,6 +33,7 @@ public class CemeteryController {
     private static final Logger logger = LoggerFactory.getLogger(CemeteryController.class);
     private static final String CEMETERY = "/cemetery";
     private static final String CEMETERY_FILTER = "cemeteryFilter";
+    public static final String PARCEL_DTO = "parcelDTO";
     public static final int PAGE_SIZE = 20;
 
     @Autowired
@@ -136,7 +138,7 @@ public class CemeteryController {
     }
 
     @RequestMapping(value = "/filterParcels/{cemeteryId}", method = RequestMethod.GET)
-    public void filterParcelsByCemeteryId(@PathVariable Integer cemeteryId, HttpServletRequest request, HttpServletResponse response) {
+     public void filterParcelsByCemeteryId(@PathVariable Integer cemeteryId, HttpServletRequest request, HttpServletResponse response) {
         FilterDTO parcelFilterDTO = new FilterDTO();
         parcelFilterDTO.setSearchCriteria("");
         parcelFilterDTO.setParentId(cemeteryId);
@@ -144,6 +146,19 @@ public class CemeteryController {
         request.getSession().setAttribute(ParcelController.PARCEL_FILTER, parcelFilterDTO);
         try {
             response.sendRedirect(request.getContextPath() + ParcelController.PARCEL);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/addParcel/{cemeteryId}", method = RequestMethod.GET)
+     public void addParcelForCemeteryId(@PathVariable Integer cemeteryId,Model model, HttpServletRequest request, HttpServletResponse response) {
+        ParcelDTO parcelDTO = new ParcelDTO();
+        parcelDTO.setCemeteryId(cemeteryId);
+
+        request.getSession().setAttribute(PARCEL_DTO, parcelDTO);
+        try {
+            response.sendRedirect(request.getContextPath() + ParcelController.PARCEL + "/add");
         } catch (IOException e) {
             e.printStackTrace();
         }
