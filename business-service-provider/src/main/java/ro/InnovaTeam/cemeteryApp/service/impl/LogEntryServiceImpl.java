@@ -3,7 +3,6 @@ package ro.InnovaTeam.cemeteryApp.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ro.InnovaTeam.cemeteryApp.eao.EntityEAO;
 import ro.InnovaTeam.cemeteryApp.eao.LogEntryEAO;
 import ro.InnovaTeam.cemeteryApp.model.*;
 import ro.InnovaTeam.cemeteryApp.service.LogEntryService;
@@ -58,18 +57,6 @@ public class LogEntryServiceImpl implements LogEntryService {
 
     @Override
     public void logCreate(BaseEntity entity){
-        LogEntry entry = new LogEntry(entity.getTableName(), entity.getId(), new Date(), "CREATE");
-        entry.setOldValue("NONE");
-        entry.setNewValue(entity.toString());
-        entry.setUserId(entity.getUserId());
-        logEAO.create(entry);
-    }
-
-    @Override
-    public void logCreate(EntityEAO entityEAO, Integer entityId, Integer userId) {
-        BaseEntity entity = (BaseEntity)entityEAO.findById(entityId);
-        entity.setUserId(userId);
-
         LogEntry entry = new LogEntry(entity.getTableName(), entity.getId(), new Date(), "CREATE");
         entry.setOldValue("NONE");
         entry.setNewValue(entity.toString());

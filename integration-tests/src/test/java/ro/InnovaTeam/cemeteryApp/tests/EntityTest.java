@@ -26,7 +26,7 @@ public class EntityTest extends PerformTest {
 
         public EL filter(FilterDTO obj) throws Exception;
 
-        public EL filter(FilterDTO obj, String status) throws Exception;
+        public EL filter(FilterDTO obj, String data) throws Exception;
 
         public EL filter(Integer parentId) throws Exception;
     }
@@ -208,6 +208,36 @@ public class EntityTest extends PerformTest {
 
         public RestingPlaceRequestList filter(FilterDTO filterDTO, String status) throws Exception {
             return filterEntities("/requests/" + status, filterDTO, RestingPlaceRequestList.class);
+        }
+    };
+
+    protected Action<LogEntryDTO, LogEntryList> log = new Action<LogEntryDTO, LogEntryList>() {
+        public LogEntryDTO get(LogEntryDTO logEntryDTO) throws Exception {
+            return getEntity("/log/", logEntryDTO, LogEntryDTO.class);
+        }
+
+        public LogEntryDTO delete(LogEntryDTO logEntryDTO) throws Exception {
+            return null;
+        }
+
+        public LogEntryDTO update(LogEntryDTO logEntryDTO) throws Exception {
+            return null;
+        }
+
+        public LogEntryDTO create(LogEntryDTO logEntryDTO) throws Exception {
+            return null;
+        }
+
+        public LogEntryList filter(FilterDTO filterDTO) throws Exception {
+            return filterEntities("/logs", filterDTO, LogEntryList.class);
+        }
+
+        public LogEntryList filter(FilterDTO filterDTO, String data) throws Exception {
+            return filterEntities("/logs/" + data, filterDTO, LogEntryList.class);
+        }
+
+        public LogEntryList filter(Integer parentId) throws Exception {
+            return null;
         }
     };
 

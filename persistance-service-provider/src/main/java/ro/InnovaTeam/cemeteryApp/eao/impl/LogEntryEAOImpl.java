@@ -30,12 +30,16 @@ public class LogEntryEAOImpl extends EntityEAOImpl<LogEntry> implements LogEntry
 
     @Override
     public LogEntry delete(Integer id) {
-        return null;
+        LogEntry logEntry = delete(TABLE, id);
+        flush();
+        return logEntry;
     }
 
     @Override
     public LogEntry update(LogEntry logEntry) {
-        return null;
+        update(TABLE, logEntry);
+        flush();
+        return findById(logEntry.getId());
     }
 
     @Override
