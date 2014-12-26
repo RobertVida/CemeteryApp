@@ -26,6 +26,8 @@ public class EntityTest extends PerformTest {
 
         public EL filter(FilterDTO obj) throws Exception;
 
+        public EL filter(FilterDTO obj, String status) throws Exception;
+
         public EL filter(Integer parentId) throws Exception;
     }
 
@@ -53,6 +55,10 @@ public class EntityTest extends PerformTest {
         public CemeteryList filter(Integer parentId) throws Exception {
             return null;
         }
+
+        public CemeteryList filter(FilterDTO filterDTO, String status) throws Exception {
+            return null;
+        }
     };
 
     protected Action<ParcelDTO, ParcelList> parcel = new Action<ParcelDTO, ParcelList>() {
@@ -72,12 +78,16 @@ public class EntityTest extends PerformTest {
             return createEntity("/parcel", parcelDTO);
         }
 
-        public ParcelList filter(FilterDTO parcelDTO) throws Exception {
-            return filterEntities("/parcels", parcelDTO, ParcelList.class);
+        public ParcelList filter(FilterDTO filterDTO) throws Exception {
+            return filterEntities("/parcels", filterDTO, ParcelList.class);
         }
 
         public ParcelList filter(Integer parentId) throws Exception {
             return filterEntities("/parcels/cemetery/" + parentId, ParcelList.class);
+        }
+
+        public ParcelList filter(FilterDTO filterDTO, String status) throws Exception {
+            return null;
         }
     };
 
@@ -98,11 +108,15 @@ public class EntityTest extends PerformTest {
             return createEntity("/grave", parcelDTO);
         }
 
-        public GraveList filter(FilterDTO parcelDTO) throws Exception {
-            return filterEntities("/graves", parcelDTO, GraveList.class);
+        public GraveList filter(FilterDTO filterDTO) throws Exception {
+            return filterEntities("/graves", filterDTO, GraveList.class);
         }
 
         public GraveList filter(Integer parentId) throws Exception {
+            return null;
+        }
+
+        public GraveList filter(FilterDTO filterDTO, String status) throws Exception {
             return null;
         }
     };
@@ -124,12 +138,46 @@ public class EntityTest extends PerformTest {
             return createEntity("/client", clientDTO);
         }
 
-        public ClientList filter(FilterDTO clientDTO) throws Exception {
-            return filterEntities("/clients", clientDTO, ClientList.class);
+        public ClientList filter(FilterDTO filterDTO) throws Exception {
+            return filterEntities("/clients", filterDTO, ClientList.class);
         }
 
         public ClientList filter(Integer parentId) throws Exception {
             return null;
+        }
+
+        public ClientList filter(FilterDTO filterDTO, String status) throws Exception {
+            return null;
+        }
+    };
+
+    protected Action<RestingPlaceRequestDTO, RestingPlaceRequestList> request = new Action<RestingPlaceRequestDTO, RestingPlaceRequestList>() {
+        public RestingPlaceRequestDTO get(RestingPlaceRequestDTO requestDTO) throws Exception {
+            return getEntity("/request/", requestDTO, RestingPlaceRequestDTO.class);
+        }
+
+        public RestingPlaceRequestDTO delete(RestingPlaceRequestDTO requestDTO) throws Exception {
+            return deleteEntity("/request/1/", requestDTO, RestingPlaceRequestDTO.class);
+        }
+
+        public RestingPlaceRequestDTO update(RestingPlaceRequestDTO requestDTO) throws Exception {
+            return updateEntity("/request/", requestDTO, RestingPlaceRequestDTO.class);
+        }
+
+        public RestingPlaceRequestDTO create(RestingPlaceRequestDTO requestDTO) throws Exception {
+            return createEntity("/request", requestDTO);
+        }
+
+        public RestingPlaceRequestList filter(FilterDTO filterDTO) throws Exception {
+            return filterEntities("/requests", filterDTO, RestingPlaceRequestList.class);
+        }
+
+        public RestingPlaceRequestList filter(Integer parentId) throws Exception {
+            return null;
+        }
+
+        public RestingPlaceRequestList filter(FilterDTO filterDTO, String status) throws Exception {
+            return filterEntities("/requests/" + status, filterDTO, RestingPlaceRequestList.class);
         }
     };
 
@@ -196,6 +244,10 @@ public class EntityTest extends PerformTest {
             ClientDTO clientDTO = new ClientDTO();
             clientDTO.setId(id);
             client.delete(clientDTO);
+        } else if (type.equals(REQUEST)) {
+            RestingPlaceRequestDTO requestDTO = new RestingPlaceRequestDTO();
+            requestDTO.setId(id);
+            request.delete(requestDTO);
         }
     }
 
@@ -251,5 +303,16 @@ public class EntityTest extends PerformTest {
             clientDTOs[i] = client.create(clientDTOs[i]);
         }
         return clientDTOs;
+    }
+
+    protected RestingPlaceRequestDTO[] setupRequests(ClientDTO[] clientDTOs) throws Exception {
+        RestingPlaceRequestDTO[] requestDTOs = readJsonFromFile("/requests.json", RestingPlaceRequestDTO[].class);
+        requestDTOs[0].setClientId(clientDTOs[0].getId());
+        requestDTOs[0] = request.create(requestDTOs[0]);
+        for (int i = 1; i < requestDTOs.length; i++) {
+            requestDTOs[i].setClientId(clientDTOs[1].getId());
+            requestDTOs[i] = request.create(requestDTOs[i]);
+        }
+        return requestDTOs;
     }
 }

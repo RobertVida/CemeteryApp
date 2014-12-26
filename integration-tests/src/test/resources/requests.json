@@ -1,0 +1,26 @@
+[
+    {
+        "id" : null,
+        "clientId" : null,
+        "createdOn" : "2013-10-10",
+        "infocetNumber" : 123,
+        "status" : "activa",
+        "userId" : 1
+    },
+    {
+        "id" : null,
+        "clientId" : null,
+        "createdOn" : "2013-09-10",
+        "infocetNumber" : 23,
+        "status" : "rezolvat",
+        "userId" : 1
+    },
+    {
+        "id" : null,
+        "clientId" : null,
+        "createdOn" : "2012-10-10",
+        "infocetNumber" : 3,
+        "status" : "activa",
+        "userId" : 1
+    }
+]

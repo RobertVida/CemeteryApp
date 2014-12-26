@@ -69,6 +69,17 @@
         <property column="new_value" name="newValue"/>
     </class>
 
+    <!--RetingPlaceReqeust-->
+    <class name="ro.InnovaTeam.cemeteryApp.model.RestingPlaceRequest" entity-name="restingplacerequests" table="restingplacerequests">
+        <id column="request_id" name="id">
+            <generator class="native"/>
+        </id>
+        <property column="client_id" name="clientId"/>
+        <property column="created_on" name="createdOn"/>
+        <property column="infocet_number" name="infocetNumber"/>
+        <property column="status" name="status"/>
+    </class>
+
     <!--Todo:Someone is going to fix this-->
     <!--<class name="ro.InnovaTeam.cemeteryApp.model.Deceased" entity-name="burialdocuments" table="burialdocuments">-->
         <!--<id column="burial_document_id" name="id">-->

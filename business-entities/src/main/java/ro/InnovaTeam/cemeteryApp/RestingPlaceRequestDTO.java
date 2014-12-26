@@ -1,23 +1,25 @@
-package ro.InnovaTeam.cemeteryApp.model;
-
+package ro.InnovaTeam.cemeteryApp;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
-public class RestingPlaceRequest extends BaseEntity {
+public class RestingPlaceRequestDTO extends BaseDTO{
 
+    @NotNull
     private Integer clientId;
+    @NotNull
     private Date createdOn;
+    @NotNull
     private Integer infocetNumber;
+    @NotNull
     private String status;
 
-    public RestingPlaceRequest() {
-        super("restingplacerequests");
+    public RestingPlaceRequestDTO() {
     }
 
-    public RestingPlaceRequest(Integer clientId, Date createdOn, Integer infocetNumber, String status) {
-        super("restingplacerequests");
+    public RestingPlaceRequestDTO(Integer clientId, Date createdOn, Integer infocetNumber, String status) {
         this.clientId = clientId;
         this.createdOn = createdOn;
         this.infocetNumber = infocetNumber;

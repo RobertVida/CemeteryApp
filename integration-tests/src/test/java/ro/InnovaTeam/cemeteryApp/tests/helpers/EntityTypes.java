@@ -12,13 +12,15 @@ public enum EntityTypes {
     CEMETERY,
     PARCEL,
     GRAVE,
-    CLIENT;
+    CLIENT,
+    REQUEST;
 
     private static Map<Class<? extends BaseDTO>, EntityTypes> classes = new HashMap<Class<? extends BaseDTO>, EntityTypes>(){{
         put(CemeteryDTO.class, CEMETERY);
         put(ParcelDTO.class, PARCEL);
         put(GraveDTO.class, GRAVE);
         put(ClientDTO.class, CLIENT);
+        put(RestingPlaceRequestDTO.class, REQUEST);
     }};
 
     private static Map<EntityTypes, Class<? extends BaseDTO>> types = new HashMap<EntityTypes, Class<? extends BaseDTO>>(){{
@@ -26,6 +28,7 @@ public enum EntityTypes {
         put(PARCEL, ParcelDTO.class);
         put(GRAVE, GraveDTO.class);
         put(CLIENT, ClientDTO.class);
+        put(REQUEST, RestingPlaceRequestDTO.class);
     }};
 
     public static Class<? extends BaseDTO> getClassForType(EntityTypes type){
