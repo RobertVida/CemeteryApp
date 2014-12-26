@@ -43,6 +43,20 @@
         <property column="length" name="length"/>
     </class>
 
+    <!--Monument-->
+    <class name="ro.InnovaTeam.cemeteryApp.model.Monument" entity-name="monuments" table="structures">
+        <id column="structure_id" name="id">
+            <generator class="native" />
+        </id>
+        <property column="parcel_id" name="parcelId"/>
+        <property column="type" name="type"/>
+        <property column="created_on" name="createdOn"/>
+        <property column="width" name="width"/>
+        <property column="length" name="length"/>
+        <property column="name" name="name"/>
+        <property column="description" name="description"/>
+    </class>
+
     <!--Client-->
     <class name="ro.InnovaTeam.cemeteryApp.model.Client" entity-name="clients" table="clients">
         <id column="client_id" name="id">

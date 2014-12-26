@@ -19,33 +19,32 @@ import static ro.InnovaTeam.cemeteryApp.helpers.ConstraintWrapper.AndConstraintW
 @Component
 public class GraveEAOImpl extends EntityEAOImpl<Grave> implements GraveEAO {
 
-    private static final String TABLE = "structures";
-    private static final String ENTITY = "graves";
+    private static final String TABLE = "graves";
 
     @Override
     public Integer create(Grave grave) {
-        Integer id = create(ENTITY, grave);
+        Integer id = create(TABLE, grave);
         flush();
         return id;
     }
 
     @Override
     public Grave delete(Integer id) {
-        Grave grave = delete(ENTITY, id);
+        Grave grave = delete(TABLE, id);
         flush();
         return grave;
     }
 
     @Override
     public Grave update(Grave grave) {
-        update(ENTITY, grave);
+        update(TABLE, grave);
         flush();
         return findById(grave.getId());
     }
 
     @Override
     public Grave findById(Integer id) {
-        Grave grave = findById(ENTITY, id);
+        Grave grave = findById(TABLE, id);
         flush();
         return grave;
     }
@@ -55,7 +54,7 @@ public class GraveEAOImpl extends EntityEAOImpl<Grave> implements GraveEAO {
     public List<Grave> findByFilter(Filter filter) {
         return QueryBuilder.instance(getSession())
                 .select(
-                        from(ENTITY).as("g")
+                        from(TABLE).as("g")
                 ).where(
                         and(
                             column("g.parcelId").is(filter.getParentId()),

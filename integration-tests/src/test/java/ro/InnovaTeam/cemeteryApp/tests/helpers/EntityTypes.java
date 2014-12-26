@@ -12,6 +12,7 @@ public enum EntityTypes {
     CEMETERY,
     PARCEL,
     GRAVE,
+    MONUMENT,
     CLIENT,
     REQUEST;
 
@@ -19,6 +20,7 @@ public enum EntityTypes {
         put(CemeteryDTO.class, CEMETERY);
         put(ParcelDTO.class, PARCEL);
         put(GraveDTO.class, GRAVE);
+        put(MonumentDTO.class, MONUMENT);
         put(ClientDTO.class, CLIENT);
         put(RestingPlaceRequestDTO.class, REQUEST);
     }};
@@ -27,6 +29,7 @@ public enum EntityTypes {
         put(CEMETERY, CemeteryDTO.class);
         put(PARCEL, ParcelDTO.class);
         put(GRAVE, GraveDTO.class);
+        put(MONUMENT, MonumentDTO.class);
         put(CLIENT, ClientDTO.class);
         put(REQUEST, RestingPlaceRequestDTO.class);
     }};

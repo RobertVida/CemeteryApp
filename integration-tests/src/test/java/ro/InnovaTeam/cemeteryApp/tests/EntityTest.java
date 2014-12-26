@@ -121,6 +121,36 @@ public class EntityTest extends PerformTest {
         }
     };
 
+    protected Action<MonumentDTO, MonumentList> monument = new Action<MonumentDTO, MonumentList>() {
+        public MonumentDTO get(MonumentDTO monumentDTO) throws Exception {
+            return getEntity("/monument/", monumentDTO, MonumentDTO.class);
+        }
+
+        public MonumentDTO delete(MonumentDTO monumentDTO) throws Exception {
+            return deleteEntity("/monument/1/", monumentDTO, MonumentDTO.class);
+        }
+
+        public MonumentDTO update(MonumentDTO monumentDTO) throws Exception {
+            return updateEntity("/monument/", monumentDTO, MonumentDTO.class);
+        }
+
+        public MonumentDTO create(MonumentDTO monumentDTO) throws Exception {
+            return createEntity("/monument", monumentDTO);
+        }
+
+        public MonumentList filter(FilterDTO filterDTO) throws Exception {
+            return filterEntities("/monuments", filterDTO, MonumentList.class);
+        }
+
+        public MonumentList filter(Integer parentId) throws Exception {
+            return null;
+        }
+
+        public MonumentList filter(FilterDTO filterDTO, String status) throws Exception {
+            return null;
+        }
+    };
+
     protected Action<ClientDTO, ClientList> client = new Action<ClientDTO, ClientList>() {
         public ClientDTO get(ClientDTO clientDTO) throws Exception {
             return getEntity("/client/", clientDTO, ClientDTO.class);
@@ -240,7 +270,11 @@ public class EntityTest extends PerformTest {
             GraveDTO graveDTO = new GraveDTO();
             graveDTO.setId(id);
             grave.delete(graveDTO);
-        } else if (type.equals(CLIENT)) {
+        } else if (type.equals(MONUMENT)) {
+            MonumentDTO monumentDTO = new MonumentDTO();
+            monumentDTO.setId(id);
+            monument.delete(monumentDTO);
+        }else if (type.equals(CLIENT)) {
             ClientDTO clientDTO = new ClientDTO();
             clientDTO.setId(id);
             client.delete(clientDTO);
@@ -295,6 +329,17 @@ public class EntityTest extends PerformTest {
             graveDTOs[i] = grave.create(graveDTOs[i]);
         }
         return graveDTOs;
+    }
+
+    protected MonumentDTO[] setupMonuments(ParcelDTO[] parcelDTOs) throws Exception {
+        MonumentDTO[] monumentDTOs = readJsonFromFile("/monuments.json", MonumentDTO[].class);
+        monumentDTOs[0].setParcelId(parcelDTOs[0].getId());
+        monumentDTOs[0] = monument.create(monumentDTOs[0]);
+        for (int i = 1; i < monumentDTOs.length; i++) {
+            monumentDTOs[i].setParcelId(parcelDTOs[1].getId());
+            monumentDTOs[i] = monument.create(monumentDTOs[i]);
+        }
+        return monumentDTOs;
     }
 
     protected ClientDTO[] setupClients() throws Exception {

@@ -2,7 +2,6 @@ package ro.InnovaTeam.cemeteryApp.util;
 
 import ro.InnovaTeam.cemeteryApp.GraveDTO;
 import ro.InnovaTeam.cemeteryApp.model.Grave;
-import ro.InnovaTeam.cemeteryApp.model.Structure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.List;
 /**
  * Created by robert on 11/28/2014.
  */
-public abstract class StructureUtil {
+public abstract class GraveUtil {
 
     public static Grave toDB(GraveDTO graveDTO) {
         if (graveDTO == null) {
@@ -43,11 +42,11 @@ public abstract class StructureUtil {
         return graveDTO;
     }
 
-    public static List<Structure> toDB(List<GraveDTO> graveDTOs) {
+    public static List<Grave> toDB(List<GraveDTO> graveDTOs) {
         if (graveDTOs == null) {
             return null;
         }
-        List<Structure> graves = new ArrayList<Structure>();
+        List<Grave> graves = new ArrayList<Grave>();
         for (GraveDTO graveDTO : graveDTOs) {
             graves.add(toDB(graveDTO));
         }
