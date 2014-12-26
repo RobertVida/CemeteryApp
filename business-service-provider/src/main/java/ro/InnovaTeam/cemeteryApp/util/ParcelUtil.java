@@ -12,12 +12,13 @@ import java.util.List;
 public abstract class ParcelUtil {
 
     public static Parcel toDB(ParcelDTO parcelDTO) {
+        if (parcelDTO == null) {
+            return null;
+        }
         Parcel parcel = new Parcel();
         parcel.setId(parcelDTO.getId());
         parcel.setCemeteryId(parcelDTO.getCemeteryId());
         parcel.setName(parcelDTO.getName());
-//        parcel.setStructure(parcelDTO.getStructure());
-//        parcel.setHistory(parcelDTO.getHistory());
         parcel.setUserId(parcelDTO.getUserId());
 
         return parcel;
@@ -31,13 +32,14 @@ public abstract class ParcelUtil {
         parcelDTO.setId(parcel.getId());
         parcelDTO.setCemeteryId(parcel.getCemeteryId());
         parcelDTO.setName(parcel.getName());
-//        parcelDTO.setStructure(parcel.getStructure());
-//        parcelDTO.setHistory(parcel.getHistory());
 
         return parcelDTO;
     }
 
     public static List<Parcel> toDB(List<ParcelDTO> parcelDTOs) {
+        if (parcelDTOs == null) {
+            return null;
+        }
         List<Parcel> parcels = new ArrayList<Parcel>();
         for (ParcelDTO parcelDTO : parcelDTOs) {
             parcels.add(toDB(parcelDTO));
@@ -46,6 +48,9 @@ public abstract class ParcelUtil {
     }
 
     public static List<ParcelDTO> toDTO(List<Parcel> parcels) {
+        if (parcels == null) {
+            return null;
+        }
         List<ParcelDTO> parcelDTOs = new ArrayList<ParcelDTO>();
         for (Parcel parcel : parcels) {
             parcelDTOs.add(toDTO(parcel));

@@ -14,6 +14,9 @@ import java.util.List;
 public abstract class CemeteryUtil {
 
     public static Cemetery toDB(CemeteryDTO cemeteryDTO) {
+        if (cemeteryDTO == null) {
+            return null;
+        }
         Cemetery cemetery = new Cemetery();
         cemetery.setId(cemeteryDTO.getId());
         cemetery.setName(cemeteryDTO.getName());
@@ -38,6 +41,9 @@ public abstract class CemeteryUtil {
     }
 
     public static List<Cemetery> toDB(List<CemeteryDTO> cemeteryDTOs) {
+        if (cemeteryDTOs == null) {
+            return null;
+        }
         List<Cemetery> cemeteries = new ArrayList<Cemetery>();
         for (CemeteryDTO cemeteryDTO : cemeteryDTOs) {
             cemeteries.add(toDB(cemeteryDTO));
@@ -46,6 +52,9 @@ public abstract class CemeteryUtil {
     }
 
     public static List<CemeteryDTO> toDTO(List<Cemetery> cemeteries) {
+        if (cemeteries == null) {
+            return null;
+        }
         List<CemeteryDTO> cemeteryDTOs = new ArrayList<CemeteryDTO>();
         for (Cemetery cemetery : cemeteries) {
             cemeteryDTOs.add(toDTO(cemetery));

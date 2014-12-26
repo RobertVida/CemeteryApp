@@ -3,10 +3,8 @@ package ro.InnovaTeam.cemeteryApp.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ro.InnovaTeam.cemeteryApp.eao.GraveEAO;
 import ro.InnovaTeam.cemeteryApp.eao.ParcelEAO;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
-import ro.InnovaTeam.cemeteryApp.model.Grave;
 import ro.InnovaTeam.cemeteryApp.model.Parcel;
 import ro.InnovaTeam.cemeteryApp.service.LogEntryService;
 import ro.InnovaTeam.cemeteryApp.service.ParcelService;
@@ -23,8 +21,6 @@ public class ParcelServiceImpl extends LoggableService<Parcel, ParcelEAO, LogEnt
     @Autowired
     private ParcelEAO parcelEAO;
     @Autowired
-    private GraveEAO graveEAO;
-    @Autowired
     private LogEntryService logService;
 
     @Override
@@ -34,8 +30,6 @@ public class ParcelServiceImpl extends LoggableService<Parcel, ParcelEAO, LogEnt
 
     @Override
     public Parcel delete(Integer userId, Integer id) {
-        //ToDo delete structure on it
-        deleteParcelStructures(id);
         return loggedDelete(parcelEAO, logService, userId, id);
     }
 
@@ -52,12 +46,5 @@ public class ParcelServiceImpl extends LoggableService<Parcel, ParcelEAO, LogEnt
     @Override
     public List<Parcel> findByFilter(Filter filter) {
         return parcelEAO.findByFilter(filter);
-    }
-
-    private void deleteParcelStructures(Integer id) {
-        List<Grave> graves = graveEAO.findByFilter(new Filter(id));
-        for(Grave grave : graves){
-            graveEAO.delete(grave.getId());
-        }
     }
 }

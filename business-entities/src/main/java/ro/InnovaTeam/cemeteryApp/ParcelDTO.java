@@ -1,7 +1,5 @@
 package ro.InnovaTeam.cemeteryApp;
 
-import ro.InnovaTeam.cemeteryApp.BaseDTO;
-
 import javax.validation.constraints.NotNull;
 
 /**
@@ -13,7 +11,6 @@ public class ParcelDTO extends BaseDTO{
     private String name;
     @NotNull
     private Integer cemeteryId;
-//    private StructureDTO structure;
 
     public ParcelDTO() {
     }
@@ -39,21 +36,12 @@ public class ParcelDTO extends BaseDTO{
         this.cemeteryId = cemeteryId;
     }
 
-//    public Structure getStructure() {
-//        return structure;
-//    }
-//
-//    public void setStructure(Structure structure) {
-//        this.structure = structure;
-//    }
-
     @Override
     public String toString() {
         return "Parcel{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", cemeteryId=" + cemeteryId +
-//                ", structure=" + structure +
                 '}';
     }
 }

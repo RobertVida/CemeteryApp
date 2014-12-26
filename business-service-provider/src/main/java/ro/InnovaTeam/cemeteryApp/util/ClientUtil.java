@@ -11,7 +11,10 @@ import java.util.List;
  */
 public abstract class ClientUtil {
 
-    public static Client toDB(ClientDTO clientDTO){
+    public static Client toDB(ClientDTO clientDTO) {
+        if (clientDTO == null) {
+            return null;
+        }
         Client client = new Client();
         client.setId(clientDTO.getId());
         client.setFirstName(clientDTO.getFirstName());
@@ -24,7 +27,10 @@ public abstract class ClientUtil {
         return client;
     }
 
-    public static ClientDTO toDTO(Client client){
+    public static ClientDTO toDTO(Client client) {
+        if (client == null) {
+            return null;
+        }
         ClientDTO clientDTO = new ClientDTO();
         clientDTO.setId(client.getId());
         clientDTO.setFirstName(client.getFirstName());
@@ -36,17 +42,23 @@ public abstract class ClientUtil {
         return clientDTO;
     }
 
-    public static List<Client> toDB(List<ClientDTO> clientDTOs){
+    public static List<Client> toDB(List<ClientDTO> clientDTOs) {
+        if (clientDTOs == null) {
+            return null;
+        }
         List<Client> client = new ArrayList<Client>();
-        for(ClientDTO clientDTO : clientDTOs){
+        for (ClientDTO clientDTO : clientDTOs) {
             client.add(toDB(clientDTO));
         }
         return client;
     }
 
-    public static List<ClientDTO> toDTO(List<Client> client){
+    public static List<ClientDTO> toDTO(List<Client> clients) {
+        if (clients == null) {
+            return null;
+        }
         List<ClientDTO> clientDTOs = new ArrayList<ClientDTO>();
-        for(Client c : client){
+        for (Client c : clients) {
             clientDTOs.add(toDTO(c));
         }
         return clientDTOs;

@@ -26,7 +26,8 @@ CREATE TABLE IF NOT EXISTS `parcels` (
   `cemetery_id` int(3) unsigned NOT NULL,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY(`parcel_id`),
-  FOREIGN KEY(`cemetery_id`) REFERENCES `cemeteries`(`cemetery_id`)
+  FOREIGN KEY(`cemetery_id`) REFERENCES `cemeteries`(`cemetery_id`),
+  UNIQUE KEY `name` (`cemetery_id`, `name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table with all parcels in one cemetery';
 
 -- --------------------------------------------------------
@@ -102,14 +103,14 @@ CREATE TABLE IF NOT EXISTS `clients` (
 
 CREATE TABLE IF NOT EXISTS `contracts` (
   `ownership_contract_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `parcel_id` int(7) unsigned NOT NULL,
+  `structure_id` int(7) unsigned NOT NULL,
   `client_id` int(10) unsigned NOT NULL,
   `signed_on` datetime NOT NULL,
   `updated_on` datetime NOT NULL,
   `expires_on` datetime NOT NULL,
   `type` set('Ownership','Concession') NOT NULL,
   PRIMARY KEY(`ownership_contract_id`),
-  FOREIGN KEY(`parcel_id`) REFERENCES `parcels`(`parcel_id`),
+  FOREIGN KEY(`structure_id`) REFERENCES `structures`(`structure_id`),
   FOREIGN KEY(`client_id`) REFERENCES `clients`(`client_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table containing info about the Contracts (''Ownership''/''Concession'')';
 

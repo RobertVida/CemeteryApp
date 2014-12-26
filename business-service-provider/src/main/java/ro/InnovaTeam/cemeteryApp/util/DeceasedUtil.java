@@ -12,6 +12,9 @@ import java.util.List;
 public abstract class DeceasedUtil {
 
     public static Deceased toDB(DeceasedDTO deceasedDTO) {
+        if (deceasedDTO == null) {
+            return null;
+        }
         Deceased deceased = new Deceased();
         deceased.setId(deceasedDTO.getId());
         deceased.setFirstName(deceasedDTO.getFirstName());
@@ -28,6 +31,9 @@ public abstract class DeceasedUtil {
     }
 
     public static DeceasedDTO toDTO(Deceased deceased) {
+        if (deceased == null) {
+            return null;
+        }
         DeceasedDTO deceasedDTO = new DeceasedDTO();
         deceasedDTO.setId(deceased.getId());
         deceasedDTO.setFirstName(deceased.getFirstName());
@@ -43,6 +49,9 @@ public abstract class DeceasedUtil {
     }
 
     public static List<Deceased> toDB(List<DeceasedDTO> deceasedDTOs) {
+        if (deceasedDTOs == null) {
+            return null;
+        }
         List<Deceased> deceased = new ArrayList<Deceased>();
         for (DeceasedDTO deceasedDTO : deceasedDTOs) {
             deceased.add(toDB(deceasedDTO));
@@ -51,6 +60,9 @@ public abstract class DeceasedUtil {
     }
 
     public static List<DeceasedDTO> toDTO(List<Deceased> deceased) {
+        if (deceased == null) {
+            return null;
+        }
         List<DeceasedDTO> deceasedDTOs = new ArrayList<DeceasedDTO>();
         for (Deceased d : deceased) {
             deceasedDTOs.add(toDTO(d));

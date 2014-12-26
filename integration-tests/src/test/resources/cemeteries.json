@@ -1,0 +1,23 @@
+[
+    {
+        "id" : null,
+        "name" : "random cemetery name 1",
+        "address" : "random cemetery address 1",
+        "userId" : 1,
+        "parcels" : null
+    },
+    {
+        "id" : null,
+        "name" : "random cemetery name 2",
+        "address" : "random cemetery address 2",
+        "userId" : 1,
+        "parcels" : null
+    },
+    {
+        "id" : null,
+        "name" : "random cemetery name 13",
+        "address" : "random cemetery address 13",
+        "userId" : 1,
+        "parcels" : null
+    }
+]

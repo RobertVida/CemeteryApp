@@ -13,6 +13,9 @@ import java.util.List;
 public abstract class StructureUtil {
 
     public static Grave toDB(GraveDTO graveDTO) {
+        if (graveDTO == null) {
+            return null;
+        }
         Grave grave = new Grave();
         grave.setId(graveDTO.getId());
         grave.setParcelId(graveDTO.getParcelId());
@@ -20,7 +23,6 @@ public abstract class StructureUtil {
         grave.setType(graveDTO.getType());
         grave.setWidth(graveDTO.getWidth());
         grave.setLength(graveDTO.getLength());
-//        grave.setDeceased(DeceasedUtil.toDB(graveDTO.getDeceased()));
         grave.setUserId(graveDTO.getUserId());
 
         return grave;
@@ -37,12 +39,14 @@ public abstract class StructureUtil {
         graveDTO.setType(grave.getType());
         graveDTO.setWidth(grave.getWidth());
         graveDTO.setLength(grave.getLength());
-//        graveDTO.setDeceased(DeceasedUtil.toDTO(grave.getDeceased()));
 
         return graveDTO;
     }
 
     public static List<Structure> toDB(List<GraveDTO> graveDTOs) {
+        if (graveDTOs == null) {
+            return null;
+        }
         List<Structure> graves = new ArrayList<Structure>();
         for (GraveDTO graveDTO : graveDTOs) {
             graves.add(toDB(graveDTO));
@@ -51,6 +55,9 @@ public abstract class StructureUtil {
     }
 
     public static List<GraveDTO> toDTO(List<Grave> graves) {
+        if (graves == null) {
+            return null;
+        }
         List<GraveDTO> graveDTOs = new ArrayList<GraveDTO>();
         for (Grave grave : graves) {
             graveDTOs.add(toDTO(grave));

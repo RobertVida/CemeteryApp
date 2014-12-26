@@ -19,8 +19,8 @@ public class Filter {
 
     public Filter(Integer pageNo, Integer pageSize, String searchCriteria, Integer parentId) {
         this.searchCriteria = searchCriteria;
-        this.pageNo = pageNo;
-        this.pageSize = pageSize;
+        this.pageNo = pageNo != null ? pageNo : 1;
+        this.pageSize = pageSize != null ? pageSize : 20;
         this.parentId = parentId;
     }
 

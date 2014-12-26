@@ -22,11 +22,4 @@
 
     <bean class="org.codehaus.jackson.map.ObjectMapper"/>
 
-    <bean class="ro.InnovaTeam.cemeteryApp.tests.helpers.RequestPerformer"/>
-
-    <bean class="ro.InnovaTeam.cemeteryApp.tests.helpers.RequestBuilder">
-        <constructor-arg index="0" ref="entityHolder"/>
-    </bean>
-
-    <import resource="entity-loader-config.xml"/>
 </beans>

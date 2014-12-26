@@ -6,24 +6,73 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ro.InnovaTeam.cemeteryApp.ClientDTO;
 import ro.InnovaTeam.cemeteryApp.ClientList;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+
 /**
-* Created by Roxana on 11/28/2014.
-*/
+ * Created by robert on 12/26/2014.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ClientTest extends BaseTest {
+public class ClientTest extends EntityTest {
 
     @Test
-    public void getClientTest() throws Exception {
-        requestPerformer.testUseCase(GET + "/getClientTest.json", ClientDTO.class);
+    public void test_Create_Get_Delete_Client() throws Exception {
+        //create
+        ClientDTO[] clientDTOs = readJsonFromFile("/clients.json", ClientDTO[].class);
+        clientDTOs[0] = client.create(clientDTOs[0]);
+
+        //get
+        ClientDTO clientDTO = client.get(clientDTOs[0]);
+        assertThat(compare(clientDTOs[0], clientDTO), equalTo(true));
+
+        //delete
+        clientDTO = client.delete(clientDTOs[0]);
+        assertThat(compare(clientDTOs[0], clientDTO), equalTo(true));
+
+        //get
+        clientDTO = client.get(clientDTOs[0]);
+        assertThat(clientDTO, equalTo(null));
     }
 
     @Test
-    public void updateClientTest() throws Exception {
-        requestPerformer.testSuite(UPDATE + "/updateClientTest.json", ClientDTO.class);
+    public void test_Filter_Clients() throws Exception {
+        //create
+        ClientDTO[] clientDTOs = setupClients();
+
+        //filter
+        ClientList filterResult = client.filter(getFilter());
+        assertThat(filterResult.getContent().size(), equalTo(clientDTOs.length));
+
+        filterResult = client.filter(getFilter(1, 20, null, "*"));
+        assertThat(filterResult.getContent().size(), equalTo(2));
     }
 
     @Test
-    public void getClientsTests() throws Exception {
-        requestPerformer.testSuite(GET + "/getClientsTest.json", ClientList.class);
+    public void test_Update_Client() throws Exception {
+        //create
+        ClientDTO[] clientDTOs = readJsonFromFile("/clients.json", ClientDTO[].class);
+        clientDTOs[0] = client.create(clientDTOs[0]);
+
+        //get
+        ClientDTO clientDTO = client.get(clientDTOs[0]);
+        assertThat(compare(clientDTOs[0], clientDTO), equalTo(true));
+
+        //update
+        clientDTOs[0].setAddress("newAddress");
+        clientDTO = client.get(clientDTOs[0]);
+        assertThat(compare(clientDTOs[0], clientDTO), equalTo(false));
+
+        client.update(clientDTOs[0]);
+        clientDTO = client.get(clientDTOs[0]);
+        assertThat(compare(clientDTOs[0], clientDTO), equalTo(true));
+    }
+
+    private Boolean compare(ClientDTO request, ClientDTO response) {
+        return request.getId().equals(response.getId())
+                && request.getFirstName().equals(response.getFirstName())
+                && request.getLastName().equals(response.getLastName())
+                && request.getCnp().equals(response.getCnp())
+                && request.getPhoneNumber().equals(response.getPhoneNumber())
+                && request.getAddress().equals(response.getAddress());
     }
 }

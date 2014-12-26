@@ -12,6 +12,9 @@ import java.util.List;
 public class LogEntryUtil {
 
     public static LogEntry toDB(LogEntryDTO entryDTO) {
+        if (entryDTO == null) {
+            return null;
+        }
         LogEntry entry = new LogEntry();
         entry.setId(entryDTO.getId());
         entry.setUserId(entryDTO.getUserId());
@@ -26,6 +29,9 @@ public class LogEntryUtil {
     }
 
     public static LogEntryDTO toDTO(LogEntry entry) {
+        if (entry == null) {
+            return null;
+        }
         LogEntryDTO entryDTO = new LogEntryDTO();
         entryDTO.setId(entry.getId());
         entryDTO.setUserId(entry.getUserId());
@@ -40,6 +46,9 @@ public class LogEntryUtil {
     }
 
     public static List<LogEntry> toDB(List<LogEntryDTO> entryDTOs) {
+        if (entryDTOs == null) {
+            return null;
+        }
         List<LogEntry> entries = new ArrayList<LogEntry>();
         for (LogEntryDTO entryDTO : entryDTOs) {
             entries.add(toDB(entryDTO));
@@ -48,6 +57,9 @@ public class LogEntryUtil {
     }
 
     public static List<LogEntryDTO> toDTO(List<LogEntry> entries) {
+        if (entries == null) {
+            return null;
+        }
         List<LogEntryDTO> entryDTOs = new ArrayList<LogEntryDTO>();
         for (LogEntry entry : entries) {
             entryDTOs.add(toDTO(entry));
