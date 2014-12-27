@@ -13,20 +13,18 @@ import java.io.IOException;
  */
 public class AuthenticationFilter implements Filter {
 
-    private String excludePattern;
+    private static final String LOGIN_PATTERN = "/login";
+    private static final String RESOURCES_PATTERN = "/resources";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        excludePattern = filterConfig.getInitParameter("excludePattern");
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String currentUrl = ((HttpServletRequest) servletRequest).getRequestURL().toString();
-        String loginUrl = ((HttpServletRequest) servletRequest).getContextPath() + excludePattern;
-        if (SecurityContextHolder.getContext().getAuthentication() != null
-                || StringUtils.contains(currentUrl, loginUrl)
-                || StringUtils.contains(currentUrl, ".css")) {
+        String loginUrl = ((HttpServletRequest) servletRequest).getContextPath() + LOGIN_PATTERN;
+        if (canDoFilter(currentUrl)) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             ((HttpServletResponse) servletResponse).sendRedirect(loginUrl);
@@ -36,5 +34,11 @@ public class AuthenticationFilter implements Filter {
     @Override
     public void destroy() {
 
+    }
+
+    private boolean canDoFilter(String currentUrl) {
+        return StringUtils.contains(currentUrl, LOGIN_PATTERN)
+                || StringUtils.contains(currentUrl, RESOURCES_PATTERN)
+                || SecurityContextHolder.getContext().getAuthentication() != null;
     }
 }

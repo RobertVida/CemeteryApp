@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.GraveDTO;
+import ro.InnovaTeam.cemeteryApp.MonumentDTO;
 import ro.InnovaTeam.cemeteryApp.ParcelDTO;
 import ro.InnovaTeam.cemeteryApp.controller.cemetery.CemeteryController;
 import ro.InnovaTeam.cemeteryApp.controller.grave.GraveController;
+import ro.InnovaTeam.cemeteryApp.controller.monument.MonumentController;
 import ro.InnovaTeam.cemeteryApp.restClient.ParcelRestClient;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +38,7 @@ public class ParcelController {
     public static final String PARCEL = "/parcel";
     public static final String PARCEL_FILTER = "parcelFilter";
     public static final String GRAVE_DTO = "graveDTO";
+    public static final String MONUMENT_DTO = "monumentDTO";
     public static final int PAGE_SIZE = 20;
 
     @Autowired
@@ -144,28 +147,38 @@ public class ParcelController {
         }
     }
 
-    @RequestMapping(value = "/filterGraves/{parcelId}", method = RequestMethod.GET)
-    public void filterGravesByParcelId(@PathVariable Integer parcelId, HttpServletRequest request, HttpServletResponse response) {
-        FilterDTO graveFilterDTO = new FilterDTO();
-        graveFilterDTO.setSearchCriteria("");
-        graveFilterDTO.setParentId(parcelId);
+    @RequestMapping(value = "/filterStructures/{parcelId}/{type}", method = RequestMethod.GET)
+    public void filterGravesByParcelId(@PathVariable Integer parcelId, @PathVariable String type, HttpServletRequest request, HttpServletResponse response) {
+        FilterDTO structureFilterDTO = new FilterDTO();
+        structureFilterDTO.setSearchCriteria("");
+        structureFilterDTO.setParentId(parcelId);
+        String filterStructure = "grave".equals(type) ? GraveController.GRAVE_FILTER : MonumentController.MONUMENT_FILTER;
+        String redirectPath = "grave".equals(type) ? GraveController.GRAVE : MonumentController.MONUMENT;
 
-        request.getSession().setAttribute(GraveController.GRAVE_FILTER, graveFilterDTO);
+        request.getSession().setAttribute(filterStructure, structureFilterDTO);
         try {
-            response.sendRedirect(request.getContextPath() + GraveController.GRAVE);
+            response.sendRedirect(request.getContextPath() + redirectPath);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    @RequestMapping(value = "/addGrave/{parcelId}", method = RequestMethod.GET)
-    public void addParcelForCemeteryId(@PathVariable Integer parcelId, HttpServletRequest request, HttpServletResponse response) {
-        GraveDTO graveDTO = new GraveDTO();
-        graveDTO.setParcelId(parcelId);
-
-        request.getSession().setAttribute(GRAVE_DTO, graveDTO);
+    @RequestMapping(value = "/addStructure/{parcelId}/{type}", method = RequestMethod.GET)
+    public void addParcelForCemeteryId(@PathVariable Integer parcelId, @PathVariable String type, HttpServletRequest request, HttpServletResponse response) {
+        String redirectPath;
+        if ("grave".equals(type)) {
+            GraveDTO graveDTO = new GraveDTO();
+            graveDTO.setParcelId(parcelId);
+            request.getSession().setAttribute(GRAVE_DTO, graveDTO);
+            redirectPath = GraveController.GRAVE;
+        } else {
+            MonumentDTO monumentDTO = new MonumentDTO();
+            monumentDTO.setParcelId(parcelId);
+            request.getSession().setAttribute(MONUMENT_DTO, monumentDTO);
+            redirectPath = MonumentController.MONUMENT;
+        }
         try {
-            response.sendRedirect(request.getContextPath() + GraveController.GRAVE + "/add");
+            response.sendRedirect(request.getContextPath() + redirectPath + "/add");
         } catch (IOException e) {
             e.printStackTrace();
         }

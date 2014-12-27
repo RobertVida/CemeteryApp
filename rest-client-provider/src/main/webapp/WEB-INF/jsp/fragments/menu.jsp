@@ -69,7 +69,7 @@
                 </a>
             </div>
             <div class="submenu-item">
-                <a href="#">
+                <a href="${contextPath}/monument">
                     <img src="<c:url value="/resources/icons/monument.png" />"/>
                     <span>Monumente</span>
                 </a>
