@@ -48,10 +48,14 @@
                         <td>${client.cnp}</td>
                         <td>${client.phoneNumber}</td>
                         <td>${client.address}</td>
-                            <td>
-                                <a href="${contextPath}/get/${client.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
-                                <a href="${contextPath}/delete/${client.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
-                            </td>
+                        <td>
+                            <a href="${contextPath}/get/${client.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
+                            <a href="${contextPath}/delete/${client.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                            <a href="${contextPath}/filterRequests/${client.id}" ><img class="action-icon" src="<c:url value="/resources/icons/requests.png" />"/></a>
+                            <a href="${contextPath}/addRequest/${client.id}" >
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            </a>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>

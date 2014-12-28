@@ -11,6 +11,8 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.ClientDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
+import ro.InnovaTeam.cemeteryApp.RestingPlaceRequestDTO;
+import ro.InnovaTeam.cemeteryApp.controller.request.RestingPlaceRequestController;
 import ro.InnovaTeam.cemeteryApp.restClient.ClientRestClient;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +34,7 @@ public class ClientsController {
     public static final String REFRESH_FILTER = "/refreshFilter";
     public static final String DELETE = "/delete/{id}";
     public static final String UPDATE = "/update";
+    public static final String REQUEST_DTO = "requestDTO";
 
     private static final String CLIENT_FILTER = "clientFilter";
     public static final int PAGE_SIZE = 20;
@@ -138,6 +141,33 @@ public class ClientsController {
         request.getSession().removeAttribute(CLIENT_FILTER);
         try {
             response.sendRedirect(request.getContextPath() + CLIENTS);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/filterRequests/{clientId}", method = RequestMethod.GET)
+    public void filterRequestsByClientId(@PathVariable Integer clientId, HttpServletRequest request, HttpServletResponse response) {
+        FilterDTO requestFilterDTO = new FilterDTO();
+        requestFilterDTO.setSearchCriteria("");
+        requestFilterDTO.setParentId(clientId);
+
+        request.getSession().setAttribute(RestingPlaceRequestController.REQUEST_FILTER, requestFilterDTO);
+        try {
+            response.sendRedirect(request.getContextPath() + RestingPlaceRequestController.REQUEST);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/addRequest/{clientId}", method = RequestMethod.GET)
+    public void addRequestForClientId(@PathVariable Integer clientId, HttpServletRequest request, HttpServletResponse response) {
+        RestingPlaceRequestDTO requestDTO = new RestingPlaceRequestDTO();
+        requestDTO.setClientId(clientId);
+
+        request.getSession().setAttribute(REQUEST_DTO, requestDTO);
+        try {
+            response.sendRedirect(request.getContextPath() + RestingPlaceRequestController.REQUEST + "/add");
         } catch (IOException e) {
             e.printStackTrace();
         }

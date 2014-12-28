@@ -35,7 +35,7 @@
                 </a>
             </div>
             <div class="submenu-item">
-                <a href="#">
+                <a href="${contextPath}/request">
                     <img src="<c:url value="/resources/icons/requests.png" />"/>
                     <span>Cereri</span>
                 </a>
