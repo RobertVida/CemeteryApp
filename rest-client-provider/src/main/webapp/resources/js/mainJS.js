@@ -35,12 +35,10 @@ var CemeteryJs = (function ($) {
       console.error(response);
     };
 
-    var validateAndSubmitForm = function(form, button) {
-        $(button).on("click", function (){
-            if ($(form).validate()) {
-                $(form).submit();
-            }
-        });
+    var validateAndSubmitForm = function(form) {
+        if ($(form).validate()) {
+            $(form).submit();
+        }
     };
 
     return {

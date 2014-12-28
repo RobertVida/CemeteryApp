@@ -39,7 +39,7 @@
                     <form:label class="control-label" path="clientId">Id-ul clientului</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input path="clientId" class="form-control" type="text" required="true"/>
+                    <form:input path="clientId" class="form-control" pattern="\d*" type="text" required="true"/>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="clientId"/>
@@ -85,7 +85,7 @@
             <c:if test="${view eq true}">
                 <input type="button" onclick="RequestsManagerJS.deleteRequest();" value="Sterge" class="btn btn-default pull-right" style="margin-right: 15px;"/>
             </c:if>
-            <input id="saveRequest" onclick="CemeteryJs.validateAndSubmitForm('#requestForm', '#saveRequest');" type="submit" class="btn btn-default pull-right" style="margin-right: 15px;" value="Salveaz&#259;"/>
+            <input id="saveRequest" onclick="CemeteryJs.validateAndSubmitForm('#requestForm');" type="submit" class="btn btn-default pull-right" style="margin-right: 15px;" value="Salveaz&#259;"/>
         </div>
     </form:form>
 </div>

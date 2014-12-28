@@ -60,7 +60,7 @@
                 <c:if test="${view eq true}">
                     <input type="button" onclick="ParcelsManagerJS.deleteParcel();" value="Sterge" class="btn btn-default pull-right" style="margin-right: 15px;"/>
                 </c:if>
-                <input id="saveParcel" onclick="CemeteryJs.validateAndSubmitForm('#parcelForm', '#saveParcel');" type="submit" class="btn btn-default pull-right" style="margin-right: 15px;" value="Salveaz&#259;"/>
+                <input id="saveParcel" onclick="CemeteryJs.validateAndSubmitForm('#parcelForm');" type="submit" class="btn btn-default pull-right" style="margin-right: 15px;" value="Salveaz&#259;"/>
             </div>
         </form:form>
     </div>

@@ -60,7 +60,7 @@
                 <c:if test="${view eq true}">
                     <input type="button" onclick="CemeteriesManagerJS.deleteCemetery();" value="Sterge" class="btn btn-default pull-right" style="margin-right: 15px;"/>
                 </c:if>
-                <input id="saveCemetery" onclick="CemeteryJs.validateAndSubmitForm('#cemeteryForm', '#saveCemetery');" type="button" class="btn btn-default pull-right" style="margin-right: 15px;" value="Salveaz&#259;"/>
+                <input onclick="CemeteryJs.validateAndSubmitForm('#cemeteryForm');" type="button" class="btn btn-default pull-right" style="margin-right: 15px;" value="Salveaz&#259;"/>
             </div>
         </form:form>
     </div>

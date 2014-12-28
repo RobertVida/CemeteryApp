@@ -64,7 +64,7 @@
                     <form:label class="control-label" path="width">Latime</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input path="width" class="form-control" type="text" required="true"/>
+                    <form:input path="width" class="form-control" pattern="\d*" type="text" required="true"/>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="width"/>
@@ -76,7 +76,7 @@
                     <form:label class="control-label" path="length">Lungime</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input path="length" class="form-control" type="text" required="true"/>
+                    <form:input path="length" class="form-control" pattern="\d*" type="text" required="true"/>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="length"/>
@@ -110,7 +110,7 @@
             <c:if test="${view eq true}">
                 <input type="button" onclick="MonumentsManagerJS.deleteMonument();" value="Sterge" class="btn btn-default pull-right" style="margin-right: 15px;"/>
             </c:if>
-            <input id="saveMonument" onclick="CemeteryJs.validateAndSubmitForm('#monumentForm', '#saveMonument');" type="submit" class="btn btn-default pull-right" style="margin-right: 15px;" value="Salveaz&#259;" />
+            <input id="saveMonument" onclick="CemeteryJs.validateAndSubmitForm('#monumentForm');" type="submit" class="btn btn-default pull-right" style="margin-right: 15px;" value="Salveaz&#259;" />
         </div>
     </form:form>
 </div>
