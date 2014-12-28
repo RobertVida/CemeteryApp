@@ -70,6 +70,11 @@
                 </tr>
             </c:forEach>
             </tbody>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('#tableSelect').selectpicker();
+                });
+            </script>
         </table>
         <c:if test="${pages gt 0}">
             <nav style="text-align: center;">
@@ -88,3 +93,4 @@
 <input id="refreshLogFilterURL" type="hidden" value="${contextPath}/refreshFilter"/>
 <input id="logsUrl" type="hidden" value="${contextPath}"/>
 </html>
+

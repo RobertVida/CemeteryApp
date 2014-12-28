@@ -25,7 +25,11 @@
     float: right;
     margin-right: 20%;
     margin-top: 15px;
+}
+
+.hello-username span {
     color: #ffffff;
+    display: inline;
 }
 
 .header-link:hover {

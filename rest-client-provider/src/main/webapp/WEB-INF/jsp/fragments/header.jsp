@@ -36,12 +36,14 @@
         <sec:authentication var="user" property="principal" />
         <c:choose>
             <c:when test="${not empty user}">
-                <p>
-                    <span class="hello-username">Buna ${user}!</span>
-                </p>
-                <p>
-                    <a class="header-link hello-username" href="${contextPath}/logout">&nbsp;Delogheaza-te</a>
-                </p>
+                <div class="hello-username">
+                    <p>
+                        <span class="">Buna ${user}!</span>
+                        <a class="header-link" href="${contextPath}/logout">
+                            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                        </a>
+                    </p>
+                </div>
             </c:when>
             <c:otherwise>
                 <a href="${contextPath}/login" class="header-link login">Logheaza-te</a>
