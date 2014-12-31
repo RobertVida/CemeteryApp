@@ -52,28 +52,22 @@ public class RestingPlaceRequestEAOImpl extends EntityEAOImpl<RestingPlaceReques
     @Override
     @SuppressWarnings("unchecked")
     public List<RestingPlaceRequest> findByFilter(Filter filter) {
-        return QueryBuilder.instance(getSession())
-                .select(
-                        from(TABLE).as("r")
-                ).where(
+        return makeFilterQuery(filter)
+                .where(
                         and(
                                 allOf(filter.getSearchCriteria())
                                         .areAtLeastOnceInAnyOf("r.infocetNumber"),
                                 column("r.clientId").is(filter.getParentId())
                         )
                 )
-                .setMaxResults(filter.getPageSize())
-                .setFirstResult(filter.getPageNo())
                 .build().list();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<RestingPlaceRequest> findByFilterAndStatus(Filter filter, String status) {
-        return QueryBuilder.instance(getSession())
-                .select(
-                        from(TABLE).as("r")
-                ).where(
+        return makeFilterQuery(filter)
+                .where(
                         and(
                                 allOf(filter.getSearchCriteria())
                                         .areAtLeastOnceInAnyOf("r.infocetNumber"),
@@ -81,8 +75,42 @@ public class RestingPlaceRequestEAOImpl extends EntityEAOImpl<RestingPlaceReques
                                 column("r.status").like(status)
                         )
                 )
-                .setMaxResults(filter.getPageSize())
-                .setFirstResult(filter.getPageNo())
                 .build().list();
+    }
+
+    @Override
+    public Integer countByFilter(Filter filter) {
+        return ((Long)makeFilterQuery(filter).count()
+                .where(
+                        and(
+                                allOf(filter.getSearchCriteria())
+                                        .areAtLeastOnceInAnyOf("r.infocetNumber"),
+                                column("r.clientId").is(filter.getParentId())
+                        )
+                )
+                .build().iterate().next()).intValue();
+    }
+
+    @Override
+    public Integer countByFilterAndStatus(Filter filter, String status) {
+        return ((Long)makeFilterQuery(filter).count()
+                .where(
+                        and(
+                                allOf(filter.getSearchCriteria())
+                                        .areAtLeastOnceInAnyOf("r.infocetNumber"),
+                                column("r.clientId").is(filter.getParentId()),
+                                column("r.status").like(status)
+                        )
+                )
+                .build().iterate().next()).intValue();
+    }
+
+    private QueryBuilder makeFilterQuery(Filter filter) {
+        return QueryBuilder.instance(getSession())
+                .select(
+                        from(TABLE).as("r")
+                )
+                .setMaxResults(filter.getPageSize())
+                .setFirstResult(filter.getPageNo());
     }
 }

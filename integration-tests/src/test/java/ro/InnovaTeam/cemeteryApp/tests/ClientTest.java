@@ -7,6 +7,7 @@ import ro.InnovaTeam.cemeteryApp.ClientDTO;
 import ro.InnovaTeam.cemeteryApp.ClientList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
@@ -20,6 +21,7 @@ public class ClientTest extends EntityTest {
         //create
         ClientDTO[] clientDTOs = readJsonFromFile("/clients.json", ClientDTO[].class);
         clientDTOs[0] = client.create(clientDTOs[0]);
+        assertThat(client.count(getFilter()), equalTo(1));
 
         //get
         ClientDTO clientDTO = client.get(clientDTOs[0]);
@@ -32,6 +34,7 @@ public class ClientTest extends EntityTest {
         //get
         clientDTO = client.get(clientDTOs[0]);
         assertThat(clientDTO, equalTo(null));
+        assertThat(client.count(getFilter()), equalTo(0));
     }
 
     @Test
@@ -40,11 +43,12 @@ public class ClientTest extends EntityTest {
         ClientDTO[] clientDTOs = setupClients();
 
         //filter
-        ClientList filterResult = client.filter(getFilter());
-        assertThat(filterResult.getContent().size(), equalTo(clientDTOs.length));
+        Integer clientCount = client.count(getFilter());
+        assertThat(clientCount, equalTo(clientDTOs.length));
 
-        filterResult = client.filter(getFilter(1, 20, null, "*"));
+        ClientList filterResult = client.filter(getFilter(1, 20, null, "*"));
         assertThat(filterResult.getContent().size(), equalTo(2));
+        assertThat(filterResult.getContent().size(), not(equalTo(clientCount)));
     }
 
     @Test
@@ -52,6 +56,7 @@ public class ClientTest extends EntityTest {
         //create
         ClientDTO[] clientDTOs = readJsonFromFile("/clients.json", ClientDTO[].class);
         clientDTOs[0] = client.create(clientDTOs[0]);
+        assertThat(client.count(getFilter()), equalTo(1));
 
         //get
         ClientDTO clientDTO = client.get(clientDTOs[0]);

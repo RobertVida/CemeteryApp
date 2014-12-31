@@ -15,6 +15,7 @@ import java.util.Date;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static ro.InnovaTeam.cemeteryApp.util.FilterUtil.toDB;
 
 /**
  * Created by robert on 12/26/2014.
@@ -38,10 +39,12 @@ public class LogTest extends EntityTest {
         logEntry.setTookPlaceOn(new Date());
 
         //create
+        Integer initLogCount = logEntryService.countByFilter(toDB(getFilter()));
         logEntry.setId(logEntryService.create(logEntry));
         LogEntry dbEntry = logEntryService.findById(logEntry.getId());
         logEntry.setTookPlaceOn(dbEntry.getTookPlaceOn());
         assertThat(compare(logEntry, dbEntry), equalTo(true));
+        assertThat(initLogCount, equalTo(logEntryService.countByFilter(toDB(getFilter())) - 1));
 
         //update
         logEntry.setTableChanged("NONE AGAIN");
@@ -58,6 +61,7 @@ public class LogTest extends EntityTest {
 
         dbEntry = logEntryService.findById(logEntry.getId());
         assertThat(dbEntry, equalTo(null));
+        assertThat(initLogCount, equalTo(logEntryService.countByFilter(toDB(getFilter()))));
     }
 
     @Test
@@ -83,6 +87,7 @@ public class LogTest extends EntityTest {
         filterResult = log.filter(getFilter(1, Integer.MAX_VALUE, null, null));
         assertThat(filterResult.getContent().size(), not(equalTo(initialSize)));
         assertThat(filterResult.getContent().size(), equalTo(initialSize + 1));
+        assertThat(filterResult.getContent().size(), equalTo(log.count(getFilter(1, Integer.MAX_VALUE, null, null))));
     }
 
     @Test
@@ -97,6 +102,7 @@ public class LogTest extends EntityTest {
         filterResult = log.filter(getFilter(1, Integer.MAX_VALUE, null, null), "cemeteries");
         assertThat(filterResult.getContent().size(), not(equalTo(initialSize)));
         assertThat(filterResult.getContent().size(), equalTo(initialSize + cemeteryDTOs.length));
+        assertThat(filterResult.getContent().size(), equalTo(log.count(getFilter(1, Integer.MAX_VALUE, null, null), "cemeteries")));
     }
 
 
@@ -119,6 +125,7 @@ public class LogTest extends EntityTest {
         assertThat(filterResult.getContent().get(0).getAction(), equalTo("CREATE"));
         assertThat(filterResult.getContent().get(1).getAction(), equalTo("UPDATE"));
         assertThat(filterResult.getContent().get(2).getAction(), equalTo("DELETE"));
+        assertThat(filterResult.getContent().size(), equalTo(log.count(getFilter(1, Integer.MAX_VALUE, null, null), "cemeteries/" + cemeteryDTOs[2].getId())));
     }
 
     private Boolean compare(LogEntryDTO request, LogEntryDTO response) {

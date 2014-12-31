@@ -50,6 +50,17 @@ public class ClientEAOImpl extends EntityEAOImpl<Client> implements ClientEAO {
     @Override
     @SuppressWarnings("unchecked")
     public List<Client> findByFilter(Filter filter) {
+        return makeFilterQuery(filter)
+                .build().list();
+    }
+
+    @Override
+    public Integer countByFilter(Filter filter) {
+        return ((Long)makeFilterQuery(filter).count()
+                .build().iterate().next()).intValue();
+    }
+
+    private QueryBuilder makeFilterQuery(Filter filter) {
         return QueryBuilder.instance(getSession())
                 .select(
                         from(TABLE).as("c")
@@ -58,7 +69,6 @@ public class ClientEAOImpl extends EntityEAOImpl<Client> implements ClientEAO {
                                 .areAtLeastOnceInAnyOf("c.firstName", "c.lastName", "c.cnp", "c.phoneNumber", "c.address")
                 )
                 .setMaxResults(filter.getPageSize())
-                .setFirstResult(filter.getPageNo())
-                .build().list();
+                .setFirstResult(filter.getPageNo());
     }
 }

@@ -52,6 +52,17 @@ public class GraveEAOImpl extends EntityEAOImpl<Grave> implements GraveEAO {
     @Override
     @SuppressWarnings("unchecked")
     public List<Grave> findByFilter(Filter filter) {
+        return makeFilterQuery(filter)
+                .build().list();
+    }
+
+    @Override
+    public Integer countByFilter(Filter filter) {
+        return ((Long)makeFilterQuery(filter).count()
+                .build().iterate().next()).intValue();
+    }
+
+    private QueryBuilder makeFilterQuery(Filter filter) {
         return QueryBuilder.instance(getSession())
                 .select(
                         from(TABLE).as("g")
@@ -62,7 +73,6 @@ public class GraveEAOImpl extends EntityEAOImpl<Grave> implements GraveEAO {
                         )
                 )
                 .setMaxResults(filter.getPageSize())
-                .setFirstResult(filter.getPageNo())
-                .build().list();
+                .setFirstResult(filter.getPageNo());
     }
 }

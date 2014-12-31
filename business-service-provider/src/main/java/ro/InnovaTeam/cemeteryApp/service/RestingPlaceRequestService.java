@@ -11,4 +11,6 @@ import java.util.List;
 public interface RestingPlaceRequestService extends EntityService<RestingPlaceRequest> {
 
     public List<RestingPlaceRequest> findByFilterAndStatus(Filter filter, String status);
+
+    public Integer countByFilterAndStatus(Filter filter, String status);
 }

@@ -6,6 +6,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ro.InnovaTeam.cemeteryApp.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
@@ -28,6 +29,7 @@ public class MonumentTest extends EntityTest {
         MonumentDTO[] monumentDTOs = readJsonFromFile("/monuments.json", MonumentDTO[].class);
         monumentDTOs[0].setParcelId(parcelDTOs[0].getId());
         monumentDTOs[0] = monument.create(monumentDTOs[0]);
+        assertThat(monument.count(getFilter()), equalTo(1));
 
         //get
         MonumentDTO monumentDTO = monument.get(monumentDTOs[0]);
@@ -40,6 +42,7 @@ public class MonumentTest extends EntityTest {
         //get
         monumentDTO = monument.get(monumentDTOs[0]);
         assertThat(monumentDTO, equalTo(null));
+        assertThat(monument.count(getFilter()), equalTo(0));
     }
 
     @Test
@@ -52,21 +55,24 @@ public class MonumentTest extends EntityTest {
         MonumentDTO[] monumentDTOs = setupMonuments(parcelDTOs);
 
         //filter
-        MonumentList filterResult = monument.filter(getFilter());
-        assertThat(filterResult.getContent().size(), equalTo(monumentDTOs.length));
+        Integer monumentCount = monument.count(getFilter());
+        assertThat(monumentCount, equalTo(monumentDTOs.length));
 
         //filter
-        filterResult = monument.filter(getFilter(1, 20, parcelDTOs[0].getId(), null));
+        MonumentList filterResult = monument.filter(getFilter(1, 20, parcelDTOs[0].getId(), null));
         assertThat(filterResult.getContent().size(), equalTo(1));
 
         filterResult = monument.filter(getFilter(1, 20, parcelDTOs[1].getId(), null));
         assertThat(filterResult.getContent().size(), equalTo(monumentDTOs.length - 1));
+        assertThat(filterResult.getContent().size(), not(equalTo(monumentCount)));
 
         filterResult = monument.filter(getFilter(1, 20, null, "1"));
         assertThat(filterResult.getContent().size(), equalTo(2));
+        assertThat(filterResult.getContent().size(), not(equalTo(monumentCount)));
 
         filterResult = monument.filter(getFilter(1, 20, null, "y"));
         assertThat(filterResult.getContent().size(), equalTo(1));
+        assertThat(filterResult.getContent().size(), not(equalTo(monumentCount)));
     }
 
     @Test
@@ -83,6 +89,7 @@ public class MonumentTest extends EntityTest {
         MonumentDTO[] monumentDTOs = readJsonFromFile("/monuments.json", MonumentDTO[].class);
         monumentDTOs[0].setParcelId(parcelDTOs[0].getId());
         monumentDTOs[0] = monument.create(monumentDTOs[0]);
+        assertThat(monument.count(getFilter()), equalTo(1));
 
         //get
         MonumentDTO monumentDTO = monument.get(monumentDTOs[0]);

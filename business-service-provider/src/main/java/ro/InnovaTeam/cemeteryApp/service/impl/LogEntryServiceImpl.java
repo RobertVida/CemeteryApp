@@ -56,6 +56,21 @@ public class LogEntryServiceImpl implements LogEntryService {
     }
 
     @Override
+    public Integer countByFilter(Filter filter) {
+        return logEAO.countByFilter(filter);
+    }
+
+    @Override
+    public Integer countByFilter(Filter filter, String entityName) {
+        return logEAO.countByFilter(filter, entityName);
+    }
+
+    @Override
+    public Integer countByFilter(Filter filter, String entityName, Integer entityId) {
+        return logEAO.countByFilter(filter, entityName, entityId);
+    }
+
+    @Override
     public void logCreate(BaseEntity entity){
         LogEntry entry = new LogEntry(entity.getTableName(), entity.getId(), new Date(), "CREATE");
         entry.setOldValue("NONE");

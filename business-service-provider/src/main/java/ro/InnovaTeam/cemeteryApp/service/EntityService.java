@@ -17,4 +17,6 @@ public interface EntityService<Entity> {
     public Entity findById(Integer id);
 
     public List<Entity> findByFilter(Filter filter);
+
+    public Integer countByFilter(Filter filter);
 }

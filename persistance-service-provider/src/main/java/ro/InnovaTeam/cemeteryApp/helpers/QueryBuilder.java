@@ -12,6 +12,7 @@ public class QueryBuilder {
     private Session session;
     private String select = "";
     private String where = "";
+    private Boolean count = false;
 
     private Integer maxResults;
     private Integer resultOffset;
@@ -38,6 +39,15 @@ public class QueryBuilder {
         return this;
     }
 
+    public QueryBuilder count(){
+        return count(true);
+    }
+
+    public QueryBuilder count(Boolean count){
+        this.count = count;
+        return this;
+    }
+
     public QueryBuilder setMaxResults(int maxResults){
         this.maxResults = maxResults;
         return this;
@@ -59,6 +69,7 @@ public class QueryBuilder {
 
     private void prepareStatement() {
         select = select != null && !select.equals("") ? " FROM " + select : "";
+        select = count ? " SELECT COUNT(*) " + select : select;
         where = where != null && !where.equals("") ? " WHERE " + where : "";
     }
 }

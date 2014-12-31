@@ -39,6 +39,10 @@ public class PerformTest extends BaseTest {
         return mvc.perform(filterRequest(url));
     }
 
+    protected ResultActions performCount(String url, FilterDTO filterDTO) throws Exception {
+        return mvc.perform(countRequest(url, om.writeValueAsBytes(filterDTO)));
+    }
+
     protected RequestBuilder getRequest(String url) {
         return getUrlAndMethod("GET", url);
     }
@@ -64,6 +68,14 @@ public class PerformTest extends BaseTest {
     }
 
     private RequestBuilder filterRequest(String url, byte[] data) {
+        MockHttpServletRequestBuilder builder = getUrlAndMethod("POST", url);
+        builder.headers(dataHeaders);
+        builder.content(data);
+
+        return builder;
+    }
+
+    private RequestBuilder countRequest(String url, byte[] data) {
         MockHttpServletRequestBuilder builder = getUrlAndMethod("POST", url);
         builder.headers(dataHeaders);
         builder.content(data);

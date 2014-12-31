@@ -110,10 +110,24 @@ public class StructureController {
         return new GraveList(GraveUtil.toDTO(graveService.findByFilter(toDB(filterDTO))));
     }
 
+    @RequestMapping(value = GRAVES_URL + "/count", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Integer countGraveByFilter(@RequestBody @Valid FilterDTO filterDTO){
+        return graveService.countByFilter(toDB(filterDTO));
+    }
+
     @RequestMapping(value = MONUMENTS_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public MonumentList findMonumentByFilter(@RequestBody @Valid FilterDTO filterDTO){
         return new MonumentList(MonumentUtil.toDTO(monumentService.findByFilter(toDB(filterDTO))));
+    }
+
+    @RequestMapping(value = MONUMENTS_URL + "/count", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Integer countMonumentByFilter(@RequestBody @Valid FilterDTO filterDTO){
+        return monumentService.countByFilter(toDB(filterDTO));
     }
 }

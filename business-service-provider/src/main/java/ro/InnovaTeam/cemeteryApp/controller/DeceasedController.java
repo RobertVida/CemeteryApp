@@ -12,7 +12,6 @@ import ro.InnovaTeam.cemeteryApp.model.Deceased;
 import ro.InnovaTeam.cemeteryApp.service.DeceasedService;
 
 import javax.validation.Valid;
-import java.util.List;
 
 import static ro.InnovaTeam.cemeteryApp.util.DeceasedUtil.toDTO;
 import static ro.InnovaTeam.cemeteryApp.util.FilterUtil.toDB;
@@ -68,4 +67,10 @@ public class DeceasedController {
         return new DeceasedList(toDTO(deceasedService.findByFilter(toDB(filterDTO))));
     }
 
+    @RequestMapping(value = DECEASED_URL + "/count", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Integer countByFilter(@RequestBody FilterDTO filterDTO) {
+        return deceasedService.countByFilter(toDB(filterDTO));
+    }
 }

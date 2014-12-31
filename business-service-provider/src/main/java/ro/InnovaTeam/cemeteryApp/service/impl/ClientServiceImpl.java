@@ -48,4 +48,9 @@ public class ClientServiceImpl extends LoggableService<Client, ClientEAO, LogEnt
     public List<Client> findByFilter(Filter filter) {
         return clientEAO.findByFilter(filter);
     }
+
+    @Override
+    public Integer countByFilter(Filter filter) {
+        return clientEAO.countByFilter(filter);
+    }
 }

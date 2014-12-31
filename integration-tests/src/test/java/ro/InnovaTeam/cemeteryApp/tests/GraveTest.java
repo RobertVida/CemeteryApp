@@ -9,6 +9,7 @@ import ro.InnovaTeam.cemeteryApp.GraveList;
 import ro.InnovaTeam.cemeteryApp.ParcelDTO;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
@@ -31,6 +32,7 @@ public class GraveTest extends EntityTest {
         GraveDTO[] graveDTOs = readJsonFromFile("/graves.json", GraveDTO[].class);
         graveDTOs[0].setParcelId(parcelDTOs[0].getId());
         graveDTOs[0] = grave.create(graveDTOs[0]);
+        assertThat(grave.count(getFilter()), equalTo(1));
 
         //get
         GraveDTO graveDTO = grave.get(graveDTOs[0]);
@@ -43,6 +45,7 @@ public class GraveTest extends EntityTest {
         //get
         graveDTO = grave.get(graveDTOs[0]);
         assertThat(graveDTO, equalTo(null));
+        assertThat(grave.count(getFilter()), equalTo(0));
     }
 
     @Test
@@ -55,15 +58,17 @@ public class GraveTest extends EntityTest {
         GraveDTO[] graveDTOs = setupGraves(parcelDTOs);
 
         //filter
-        GraveList filterResult = grave.filter(getFilter());
-        assertThat(filterResult.getContent().size(), equalTo(graveDTOs.length));
+        Integer graveCount = grave.count(getFilter());
+        assertThat(graveCount, equalTo(graveDTOs.length));
 
         //filter
-        filterResult = grave.filter(getFilter(1, 20, parcelDTOs[0].getId(), null));
+        GraveList filterResult = grave.filter(getFilter(1, 20, parcelDTOs[0].getId(), null));
         assertThat(filterResult.getContent().size(), equalTo(1));
+        assertThat(filterResult.getContent().size(), not(equalTo(graveCount)));
 
         filterResult = grave.filter(getFilter(1, 20, parcelDTOs[1].getId(), null));
         assertThat(filterResult.getContent().size(), equalTo(graveDTOs.length - 1));
+        assertThat(filterResult.getContent().size(), not(equalTo(graveCount)));
     }
 
     @Test
@@ -80,6 +85,7 @@ public class GraveTest extends EntityTest {
         GraveDTO[] graveDTOs = readJsonFromFile("/graves.json", GraveDTO[].class);
         graveDTOs[0].setParcelId(parcelDTOs[0].getId());
         graveDTOs[0] = grave.create(graveDTOs[0]);
+        assertThat(grave.count(getFilter()), equalTo(1));
 
         //get
         GraveDTO graveDTO = grave.get(graveDTOs[0]);

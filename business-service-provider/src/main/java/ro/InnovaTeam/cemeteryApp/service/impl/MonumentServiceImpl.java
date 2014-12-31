@@ -48,4 +48,9 @@ public class MonumentServiceImpl extends LoggableService<Monument, MonumentEAO, 
     public List<Monument> findByFilter(Filter filter) {
         return monumentEAO.findByFilter(filter);
     }
+
+    @Override
+    public Integer countByFilter(Filter filter) {
+        return monumentEAO.countByFilter(filter);
+    }
 }

@@ -47,4 +47,9 @@ public class CemeteryServiceImpl extends LoggableService<Cemetery, CemeteryEAO, 
     public List<Cemetery> findByFilter(Filter filter) {
         return cemeteryEAO.findByFilter(filter);
     }
+
+    @Override
+    public Integer countByFilter(Filter filter) {
+        return cemeteryEAO.countByFilter(filter);
+    }
 }

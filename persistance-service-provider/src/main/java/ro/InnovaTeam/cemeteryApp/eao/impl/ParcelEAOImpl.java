@@ -52,6 +52,17 @@ public class ParcelEAOImpl extends EntityEAOImpl<Parcel> implements ParcelEAO {
     @Override
     @SuppressWarnings("unchecked")
     public List<Parcel> findByFilter(Filter filter) {
+        return makeFilterQuery(filter)
+                .build().list();
+    }
+
+    @Override
+    public Integer countByFilter(Filter filter) {
+        return ((Long)makeFilterQuery(filter).count()
+                .build().iterate().next()).intValue();
+    }
+
+    private QueryBuilder makeFilterQuery(Filter filter) {
         return QueryBuilder.instance(getSession())
                 .select(
                         from(TABLE).as("p")
@@ -62,7 +73,6 @@ public class ParcelEAOImpl extends EntityEAOImpl<Parcel> implements ParcelEAO {
                         )
                 )
                 .setMaxResults(filter.getPageSize())
-                .setFirstResult(filter.getPageNo())
-                .build().list();
+                .setFirstResult(filter.getPageNo());
     }
 }

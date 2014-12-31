@@ -29,6 +29,11 @@ public class EntityTest extends PerformTest {
         public EL filter(FilterDTO obj, String data) throws Exception;
 
         public EL filter(Integer parentId) throws Exception;
+
+        public Integer count(FilterDTO obj) throws Exception;
+
+        public Integer count(FilterDTO obj, String data) throws Exception;
+
     }
 
     protected Action<CemeteryDTO, CemeteryList> cemetery = new Action<CemeteryDTO, CemeteryList>() {
@@ -57,6 +62,14 @@ public class EntityTest extends PerformTest {
         }
 
         public CemeteryList filter(FilterDTO filterDTO, String status) throws Exception {
+            return null;
+        }
+
+        public Integer count(FilterDTO filterDTO) throws Exception {
+            return countEntities("/cemeteries/count", filterDTO);
+        }
+
+        public Integer count(FilterDTO filterDTO, String status) throws Exception {
             return null;
         }
     };
@@ -89,6 +102,14 @@ public class EntityTest extends PerformTest {
         public ParcelList filter(FilterDTO filterDTO, String status) throws Exception {
             return null;
         }
+
+        public Integer count(FilterDTO filterDTO) throws Exception {
+            return countEntities("/parcels/count", filterDTO);
+        }
+
+        public Integer count(FilterDTO filterDTO, String status) throws Exception {
+            return null;
+        }
     };
 
     protected Action<GraveDTO, GraveList> grave = new Action<GraveDTO, GraveList>() {
@@ -117,6 +138,14 @@ public class EntityTest extends PerformTest {
         }
 
         public GraveList filter(FilterDTO filterDTO, String status) throws Exception {
+            return null;
+        }
+
+        public Integer count(FilterDTO filterDTO) throws Exception {
+            return countEntities("/graves/count", filterDTO);
+        }
+
+        public Integer count(FilterDTO filterDTO, String status) throws Exception {
             return null;
         }
     };
@@ -149,6 +178,14 @@ public class EntityTest extends PerformTest {
         public MonumentList filter(FilterDTO filterDTO, String status) throws Exception {
             return null;
         }
+
+        public Integer count(FilterDTO filterDTO) throws Exception {
+            return countEntities("/monuments/count", filterDTO);
+        }
+
+        public Integer count(FilterDTO filterDTO, String status) throws Exception {
+            return null;
+        }
     };
 
     protected Action<ClientDTO, ClientList> client = new Action<ClientDTO, ClientList>() {
@@ -177,6 +214,14 @@ public class EntityTest extends PerformTest {
         }
 
         public ClientList filter(FilterDTO filterDTO, String status) throws Exception {
+            return null;
+        }
+
+        public Integer count(FilterDTO filterDTO) throws Exception {
+            return countEntities("/clients/count", filterDTO);
+        }
+
+        public Integer count(FilterDTO filterDTO, String status) throws Exception {
             return null;
         }
     };
@@ -209,6 +254,14 @@ public class EntityTest extends PerformTest {
         public RestingPlaceRequestList filter(FilterDTO filterDTO, String status) throws Exception {
             return filterEntities("/requests/" + status, filterDTO, RestingPlaceRequestList.class);
         }
+
+        public Integer count(FilterDTO filterDTO) throws Exception {
+            return countEntities("/requests/count", filterDTO);
+        }
+
+        public Integer count(FilterDTO filterDTO, String status) throws Exception {
+            return countEntities("/requests/" + status + "/count", filterDTO);
+        }
     };
 
     protected Action<LogEntryDTO, LogEntryList> log = new Action<LogEntryDTO, LogEntryList>() {
@@ -239,6 +292,14 @@ public class EntityTest extends PerformTest {
         public LogEntryList filter(Integer parentId) throws Exception {
             return null;
         }
+
+        public Integer count(FilterDTO filterDTO) throws Exception {
+            return countEntities("/logs/count", filterDTO);
+        }
+
+        public Integer count(FilterDTO filterDTO, String data) throws Exception {
+            return countEntities("/logs/" + data + "/count", filterDTO);
+        }
     };
 
     //=================================================================================ENTITY
@@ -268,6 +329,10 @@ public class EntityTest extends PerformTest {
 
     private <T extends BaseList> T filterEntities(String url, Class<T> targetClass) throws Exception {
         return getResultAsObject(performFilter(url).andReturn(), targetClass);
+    }
+
+    public Integer countEntities(String url, FilterDTO filter) throws Exception {
+        return getResultAsInt(performCount(url, filter).andReturn());
     }
 
     //=================================================================================GARBAGE-COLLECTOR

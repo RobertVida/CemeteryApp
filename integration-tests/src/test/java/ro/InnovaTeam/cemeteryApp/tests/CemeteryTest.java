@@ -7,6 +7,7 @@ import ro.InnovaTeam.cemeteryApp.CemeteryDTO;
 import ro.InnovaTeam.cemeteryApp.CemeteryList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
@@ -20,6 +21,7 @@ public class CemeteryTest extends EntityTest {
         //create
         CemeteryDTO[] cemeteryDTOs = readJsonFromFile("/cemeteries.json", CemeteryDTO[].class);
         cemeteryDTOs[0] = cemetery.create(cemeteryDTOs[0]);
+        assertThat(cemetery.count(getFilter()), equalTo(1));
 
         //get
         CemeteryDTO cemeteryDTO = cemetery.get(cemeteryDTOs[0]);
@@ -32,6 +34,7 @@ public class CemeteryTest extends EntityTest {
         //get
         cemeteryDTO = cemetery.get(cemeteryDTOs[0]);
         assertThat(cemeteryDTO, equalTo(null));
+        assertThat(cemetery.count(getFilter()), equalTo(0));
     }
 
     @Test
@@ -40,11 +43,12 @@ public class CemeteryTest extends EntityTest {
         CemeteryDTO[] cemeteryDTOs = setupCemeteries();
 
         //filter
-        CemeteryList filterResult = cemetery.filter(getFilter());
-        assertThat(filterResult.getContent().size(), equalTo(cemeteryDTOs.length));
+        Integer cemeteriesCount = cemetery.count(getFilter());
+        assertThat(cemeteriesCount, equalTo(cemeteryDTOs.length));
 
-        filterResult = cemetery.filter(getFilter(1, 20, null, "1"));
+        CemeteryList filterResult = cemetery.filter(getFilter(1, 20, null, "1"));
         assertThat(filterResult.getContent().size(), equalTo(2));
+        assertThat(filterResult.getContent().size(), not(equalTo(cemeteriesCount)));
     }
 
     @Test
@@ -52,6 +56,7 @@ public class CemeteryTest extends EntityTest {
         //create
         CemeteryDTO[] cemeteryDTOs = readJsonFromFile("/cemeteries.json", CemeteryDTO[].class);
         cemeteryDTOs[0] = cemetery.create(cemeteryDTOs[0]);
+        assertThat(cemetery.count(getFilter()), equalTo(1));
 
         //get
         CemeteryDTO cemeteryDTO = cemetery.get(cemeteryDTOs[0]);

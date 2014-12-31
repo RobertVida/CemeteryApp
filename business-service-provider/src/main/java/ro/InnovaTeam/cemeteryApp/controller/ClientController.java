@@ -67,4 +67,11 @@ public class ClientController {
     public ClientList findByFilter(@RequestBody FilterDTO filterDTO) {
         return new ClientList(toDTO(clientService.findByFilter(toDB(filterDTO))));
     }
+
+    @RequestMapping(value = CLIENTS_URL + "/count", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Integer countByFilter(@RequestBody FilterDTO filterDTO) {
+        return clientService.countByFilter(toDB(filterDTO));
+    }
 }

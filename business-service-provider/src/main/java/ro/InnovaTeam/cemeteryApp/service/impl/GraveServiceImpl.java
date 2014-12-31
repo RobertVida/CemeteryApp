@@ -48,4 +48,9 @@ public class GraveServiceImpl extends LoggableService<Grave, GraveEAO, LogEntryS
     public List<Grave> findByFilter(Filter filter) {
         return graveEAO.findByFilter(filter);
     }
+
+    @Override
+    public Integer countByFilter(Filter filter) {
+        return graveEAO.countByFilter(filter);
+    }
 }

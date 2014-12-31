@@ -8,6 +8,7 @@ import ro.InnovaTeam.cemeteryApp.RestingPlaceRequestDTO;
 import ro.InnovaTeam.cemeteryApp.RestingPlaceRequestList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
@@ -26,6 +27,7 @@ public class RequestTest extends EntityTest {
         RestingPlaceRequestDTO[] requestDTOs = readJsonFromFile("/requests.json", RestingPlaceRequestDTO[].class);
         requestDTOs[0].setClientId(clientDTOs[0].getId());
         requestDTOs[0] = request.create(requestDTOs[0]);
+        assertThat(request.count(getFilter()), equalTo(1));
 
         //get
         RestingPlaceRequestDTO requestDTO = request.get(requestDTOs[0]);
@@ -38,6 +40,7 @@ public class RequestTest extends EntityTest {
         //get
         requestDTO = request.get(requestDTOs[0]);
         assertThat(requestDTO, equalTo(null));
+        assertThat(request.count(getFilter()), equalTo(0));
     }
 
     @Test
@@ -49,14 +52,17 @@ public class RequestTest extends EntityTest {
         RestingPlaceRequestDTO[] requestDTOs = setupRequests(clientDTOs);
 
         //filter
-        RestingPlaceRequestList filterResult = request.filter(getFilter());
-        assertThat(filterResult.getContent().size(), equalTo(requestDTOs.length));
+        Integer requestCount = request.count(getFilter());
+        assertThat(requestCount, equalTo(requestDTOs.length));
 
-        filterResult = request.filter(getFilter(1, 20, null, "2"));
+        RestingPlaceRequestList filterResult = request.filter(getFilter(1, 20, null, "2"));
         assertThat(filterResult.getContent().size(), equalTo(2));
+        assertThat(filterResult.getContent().size(), not(equalTo(requestCount)));
 
         filterResult = request.filter(getFilter(1, 20, null, null), "rezolvat");
         assertThat(filterResult.getContent().size(), equalTo(1));
+        assertThat(filterResult.getContent().size(), equalTo(request.count(getFilter(1, 20, null, null), "rezolvat")));
+        assertThat(filterResult.getContent().size(), not(equalTo(requestCount)));
     }
 
     @Test
@@ -69,6 +75,7 @@ public class RequestTest extends EntityTest {
         RestingPlaceRequestDTO[] requestDTOs = readJsonFromFile("/requests.json", RestingPlaceRequestDTO[].class);
         requestDTOs[0].setClientId(clientDTOs[0].getId());
         requestDTOs[0] = request.create(requestDTOs[0]);
+        assertThat(request.count(getFilter()), equalTo(1));
 
         //get
         RestingPlaceRequestDTO requestDTO = request.get(requestDTOs[0]);

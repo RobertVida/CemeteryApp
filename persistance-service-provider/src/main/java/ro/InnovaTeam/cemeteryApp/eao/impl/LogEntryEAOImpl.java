@@ -50,42 +50,65 @@ public class LogEntryEAOImpl extends EntityEAOImpl<LogEntry> implements LogEntry
     @Override
     @SuppressWarnings("unchecked")
     public List<LogEntry> findByFilter(Filter filter) {
-        return QueryBuilder.instance(getSession())
-                .select(
-                        from(TABLE).as("l"))
-                .setMaxResults(filter.getPageSize())
-                .setFirstResult(filter.getPageNo())
+        return makeFilterQuery(filter)
                 .build().list();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<LogEntry> findByFilter(Filter filter, String entityName) {
-        return QueryBuilder.instance(getSession())
-                .select(
-                        from(TABLE).as("l")
-                ).where(
+        return makeFilterQuery(filter)
+                .where(
                         column("l.tableChanged").like(entityName)
                 )
-                .setMaxResults(filter.getPageSize())
-                .setFirstResult(filter.getPageNo())
                 .build().list();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<LogEntry> findByFilter(Filter filter, String entityName, Integer entityId) {
-        return QueryBuilder.instance(getSession())
-                .select(
-                        from(TABLE).as("l")
-                ).where(
+        return makeFilterQuery(filter)
+                .where(
                         and(
                                 column("l.tableChanged").like(entityName),
                                 column("l.idAffected").is(entityId)
                         )
                 )
-                .setMaxResults(filter.getPageSize())
-                .setFirstResult(filter.getPageNo())
                 .build().list();
+    }
+
+    @Override
+    public Integer countByFilter(Filter filter) {
+        return ((Long)makeFilterQuery(filter).count()
+                .build().iterate().next()).intValue();
+    }
+
+    @Override
+    public Integer countByFilter(Filter filter, String entityName) {
+        return ((Long)makeFilterQuery(filter).count()
+                .where(
+                        column("l.tableChanged").like(entityName)
+                )
+                .build().iterate().next()).intValue();
+    }
+
+    @Override
+    public Integer countByFilter(Filter filter, String entityName, Integer entityId) {
+        return ((Long)makeFilterQuery(filter).count()
+                .where(
+                        and(
+                                column("l.tableChanged").like(entityName),
+                                column("l.idAffected").is(entityId)
+                        )
+                )
+                .build().iterate().next()).intValue();
+    }
+
+    private QueryBuilder makeFilterQuery(Filter filter) {
+        return QueryBuilder.instance(getSession())
+                .select(
+                        from(TABLE).as("l"))
+                .setMaxResults(filter.getPageSize())
+                .setFirstResult(filter.getPageNo());
     }
 }

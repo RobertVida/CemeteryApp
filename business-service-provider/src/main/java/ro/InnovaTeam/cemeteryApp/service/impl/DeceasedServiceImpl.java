@@ -48,4 +48,9 @@ public class DeceasedServiceImpl extends LoggableService<Deceased, DeceasedEAO, 
     public List<Deceased> findByFilter(Filter filter) {
         return deceasedEAO.findByFilter(filter);
     }
+
+    @Override
+    public Integer countByFilter(Filter filter) {
+        return deceasedEAO.countByFilter(filter);
+    }
 }

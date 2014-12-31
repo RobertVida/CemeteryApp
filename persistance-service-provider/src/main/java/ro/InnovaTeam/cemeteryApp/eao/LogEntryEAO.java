@@ -13,4 +13,8 @@ public interface LogEntryEAO extends EntityEAO<LogEntry> {
     public List<LogEntry> findByFilter(Filter filter, String entityName);
 
     public List<LogEntry> findByFilter(Filter filter, String entityName, Integer entityId);
+
+    public Integer countByFilter(Filter filter, String entityName);
+
+    public Integer countByFilter(Filter filter, String entityName, Integer entityId);
 }

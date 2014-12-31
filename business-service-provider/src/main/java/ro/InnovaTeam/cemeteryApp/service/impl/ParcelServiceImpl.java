@@ -47,4 +47,9 @@ public class ParcelServiceImpl extends LoggableService<Parcel, ParcelEAO, LogEnt
     public List<Parcel> findByFilter(Filter filter) {
         return parcelEAO.findByFilter(filter);
     }
+
+    @Override
+    public Integer countByFilter(Filter filter) {
+        return parcelEAO.countByFilter(filter);
+    }
 }

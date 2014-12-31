@@ -63,12 +63,18 @@ public class ParcelController {
         return toDTO(parcelService.findById(parcelId));
     }
 
-
     @RequestMapping(value = PARCELS_URL, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public ParcelList findByFilter(@RequestBody FilterDTO filterDTO) {
         return new ParcelList(toDTO(parcelService.findByFilter(toDB(filterDTO))));
+    }
+
+    @RequestMapping(value = PARCELS_URL + "/count", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Integer countByFilter(@RequestBody FilterDTO filterDTO) {
+        return parcelService.countByFilter(toDB(filterDTO));
     }
 
     @RequestMapping(value = SPECIFIC_CEMETERY_PARCELS_URL, method = RequestMethod.GET)

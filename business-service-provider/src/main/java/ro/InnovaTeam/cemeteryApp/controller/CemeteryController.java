@@ -68,4 +68,10 @@ public class CemeteryController{
         return new CemeteryList(toDTO(cemeteryService.findByFilter(toDB(filterDTO))));
     }
 
+    @RequestMapping(value = CEMETERIES_URL + "/count", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Integer countByFilter(@RequestBody FilterDTO filterDTO) {
+        return cemeteryService.countByFilter(toDB(filterDTO));
+    }
 }

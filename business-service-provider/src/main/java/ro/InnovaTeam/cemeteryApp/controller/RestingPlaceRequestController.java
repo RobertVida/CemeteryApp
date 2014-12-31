@@ -69,10 +69,24 @@ public class RestingPlaceRequestController {
         return new RestingPlaceRequestList(toDTO(requestService.findByFilter(toDB(filterDTO))));
     }
 
+    @RequestMapping(value = REQUESTS_URL + "/count", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Integer countRequestByFilter(@RequestBody @Valid FilterDTO filterDTO) {
+        return requestService.countByFilter(toDB(filterDTO));
+    }
+
     @RequestMapping(value = REQUESTS_FOR_STATUS_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public RestingPlaceRequestList findRequestByFilterAndStatus(@RequestBody @Valid FilterDTO filterDTO, @PathVariable String status) {
         return new RestingPlaceRequestList(toDTO(requestService.findByFilterAndStatus(toDB(filterDTO), status)));
+    }
+
+    @RequestMapping(value = REQUESTS_FOR_STATUS_URL + "/count", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Integer countRequestByFilterAndStatus(@RequestBody @Valid FilterDTO filterDTO, @PathVariable String status) {
+        return requestService.countByFilterAndStatus(toDB(filterDTO), status);
     }
 }

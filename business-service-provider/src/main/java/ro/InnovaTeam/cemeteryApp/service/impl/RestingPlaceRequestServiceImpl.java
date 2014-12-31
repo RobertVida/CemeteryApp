@@ -52,4 +52,14 @@ public class RestingPlaceRequestServiceImpl extends LoggableService<RestingPlace
     public List<RestingPlaceRequest> findByFilterAndStatus(Filter filter, String status) {
         return requestEAO.findByFilterAndStatus(filter, status);
     }
+
+    @Override
+    public Integer countByFilter(Filter filter) {
+        return requestEAO.countByFilter(filter);
+    }
+
+    @Override
+    public Integer countByFilterAndStatus(Filter filter, String status) {
+        return requestEAO.countByFilterAndStatus(filter, status);
+    }
 }
