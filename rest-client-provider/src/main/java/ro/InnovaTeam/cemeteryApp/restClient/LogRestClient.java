@@ -46,4 +46,16 @@ public class LogRestClient extends BaseRestClient {
 
         return logEntryList.getContent();
     }
+
+    public static Integer getLogCount(FilterDTO filterDTO) {
+        return getJSONRestTemplate().postForObject(BASE_URL + LOGS_URL + "/count", filterDTO, Integer.class);
+    }
+
+    public static Integer getLogCount(FilterDTO filterDTO, String entityName) {
+        return getJSONRestTemplate().postForObject(BASE_URL + LOGS_FOR_ENTITY_URL + "/count", filterDTO, Integer.class, entityName);
+    }
+
+    public static Integer getLogCount(FilterDTO filterDTO, String entityName, Integer entryId) {
+        return getJSONRestTemplate().postForObject(BASE_URL + LOGS_FOR_ENTITY_AND_ID_URL + "/count", filterDTO, Integer.class, entityName, entryId);
+    }
 }

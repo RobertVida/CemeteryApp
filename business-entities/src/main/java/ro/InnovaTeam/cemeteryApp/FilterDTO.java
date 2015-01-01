@@ -10,6 +10,16 @@ public class FilterDTO {
     private Integer pageSize;
     private Integer parentId;
 
+    public FilterDTO(){
+    }
+
+    public FilterDTO(String searchCriteria, Integer parentId) {
+        this.searchCriteria = searchCriteria;
+        pageNo = 1;
+        pageSize = 1;
+        this.parentId = parentId;
+    }
+
     public String getSearchCriteria() {
         return searchCriteria;
     }

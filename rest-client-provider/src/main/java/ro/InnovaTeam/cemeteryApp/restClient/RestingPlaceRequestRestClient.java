@@ -37,4 +37,8 @@ public class RestingPlaceRequestRestClient extends GenericRestClient {
     public static void delete(@PathVariable Integer requestId) {
         delete(requestId, BASE_URL + SPECIFIC_USER_REQUEST_URL);
     }
+
+    public static Integer getRequestCount(FilterDTO filterDTO) {
+        return getCount(filterDTO, BASE_URL + REQUESTS_URL + "/count");
+    }
 }

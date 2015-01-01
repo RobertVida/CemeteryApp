@@ -29,15 +29,14 @@ public class ClientRestClient extends GenericRestClient {
     }
 
     public static void add(ClientDTO clientDTO) {
-//        RestTemplate restTemplate = getJSONRestTemplate();
-//        String endPointURL = BASE_URL + CLIENT_URL;
-//        clientDTO.setUserId(getLoggedInUserId());
         add(clientDTO, BASE_URL + CLIENT_URL);
-
-//        restTemplate.put(endPointURL, clientDTO);
     }
 
     public static void delete(@PathVariable Integer clientId) {
         delete(clientId,BASE_URL + SPECIFIC_USER_CLIENT_URL);
+    }
+
+    public static Integer getClientCount(FilterDTO filterDTO) {
+        return getCount(filterDTO, BASE_URL + CLIENTS_URL + "/count");
     }
 }

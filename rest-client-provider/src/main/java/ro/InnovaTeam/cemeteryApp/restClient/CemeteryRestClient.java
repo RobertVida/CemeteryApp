@@ -37,4 +37,8 @@ public class CemeteryRestClient extends GenericRestClient {
     public static void delete(@PathVariable Integer cemeteryId) {
         delete(cemeteryId, BASE_URL + SPECIFIC_USER_CEMETERY_URL);
     }
+
+    public static Integer getCemeteryCount(FilterDTO filterDTO) {
+        return getCount(filterDTO, BASE_URL + CEMETERIES_URL + "/count");
+    }
 }

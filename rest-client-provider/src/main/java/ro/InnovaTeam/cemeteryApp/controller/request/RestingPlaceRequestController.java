@@ -64,8 +64,9 @@ public class RestingPlaceRequestController {
         requestFilterDTO.setPageSize(PAGE_SIZE);
         requests = RestingPlaceRequestRestClient.getRequestsByFilter(requestFilterDTO);
 
-        int pages = requests.size()/PAGE_SIZE;
-        model.addAttribute("pages", pages != 0 ? pages + 1 : pages);
+        float pages = RestingPlaceRequestRestClient.getRequestCount(new FilterDTO(requestFilterDTO.getSearchCriteria(),
+                requestFilterDTO.getParentId())) / (float) PAGE_SIZE;
+        model.addAttribute("pages", Math.ceil(pages));
         model.addAttribute("requestList", requests);
         model.addAttribute("requestPath", REQUEST);
         return "request/requestsPage";

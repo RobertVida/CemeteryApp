@@ -34,4 +34,8 @@ public class DeceasedRestClient extends GenericRestClient {
     public static void delete(@PathVariable Integer deceasedId) {
         delete(deceasedId, BASE_URL + SPECIFIC_USER_DECEASED_URL);
     }
+
+    public static Integer getDeceasedCount(FilterDTO filterDTO) {
+        return getCount(filterDTO, BASE_URL + DECEASED_URL + "/count");
+    }
 }

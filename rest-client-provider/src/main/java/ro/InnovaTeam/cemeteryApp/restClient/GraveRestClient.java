@@ -37,4 +37,8 @@ public class GraveRestClient extends GenericRestClient {
     public static void delete(@PathVariable Integer graveId) {
         delete(graveId, BASE_URL + SPECIFIC_USER_GRAVE_URL);
     }
+
+    public static Integer getGraveCount(FilterDTO filterDTO) {
+        return getCount(filterDTO, BASE_URL + GRAVES_URL + "/count");
+    }
 }

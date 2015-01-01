@@ -35,8 +35,8 @@
                     <option value="contracts">Contracte</option>
                     <option value="deceased">Decedati</option>
                     <option value="graves">Morminte</option>
-                    <option value="monuments">Monumente</option>
-                    <option value="parcels">Parcele</option>
+                    <option value="monument">Monumente</option>
+                    <option value="parcel">Parcele</option>
                 </select>
             </div>
             <div class="form-group col-lg-2">

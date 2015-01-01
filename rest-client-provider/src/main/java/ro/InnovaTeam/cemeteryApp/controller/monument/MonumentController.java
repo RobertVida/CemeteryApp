@@ -64,8 +64,9 @@ public class MonumentController {
         monumentFilterDTO.setPageSize(PAGE_SIZE);
         monuments = MonumentRestClient.getByFilter(monumentFilterDTO);
 
-        int pages = monuments.size()/PAGE_SIZE;
-        model.addAttribute("pages", pages != 0 ? pages + 1 : pages);
+        float pages =  MonumentRestClient.getMonumentCount(new FilterDTO(monumentFilterDTO.getSearchCriteria(),
+                monumentFilterDTO.getParentId())) / (float) PAGE_SIZE;
+        model.addAttribute("pages", Math.ceil(pages));
         model.addAttribute("monumentList", monuments);
         model.addAttribute("monumentPath", MONUMENT);
         return "monument/monumentsPage";

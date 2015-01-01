@@ -66,8 +66,9 @@ public class GraveController {
         graveFilterDTO.setPageSize(PAGE_SIZE);
         graves = GraveRestClient.getByFilter(graveFilterDTO);
 
-        int pages = graves.size()/PAGE_SIZE;
-        model.addAttribute("pages", pages != 0 ? pages + 1 : pages);
+        float pages = GraveRestClient.getGraveCount(new FilterDTO(graveFilterDTO.getSearchCriteria(),
+                graveFilterDTO.getParentId())) / (float) PAGE_SIZE;
+        model.addAttribute("pages", Math.ceil(pages));
         model.addAttribute("graveList", graves);
         model.addAttribute("gravePath", GRAVE);
         return "grave/gravesPage";

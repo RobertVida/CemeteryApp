@@ -36,4 +36,8 @@ public class MonumentRestClient extends GenericRestClient {
     public static void delete(@PathVariable Integer graveId) {
         delete(graveId, BASE_URL + SPECIFIC_USER_MONUMENT_URL);
     }
+
+    public static Integer getMonumentCount(FilterDTO filterDTO) {
+        return getCount(filterDTO, BASE_URL + MONUMENTS_URL + "/count");
+    }
 }

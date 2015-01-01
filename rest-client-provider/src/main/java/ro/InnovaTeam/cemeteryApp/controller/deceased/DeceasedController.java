@@ -63,8 +63,9 @@ public class DeceasedController {
         deceasedFilterDTO.setPageSize(PAGE_SIZE);
         deceasedDTOs = DeceasedRestClient.findByFilter(deceasedFilterDTO);
 
-        int pages = deceasedDTOs.size()/PAGE_SIZE;
-        model.addAttribute("pages", pages != 0 ? pages + 1 : pages);
+        float pages = DeceasedRestClient.getDeceasedCount(new FilterDTO(deceasedFilterDTO.getSearchCriteria(),
+                deceasedFilterDTO.getParentId())) / (float) PAGE_SIZE;
+        model.addAttribute("pages", Math.ceil(pages));
         model.addAttribute("deceasedList", deceasedDTOs);
         return "deceased/deceasedPage";
     }

@@ -56,8 +56,8 @@ public class ClientsController {
         clientFilterDTO.setParentId(null);
         clients = ClientRestClient.getClientsByFilter(clientFilterDTO);
 
-        int pages = clients.size()/PAGE_SIZE;
-        model.addAttribute("pages", pages != 0 ? pages + 1 : pages);
+        float pages = ClientRestClient.getClientCount(new FilterDTO(clientFilterDTO.getSearchCriteria(), null)) / (float) PAGE_SIZE;
+        model.addAttribute("pages", Math.ceil(pages));
         model.addAttribute("clientList", clients);
 
         model.addAttribute("clientsPageURL", CLIENTS);

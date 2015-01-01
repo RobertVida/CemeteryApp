@@ -37,4 +37,8 @@ public class GenericRestClient extends BaseRestClient {
 
         restTemplate.delete(endPointURL, getLoggedInUserId(), id);
     }
+
+    public static Integer getCount(FilterDTO filterDTO, String endPointURL) {
+        return getJSONRestTemplate().postForObject(endPointURL, filterDTO, Integer.class);
+    }
 }

@@ -66,7 +66,7 @@
             <ul class="pagination">
                 <li><a><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>
                 <c:forEach var="i" begin="1" end="${pages}">
-                    <li><a class="page" page-number="${i}">${i}</a></li>
+                    <li onclick="MonumentsManagerJS.getMonumentPerPage(${i});" style="cursor:pointer;"><a class="page">${i}</a></li>
                 </c:forEach>
                 <li><a><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li>
             </ul>

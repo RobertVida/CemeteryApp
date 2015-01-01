@@ -57,8 +57,9 @@ public class ParcelController {
         parcelFilterDTO.setPageSize(PAGE_SIZE);
         parcels = ParcelRestClient.getParcelsByFilter(parcelFilterDTO);
 
-        int pages = parcels.size()/PAGE_SIZE;
-        model.addAttribute("pages", pages != 0 ? pages + 1 : pages);
+        float pages = ParcelRestClient.getParcelCount(new FilterDTO(parcelFilterDTO.getSearchCriteria(),
+                parcelFilterDTO.getParentId())) / (float) PAGE_SIZE;
+        model.addAttribute("pages", Math.ceil(pages));
         model.addAttribute("parcelList", parcels);
         model.addAttribute("parcelPath", PARCEL);
         return "parcel/parcelPage";

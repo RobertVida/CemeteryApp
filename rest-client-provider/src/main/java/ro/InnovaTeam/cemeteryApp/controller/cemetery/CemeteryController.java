@@ -53,8 +53,8 @@ public class CemeteryController {
         cemeteryFilterDTO.setParentId(null);
         cemeteries = CemeteryRestClient.getCemeteriesByFilter(cemeteryFilterDTO);
 
-        int pages = cemeteries.size()/PAGE_SIZE;
-        model.addAttribute("pages", pages != 0 ? pages + 1 : pages);
+        float pages = CemeteryRestClient.getCemeteryCount(new FilterDTO(cemeteryFilterDTO.getSearchCriteria(), null)) / (float)PAGE_SIZE;
+        model.addAttribute("pages", Math.ceil(pages));
         model.addAttribute("cemeteryList", cemeteries);
         model.addAttribute("cemeteryPath", CEMETERY);
         return "cemetery/cemeteryPage";

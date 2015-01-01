@@ -4,17 +4,8 @@
 $(document).ready(function () {
     $('#container').html($('#client-details').html());
 
-    ClientsManagerJS.init();
 });
 var ClientsManagerJS = (function($) {
-
-    var init = function() {
-        $(".page").click(function() {
-            var pageNumber = $(this).attr("page-number");
-            getClientsPerPage(pageNumber);
-        });
-
-    };
 
     var getClientsPerPage = function(pageNo) {
         var url = $("#getClientsURL").val();
@@ -45,11 +36,11 @@ var ClientsManagerJS = (function($) {
     };
 
     return {
-        init: init,
         submitFilterForm : submitFilterForm,
         refreshFilter : refreshFilter,
         renderAddPage : renderAddPage,
-        deleteClient : deleteClient
+        deleteClient : deleteClient,
+        getClientsPerPage: getClientsPerPage
     }
 })(jQuery);
 

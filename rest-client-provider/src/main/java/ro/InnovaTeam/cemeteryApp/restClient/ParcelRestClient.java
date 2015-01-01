@@ -36,4 +36,8 @@ public class ParcelRestClient extends GenericRestClient{
     public static void delete(@PathVariable Integer parcelId) {
         delete(parcelId, BASE_URL + SPECIFIC_USER_PARCEL_URL);
     }
+
+    public static Integer getParcelCount(FilterDTO filterDTO) {
+        return getCount(filterDTO, BASE_URL + PARCELS_URL + "/count");
+    }
 }
