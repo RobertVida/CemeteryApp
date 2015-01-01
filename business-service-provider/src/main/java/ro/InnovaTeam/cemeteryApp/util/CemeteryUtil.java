@@ -21,7 +21,6 @@ public abstract class CemeteryUtil {
         cemetery.setId(cemeteryDTO.getId());
         cemetery.setName(cemeteryDTO.getName());
         cemetery.setAddress(cemeteryDTO.getAddress());
-        cemetery.setParcels(getParcels(cemeteryDTO));
         cemetery.setUserId(cemeteryDTO.getUserId());
 
         return cemetery;
@@ -35,7 +34,6 @@ public abstract class CemeteryUtil {
         cemeteryDTO.setId(cemetery.getId());
         cemeteryDTO.setName(cemetery.getName());
         cemeteryDTO.setAddress(cemetery.getAddress());
-        cemeteryDTO.setParcels(getParcels(cemetery));
 
         return cemeteryDTO;
     }
@@ -60,21 +58,5 @@ public abstract class CemeteryUtil {
             cemeteryDTOs.add(toDTO(cemetery));
         }
         return cemeteryDTOs;
-    }
-
-    private static List<Parcel> getParcels(CemeteryDTO cemeteryDTO) {
-        return hasParcels(cemeteryDTO) ? ParcelUtil.toDB(cemeteryDTO.getParcels()) : null;
-    }
-
-    private static List<ParcelDTO> getParcels(Cemetery cemetery) {
-        return hasParcels(cemetery) ? ParcelUtil.toDTO(cemetery.getParcels()) : null;
-    }
-
-    private static boolean hasParcels(CemeteryDTO cemeteryDTO) {
-        return cemeteryDTO.getParcels() != null;
-    }
-
-    private static boolean hasParcels(Cemetery cemetery) {
-        return cemetery.getParcels() != null;
     }
 }

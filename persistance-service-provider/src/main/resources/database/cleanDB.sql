@@ -6,7 +6,7 @@ DELETE FROM `cemeterydb`.`deceased`;
 DELETE FROM `cemeterydb`.`contracts`;
 DELETE FROM `cemeterydb`.`structures`;
 DELETE FROM `cemeterydb`.`documents`;
-DELETE FROM `cemeterydb`.`parcelhistory`;
+DELETE FROM `cemeterydb`.`structurehistory`;
 DELETE FROM `cemeterydb`.`parcels`;
 DELETE FROM `cemeterydb`.`clients`;
 DELETE FROM `cemeterydb`.`cemeteries`;

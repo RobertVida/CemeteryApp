@@ -123,7 +123,7 @@ public class DeceasedController {
     @RequestMapping(value = "/filter", method = RequestMethod.GET)
     public void applyFilter(HttpServletRequest request, HttpServletResponse response) {
         String searchCriteria = request.getParameter("searchCriteria");
-        String cemeteryId = request.getParameter("cemeteryId");
+        String cemeteryId = request.getParameter("structureId");
         //TODO: validate cemeteryId
         FilterDTO deceasedFilterDTO = new FilterDTO();
         deceasedFilterDTO.setSearchCriteria(searchCriteria);

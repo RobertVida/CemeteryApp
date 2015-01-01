@@ -1,19 +1,15 @@
 package ro.InnovaTeam.cemeteryApp.model;
 
-import java.util.List;
-
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
-public class Client extends BaseEntity{
+public class Client extends BaseEntity {
 
     private String firstName;
     private String lastName;
     private String cnp;
     private String phoneNumber;
     private String address;
-    private List<Contract> contracts;
-    private List<RestingPlaceRequest> requests;
 
     public Client() {
         super("clients");
@@ -66,22 +62,6 @@ public class Client extends BaseEntity{
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public List<Contract> getContracts() {
-        return contracts;
-    }
-
-    public void setContracts(List<Contract> contracts) {
-        this.contracts = contracts;
-    }
-
-    public List<RestingPlaceRequest> getRequests() {
-        return requests;
-    }
-
-    public void setRequests(List<RestingPlaceRequest> requests) {
-        this.requests = requests;
     }
 
     @Override

@@ -17,7 +17,6 @@ public class DeceasedDTO extends BaseDTO {
     private String religion;
     @NotNull
     private Date diedOn;
-    @NotNull
     private Integer burialDocumentId;
     @NotNull
     private Integer structureId;

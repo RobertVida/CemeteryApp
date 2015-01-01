@@ -1,6 +1,5 @@
 package ro.InnovaTeam.cemeteryApp.model;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -8,9 +7,7 @@ import java.util.Date;
  */
 public class Monument extends Structure {
 
-    @NotNull
 	private String name;
-    @NotNull
 	private String description;
 
     public Monument() {
@@ -49,7 +46,6 @@ public class Monument extends Structure {
                 ", type='" + getType() + '\'' +
                 ", width=" + getWidth() +
                 ", length=" + getLength() +
-                ", deceased=" + getDeceased() +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';

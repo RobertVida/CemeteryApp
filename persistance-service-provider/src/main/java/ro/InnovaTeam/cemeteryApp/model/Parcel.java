@@ -1,7 +1,5 @@
 package ro.InnovaTeam.cemeteryApp.model;
 
-import java.util.List;
-
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
@@ -9,8 +7,6 @@ public class Parcel extends BaseEntity {
 
     private String name;
     private Integer cemeteryId;
-    private Structure structure;
-    private List<ParcelHistoryEntry> history;
 
     public Parcel() {
         super("parcel");
@@ -36,22 +32,6 @@ public class Parcel extends BaseEntity {
 
     public void setCemeteryId(Integer cemeteryId) {
         this.cemeteryId = cemeteryId;
-    }
-
-    public Structure getStructure() {
-        return structure;
-    }
-
-    public void setStructure(Structure structure) {
-        this.structure = structure;
-    }
-
-    public List<ParcelHistoryEntry> getHistory() {
-        return history;
-    }
-
-    public void setHistory(List<ParcelHistoryEntry> history) {
-        this.history = history;
     }
 
     @Override

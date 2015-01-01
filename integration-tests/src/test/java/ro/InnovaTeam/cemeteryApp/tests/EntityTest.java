@@ -264,6 +264,53 @@ public class EntityTest extends PerformTest {
         }
     };
 
+    protected Action<DeceasedDTO, DeceasedList> deceased = new Action<DeceasedDTO, DeceasedList>() {
+        @Override
+        public DeceasedDTO get(DeceasedDTO deceasedDTO) throws Exception {
+            return getEntity("/deceased/", deceasedDTO, DeceasedDTO.class);
+        }
+
+        @Override
+        public DeceasedDTO delete(DeceasedDTO deceasedDTO) throws Exception {
+            return deleteEntity("/deceased/1/", deceasedDTO, DeceasedDTO.class);
+        }
+
+        @Override
+        public DeceasedDTO update(DeceasedDTO deceasedDTO) throws Exception {
+            return updateEntity("/deceased/", deceasedDTO, DeceasedDTO.class);
+        }
+
+        @Override
+        public DeceasedDTO create(DeceasedDTO deceasedDTO) throws Exception {
+            return createEntity("/deceased", deceasedDTO);
+        }
+
+        @Override
+        public DeceasedList filter(FilterDTO filterDTO) throws Exception {
+            return filterEntities("/deceased", filterDTO, DeceasedList.class);
+        }
+
+        @Override
+        public DeceasedList filter(FilterDTO filterDTO, String data) throws Exception {
+            return null;
+        }
+
+        @Override
+        public DeceasedList filter(Integer parentId) throws Exception {
+            return null;
+        }
+
+        @Override
+        public Integer count(FilterDTO filterDTO) throws Exception {
+            return countEntities("/deceased/count", filterDTO);
+        }
+
+        @Override
+        public Integer count(FilterDTO filterDTO, String data) throws Exception {
+            return null;
+        }
+    };
+
     protected Action<LogEntryDTO, LogEntryList> log = new Action<LogEntryDTO, LogEntryList>() {
         public LogEntryDTO get(LogEntryDTO logEntryDTO) throws Exception {
             return getEntity("/log/", logEntryDTO, LogEntryDTO.class);
@@ -377,6 +424,10 @@ public class EntityTest extends PerformTest {
             RestingPlaceRequestDTO requestDTO = new RestingPlaceRequestDTO();
             requestDTO.setId(id);
             request.delete(requestDTO);
+        } else if (type.equals(DECEASED)) {
+            DeceasedDTO deceasedDTO = new DeceasedDTO();
+            deceasedDTO.setId(id);
+            deceased.delete(deceasedDTO);
         }
     }
 
@@ -443,6 +494,32 @@ public class EntityTest extends PerformTest {
             clientDTOs[i] = client.create(clientDTOs[i]);
         }
         return clientDTOs;
+    }
+
+    protected DeceasedDTO[] setupDeceased(GraveDTO[] graveDTOs) throws Exception {
+        DeceasedDTO[] deceasedDTOs = readJsonFromFile("/deceased.json", DeceasedDTO[].class);
+        deceasedDTOs[0].setStructureId(graveDTOs[0].getId());
+        deceasedDTOs[0] = deceased.create(deceasedDTOs[0]);
+        deceasedDTOs[0].setBurialDocumentId(deceased.get(deceasedDTOs[0]).getBurialDocumentId());
+        for(int i = 1 ; i < deceasedDTOs.length ; i++){
+            deceasedDTOs[i].setStructureId(graveDTOs[1].getId());
+            deceasedDTOs[i] = deceased.create(deceasedDTOs[i]);
+            deceasedDTOs[i].setBurialDocumentId(deceased.get(deceasedDTOs[i]).getBurialDocumentId());
+        }
+        return deceasedDTOs;
+    }
+
+    protected DeceasedDTO[] setupDeceased(MonumentDTO[] monumentDTOs) throws Exception {
+        DeceasedDTO[] deceasedDTOs = readJsonFromFile("/deceased.json", DeceasedDTO[].class);
+        deceasedDTOs[0].setStructureId(monumentDTOs[0].getId());
+        deceasedDTOs[0] = deceased.create(deceasedDTOs[0]);
+        deceasedDTOs[0].setBurialDocumentId(deceased.get(deceasedDTOs[0]).getBurialDocumentId());
+        for(int i = 1 ; i < deceasedDTOs.length ; i++){
+            deceasedDTOs[i].setStructureId(monumentDTOs[1].getId());
+            deceasedDTOs[i] = deceased.create(deceasedDTOs[i]);
+            deceasedDTOs[i].setBurialDocumentId(deceased.get(deceasedDTOs[i]).getBurialDocumentId());
+        }
+        return deceasedDTOs;
     }
 
     protected RestingPlaceRequestDTO[] setupRequests(ClientDTO[] clientDTOs) throws Exception {

@@ -10,6 +10,8 @@ import java.util.List;
 
 import static ro.InnovaTeam.cemeteryApp.helpers.AliasBuilder.from;
 import static ro.InnovaTeam.cemeteryApp.helpers.AndWithOrRestrictionBuilder.allOf;
+import static ro.InnovaTeam.cemeteryApp.helpers.ColumnConstraintBuilder.column;
+import static ro.InnovaTeam.cemeteryApp.helpers.ConstraintWrapper.AndConstraintWrapper.and;
 
 /**
  * Created by amalia on 11/27/2014.
@@ -56,7 +58,7 @@ public class DeceasedEAOImpl extends EntityEAOImpl<Deceased> implements Deceased
 
     @Override
     public Integer countByFilter(Filter filter) {
-        return ((Long)makeFilterQuery(filter).count()
+        return ((Long) makeFilterQuery(filter).count()
                 .build().iterate().next()).intValue();
     }
 

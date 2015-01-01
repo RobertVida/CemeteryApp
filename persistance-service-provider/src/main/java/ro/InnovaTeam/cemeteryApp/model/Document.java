@@ -1,6 +1,5 @@
 package ro.InnovaTeam.cemeteryApp.model;
 
-import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 
 /**
@@ -8,9 +7,7 @@ import java.util.Arrays;
  */
 public class Document extends BaseEntity {
 
-    @NotNull
     private Integer parcelHistoryEntryId;
-    @NotNull
     private byte[] document;
 
     public Document() {

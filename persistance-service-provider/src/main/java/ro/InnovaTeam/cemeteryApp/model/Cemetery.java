@@ -1,15 +1,12 @@
 package ro.InnovaTeam.cemeteryApp.model;
 
-import java.util.List;
-
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
-public class Cemetery extends BaseEntity{
+public class Cemetery extends BaseEntity {
 
     private String name;
     private String address;
-    private List<Parcel> parcels;
 
     public Cemetery() {
         super("cemeteries");
@@ -35,14 +32,6 @@ public class Cemetery extends BaseEntity{
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public List<Parcel> getParcels() {
-        return parcels;
-    }
-
-    public void setParcels(List<Parcel> parcels) {
-        this.parcels = parcels;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package ro.InnovaTeam.cemeteryApp.model;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -8,17 +7,11 @@ import java.util.Date;
  */
 public class Contract extends BaseEntity {
 
-    @NotNull
     private Integer structureId;
-    @NotNull
     private Integer clientId;
-    @NotNull
     private Date signedOn;
-    @NotNull
     private Date updatedOn;
-    @NotNull
     private String type;
-    @NotNull
     private Date expiresOn;
     private Structure structure;
     private Client client;

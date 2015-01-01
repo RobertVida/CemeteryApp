@@ -1,5 +1,5 @@
 package ro.InnovaTeam.cemeteryApp.model;
-import javax.validation.constraints.NotNull;
+
 import java.util.Date;
 
 /**
@@ -7,13 +7,9 @@ import java.util.Date;
  */
 public class LogEntry extends BaseEntity{
 
-    @NotNull
     private String tableChanged;
-    @NotNull
     private Integer idAffected;
-    @NotNull
     private Date tookPlaceOn;
-    @NotNull
     private String action;
     private String oldValue;
     private String newValue;

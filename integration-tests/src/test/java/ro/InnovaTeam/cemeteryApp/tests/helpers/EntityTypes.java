@@ -14,6 +14,7 @@ public enum EntityTypes {
     GRAVE,
     MONUMENT,
     CLIENT,
+    DECEASED,
     REQUEST,
     LOG;
 
@@ -23,6 +24,7 @@ public enum EntityTypes {
         put(GraveDTO.class, GRAVE);
         put(MonumentDTO.class, MONUMENT);
         put(ClientDTO.class, CLIENT);
+        put(DeceasedDTO.class, DECEASED);
         put(RestingPlaceRequestDTO.class, REQUEST);
         put(LogEntryDTO.class, LOG);
     }};
@@ -33,6 +35,7 @@ public enum EntityTypes {
         put(GRAVE, GraveDTO.class);
         put(MONUMENT, MonumentDTO.class);
         put(CLIENT, ClientDTO.class);
+        put(DECEASED, DeceasedDTO.class);
         put(REQUEST, RestingPlaceRequestDTO.class);
         put(LOG, LogEntryDTO.class);
     }};

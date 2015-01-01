@@ -94,13 +94,15 @@
         <property column="status" name="status"/>
     </class>
 
-    <!--Todo:Someone is going to fix this-->
-    <!--<class name="ro.InnovaTeam.cemeteryApp.model.Deceased" entity-name="burialdocuments" table="burialdocuments">-->
-        <!--<id column="burial_document_id" name="id">-->
-            <!--<generator class="native" />-->
-        <!--</id>-->
-        <!--<property column="structure_id" name="str"/>-->
-    <!--</class>-->
+    <!--BurialDocument-->
+    <class name="ro.InnovaTeam.cemeteryApp.model.BurialDocument" entity-name="burialdocuments" table="burialdocuments">
+        <id column="burial_document_id" name="id">
+            <generator class="native" />
+        </id>
+        <property column="structure_id" name="structureId"/>
+        <property column="deceased_id" name="deceasedId" update="false"/>
+        <property column="buried_on" name="burialOn"/>
+    </class>
 
 
 

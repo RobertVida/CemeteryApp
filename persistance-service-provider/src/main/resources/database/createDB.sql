@@ -52,16 +52,16 @@ CREATE TABLE IF NOT EXISTS `structures` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `parcelhistory`
+-- Table structure for table `structurehistory`
 --
 
-CREATE TABLE IF NOT EXISTS `parcelhistory` (
-  `parcel_history_id` int(7) unsigned NOT NULL AUTO_INCREMENT,
-  `parcel_id` int(7) unsigned NOT NULL,
+CREATE TABLE IF NOT EXISTS `structurehistory` (
+  `structure_history_id` int(7) unsigned NOT NULL AUTO_INCREMENT,
+  `structure_id` int(7) unsigned NOT NULL,
   `description` text NOT NULL,
   `date` datetime NOT NULL,
-  PRIMARY KEY(`parcel_history_id`),
-  FOREIGN KEY(`parcel_id`) REFERENCES `parcels`(`parcel_id`)
+  PRIMARY KEY(`structure_history_id`),
+  FOREIGN KEY(`structure_id`) REFERENCES `structures`(`structure_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table containing history of each parcel';
 
 -- --------------------------------------------------------
@@ -72,10 +72,10 @@ CREATE TABLE IF NOT EXISTS `parcelhistory` (
 
 CREATE TABLE IF NOT EXISTS `documents` (
   `document_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `parcel_history_id` int(7) unsigned NOT NULL,
+  `structure_history_id` int(7) unsigned NOT NULL,
   `document` binary(255) NOT NULL,
   PRIMARY KEY(`document_id`),
-  FOREIGN KEY(`parcel_history_id`) REFERENCES `parcelhistory`(`parcel_history_id`)
+  FOREIGN KEY(`structure_history_id`) REFERENCES `structurehistory`(`structure_history_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='table containing different types of documents';
 
 -- --------------------------------------------------------
@@ -160,7 +160,8 @@ CREATE TABLE IF NOT EXISTS `burialdocuments` (
   `buried_on` datetime NOT NULL,
   PRIMARY KEY(`burial_document_id`),
   FOREIGN KEY(`structure_id`) REFERENCES `structures`(`structure_id`),
-  FOREIGN KEY(`deceased_id`) REFERENCES `deceased`(`deceased_id`)
+  FOREIGN KEY(`deceased_id`) REFERENCES `deceased`(`deceased_id`),
+  UNIQUE(`deceased_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table containing info in documents of deceased people';
 
 -- --------------------------------------------------------

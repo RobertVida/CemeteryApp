@@ -24,11 +24,13 @@ public class AuthenticationController {
             user.setUsername("admin");
             user.setPassword("admin");
             user.setId(1);
+            user.setRole("admin");
         } else if(username.equals("u") && password.equals("p")){
             user = new UserDTO();
             user.setUsername("u");
             user.setPassword("p");
             user.setId(2);
+            user.setRole("guest");
         }
         return user;
     }

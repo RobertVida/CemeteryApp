@@ -13,7 +13,6 @@ public class Structure extends BaseEntity {
     private String type;
     private Integer width;
     private Integer length;
-    private List<Deceased> deceased;
 
     public Structure() {
         super("structures");
@@ -70,14 +69,6 @@ public class Structure extends BaseEntity {
 
     public void setLength(Integer length) {
         this.length = length;
-    }
-
-    public List<Deceased> getDeceased() {
-        return deceased;
-    }
-
-    public void setDeceased(List<Deceased> deceased) {
-        this.deceased = deceased;
     }
 
     @Override

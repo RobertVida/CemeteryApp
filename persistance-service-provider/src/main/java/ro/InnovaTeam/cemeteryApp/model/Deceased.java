@@ -11,9 +11,7 @@ public class Deceased extends BaseEntity {
     private String cnp;
     private String religion;
     private Date diedOn;
-    private Integer burialDocumentId;
-    private Integer structureId;
-    private Date burialOn;
+    private BurialDocument document = new BurialDocument();
 
     public Deceased() {
         super("deceased");
@@ -30,9 +28,14 @@ public class Deceased extends BaseEntity {
         this.cnp = cnp;
         this.religion = religion;
         this.diedOn = diedOn;
-        this.burialDocumentId = burialDocumentId;
-        this.structureId = structureId;
-        this.burialOn = burialOn;
+        setBurialDocumentId(burialDocumentId);
+        setStructureId(structureId);
+        setBurialOn(burialOn);
+    }
+
+    public void setId(Integer id){
+        super.setId(id);
+        document.setDeceasedId(id);
     }
 
     public String getFirstName() {
@@ -76,27 +79,35 @@ public class Deceased extends BaseEntity {
     }
 
     public Integer getBurialDocumentId() {
-        return burialDocumentId;
+        return document.getId();
     }
 
     public void setBurialDocumentId(Integer burialDocumentId) {
-        this.burialDocumentId = burialDocumentId;
+        this.document.setId(burialDocumentId);
     }
 
     public Integer getStructureId() {
-        return structureId;
+        return document.getStructureId();
     }
 
     public void setStructureId(Integer structureId) {
-        this.structureId = structureId;
+        this.document.setStructureId(structureId);
     }
 
     public Date getBurialOn() {
-        return burialOn;
+        return document.getBurialOn();
     }
 
     public void setBurialOn(Date burialOn) {
-        this.burialOn = burialOn;
+        this.document.setBurialOn(burialOn);
+    }
+
+    public BurialDocument getDocument() {
+        return document;
+    }
+
+    public void setDocument(BurialDocument document) {
+        this.document = document;
     }
 
     @Override
@@ -108,9 +119,7 @@ public class Deceased extends BaseEntity {
                 ", cnp='" + cnp + '\'' +
                 ", religion='" + religion + '\'' +
                 ", diedOn=" + diedOn +
-                ", burialDocumentId=" + burialDocumentId +
-                ", structureId=" + structureId +
-                ", burialOn=" + burialOn +
+                ", document=" + document.toStringNoEntityName() +
                 '}';
     }
 }
