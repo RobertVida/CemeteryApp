@@ -14,6 +14,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.DeceasedDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
+import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
 import ro.InnovaTeam.cemeteryApp.restClient.DeceasedRestClient;
 import org.apache.commons.configuration.Configuration;
 
@@ -67,6 +68,7 @@ public class DeceasedController {
                 deceasedFilterDTO.getParentId())) / (float) PAGE_SIZE;
         model.addAttribute("pages", Math.ceil(pages));
         model.addAttribute("deceasedList", deceasedDTOs);
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "deceased/deceasedPage";
     }
 
@@ -76,6 +78,7 @@ public class DeceasedController {
         if (!model.containsAttribute("deceasedDTOExists")) {
             model.addAttribute("deceased", new DeceasedDTO());
         }
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "deceased/deceasedDetailsPage";
     }
 
@@ -96,6 +99,7 @@ public class DeceasedController {
 
         model.addAttribute("deceased", deceasedDTO);
         model.addAttribute("view", true);
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "deceased/deceasedDetailsPage";
     }
 

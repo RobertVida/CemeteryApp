@@ -40,8 +40,10 @@
                     <td>${grave.width}</td>
                     <td>${grave.length}</td>
                     <td>
+                        <c:if test="${hasAdminRole}">
+                            <a href="${contextPath}/delete/${grave.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                        </c:if>
                         <a href="${contextPath}/get/${grave.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
-                        <a href="${contextPath}/delete/${grave.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
                     </td>
                 </tr>
             </c:forEach>
@@ -58,9 +60,11 @@
                 </ul>
             </nav>
         </c:if>
-        <div style="margin-right: 20px; float: right;">
-            <button id="addButton" onclick="GraveManagerJS.renderAddPage();" type="submit" class="btn btn-default">Adauga mormant</button>
-        </div>
+        <c:if test="${hasAdminRole}">
+            <div style="margin-right: 20px; float: right;">
+                <button id="addButton" onclick="GraveManagerJS.renderAddPage();" type="submit" class="btn btn-default">Adauga mormant</button>
+            </div>
+        </c:if>
     </div>
 </body>
 <input id="addGravePageURL" type="hidden" value="${contextPath}/add"/>

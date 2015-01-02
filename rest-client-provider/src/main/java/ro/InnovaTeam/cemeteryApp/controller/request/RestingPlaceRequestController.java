@@ -15,6 +15,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.RestingPlaceRequestDTO;
+import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
 import ro.InnovaTeam.cemeteryApp.controller.client.ClientsController;
 import ro.InnovaTeam.cemeteryApp.restClient.RestingPlaceRequestRestClient;
 
@@ -79,6 +80,7 @@ public class RestingPlaceRequestController {
         model.addAttribute("pages", Math.ceil(pages));
         model.addAttribute("requestList", requests);
         model.addAttribute("requestPath", REQUEST);
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "request/requestsPage";
     }
 
@@ -90,6 +92,7 @@ public class RestingPlaceRequestController {
             model.addAttribute("request", requestDTO != null ? requestDTO : new RestingPlaceRequestDTO());
             request.getSession().removeAttribute(ClientsController.REQUEST_DTO);
         }
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "request/requestDetailsPage";
     }
 
@@ -110,6 +113,7 @@ public class RestingPlaceRequestController {
 
         model.addAttribute("request", requestDTO);
         model.addAttribute("view", true);
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "request/requestDetailsPage";
     }
 

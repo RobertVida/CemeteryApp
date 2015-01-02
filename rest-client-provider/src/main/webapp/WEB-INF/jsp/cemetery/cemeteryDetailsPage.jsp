@@ -57,10 +57,12 @@
                     </div>
                 </div>
 
-                <c:if test="${view eq true}">
-                    <input type="button" onclick="CemeteriesManagerJS.deleteCemetery();" value="Sterge" class="btn btn-default pull-right" style="margin-right: 15px;"/>
+                <c:if test="${hasAdminRole}">
+                    <c:if test="${view eq true}">
+                        <input type="button" onclick="CemeteriesManagerJS.deleteCemetery();" value="Sterge" class="btn btn-default pull-right" style="margin-right: 15px;"/>
+                    </c:if>
+                    <input onclick="CemeteryJs.validateAndSubmitForm('#cemeteryForm');" type="button" class="btn btn-default pull-right" style="margin-right: 15px;" value="Salveaz&#259;"/>
                 </c:if>
-                <input onclick="CemeteryJs.validateAndSubmitForm('#cemeteryForm');" type="button" class="btn btn-default pull-right" style="margin-right: 15px;" value="Salveaz&#259;"/>
             </div>
         </form:form>
     </div>

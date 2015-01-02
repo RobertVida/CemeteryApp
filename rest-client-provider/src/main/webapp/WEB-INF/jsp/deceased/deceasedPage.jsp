@@ -56,7 +56,9 @@
                 <td><fmt:formatDate value="${deceased.burialOn}" pattern="${pattern}"/></td>
                 <td>
                     <a href="${contextPath}/get/${deceased.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
-                    <a href="${contextPath}/delete/${deceased.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                    <c:if test="${hasAdminRole}">
+                        <a href="${contextPath}/delete/${deceased.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                    </c:if>
                 </td>
             </tr>
         </c:forEach>
@@ -73,9 +75,11 @@
             </ul>
         </nav>
     </c:if>
-    <div style="margin-right: 20px; margin-bottom: 20px; float: right;">
-        <button onclick="DeceasedManagerJS.renderAddPage();" type="submit" class="btn btn-default">Adauga decedat</button>
-    </div>
+    <c:if test="${hasAdminRole}">
+        <div style="margin-right: 20px; margin-bottom: 20px; float: right;">
+            <button onclick="DeceasedManagerJS.renderAddPage();" type="submit" class="btn btn-default">Adauga decedat</button>
+        </div>
+    </c:if>
 </div>
 <input id="addDeceasedPageURL" type="hidden" value="${pageContext.request.contextPath}/deceased/add"/>
 <input id="deceasedFilterURL" type="hidden" value="${pageContext.request.contextPath}/deceased/filter"/>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.ClientDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.RestingPlaceRequestDTO;
+import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
 import ro.InnovaTeam.cemeteryApp.controller.request.RestingPlaceRequestController;
 import ro.InnovaTeam.cemeteryApp.restClient.ClientRestClient;
 
@@ -64,6 +65,7 @@ public class ClientsController {
         model.addAttribute("addPageURL", ADD_CLIENT);
         model.addAttribute("filterURL", FILTER);
         model.addAttribute("refreshFilterURL", REFRESH_FILTER);
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
 
         return "client/clientsPage";
     }
@@ -96,6 +98,7 @@ public class ClientsController {
 
         model.addAttribute("client", clientDTO);
         model.addAttribute("view", true);
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "client/clientDetailsPage";
     }
 
@@ -105,6 +108,7 @@ public class ClientsController {
         if (!model.containsAttribute("clientDTOExists")) {
             model.addAttribute("client", new ClientDTO());
         }
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "client/clientDetailsPage";
     }
 

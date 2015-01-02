@@ -49,12 +49,14 @@
                         <td>${client.phoneNumber}</td>
                         <td>${client.address}</td>
                         <td>
+                            <c:if test="${hasAdminRole}">
+                                <a href="${contextPath}/delete/${client.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                                <a href="${contextPath}/addRequest/${client.id}" >
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </a>
+                            </c:if>
                             <a href="${contextPath}/get/${client.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
-                            <a href="${contextPath}/delete/${client.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
                             <a href="${contextPath}/filterRequests/${client.id}" ><img class="action-icon" src="<c:url value="/resources/icons/requests.png" />"/></a>
-                            <a href="${contextPath}/addRequest/${client.id}" >
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                            </a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -71,9 +73,11 @@
                 </ul>
             </nav>
         </c:if>
-        <div style="margin-right: 20px; margin-bottom: 20px; float: right;">
-            <button onclick="ClientsManagerJS.renderAddPage();" type="submit" class="btn btn-default">Adauga client</button>
-        </div>
+        <c:if test="${hasAdminRole}">
+            <div style="margin-right: 20px; margin-bottom: 20px; float: right;">
+                <button onclick="ClientsManagerJS.renderAddPage();" type="submit" class="btn btn-default">Adauga client</button>
+            </div>
+        </c:if>
     </div>
 </body>
 <input id="getClientsURL" type="hidden" value="${pageContext.request.contextPath}${clientsPageURL}"/>

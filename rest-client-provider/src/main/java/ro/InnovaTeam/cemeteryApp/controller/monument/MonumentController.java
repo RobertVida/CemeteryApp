@@ -15,6 +15,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.MonumentDTO;
+import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
 import ro.InnovaTeam.cemeteryApp.controller.parcel.ParcelController;
 import ro.InnovaTeam.cemeteryApp.restClient.MonumentRestClient;
 
@@ -69,6 +70,7 @@ public class MonumentController {
         model.addAttribute("pages", Math.ceil(pages));
         model.addAttribute("monumentList", monuments);
         model.addAttribute("monumentPath", MONUMENT);
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "monument/monumentsPage";
     }
 
@@ -80,6 +82,7 @@ public class MonumentController {
             model.addAttribute("monument", monumentDTO != null ? monumentDTO : new MonumentDTO());
             request.getSession().removeAttribute(ParcelController.MONUMENT_DTO);
         }
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "monument/monumentDetailsPage";
     }
 
@@ -100,6 +103,7 @@ public class MonumentController {
 
         model.addAttribute("monument", monumentDTO);
         model.addAttribute("view", true);
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "monument/monumentDetailsPage";
     }
 

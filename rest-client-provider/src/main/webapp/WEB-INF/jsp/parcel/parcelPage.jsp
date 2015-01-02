@@ -45,15 +45,21 @@
                     <td>${parcel.cemeteryId}</td>
                     <td>
                         <a href="${contextPath}/get/${parcel.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
-                        <a href="${contextPath}/delete/${parcel.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                        <c:if test="${hasAdminRole}">
+                            <a href="${contextPath}/delete/${parcel.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                        </c:if>
                         <a href="${contextPath}/filterStructures/${parcel.id}/grave" ><img class="action-icon" src="<c:url value="/resources/icons/graves.png" />"/></a>
-                        <a href="${contextPath}/addStructure/${parcel.id}/grave" >
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                        </a>
+                        <c:if test="${hasAdminRole}">
+                            <a href="${contextPath}/addStructure/${parcel.id}/grave" >
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            </a>
+                        </c:if>
                         <a href="${contextPath}/filterStructures/${parcel.id}/monument" ><img class="action-icon" src="<c:url value="/resources/icons/monument.png" />"/></a>
-                        <a href="${contextPath}/addStructure/${parcel.id}/monument" >
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                        </a>
+                        <c:if test="${hasAdminRole}">
+                            <a href="${contextPath}/addStructure/${parcel.id}/monument" >
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            </a>
+                        </c:if>
                     </td>
                 </tr>
             </c:forEach>
@@ -70,9 +76,11 @@
                 </ul>
             </nav>
         </c:if>
-        <div style="margin-right: 20px; margin-bottom: 20px; float: right;">
-            <button onclick="ParcelsManagerJS.renderAddPage();" type="submit" class="btn btn-default">Adauga parcela</button>
-        </div>
+        <c:if test="${hasAdminRole}">
+            <div style="margin-right: 20px; margin-bottom: 20px; float: right;">
+                <button onclick="ParcelsManagerJS.renderAddPage();" type="submit" class="btn btn-default">Adauga parcela</button>
+            </div>
+        </c:if>
     </div>
 </body>
 <input id="addParcelPageURL" type="hidden" value="${pageContext.request.contextPath}/parcel/add"/>

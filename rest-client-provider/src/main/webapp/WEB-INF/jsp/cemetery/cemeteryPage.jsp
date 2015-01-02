@@ -42,11 +42,13 @@
                     <td>${cemetery.address}</td>
                     <td>
                         <a href="${contextPath}/get/${cemetery.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
-                        <a href="${contextPath}/delete/${cemetery.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
                         <a href="${contextPath}/filterParcels/${cemetery.id}" ><img class="action-icon" src="<c:url value="/resources/icons/parcels.png" />"/></a>
-                        <a href="${contextPath}/addParcel/${cemetery.id}" >
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                        </a>
+                        <c:if test="${hasAdminRole}">
+                            <a href="${contextPath}/delete/${cemetery.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                            <a href="${contextPath}/addParcel/${cemetery.id}" >
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                            </a>
+                        </c:if>
                     </td>
                 </tr>
             </c:forEach>
@@ -63,9 +65,11 @@
                 </ul>
             </nav>
         </c:if>
-        <div style="margin-right: 20px; margin-bottom: 20px; float: right;">
-            <button onclick="CemeteriesManagerJS.renderAddPage();" type="submit" class="btn btn-default">Adauga cimitir</button>
-        </div>
+        <c:if test="${hasAdminRole}">
+            <div style="margin-right: 20px; margin-bottom: 20px; float: right;">
+                <button onclick="CemeteriesManagerJS.renderAddPage();" type="submit" class="btn btn-default">Adauga cimitir</button>
+            </div>
+        </c:if>
     </div>
 </body>
 <input id="addPageURL" type="hidden" value="${pageContext.request.contextPath}/cemetery/add"/>

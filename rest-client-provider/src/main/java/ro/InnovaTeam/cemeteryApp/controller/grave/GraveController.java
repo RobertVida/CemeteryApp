@@ -15,8 +15,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.GraveDTO;
-import ro.InnovaTeam.cemeteryApp.ParcelDTO;
-import ro.InnovaTeam.cemeteryApp.controller.cemetery.CemeteryController;
+import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
 import ro.InnovaTeam.cemeteryApp.controller.parcel.ParcelController;
 import ro.InnovaTeam.cemeteryApp.restClient.GraveRestClient;
 
@@ -71,6 +70,7 @@ public class GraveController {
         model.addAttribute("pages", Math.ceil(pages));
         model.addAttribute("graveList", graves);
         model.addAttribute("gravePath", GRAVE);
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "grave/gravesPage";
     }
 
@@ -82,6 +82,7 @@ public class GraveController {
             model.addAttribute("grave", graveDTO != null ? graveDTO : new GraveDTO());
             request.getSession().removeAttribute(ParcelController.GRAVE_DTO);
         }
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "grave/graveDetailsPage";
     }
 
@@ -102,6 +103,7 @@ public class GraveController {
 
         model.addAttribute("grave", graveDTO);
         model.addAttribute("view", true);
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "grave/graveDetailsPage";
     }
 

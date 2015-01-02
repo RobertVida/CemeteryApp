@@ -17,6 +17,7 @@ import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.GraveDTO;
 import ro.InnovaTeam.cemeteryApp.MonumentDTO;
 import ro.InnovaTeam.cemeteryApp.ParcelDTO;
+import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
 import ro.InnovaTeam.cemeteryApp.controller.cemetery.CemeteryController;
 import ro.InnovaTeam.cemeteryApp.controller.grave.GraveController;
 import ro.InnovaTeam.cemeteryApp.controller.monument.MonumentController;
@@ -62,6 +63,7 @@ public class ParcelController {
         model.addAttribute("pages", Math.ceil(pages));
         model.addAttribute("parcelList", parcels);
         model.addAttribute("parcelPath", PARCEL);
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "parcel/parcelPage";
     }
 
@@ -73,6 +75,7 @@ public class ParcelController {
             model.addAttribute("parcel", parcelDTO != null ? parcelDTO : new ParcelDTO());
             request.getSession().removeAttribute(CemeteryController.PARCEL_DTO);
         }
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "parcel/parcelDetailsPage";
     }
 
@@ -93,6 +96,7 @@ public class ParcelController {
 
         model.addAttribute("parcel", ParcelDTO);
         model.addAttribute("view", true);
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "parcel/parcelDetailsPage";
     }
 
@@ -149,7 +153,7 @@ public class ParcelController {
     }
 
     @RequestMapping(value = "/filterStructures/{parcelId}/{type}", method = RequestMethod.GET)
-    public void filterGravesByParcelId(@PathVariable Integer parcelId, @PathVariable String type, HttpServletRequest request, HttpServletResponse response) {
+    public void filterStructureByParcelId(@PathVariable Integer parcelId, @PathVariable String type, HttpServletRequest request, HttpServletResponse response) {
         FilterDTO structureFilterDTO = new FilterDTO();
         structureFilterDTO.setSearchCriteria("");
         structureFilterDTO.setParentId(parcelId);
@@ -165,7 +169,7 @@ public class ParcelController {
     }
 
     @RequestMapping(value = "/addStructure/{parcelId}/{type}", method = RequestMethod.GET)
-    public void addParcelForCemeteryId(@PathVariable Integer parcelId, @PathVariable String type, HttpServletRequest request, HttpServletResponse response) {
+    public void addStructureForParcelId(@PathVariable Integer parcelId, @PathVariable String type, HttpServletRequest request, HttpServletResponse response) {
         String redirectPath;
         if ("grave".equals(type)) {
             GraveDTO graveDTO = new GraveDTO();

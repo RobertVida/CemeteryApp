@@ -54,6 +54,8 @@
 
         <json.version>1.1.1</json.version>
         <junit-version>4.11</junit-version>
+
+        <aspectj.version>1.6.11</aspectj.version>
     </properties>
 
     <profiles>

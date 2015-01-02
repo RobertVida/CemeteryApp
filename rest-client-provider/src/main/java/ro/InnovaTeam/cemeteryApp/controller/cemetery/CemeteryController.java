@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ro.InnovaTeam.cemeteryApp.CemeteryDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.ParcelDTO;
+import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
 import ro.InnovaTeam.cemeteryApp.controller.parcel.ParcelController;
 import ro.InnovaTeam.cemeteryApp.restClient.CemeteryRestClient;
 
@@ -57,6 +58,7 @@ public class CemeteryController {
         model.addAttribute("pages", Math.ceil(pages));
         model.addAttribute("cemeteryList", cemeteries);
         model.addAttribute("cemeteryPath", CEMETERY);
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "cemetery/cemeteryPage";
     }
 
@@ -66,6 +68,7 @@ public class CemeteryController {
         if (!model.containsAttribute("cemeteryDTOExists")) {
             model.addAttribute("cemetery", new CemeteryDTO());
         }
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "cemetery/cemeteryDetailsPage";
     }
 
@@ -86,6 +89,7 @@ public class CemeteryController {
 
         model.addAttribute("cemetery", cemeteryDTO);
         model.addAttribute("view", true);
+        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "cemetery/cemeteryDetailsPage";
     }
 

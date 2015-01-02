@@ -54,7 +54,9 @@
                 <td>${request.status}</td>
                 <td>
                     <a href="${contextPath}/get/${request.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
-                    <a href="${contextPath}/delete/${request.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                    <c:if test="${hasAdminRole}">
+                        <a href="${contextPath}/delete/${request.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                    </c:if>
                 </td>
             </tr>
         </c:forEach>
@@ -71,9 +73,11 @@
             </ul>
         </nav>
     </c:if>
-    <div style="margin-right: 20px; margin-bottom: 20px; float: right;">
-        <button onclick="RequestsManagerJS.renderAddPage();" type="submit" class="btn btn-default">Adauga cerere</button>
-    </div>
+    <c:if test="${hasAdminRole}">
+        <div style="margin-right: 20px; margin-bottom: 20px; float: right;">
+            <button onclick="RequestsManagerJS.renderAddPage();" type="submit" class="btn btn-default">Adauga cerere</button>
+        </div>
+    </c:if>
 </div>
 </body>
 <input id="addRequestPageURL" type="hidden" value="${contextPath}/add"/>

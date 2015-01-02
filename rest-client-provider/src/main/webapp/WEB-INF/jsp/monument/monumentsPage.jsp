@@ -54,8 +54,10 @@
                 <td>${monument.name}</td>
                 <td>${monument.description}</td>
                 <td>
+                    <c:if test="${hasAdminRole}">
+                        <a href="${contextPath}/delete/${monument.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                    </c:if>
                     <a href="${contextPath}/get/${monument.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
-                    <a href="${contextPath}/delete/${monument.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
                 </td>
             </tr>
         </c:forEach>
@@ -72,9 +74,11 @@
             </ul>
         </nav>
     </c:if>
-    <div style="margin-right: 20px; float: right;">
-        <button id="addButton" onclick="MonumentsManagerJS.renderAddPage();" type="submit" class="btn btn-default">Adauga monument</button>
-    </div>
+    <c:if test="${hasAdminRole}">
+        <div style="margin-right: 20px; float: right;">
+            <button id="addButton" onclick="MonumentsManagerJS.renderAddPage();" type="submit" class="btn btn-default">Adauga monument</button>
+        </div>
+    </c:if>
 </div>
 </body>
 <input id="addMonumentPageURL" type="hidden" value="${contextPath}/add"/>
