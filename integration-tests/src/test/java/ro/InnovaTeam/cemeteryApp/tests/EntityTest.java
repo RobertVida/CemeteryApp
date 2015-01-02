@@ -349,6 +349,54 @@ public class EntityTest extends PerformTest {
         }
     };
 
+    protected Action<StructureHistoryEntryDTO, StructureHistoryEntryList> structureHistory = new Action<StructureHistoryEntryDTO, StructureHistoryEntryList>() {
+
+        @Override
+        public StructureHistoryEntryDTO get(StructureHistoryEntryDTO entryDTO) throws Exception {
+            return getEntity("/structureHistory/", entryDTO, StructureHistoryEntryDTO.class);
+        }
+
+        @Override
+        public StructureHistoryEntryDTO delete(StructureHistoryEntryDTO entryDTO) throws Exception {
+            return deleteEntity("/structureHistory/1/", entryDTO, StructureHistoryEntryDTO.class);
+        }
+
+        @Override
+        public StructureHistoryEntryDTO update(StructureHistoryEntryDTO entryDTO) throws Exception {
+            return updateEntity("/structureHistory/", entryDTO, StructureHistoryEntryDTO.class);
+        }
+
+        @Override
+        public StructureHistoryEntryDTO create(StructureHistoryEntryDTO entryDTO) throws Exception {
+            return createEntity("/structureHistory", entryDTO);
+        }
+
+        @Override
+        public StructureHistoryEntryList filter(FilterDTO filterDTO) throws Exception {
+            return filterEntities("/structureHistories", filterDTO, StructureHistoryEntryList.class);
+        }
+
+        @Override
+        public StructureHistoryEntryList filter(FilterDTO filterDTO, String data) throws Exception {
+            return null;
+        }
+
+        @Override
+        public StructureHistoryEntryList filter(Integer parentId) throws Exception {
+            return null;
+        }
+
+        @Override
+        public Integer count(FilterDTO filterDTO) throws Exception {
+            return countEntities("/structureHistories/count", filterDTO);
+        }
+
+        @Override
+        public Integer count(FilterDTO filterDTO, String data) throws Exception {
+            return null;
+        }
+    };
+
     //=================================================================================ENTITY
     private <T extends BaseDTO> T getEntity(String url, T obj, Class<T> targetClass) throws Exception {
         return getResultAsObject(performGet(url + obj.getId()).andReturn(), targetClass);
@@ -428,6 +476,10 @@ public class EntityTest extends PerformTest {
             DeceasedDTO deceasedDTO = new DeceasedDTO();
             deceasedDTO.setId(id);
             deceased.delete(deceasedDTO);
+        } else if (type.equals(STRUCTURE_HISTORY)) {
+            StructureHistoryEntryDTO entryDTO = new StructureHistoryEntryDTO();
+            entryDTO.setId(id);
+            structureHistory.delete(entryDTO);
         }
     }
 
@@ -531,5 +583,16 @@ public class EntityTest extends PerformTest {
             requestDTOs[i] = request.create(requestDTOs[i]);
         }
         return requestDTOs;
+    }
+
+    protected StructureHistoryEntryDTO[] setupHistoryEntries(GraveDTO[] graveDTOs) throws Exception {
+        StructureHistoryEntryDTO[] historyEntryDTOs = readJsonFromFile("/structureHistory.json", StructureHistoryEntryDTO[].class);
+        historyEntryDTOs[0].setStructureId(graveDTOs[0].getId());
+        historyEntryDTOs[0] = structureHistory.create(historyEntryDTOs[0]);
+        for(int i = 1 ; i < historyEntryDTOs.length ; i++){
+            historyEntryDTOs[i].setStructureId(graveDTOs[1].getId());
+            historyEntryDTOs[i] = structureHistory.create(historyEntryDTOs[i]);
+        }
+        return historyEntryDTOs;
     }
 }

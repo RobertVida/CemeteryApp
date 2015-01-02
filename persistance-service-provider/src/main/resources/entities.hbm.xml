@@ -83,7 +83,7 @@
         <property column="new_value" name="newValue"/>
     </class>
 
-    <!--RetingPlaceReqeust-->
+    <!--RestingPlaceRequest-->
     <class name="ro.InnovaTeam.cemeteryApp.model.RestingPlaceRequest" entity-name="restingplacerequests" table="restingplacerequests">
         <id column="request_id" name="id">
             <generator class="native"/>
@@ -104,6 +104,14 @@
         <property column="buried_on" name="burialOn"/>
     </class>
 
-
+    <!--BurialDocument-->
+    <class name="ro.InnovaTeam.cemeteryApp.model.StructureHistoryEntry" entity-name="structurehistory" table="structurehistory">
+        <id column="structure_history_id" name="id">
+            <generator class="native" />
+        </id>
+        <property column="structure_id" name="structureId"/>
+        <property column="description" name="description"/>
+        <property column="date" name="date"/>
+    </class>
 
 </hibernate-mapping>

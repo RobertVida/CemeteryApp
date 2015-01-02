@@ -77,7 +77,7 @@
             <div class="submenu-item last-item">
                 <a href="#">
                     <img src="<c:url value="/resources/icons/parcel_history.png" />"/>
-                    <span>Istoric parcele</span>
+                    <span>Istoric structuri</span>
                 </a>
             </div>
         </div>
