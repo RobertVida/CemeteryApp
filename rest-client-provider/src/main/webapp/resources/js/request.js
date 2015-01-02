@@ -26,7 +26,8 @@ var RequestsManagerJS = (function($) {
         var url = $('#requestFilterURL').val();
         var searchCriteria = $('#requestSearchInput').val();
         var clientId = $('#requestClientId').val();
-        var data = { searchCriteria : searchCriteria, clientId : clientId };
+        var status = $('#requestStatusInput').val();
+        var data = { searchCriteria : searchCriteria, clientId : clientId, status : status };
         CemeteryJs.ajaxCall("GET", url, data, 1, '#request-details');
     };
 

@@ -34,7 +34,6 @@ public class DeceasedValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "religion", "empty.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "diedOn", "empty.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "burialDocumentId", "empty.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "structureId", "empty.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "burialOn", "empty.field");
 

@@ -41,4 +41,16 @@ public class RestingPlaceRequestRestClient extends GenericRestClient {
     public static Integer getRequestCount(FilterDTO filterDTO) {
         return getCount(filterDTO, BASE_URL + REQUESTS_URL + "/count");
     }
+
+    public static Integer countRequestByFilterAndStatus(FilterDTO filterDTO, String status) {
+        return getJSONRestTemplate().postForObject(BASE_URL + REQUESTS_FOR_STATUS_URL + "/count",
+                filterDTO, Integer.class, status);
+    }
+
+    public static List<RestingPlaceRequestDTO> findRequestByFilterAndStatus(FilterDTO filterDTO, String status) {
+        RestingPlaceRequestList list = getJSONRestTemplate().postForObject(BASE_URL + REQUESTS_FOR_STATUS_URL,
+                filterDTO, RestingPlaceRequestList.class, status);
+
+        return list.getContent();
+    }
 }

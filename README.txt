@@ -8,8 +8,6 @@
 
 
 
-1. add status search box for RestingPlaceRequest                                (_)
-2. remove "Id-ul documentului de inmormantare" box from create deceassed        (_)
-3. contract
+1. contract
     -   CREATE from : show all fields except updatedOn & expiresOn              (_)
     -   UPDATE form : show all fields except signedOn                           (_)

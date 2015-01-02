@@ -35,6 +35,7 @@ public class RestingPlaceRequestController {
     private static final Logger logger = LoggerFactory.getLogger(RestingPlaceRequestController.class);
     public static final String REQUEST = "/request";
     public static final String REQUEST_FILTER = "requestFilter";
+    public static final String REQUEST_STATUS = "requestStatus";
     public static final int PAGE_SIZE = 20;
 
     @Autowired
@@ -58,14 +59,23 @@ public class RestingPlaceRequestController {
         requestFilterDTO = requestFilterDTO != null ? requestFilterDTO : new FilterDTO();
         String param = request.getParameter("pageNo");
         Integer pageNo = param != null ? Integer.valueOf(param) : 1;
+        String status = (String) request.getSession().getAttribute(REQUEST_STATUS);
 
         List<RestingPlaceRequestDTO> requests;
         requestFilterDTO.setPageNo(pageNo);
         requestFilterDTO.setPageSize(PAGE_SIZE);
-        requests = RestingPlaceRequestRestClient.getRequestsByFilter(requestFilterDTO);
+        float pages;
+        if (StringUtils.isNotEmpty(status)) {
+            requests = RestingPlaceRequestRestClient.findRequestByFilterAndStatus(requestFilterDTO, status);
+            pages = RestingPlaceRequestRestClient.countRequestByFilterAndStatus(new FilterDTO(requestFilterDTO.getSearchCriteria(),
+                    requestFilterDTO.getParentId()), status);
+        } else {
+            requests = RestingPlaceRequestRestClient.getRequestsByFilter(requestFilterDTO);
+            pages = RestingPlaceRequestRestClient.getRequestCount(new FilterDTO(requestFilterDTO.getSearchCriteria(),
+                    requestFilterDTO.getParentId()));
+        }
 
-        float pages = RestingPlaceRequestRestClient.getRequestCount(new FilterDTO(requestFilterDTO.getSearchCriteria(),
-                requestFilterDTO.getParentId())) / (float) PAGE_SIZE;
+        pages /= (float) PAGE_SIZE;
         model.addAttribute("pages", Math.ceil(pages));
         model.addAttribute("requestList", requests);
         model.addAttribute("requestPath", REQUEST);
@@ -129,6 +139,7 @@ public class RestingPlaceRequestController {
     public void applyFilter(HttpServletRequest request, HttpServletResponse response) {
         String searchCriteria = request.getParameter("searchCriteria");
         String clientId = request.getParameter("clientId");
+        String status = request.getParameter("status");
         //TODO: validate clientId
         FilterDTO requestFilterDTO = new FilterDTO();
         requestFilterDTO.setSearchCriteria(searchCriteria);
@@ -137,6 +148,7 @@ public class RestingPlaceRequestController {
         }
 
         request.getSession().setAttribute(REQUEST_FILTER, requestFilterDTO);
+        request.getSession().setAttribute(REQUEST_STATUS, status);
 
         try {
             response.sendRedirect(request.getContextPath() + REQUEST);
@@ -148,6 +160,7 @@ public class RestingPlaceRequestController {
     @RequestMapping(value = "/refreshFilter", method = RequestMethod.POST)
     public void refreshFilter(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().removeAttribute(REQUEST_FILTER);
+        request.getSession().removeAttribute(REQUEST_STATUS);
         try {
             response.sendRedirect(request.getContextPath() + REQUEST);
         } catch (IOException e) {

@@ -96,17 +96,19 @@
                 </div>
             </div>
 
-            <div class="form-group h35">
-                <div class="col-lg-4" style="float: left;">
-                    <form:label class="control-label" path="burialDocumentId">Id-ul documentului de inmormantare</form:label>
+            <c:if test="${view eq true}">
+                <div class="form-group h35">
+                    <div class="col-lg-4" style="float: left;">
+                        <form:label class="control-label" path="burialDocumentId">Id-ul documentului de inmormantare</form:label>
+                    </div>
+                    <div class="col-lg-4" style="float: left;">
+                        <form:input path="burialDocumentId" class="form-control number" type="text" pattern="\d*" required="true" readonly="true"/>
+                    </div>
+                    <div class="col-lg-4" style="float: left; color: red">
+                        <form:errors path="burialDocumentId"/>
+                    </div>
                 </div>
-                <div class="col-lg-4" style="float: left;">
-                    <form:input path="burialDocumentId" class="form-control number" type="text" pattern="\d*" required="true"/>
-                </div>
-                <div class="col-lg-4" style="float: left; color: red">
-                    <form:errors path="burialDocumentId"/>
-                </div>
-            </div>
+            </c:if>
 
             <div class="form-group h35">
                 <div class="col-lg-4" style="float: left;">

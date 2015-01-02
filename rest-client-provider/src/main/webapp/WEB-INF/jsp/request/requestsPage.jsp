@@ -22,11 +22,14 @@
         <b>Lista cererilor</b>
     </h4>
     <div style="margin-top: 20px;">
-        <div class="form-group col-lg-4">
-            <input id="requestSearchInput" name="searchCriteria" type="text" class="form-control" placeholder="Cuvinte cheie"/>
-        </div>
-        <div class="form-group col-lg-4">
+        <div class="form-group col-lg-3">
             <input id="requestClientId" name="requestClientId" type="text" class="form-control" placeholder="Id-ul clientului"/>
+        </div>
+        <div class="form-group col-lg-3">
+            <input id="requestSearchInput" name="searchCriteria" type="text" class="form-control" placeholder="Numar"/>
+        </div>
+        <div class="form-group col-lg-3">
+            <input id="requestStatusInput" name="searchCriteria" type="text" class="form-control" placeholder="Status"/>
         </div>
         <button type="button" onclick="RequestsManagerJS.submitFilterForm();" class="btn btn-default">Cauta</button>
         <button type="button" onclick="RequestsManagerJS.refreshFilter();" class="btn btn-default">Resetati filtrele</button>
