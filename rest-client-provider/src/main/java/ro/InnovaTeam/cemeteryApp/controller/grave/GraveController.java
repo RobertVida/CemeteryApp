@@ -129,11 +129,9 @@ public class GraveController {
 
     @RequestMapping(value = "/filter", method = RequestMethod.GET)
     public void applyFilter(HttpServletRequest request, HttpServletResponse response) {
-        String searchCriteria = request.getParameter("searchCriteria");
         String parcelId = request.getParameter("parcelId");
         //TODO validate data
         FilterDTO graveFilterDTO = new FilterDTO();
-        graveFilterDTO.setSearchCriteria(searchCriteria);
         if(StringUtils.isNotEmpty(parcelId)) {
             graveFilterDTO.setParentId(Integer.valueOf(parcelId));
         }

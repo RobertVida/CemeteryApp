@@ -71,10 +71,8 @@ public class LogController {
     public void applyFilter(HttpServletRequest request, HttpServletResponse response) {
         String tableName = request.getParameter("tableName");
         String tableId = request.getParameter("tableId");
-        String searchCriteria = request.getParameter("searchCriteria");
 
         FilterDTO filterDTO = new FilterDTO();
-        filterDTO.setSearchCriteria(searchCriteria);
 
         request.getSession().setAttribute(LOGS_TABLE_NAME, tableName);
         request.getSession().setAttribute(LOGS_TABLE_ID, tableId);

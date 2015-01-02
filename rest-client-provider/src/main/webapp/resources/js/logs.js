@@ -24,9 +24,8 @@ var LogsManagerJS = (function($) {
             tableName = "";
         }
         var tableId = $("#tableIdInput").val();
-        var searchCriteria = $("#logSearchInput").val();
 
-        var data = { searchCriteria : searchCriteria, tableName : tableName, tableId : tableId };
+        var data = { tableName : tableName, tableId : tableId };
         CemeteryJs.ajaxCall("GET", url, data, 1, '#log-details');
     };
 

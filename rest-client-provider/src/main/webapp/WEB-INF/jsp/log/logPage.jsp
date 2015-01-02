@@ -23,9 +23,6 @@
         </h4>
 
         <div style="margin-top: 20px;">
-            <div class="form-group col-lg-2">
-                <input id="logSearchInput" type="text" class="form-control" placeholder="Cuvint cheie">
-            </div>
             <div class="col-lg-4">
                 <select id="tableSelect" class="selectpicker">
                     <option>--Tabela--</option>

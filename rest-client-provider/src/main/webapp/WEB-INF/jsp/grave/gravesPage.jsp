@@ -16,9 +16,6 @@
         </h4>
         <div style="margin-top: 20px;">
             <div class="form-group col-lg-4">
-                <input id="graveSearchInput" type="text" class="form-control" placeholder="Cuvint cheie">
-            </div>
-            <div class="form-group col-lg-4">
                 <input id="graveParcelIdInput" type="text" class="form-control" placeholder="Id-ul parcelei">
             </div>
           <button type="submit" onclick="GraveManagerJS.submitFilterForm();" class="btn btn-default">Cauta</button>

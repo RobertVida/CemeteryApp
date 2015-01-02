@@ -21,9 +21,8 @@ var GraveManagerJS = (function($) {
 
     var submitFilterForm = function () {
         var url = $('#graveFilterURL').val();
-        var searchCriteria = $('#graveSearchInput').val();
         var parcelId = $("#graveParcelIdInput").val();
-        var data = { searchCriteria : searchCriteria, parcelId : parcelId };
+        var data = { parcelId : parcelId };
         CemeteryJs.ajaxCall("GET", url, data, 1, '#grave-details');
     };
 

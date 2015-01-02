@@ -13,5 +13,3 @@
 3. contract
     -   CREATE from : show all fields except updatedOn & expiresOn              (_)
     -   UPDATE form : show all fields except signedOn                           (_)
-4. grave page remove criteria search box                                        (_)
-5. logs page remove criteria search box                                         (_)
