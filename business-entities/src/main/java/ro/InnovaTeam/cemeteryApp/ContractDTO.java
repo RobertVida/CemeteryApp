@@ -1,37 +1,23 @@
-package ro.InnovaTeam.cemeteryApp.model;
+package ro.InnovaTeam.cemeteryApp;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
- * Created by lucian.vaida on 2/11/2014.
+ * Created by robert on 1/2/2015.
  */
-public class Contract extends BaseEntity {
+public class ContractDTO extends BaseDTO {
 
+    @NotNull
     private Integer structureId;
+    @NotNull
     private Integer requestId;
+    @NotNull
     private Date signedOn;
     private Date updatedOn;
     private Date expiresOn;
 
-    public Contract() {
-        super("contracts");
-    }
-
-    public Contract(Integer structureId, Integer requestId, Date signedOn, Date updatedOn, Date expiresOn) {
-        super("contracts");
-        this.structureId = structureId;
-        this.requestId = requestId;
-        this.signedOn = signedOn;
-        this.updatedOn = updatedOn;
-        this.expiresOn = expiresOn;
-    }
-
-    public Date getExpiresOn() {
-        return expiresOn;
-    }
-
-    public void setExpiresOn(Date expiresOn) {
-        this.expiresOn = expiresOn;
+    public ContractDTO() {
     }
 
     public Integer getStructureId() {
@@ -46,8 +32,8 @@ public class Contract extends BaseEntity {
         return requestId;
     }
 
-    public void setRequestId(Integer clientId) {
-        this.requestId = clientId;
+    public void setRequestId(Integer requestId) {
+        this.requestId = requestId;
     }
 
     public Date getSignedOn() {
@@ -66,11 +52,18 @@ public class Contract extends BaseEntity {
         this.updatedOn = updatedOn;
     }
 
+    public Date getExpiresOn() {
+        return expiresOn;
+    }
+
+    public void setExpiresOn(Date expiresOn) {
+        this.expiresOn = expiresOn;
+    }
+
     @Override
     public String toString() {
-        return "Contract{" +
-                "id=" + id +
-                ", structureId=" + structureId +
+        return "ContractDTO{" +
+                "structureId=" + structureId +
                 ", requestId=" + requestId +
                 ", signedOn=" + signedOn +
                 ", updatedOn=" + updatedOn +

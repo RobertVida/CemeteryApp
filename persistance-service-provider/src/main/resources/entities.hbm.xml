@@ -114,4 +114,16 @@
         <property column="date" name="date"/>
     </class>
 
+    <!--BurialDocument-->
+    <class name="ro.InnovaTeam.cemeteryApp.model.Contract" entity-name="contracts" table="contracts">
+        <id column="contract_id" name="id">
+            <generator class="native" />
+        </id>
+        <property column="structure_id" name="structureId"/>
+        <property column="request_id" name="requestId"/>
+        <property column="signed_on" name="signedOn"/>
+        <property column="updated_on" name="updatedOn"/>
+        <property column="expires_on" name="expiresOn"/>
+    </class>
+
 </hibernate-mapping>

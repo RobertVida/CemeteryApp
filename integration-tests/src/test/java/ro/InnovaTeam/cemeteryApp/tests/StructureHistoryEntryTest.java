@@ -50,7 +50,7 @@ public class StructureHistoryEntryTest extends EntityTest {
     }
 
     @Test
-    public void test_Filter_StructureHistoryEntry() throws Exception {
+    public void test_Filter_StructureHistoryEntry_Grave() throws Exception {
         //setup
         CemeteryDTO[] cemeteryDTOs = setupCemeteries();
         ParcelDTO[] parcelDTOs = setupParcels(cemeteryDTOs);
@@ -73,6 +73,41 @@ public class StructureHistoryEntryTest extends EntityTest {
 
         filterResult = structureHistory.filter(getFilter(1, 20, graveDTOs[1].getId(), null));
         assertThat(filterResult.getContent().size(), equalTo(structureHistory.count(getFilter(1, 20, graveDTOs[1].getId(), null))));
+        assertThat(filterResult.getContent().size(), not(equalTo(entryCount)));
+
+        filterResult = structureHistory.filter(getFilter(1, 20, null, "x"));
+        assertThat(filterResult.getContent().size(), equalTo(2));
+        assertThat(filterResult.getContent().size(), not(equalTo(entryCount)));
+
+        filterResult = structureHistory.filter(getFilter(1, 20, null, "y"));
+        assertThat(filterResult.getContent().size(), equalTo(structureHistory.count(getFilter(1, 20, null, "y"))));
+        assertThat(filterResult.getContent().size(), not(equalTo(entryCount)));
+    }
+
+    @Test
+    public void test_Filter_StructureHistoryEntry_Monument() throws Exception {
+        //setup
+        CemeteryDTO[] cemeteryDTOs = setupCemeteries();
+        ParcelDTO[] parcelDTOs = setupParcels(cemeteryDTOs);
+        MonumentDTO[] monumentDTOs = setupMonuments(parcelDTOs);
+
+        //create
+        StructureHistoryEntryDTO[] entryDTOs = setupHistoryEntries(monumentDTOs);
+
+        //filter
+        Integer entryCount = structureHistory.count(getFilter());
+        assertThat(entryCount, equalTo(entryDTOs.length));
+
+        //filter
+        StructureHistoryEntryList filterResult = structureHistory.filter(getFilter());
+        assertThat(filterResult.getContent().size(), equalTo(entryCount));
+
+        filterResult = structureHistory.filter(getFilter(1, 20, monumentDTOs[0].getId(), null));
+        assertThat(filterResult.getContent().size(), equalTo(1));
+        assertThat(filterResult.getContent().size(), not(equalTo(entryCount)));
+
+        filterResult = structureHistory.filter(getFilter(1, 20, monumentDTOs[1].getId(), null));
+        assertThat(filterResult.getContent().size(), equalTo(structureHistory.count(getFilter(1, 20, monumentDTOs[1].getId(), null))));
         assertThat(filterResult.getContent().size(), not(equalTo(entryCount)));
 
         filterResult = structureHistory.filter(getFilter(1, 20, null, "x"));

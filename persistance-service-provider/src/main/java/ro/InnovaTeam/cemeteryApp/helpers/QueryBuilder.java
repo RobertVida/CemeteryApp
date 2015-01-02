@@ -33,7 +33,9 @@ public class QueryBuilder {
     public QueryBuilder where(String...where){
         StringBuilder sb = new StringBuilder();
         for(String e : where){
-            sb.append(e).append(" ");
+            if(e != null) {
+                sb.append(e).append(" ");
+            }
         }
         this.where = sb.toString();
         return this;

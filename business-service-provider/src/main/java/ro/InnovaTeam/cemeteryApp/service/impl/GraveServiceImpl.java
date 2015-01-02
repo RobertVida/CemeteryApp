@@ -30,7 +30,6 @@ public class GraveServiceImpl extends LoggableService<Grave, GraveEAO, LogEntryS
 
     @Override
     public Grave delete(Integer userId, Integer id) {
-        //ToDo delete deceased
         return loggedDelete(graveEAO, logService, userId, id);
     }
 

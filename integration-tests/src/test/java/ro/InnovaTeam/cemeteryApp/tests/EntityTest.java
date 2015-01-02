@@ -397,6 +397,54 @@ public class EntityTest extends PerformTest {
         }
     };
 
+    protected Action<ContractDTO, ContractList> contract = new Action<ContractDTO, ContractList>() {
+
+        @Override
+        public ContractDTO get(ContractDTO contractDTO) throws Exception {
+            return getEntity("/contract/", contractDTO, ContractDTO.class);
+        }
+
+        @Override
+        public ContractDTO delete(ContractDTO contractDTO) throws Exception {
+            return deleteEntity("/contract/1/", contractDTO, ContractDTO.class);
+        }
+
+        @Override
+        public ContractDTO update(ContractDTO contractDTO) throws Exception {
+            return updateEntity("/contract/", contractDTO, ContractDTO.class);
+        }
+
+        @Override
+        public ContractDTO create(ContractDTO contractDTO) throws Exception {
+            return createEntity("/contract", contractDTO);
+        }
+
+        @Override
+        public ContractList filter(FilterDTO filterDTO) throws Exception {
+            return filterEntities("/contracts", filterDTO, ContractList.class);
+        }
+
+        @Override
+        public ContractList filter(FilterDTO filterDTO, String data) throws Exception {
+            return null;
+        }
+
+        @Override
+        public ContractList filter(Integer parentId) throws Exception {
+            return null;
+        }
+
+        @Override
+        public Integer count(FilterDTO filterDTO) throws Exception {
+            return countEntities("/contracts/count", filterDTO);
+        }
+
+        @Override
+        public Integer count(FilterDTO filterDTO, String data) throws Exception {
+            return null;
+        }
+    };
+
     //=================================================================================ENTITY
     private <T extends BaseDTO> T getEntity(String url, T obj, Class<T> targetClass) throws Exception {
         return getResultAsObject(performGet(url + obj.getId()).andReturn(), targetClass);
@@ -480,6 +528,10 @@ public class EntityTest extends PerformTest {
             StructureHistoryEntryDTO entryDTO = new StructureHistoryEntryDTO();
             entryDTO.setId(id);
             structureHistory.delete(entryDTO);
+        } else if (type.equals(CONTRACT)) {
+            ContractDTO contractDTO = new ContractDTO();
+            contractDTO.setId(id);
+            contract.delete(contractDTO);
         }
     }
 
@@ -594,5 +646,36 @@ public class EntityTest extends PerformTest {
             historyEntryDTOs[i] = structureHistory.create(historyEntryDTOs[i]);
         }
         return historyEntryDTOs;
+    }
+
+    protected StructureHistoryEntryDTO[] setupHistoryEntries(MonumentDTO[] monumentDTOs) throws Exception {
+        StructureHistoryEntryDTO[] historyEntryDTOs = readJsonFromFile("/structureHistory.json", StructureHistoryEntryDTO[].class);
+        historyEntryDTOs[0].setStructureId(monumentDTOs[0].getId());
+        historyEntryDTOs[0] = structureHistory.create(historyEntryDTOs[0]);
+        for(int i = 1 ; i < historyEntryDTOs.length ; i++){
+            historyEntryDTOs[i].setStructureId(monumentDTOs[1].getId());
+            historyEntryDTOs[i] = structureHistory.create(historyEntryDTOs[i]);
+        }
+        return historyEntryDTOs;
+    }
+
+    protected ContractDTO[] setupContract(GraveDTO[] graveDTOs, RestingPlaceRequestDTO[] requestDTOs) throws Exception {
+        ContractDTO[] contractDTOs = readJsonFromFile("/contracts.json", ContractDTO[].class);
+        for(int i = 0 ; i < contractDTOs.length ; i++){
+            contractDTOs[i].setStructureId(graveDTOs[i].getId());
+            contractDTOs[i].setRequestId(requestDTOs[i].getId());
+            contractDTOs[i] = contract.create(contractDTOs[i]);
+        }
+        return contractDTOs;
+    }
+
+    protected ContractDTO[] setupContract(MonumentDTO[] monumentDTOs, RestingPlaceRequestDTO[] requestDTOs) throws Exception {
+        ContractDTO[] contractDTOs = readJsonFromFile("/contracts.json", ContractDTO[].class);
+        for(int i = 0 ; i < contractDTOs.length ; i++){
+            contractDTOs[i].setStructureId(monumentDTOs[i].getId());
+            contractDTOs[i].setRequestId(requestDTOs[i].getId());
+            contractDTOs[i] = contract.create(contractDTOs[i]);
+        }
+        return contractDTOs;
     }
 }

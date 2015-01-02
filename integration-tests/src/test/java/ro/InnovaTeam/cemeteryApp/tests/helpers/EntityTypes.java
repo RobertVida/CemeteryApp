@@ -17,7 +17,8 @@ public enum EntityTypes {
     DECEASED,
     REQUEST,
     LOG,
-    STRUCTURE_HISTORY;
+    STRUCTURE_HISTORY,
+    CONTRACT;
 
     private static Map<Class<? extends BaseDTO>, EntityTypes> classes = new HashMap<Class<? extends BaseDTO>, EntityTypes>(){{
         put(CemeteryDTO.class, CEMETERY);
@@ -29,6 +30,7 @@ public enum EntityTypes {
         put(RestingPlaceRequestDTO.class, REQUEST);
         put(LogEntryDTO.class, LOG);
         put(StructureHistoryEntryDTO.class, STRUCTURE_HISTORY);
+        put(ContractDTO.class, CONTRACT);
     }};
 
     private static Map<EntityTypes, Class<? extends BaseDTO>> types = new HashMap<EntityTypes, Class<? extends BaseDTO>>(){{
@@ -41,6 +43,7 @@ public enum EntityTypes {
         put(REQUEST, RestingPlaceRequestDTO.class);
         put(LOG, LogEntryDTO.class);
         put(STRUCTURE_HISTORY, StructureHistoryEntryDTO.class);
+        put(CONTRACT, ContractDTO.class);
     }};
 
     public static Class<? extends BaseDTO> getClassForType(EntityTypes type){

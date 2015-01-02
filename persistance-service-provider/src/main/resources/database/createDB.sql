@@ -98,25 +98,6 @@ CREATE TABLE IF NOT EXISTS `clients` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `contracts`
---
-
-CREATE TABLE IF NOT EXISTS `contracts` (
-  `ownership_contract_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `structure_id` int(7) unsigned NOT NULL,
-  `client_id` int(10) unsigned NOT NULL,
-  `signed_on` datetime NOT NULL,
-  `updated_on` datetime NOT NULL,
-  `expires_on` datetime NOT NULL,
-  `type` set('Ownership','Concession') NOT NULL,
-  PRIMARY KEY(`ownership_contract_id`),
-  FOREIGN KEY(`structure_id`) REFERENCES `structures`(`structure_id`),
-  FOREIGN KEY(`client_id`) REFERENCES `clients`(`client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table containing info about the Contracts (''Ownership''/''Concession'')';
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `restingplacerequests`
 --
 
@@ -129,6 +110,24 @@ CREATE TABLE IF NOT EXISTS `restingplacerequests` (
   PRIMARY KEY(`request_id`),
   FOREIGN KEY(`client_id`) REFERENCES `clients`(`client_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table containing info regarding requests for resting places';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contracts`
+--
+
+CREATE TABLE IF NOT EXISTS `contracts` (
+  `contract_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `structure_id` int(7) unsigned NOT NULL,
+  `request_id` int(10) unsigned NOT NULL,
+  `signed_on` datetime NOT NULL,
+  `updated_on` datetime,
+  `expires_on` datetime NOT NULL,
+  PRIMARY KEY(`contract_id`),
+  FOREIGN KEY(`structure_id`) REFERENCES `structures`(`structure_id`),
+  FOREIGN KEY(`request_id`) REFERENCES `restingplacerequests`(`request_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table containing info about the Contracts (''Ownership''/''Concession'')';
 
 -- --------------------------------------------------------
 
