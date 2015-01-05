@@ -23,7 +23,7 @@
                 </a>
             </div>
             <div class="submenu-item">
-                <a href="#">
+                <a href="${contextPath}/contract">
                     <img src="<c:url value="/resources/icons/contracts.png" />"/>
                     <span>Contracte</span>
                 </a>

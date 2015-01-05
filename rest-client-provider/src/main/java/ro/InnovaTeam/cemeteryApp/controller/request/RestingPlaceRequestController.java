@@ -101,6 +101,7 @@ public class RestingPlaceRequestController {
         requestValidator.validate(requestDTO, result);
         if (result.hasErrors()) {
             model.addAttribute("requestDTOExists", true);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
             return "request/requestDetailsPage";
         }
         RestingPlaceRequestRestClient.add(requestDTO);
@@ -133,6 +134,7 @@ public class RestingPlaceRequestController {
         requestValidator.validate(requestDTO, result);
         if (result.hasErrors()) {
             model.addAttribute("view", true);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
             return "request/requestDetailsPage";
         }
         RestingPlaceRequestRestClient.update(requestDTO.getId(), requestDTO);

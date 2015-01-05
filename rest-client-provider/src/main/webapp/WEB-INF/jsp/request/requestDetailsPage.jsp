@@ -60,7 +60,7 @@
 
             <div class="form-group h35">
                 <div class="col-lg-4" style="float: left;">
-                    <form:label class="control-label" path="infocetNumber">Numar</form:label>
+                    <form:label class="control-label" path="infocetNumber">Numar Infocet</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
                     <form:input path="infocetNumber" class="form-control" type="text" pattern="\d*" required="true"/>

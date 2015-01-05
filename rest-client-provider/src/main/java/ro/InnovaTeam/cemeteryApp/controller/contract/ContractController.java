@@ -1,5 +1,6 @@
-package ro.InnovaTeam.cemeteryApp.controller.deceased;
+package ro.InnovaTeam.cemeteryApp.controller.contract;
 
+import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +13,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import ro.InnovaTeam.cemeteryApp.DeceasedDTO;
+import ro.InnovaTeam.cemeteryApp.ContractDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
-import ro.InnovaTeam.cemeteryApp.restClient.DeceasedRestClient;
-import org.apache.commons.configuration.Configuration;
+import ro.InnovaTeam.cemeteryApp.restClient.ContractRestClient;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,20 +26,20 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Catalin Sorecau on 11/30/2014.
+ * Created by Cata on 1/5/2015.
  */
 @Controller
-@RequestMapping("/deceased")
-public class DeceasedController {
+@RequestMapping("/contract")
+public class ContractController {
 
-    private static final Logger logger = LoggerFactory.getLogger(DeceasedController.class);
-    private static final String DECEASED = "/deceased";
-    private static final String DECEASED_FILTER = "deceasedFilter";
+    private static final Logger logger = LoggerFactory.getLogger(ContractController.class);
+    private static final String CONTRACT = "/contract";
+    private static final String CONTRACT_FILTER = "contractFilter";
     public static final int PAGE_SIZE = 20;
 
     @Autowired
-    @Qualifier("deceasedValidator")
-    private Validator deceasedValidator;
+    @Qualifier("contractValidator")
+    private Validator contractValidator;
 
     @Autowired
     @Qualifier("messagesConfig")
@@ -54,81 +54,77 @@ public class DeceasedController {
 
     @RequestMapping
     public String renderHome(Model model, HttpServletRequest request) {
-        FilterDTO deceasedFilterDTO = (FilterDTO) request.getSession().getAttribute(DECEASED_FILTER);
-        deceasedFilterDTO = deceasedFilterDTO != null ? deceasedFilterDTO : new FilterDTO();
+        FilterDTO contractFilterDTO = (FilterDTO) request.getSession().getAttribute(CONTRACT_FILTER);
+        contractFilterDTO = contractFilterDTO != null ? contractFilterDTO : new FilterDTO();
         String param = request.getParameter("pageNo");
         Integer pageNo = param != null ? Integer.valueOf(param) : 1;
 
-        List<DeceasedDTO> deceasedDTOs;
-        deceasedFilterDTO.setPageNo(pageNo);
-        deceasedFilterDTO.setPageSize(PAGE_SIZE);
-        deceasedDTOs = DeceasedRestClient.findByFilter(deceasedFilterDTO);
+        List<ContractDTO> contractDTOs;
+        contractFilterDTO.setPageNo(pageNo);
+        contractFilterDTO.setPageSize(PAGE_SIZE);
+        contractDTOs = ContractRestClient.findByFilter(contractFilterDTO);
 
-        float pages = DeceasedRestClient.getDeceasedCount(new FilterDTO(deceasedFilterDTO.getSearchCriteria(),
-                deceasedFilterDTO.getParentId())) / (float) PAGE_SIZE;
+        float pages = ContractRestClient.getContractCount(new FilterDTO(contractFilterDTO.getSearchCriteria(),
+                contractFilterDTO.getParentId())) / (float) PAGE_SIZE;
         model.addAttribute("pages", Math.ceil(pages));
-        model.addAttribute("deceasedList", deceasedDTOs);
+        model.addAttribute("contractList", contractDTOs);
         model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-        return "deceased/deceasedPage";
+        return "contract/contractsPage";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String renderAddPage(Model model) {
 
-        if (!model.containsAttribute("deceasedDTOExists")) {
-            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-            model.addAttribute("deceased", new DeceasedDTO());
+        if (!model.containsAttribute("contractDTOExists")) {
+            model.addAttribute("contract", new ContractDTO());
         }
         model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-        return "deceased/deceasedDetailsPage";
+        return "contract/contractDetailsPage";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(@ModelAttribute("deceased") DeceasedDTO deceasedDTO, BindingResult result, Model model) {
-        deceasedValidator.validate(deceasedDTO, result);
+    public String add(@ModelAttribute("contract") ContractDTO contractDTO, BindingResult result, Model model) {
+        contractValidator.validate(contractDTO, result);
         if (result.hasErrors()) {
-            model.addAttribute("deceasedDTOExists", true);
-            return "deceased/deceasedDetailsPage";
+            model.addAttribute("contractDTOExists", true);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+            return "contract/contractDetailsPage";
         }
-        DeceasedRestClient.add(deceasedDTO);
-        return "redirect:" + DECEASED;
+        ContractRestClient.add(contractDTO);
+        return "redirect:" + CONTRACT;
     }
 
     @RequestMapping(value = "/get/{id}")
     public String getById(@PathVariable Integer id, Model model) {
-        DeceasedDTO deceasedDTO = DeceasedRestClient.findById(id);
+        ContractDTO contractDTO = ContractRestClient.findById(id);
 
-        if (deceasedDTO.getCertificateId() != null) {
-            deceasedDTO.setHasCaregiver(false);
-        }
-
-        model.addAttribute("deceased", deceasedDTO);
+        model.addAttribute("contract", contractDTO);
         model.addAttribute("view", true);
         model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-        return "deceased/deceasedDetailsPage";
+        return "contract/contractDetailsPage";
     }
 
     @RequestMapping(value = "/delete/{id}")
     public String delete(@PathVariable Integer id) {
         try {
-            DeceasedRestClient.delete(id);
+            ContractRestClient.delete(id);
         }
         catch (Exception e) {
-            logger.error("Could not delete deceased with id: " + id, e);
+            logger.error("Could not delete contract with id: " + id, e);
         }
-        return "redirect:" + DECEASED;
+        return "redirect:" + CONTRACT;
     }
 
     @RequestMapping(value = "/update")
-    public String update(@ModelAttribute("deceased") DeceasedDTO deceasedDTO, BindingResult result, Model model) {
-        deceasedValidator.validate(deceasedDTO, result);
+    public String update(@ModelAttribute("contract") ContractDTO contractDTO, BindingResult result, Model model) {
+        contractValidator.validate(contractDTO, result);
         if (result.hasErrors()) {
             model.addAttribute("view", true);
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-            return "deceased/deceasedDetailsPage";
+            return "contract/contractDetailsPage";
         }
-        DeceasedRestClient.update(deceasedDTO.getId(), deceasedDTO);
-        return "redirect:" + DECEASED;
+        ContractRestClient.update(contractDTO.getId(), contractDTO);
+        return "redirect:" + CONTRACT;
     }
 
     @RequestMapping(value = "/filter", method = RequestMethod.GET)
@@ -136,15 +132,15 @@ public class DeceasedController {
         String searchCriteria = request.getParameter("searchCriteria");
         String cemeteryId = request.getParameter("structureId");
         //TODO: validate cemeteryId
-        FilterDTO deceasedFilterDTO = new FilterDTO();
-        deceasedFilterDTO.setSearchCriteria(searchCriteria);
+        FilterDTO contractFilterDTO = new FilterDTO();
+        contractFilterDTO.setSearchCriteria(searchCriteria);
         if(StringUtils.isNotEmpty(cemeteryId)) {
-            deceasedFilterDTO.setParentId(Integer.valueOf(cemeteryId));
+            contractFilterDTO.setParentId(Integer.valueOf(cemeteryId));
         }
-        request.getSession().setAttribute(DECEASED_FILTER, deceasedFilterDTO);
+        request.getSession().setAttribute(CONTRACT_FILTER, contractFilterDTO);
 
         try {
-            response.sendRedirect(request.getContextPath() + DECEASED);
+            response.sendRedirect(request.getContextPath() + CONTRACT);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -152,9 +148,9 @@ public class DeceasedController {
 
     @RequestMapping(value = "/refreshFilter", method = RequestMethod.POST)
     public void refreshFilter(HttpServletRequest request, HttpServletResponse response) {
-        request.getSession().removeAttribute(DECEASED_FILTER);
+        request.getSession().removeAttribute(CONTRACT_FILTER);
         try {
-            response.sendRedirect(request.getContextPath() + DECEASED);
+            response.sendRedirect(request.getContextPath() + CONTRACT);
         } catch (IOException e) {
             e.printStackTrace();
         }

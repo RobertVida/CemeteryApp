@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <html>
 <head>
     <title></title>
@@ -50,13 +51,13 @@
                         <td>${client.address}</td>
                         <td>
                             <c:if test="${hasAdminRole}">
-                                <a href="${contextPath}/delete/${client.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                                <a href="${contextPath}/delete/${client.id}" ><img class="action-icon tiptip" title="<fmt:message key='delete.entity'/>" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
                                 <a href="${contextPath}/addRequest/${client.id}" >
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                    <span class="glyphicon glyphicon-plus tiptip" title="<fmt:message key='client.add.request'/>" aria-hidden="true"></span>
                                 </a>
                             </c:if>
-                            <a href="${contextPath}/get/${client.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
-                            <a href="${contextPath}/filterRequests/${client.id}" ><img class="action-icon" src="<c:url value="/resources/icons/requests.png" />"/></a>
+                            <a href="${contextPath}/get/${client.id}" ><img class="action-icon tiptip" title="<fmt:message key='view.details'/>" src="<c:url value="/resources/icons/info.png" />"/></a>
+                            <a href="${contextPath}/filterRequests/${client.id}" ><img class="action-icon tiptip" title="<fmt:message key='client.filter.requests'/>" src="<c:url value="/resources/icons/requests.png" />"/></a>
                         </td>
                     </tr>
                 </c:forEach>

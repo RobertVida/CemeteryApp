@@ -91,6 +91,7 @@ public class MonumentController {
         monumentValidator.validate(monumentDTO, result);
         if (result.hasErrors()) {
             model.addAttribute("monumentDTOExists", true);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
             return "monument/monumentDetailsPage";
         }
         MonumentRestClient.add(monumentDTO);
@@ -123,6 +124,7 @@ public class MonumentController {
         monumentValidator.validate(monumentDTO, result);
         if (result.hasErrors()) {
             model.addAttribute("view", true);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
             return "monument/monumentDetailsPage";
         }
         MonumentRestClient.update(monumentDTO.getId(), monumentDTO);

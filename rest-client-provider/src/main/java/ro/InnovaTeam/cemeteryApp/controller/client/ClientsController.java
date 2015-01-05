@@ -86,6 +86,7 @@ public class ClientsController {
         clientValidator.validate(clientDTO, result);
         if (result.hasErrors()) {
             model.addAttribute("view", true);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
             return "client/clientDetailsPage";
         }
         ClientRestClient.update(clientDTO.getId(), clientDTO);
@@ -118,6 +119,7 @@ public class ClientsController {
         clientValidator.validate(clientDTO, result);
         if (result.hasErrors()) {
             model.addAttribute("clientDTOExists", true);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
             return "client/clientDetailsPage";
         }
         ClientRestClient.add(clientDTO);

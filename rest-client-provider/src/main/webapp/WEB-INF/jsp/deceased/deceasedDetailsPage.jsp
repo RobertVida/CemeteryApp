@@ -35,6 +35,10 @@
     </h4>
     <form:form id="deceasedForm" action="${actionURL}" commandName="deceased" method="post">
         <div class="details">
+            <div style="text-align: center;">
+                <form:label path="hasCaregiver">Cu apartinator</form:label>
+                <form:checkbox id="hasCaregiver" path="hasCaregiver" />
+            </div>
             <div class="form-group h35">
                 <form:hidden id="deceasedId" path="id" class="form-control"/>
                 <div class="col-lg-4" style="float: left;">
@@ -133,6 +137,34 @@
                     <form:errors path="burialOn"/>
                 </div>
             </div>
+
+            <form:input path="noCaregiverDocumentId" type="hidden"/>
+
+            <div id="caregiverDetails">
+                <div class="form-group h35">
+                    <div class="col-lg-4" style="float: left;">
+                        <form:label class="control-label" path="certificateId">Id-ul certificatului</form:label>
+                    </div>
+                    <div class="col-lg-4" style="float: left;">
+                        <form:input path="certificateId" class="form-control number" type="text" pattern="\d*" required="true"/>
+                    </div>
+                    <div class="col-lg-4" style="float: left; color: red">
+                        <form:errors path="certificateId"/>
+                    </div>
+                </div>
+
+                <div class="form-group h35">
+                    <div class="col-lg-4" style="float: left;">
+                        <form:label class="control-label" path="requestIMLid">Id-ul cererii IML</form:label>
+                    </div>
+                    <div class="col-lg-4" style="float: left;">
+                        <form:input path="requestIMLid" class="form-control number" type="text" pattern="\d*" required="true"/>
+                    </div>
+                    <div class="col-lg-4" style="float: left; color: red">
+                        <form:errors path="requestIMLid"/>
+                    </div>
+                </div>
+            </div>
             <c:if test="${hasAdminRole}">
                 <c:if test="${view eq true}">
                     <input type="button" onclick="DeceasedManagerJS.deleteDeceased();" value="Sterge" class="btn btn-default pull-right" style="margin-right: 15px;"/>
@@ -171,6 +203,20 @@
 
         $burialOn.keydown(function() {
             return false;
+        });
+
+        if($("#hasCaregiver").is(':checked')) {
+            $("#caregiverDetails").css("display", "none");
+        } else {
+            $("#caregiverDetails").css("display", "block");
+        }
+
+        $("#hasCaregiver").change(function() {
+            if (!this.checked) {
+                $("#caregiverDetails").css("display", "block");
+            } else {
+                $("#caregiverDetails").css("display", "none");
+            }
         });
     });
 </script>

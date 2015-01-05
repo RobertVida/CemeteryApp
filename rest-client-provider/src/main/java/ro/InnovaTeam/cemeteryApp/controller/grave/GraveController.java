@@ -91,6 +91,7 @@ public class GraveController {
         graveValidator.validate(graveDTO, result);
         if (result.hasErrors()) {
             model.addAttribute("graveDTOExists", true);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
             return "grave/graveDetailsPage";
         }
         GraveRestClient.add(graveDTO);
@@ -123,6 +124,7 @@ public class GraveController {
         graveValidator.validate(graveDTO, result);
         if (result.hasErrors()) {
             model.addAttribute("view", true);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
             return "grave/graveDetailsPage";
         }
         GraveRestClient.update(graveDTO.getId(), graveDTO);

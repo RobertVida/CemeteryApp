@@ -10,5 +10,5 @@ $(document).ready(function () {
             me.children("span").css("color", "black");
         }
     });
-
+    $('.tiptip').tipTip();
 });

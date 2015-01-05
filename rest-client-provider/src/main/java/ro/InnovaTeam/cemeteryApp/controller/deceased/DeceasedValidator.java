@@ -42,6 +42,11 @@ public class DeceasedValidator implements Validator {
                 errors.rejectValue("structureId", "number.non-existent");
             }
         }
+
+        if (!deceasedDTO.getHasCaregiver()) {
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "certificateId", "empty.field");
+            ValidationUtils.rejectIfEmptyOrWhitespace(errors, "requestIMLid", "empty.field");
+        }
     }
 
 }

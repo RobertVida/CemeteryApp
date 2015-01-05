@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <title>Cimitire</title>
@@ -41,12 +42,12 @@
                     <td>${cemetery.name}</td>
                     <td>${cemetery.address}</td>
                     <td>
-                        <a href="${contextPath}/get/${cemetery.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
-                        <a href="${contextPath}/filterParcels/${cemetery.id}" ><img class="action-icon" src="<c:url value="/resources/icons/parcels.png" />"/></a>
+                        <a href="${contextPath}/get/${cemetery.id}" ><img class="action-icon tiptip" title="<fmt:message key='view.details'/>" src="<c:url value="/resources/icons/info.png" />"/></a>
+                        <a href="${contextPath}/filterParcels/${cemetery.id}" ><img class="action-icon tiptip" title="<fmt:message key='cemetery.filter.parcel'/>" src="<c:url value="/resources/icons/parcels.png" />"/></a>
                         <c:if test="${hasAdminRole}">
-                            <a href="${contextPath}/delete/${cemetery.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                            <a href="${contextPath}/delete/${cemetery.id}" ><img class="action-icon tiptip" title="<fmt:message key='delete.entity'/>" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
                             <a href="${contextPath}/addParcel/${cemetery.id}" >
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                <span class="glyphicon glyphicon-plus tiptip" title="<fmt:message key='cemetery.add.parcel'/>" aria-hidden="true"></span>
                             </a>
                         </c:if>
                     </td>

@@ -84,6 +84,7 @@ public class ParcelController {
         parcelValidator.validate(parcelDTO, result);
         if (result.hasErrors()) {
             model.addAttribute("parcelDTOExists", true);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
             return "parcel/parcelDetailsPage";
         }
         ParcelRestClient.add(parcelDTO);
@@ -116,6 +117,7 @@ public class ParcelController {
         parcelValidator.validate(parcelDTO, result);
         if (result.hasErrors()) {
             model.addAttribute("view", true);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
             return "parcel/parcelDetailsPage";
         }
         ParcelRestClient.update(parcelDTO.getId(), parcelDTO);

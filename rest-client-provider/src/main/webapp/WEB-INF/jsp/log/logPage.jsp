@@ -62,7 +62,7 @@
                     <td><fmt:formatDate value="${log.tookPlaceOn}" pattern="${pattern}"/></td>
                     <td>${log.action}</td>
                     <td>
-                        <a href="${contextPath}/get/${log.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
+                        <a href="${contextPath}/get/${log.id}" ><img class="action-icon tiptip" title="<fmt:message key='view.details'/>" src="<c:url value="/resources/icons/info.png" />"/></a>
                     </td>
                 </tr>
             </c:forEach>

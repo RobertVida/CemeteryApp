@@ -41,9 +41,9 @@
                     <td>${grave.length}</td>
                     <td>
                         <c:if test="${hasAdminRole}">
-                            <a href="${contextPath}/delete/${grave.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                            <a href="${contextPath}/delete/${grave.id}" ><img class="action-icon tiptip" title="<fmt:message key='delete.entity'/>" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
                         </c:if>
-                        <a href="${contextPath}/get/${grave.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
+                        <a href="${contextPath}/get/${grave.id}" ><img class="action-icon tiptip" title="<fmt:message key='view.details'/>" src="<c:url value="/resources/icons/info.png" />"/></a>
                     </td>
                 </tr>
             </c:forEach>

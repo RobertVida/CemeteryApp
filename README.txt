@@ -8,6 +8,5 @@
 
 
 
-1. contract
-    -   CREATE from : show all fields except updatedOn & expiresOn              (_)
-    -   UPDATE form : show all fields except signedOn                           (_)
+1. select request status from dropdown ( active / inactive ?)
+2. add quick actions

@@ -53,9 +53,9 @@
                 <td>${request.infocetNumber}</td>
                 <td>${request.status}</td>
                 <td>
-                    <a href="${contextPath}/get/${request.id}" ><img class="action-icon" src="<c:url value="/resources/icons/info.png" />"/></a>
+                    <a href="${contextPath}/get/${request.id}" ><img class="action-icon tiptip" title="<fmt:message key='view.details'/>" src="<c:url value="/resources/icons/info.png" />"/></a>
                     <c:if test="${hasAdminRole}">
-                        <a href="${contextPath}/delete/${request.id}" ><img class="action-icon" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                        <a href="${contextPath}/delete/${request.id}" ><img class="action-icon tiptip" title="<fmt:message key='delete.entity'/>" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
                     </c:if>
                 </td>
             </tr>

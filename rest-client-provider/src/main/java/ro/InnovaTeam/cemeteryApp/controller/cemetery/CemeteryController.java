@@ -77,6 +77,7 @@ public class CemeteryController {
         cemeteryValidator.validate(cemeteryDTO, result);
         if (result.hasErrors()) {
             model.addAttribute("clientDTOExists", true);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
             return "cemetery/cemeteryDetailsPage";
         }
         CemeteryRestClient.add(cemeteryDTO);
@@ -109,6 +110,7 @@ public class CemeteryController {
         cemeteryValidator.validate(cemeteryDTO, result);
         if (result.hasErrors()) {
             model.addAttribute("view", true);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
             return "cemetery/cemeteryDetailsPage";
         }
         CemeteryRestClient.update(cemeteryDTO.getId(), cemeteryDTO);

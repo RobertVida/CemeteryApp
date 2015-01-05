@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <html>
 <head>
@@ -18,6 +19,7 @@
     <link href="<c:url value="/resources/css/cemeteries.css"/>" rel="stylesheet">
     <link href="<c:url value="/resources/css/bootstrap-select.min.css"/>" rel="stylesheet">
     <link href="<c:url value="/resources/css/zebra_datepicker.css"/>" rel="stylesheet">
+    <link href="<c:url value="/resources/css/tipTip.css"/>" rel="stylesheet">
     <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/dashboard.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/menu.js"></script>
@@ -27,6 +29,7 @@
     <script src="${pageContext.request.contextPath}/resources/js/zebra_datepicker.src.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/mainJS.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery.validate.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/jquery.tipTip.minified.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-static-top" role="navigation">
@@ -40,7 +43,7 @@
                     <p>
                         <span class="">Buna ${user}!</span>
                         <a class="header-link" href="${contextPath}/logout">
-                            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-log-out tiptip" title="<fmt:message key='user.logout'/>" aria-hidden="true"></span>
                         </a>
                     </p>
                 </div>
