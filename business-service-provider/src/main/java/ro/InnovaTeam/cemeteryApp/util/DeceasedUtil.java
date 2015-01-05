@@ -40,6 +40,7 @@ public abstract class DeceasedUtil {
             document.setDeceasedId(deceasedDTO.getId());
             document.setCertificateId(deceasedDTO.getCertificateId());
             document.setRequestIMLid(deceasedDTO.getRequestIMLid());
+            deceasedDTO.setHasCaregiver(false);
         }
         return document;
     }
