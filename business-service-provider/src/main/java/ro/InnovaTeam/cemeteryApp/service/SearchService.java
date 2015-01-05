@@ -3,6 +3,7 @@ package ro.InnovaTeam.cemeteryApp.service;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
 import ro.InnovaTeam.cemeteryApp.model.registers.BurialRegistryEntry;
 import ro.InnovaTeam.cemeteryApp.model.registers.GraveRegistryEntry;
+import ro.InnovaTeam.cemeteryApp.model.registers.MonumentRegistryEntry;
 
 import java.util.List;
 
@@ -18,4 +19,8 @@ public interface SearchService extends Service{
     public List<GraveRegistryEntry> getGraveRegistry(Filter filter);
 
     public Integer getGraveRegistryCount(Filter filter);
+
+    public List<MonumentRegistryEntry> getMonumentRegistry(Filter filter);
+
+    public Integer getMonumentRegistryCount(Filter filter);
 }

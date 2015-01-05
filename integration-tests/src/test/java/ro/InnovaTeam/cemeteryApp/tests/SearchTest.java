@@ -6,6 +6,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ro.InnovaTeam.cemeteryApp.*;
 import ro.InnovaTeam.cemeteryApp.registers.BurialRegistry;
 import ro.InnovaTeam.cemeteryApp.registers.GraveRegistry;
+import ro.InnovaTeam.cemeteryApp.registers.MonumentRegistry;
 import ro.InnovaTeam.cemeteryApp.registers.Registry;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -64,6 +65,19 @@ public class SearchTest extends EntityTest{
         count = getCount("/graveRegistry/count", getFilter(1, 20, null , "address1"));
         assertThat(getContent("/graveRegistry", getFilter(1, 20, null , "address1"), GraveRegistry.class).getContent().size(), equalTo(count));
         assertThat(getContent("/graveRegistry", getFilter(1, 20, null , "address1"), GraveRegistry.class).getContent().size(), equalTo(1));
+    }
+
+    @Test
+    public void searchMonuments() throws Exception{
+        setup();
+
+        Integer count = getCount("/monumentRegistry/count", getFilter());
+        assertThat(getContent("/monumentRegistry", getFilter(), MonumentRegistry.class).getContent().size(), equalTo(count));
+        assertThat(getContent("/monumentRegistry", getFilter(), MonumentRegistry.class).getContent().size(), equalTo(3));
+
+        count = getCount("/monumentRegistry/count", getFilter(1, 20, null , "address1"));
+        assertThat(getContent("/monumentRegistry", getFilter(1, 20, null , "address1"), MonumentRegistry.class).getContent().size(), equalTo(count));
+        assertThat(getContent("/monumentRegistry", getFilter(1, 20, null , "address1"), MonumentRegistry.class).getContent().size(), equalTo(0));
     }
 
     private <T extends Registry> T getContent(String url, FilterDTO filter, Class<T> clazz) throws Exception {

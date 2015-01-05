@@ -7,6 +7,7 @@ import ro.InnovaTeam.cemeteryApp.eao.SearchEAO;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
 import ro.InnovaTeam.cemeteryApp.model.registers.BurialRegistryEntry;
 import ro.InnovaTeam.cemeteryApp.model.registers.GraveRegistryEntry;
+import ro.InnovaTeam.cemeteryApp.model.registers.MonumentRegistryEntry;
 import ro.InnovaTeam.cemeteryApp.service.SearchService;
 
 import java.util.List;
@@ -39,5 +40,15 @@ public class SearchServiceImpl implements SearchService{
     @Override
     public Integer getGraveRegistryCount(Filter filter) {
         return searchEAO.getGraveRegistryCount(filter);
+    }
+
+    @Override
+    public List<MonumentRegistryEntry> getMonumentRegistry(Filter filter) {
+        return searchEAO.getMonumentRegistry(filter);
+    }
+
+    @Override
+    public Integer getMonumentRegistryCount(Filter filter) {
+        return searchEAO.getMonumentRegistryCount(filter);
     }
 }

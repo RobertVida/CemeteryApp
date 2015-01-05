@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.registers.BurialRegistry;
 import ro.InnovaTeam.cemeteryApp.registers.GraveRegistry;
+import ro.InnovaTeam.cemeteryApp.registers.MonumentRegistry;
 import ro.InnovaTeam.cemeteryApp.service.SearchService;
 import ro.InnovaTeam.cemeteryApp.util.registers.BurialRegistryUtil;
 import ro.InnovaTeam.cemeteryApp.util.registers.GraveRegistryUtil;
+import ro.InnovaTeam.cemeteryApp.util.registers.MonumentRegistryUtil;
 
 import static ro.InnovaTeam.cemeteryApp.util.FilterUtil.toDB;
 
@@ -21,6 +23,7 @@ public class SearchController {
 
     public static final String BURIAL_REGISTRY_URL = "/burialRegistry";
     public static final String GRAVE_REGISTRY_URL = "/graveRegistry";
+    public static final String MONUMENT_REGISTRY_URL = "/monumentRegistry";
 
     @Autowired
     private SearchService searchService;
@@ -51,5 +54,19 @@ public class SearchController {
     @ResponseBody
     public Integer getGraveRegistryCount(@RequestBody FilterDTO filterDTO) {
         return searchService.getGraveRegistryCount(toDB(filterDTO));
+    }
+
+    @RequestMapping(value = MONUMENT_REGISTRY_URL, method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public MonumentRegistry getMonumentRegistry(@RequestBody FilterDTO filterDTO) {
+        return new MonumentRegistry(MonumentRegistryUtil.toDTO(searchService.getMonumentRegistry(toDB(filterDTO))));
+    }
+
+    @RequestMapping(value = MONUMENT_REGISTRY_URL + "/count", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Integer getMonumentRegistryCount(@RequestBody FilterDTO filterDTO) {
+        return searchService.getMonumentRegistryCount(toDB(filterDTO));
     }
 }
