@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by robert on 11/18/2014.
  */
-public interface EntityService<Entity> {
+public interface EntityService<Entity> extends Service{
     public Integer create(Entity entity);
 
     public Entity delete(Integer userId, Integer id);
