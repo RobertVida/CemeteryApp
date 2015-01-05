@@ -1,0 +1,50 @@
+[
+    {
+        "id" : null,
+        "userId" : 1,
+        "firstName" : "fname1",
+        "lastName" : "lname*",
+        "cnp" : "1234567890123",
+        "religion" : "ortodox",
+        "diedOn" : "2014-01-11",
+        "burialDocumentId" : null,
+        "structureId" : null,
+        "burialOn" : "2014-02-11",
+        "hasCaregiver" : false,
+        "noCaregiverDocumentId" : null,
+        "certificateId" : 1,
+        "requestIMLid" : 1
+    },
+    {
+        "id" : null,
+        "userId" : 1,
+        "firstName" : "fname2",
+        "lastName" : "lname2",
+        "cnp" : "1234567890124",
+        "religion" : "catolic",
+        "diedOn" : "2014-01-11",
+        "burialDocumentId" : null,
+        "structureId" : null,
+        "burialOn" : "2014-02-11",
+        "hasCaregiver" : false,
+        "noCaregiverDocumentId" : null,
+        "certificateId" : 2,
+        "requestIMLid" : 2
+    },
+    {
+        "id" : null,
+        "userId" : 1,
+        "firstName" : "fname3",
+        "lastName" : "lname3",
+        "cnp" : "1234567890125",
+        "religion" : "ortodox",
+        "diedOn" : "2014-01-11",
+        "burialDocumentId" : null,
+        "structureId" : null,
+        "burialOn" : "2014-02-11",
+        "hasCaregiver" : false,
+        "noCaregiverDocumentId" : null,
+        "certificateId" : 3,
+        "requestIMLid" : 3
+    }
+]

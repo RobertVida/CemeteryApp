@@ -2,6 +2,7 @@ package ro.InnovaTeam.cemeteryApp.util;
 
 import ro.InnovaTeam.cemeteryApp.DeceasedDTO;
 import ro.InnovaTeam.cemeteryApp.model.Deceased;
+import ro.InnovaTeam.cemeteryApp.model.NoCaregiverDocument;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +27,21 @@ public abstract class DeceasedUtil {
         deceased.setStructureId(deceasedDTO.getStructureId());
         deceased.setBurialOn(deceasedDTO.getBurialOn());
         deceased.setUserId(deceasedDTO.getUserId());
+        deceased.setNoCaregiverDocument(handleCaregiver(deceasedDTO, deceased));
 
         return deceased;
+    }
+
+    private static NoCaregiverDocument handleCaregiver(DeceasedDTO deceasedDTO, Deceased deceased) {
+        NoCaregiverDocument document = null;
+        if(!deceasedDTO.getHasCaregiver()) {
+            document = new NoCaregiverDocument();
+            document.setId(deceasedDTO.getNoCaregiverDocumentId());
+            document.setDeceasedId(deceasedDTO.getId());
+            document.setCertificateId(deceasedDTO.getCertificateId());
+            document.setRequestIMLid(deceasedDTO.getRequestIMLid());
+        }
+        return document;
     }
 
     public static DeceasedDTO toDTO(Deceased deceased) {
@@ -44,8 +58,17 @@ public abstract class DeceasedUtil {
         deceasedDTO.setBurialDocumentId(deceased.getBurialDocumentId());
         deceasedDTO.setStructureId(deceased.getStructureId());
         deceasedDTO.setBurialOn(deceased.getBurialOn());
+        handleCaregiver(deceased, deceasedDTO);
 
         return deceasedDTO;
+    }
+
+    private static void handleCaregiver(Deceased deceased, DeceasedDTO deceasedDTO) {
+        if(deceased.getNoCaregiverDocument() != null){
+            deceasedDTO.setNoCaregiverDocumentId(deceased.getNoCaregiverDocument().getId());
+            deceasedDTO.setRequestIMLid(deceased.getNoCaregiverDocument().getRequestIMLid());
+            deceasedDTO.setCertificateId(deceased.getNoCaregiverDocument().getCertificateId());
+        }
     }
 
     public static List<Deceased> toDB(List<DeceasedDTO> deceasedDTOs) {

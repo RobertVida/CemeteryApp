@@ -12,6 +12,7 @@ public class Deceased extends BaseEntity {
     private String religion;
     private Date diedOn;
     private BurialDocument document = new BurialDocument();
+    private NoCaregiverDocument noCaregiverDocument;
 
     public Deceased() {
         super("deceased");
@@ -36,6 +37,9 @@ public class Deceased extends BaseEntity {
     public void setId(Integer id){
         super.setId(id);
         document.setDeceasedId(id);
+        if(noCaregiverDocument != null){
+            noCaregiverDocument.setDeceasedId(id);
+        }
     }
 
     public String getFirstName() {
@@ -110,6 +114,14 @@ public class Deceased extends BaseEntity {
         this.document = document;
     }
 
+    public NoCaregiverDocument getNoCaregiverDocument() {
+        return noCaregiverDocument;
+    }
+
+    public void setNoCaregiverDocument(NoCaregiverDocument noCaregiverDocument) {
+        this.noCaregiverDocument = noCaregiverDocument;
+    }
+
     @Override
     public String toString() {
         return "Deceased{" +
@@ -119,7 +131,8 @@ public class Deceased extends BaseEntity {
                 ", cnp='" + cnp + '\'' +
                 ", religion='" + religion + '\'' +
                 ", diedOn=" + diedOn +
-                ", document=" + document.toStringNoEntityName() +
+                ", burialDocument=" + document.toStringNoEntityName() +
+                (noCaregiverDocument != null  ? ", noCaregiverDocument=" + noCaregiverDocument.toStringNoEntityName() : "")+
                 '}';
     }
 }

@@ -22,7 +22,7 @@ public class DeceasedTest extends EntityTest{
     private BurialDocumentEAO documentEAO;
 
     @Test
-    public void test_Create_Get_Delete_Deceased() throws Exception {
+    public void test_Create_Get_Delete_Deceased_Caregiver() throws Exception {
         //setup
         CemeteryDTO[] cemeteryDTOs = readJsonFromFile("/cemeteries.json", CemeteryDTO[].class);
         cemeteryDTOs[0] = cemetery.create(cemeteryDTOs[0]);
@@ -45,6 +45,42 @@ public class DeceasedTest extends EntityTest{
         DeceasedDTO deceasedDTO = deceased.get(deceasedDTOs[0]);
         deceasedDTOs[0].setBurialDocumentId(deceasedDTO.getBurialDocumentId());
         assertThat(compare(deceasedDTOs[0], deceasedDTO), equalTo(true));
+
+        //delete
+        deceasedDTO = deceased.delete(deceasedDTOs[0]);
+        assertThat(compare(deceasedDTOs[0], deceasedDTO), equalTo(true));
+
+        //get
+        deceasedDTO = deceased.get(deceasedDTOs[0]);
+        assertThat(deceasedDTO, equalTo(null));
+        assertThat(deceased.count(getFilter()), equalTo(0));
+    }
+
+    @Test
+    public void test_Create_Get_Delete_Deceased_NoCaregiver() throws Exception {
+        //setup
+        CemeteryDTO[] cemeteryDTOs = readJsonFromFile("/cemeteries.json", CemeteryDTO[].class);
+        cemeteryDTOs[0] = cemetery.create(cemeteryDTOs[0]);
+
+        ParcelDTO[] parcelDTOs = readJsonFromFile("/parcels.json", ParcelDTO[].class);
+        parcelDTOs[0].setCemeteryId(cemeteryDTOs[0].getId());
+        parcelDTOs[0] = parcel.create(parcelDTOs[0]);
+
+        GraveDTO[] graveDTOs = readJsonFromFile("/graves.json", GraveDTO[].class);
+        graveDTOs[0].setParcelId(parcelDTOs[0].getId());
+        graveDTOs[0] = grave.create(graveDTOs[0]);
+
+        //create
+        DeceasedDTO[] deceasedDTOs = readJsonFromFile("/deceasedWithNoCaregiver.json", DeceasedDTO[].class);
+        deceasedDTOs[0].setStructureId(graveDTOs[0].getId());
+        deceasedDTOs[0] = deceased.create(deceasedDTOs[0]);
+        assertThat(deceased.count(getFilter()), equalTo(1));
+
+        //get
+        DeceasedDTO deceasedDTO = deceased.get(deceasedDTOs[0]);
+        deceasedDTOs[0].setBurialDocumentId(deceasedDTO.getBurialDocumentId());
+        assertThat(compare(deceasedDTOs[0], deceasedDTO), equalTo(true));
+        assertThat(deceasedDTO.getNoCaregiverDocumentId(), not(equalTo(null)));
 
         //delete
         deceasedDTO = deceased.delete(deceasedDTOs[0]);

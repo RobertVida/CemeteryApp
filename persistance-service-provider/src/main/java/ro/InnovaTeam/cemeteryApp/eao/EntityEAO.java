@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by robert on 11/22/2014.
  */
-public interface EntityEAO<Entity> {
+public interface EntityEAO<Entity> extends EAO{
 
     public Integer create(String tableName, Entity entity);
     public Integer create(Entity entity);

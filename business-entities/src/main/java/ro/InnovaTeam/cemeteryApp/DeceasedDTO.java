@@ -22,6 +22,10 @@ public class DeceasedDTO extends BaseDTO {
     private Integer structureId;
     @NotNull
     private Date burialOn;
+    private Boolean hasCaregiver = true;
+    private Integer noCaregiverDocumentId;
+    private Integer certificateId;
+    private Integer requestIMLid;
 
     public DeceasedDTO() {
     }
@@ -99,6 +103,38 @@ public class DeceasedDTO extends BaseDTO {
 
     public void setBurialOn(Date burialOn) {
         this.burialOn = burialOn;
+    }
+
+    public Boolean getHasCaregiver() {
+        return hasCaregiver;
+    }
+
+    public void setHasCaregiver(Boolean hasCaregiver) {
+        this.hasCaregiver = hasCaregiver;
+    }
+
+    public Integer getNoCaregiverDocumentId() {
+        return noCaregiverDocumentId;
+    }
+
+    public void setNoCaregiverDocumentId(Integer noCaregiverDocumentId) {
+        this.noCaregiverDocumentId = noCaregiverDocumentId;
+    }
+
+    public Integer getCertificateId() {
+        return certificateId;
+    }
+
+    public void setCertificateId(Integer certificateId) {
+        this.certificateId = certificateId;
+    }
+
+    public Integer getRequestIMLid() {
+        return requestIMLid;
+    }
+
+    public void setRequestIMLid(Integer requestIMLid) {
+        this.requestIMLid = requestIMLid;
     }
 
     @Override

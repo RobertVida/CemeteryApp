@@ -126,4 +126,14 @@
         <property column="expires_on" name="expiresOn"/>
     </class>
 
+    <!--NoCaregiverDocument-->
+    <class name="ro.InnovaTeam.cemeteryApp.model.NoCaregiverDocument" entity-name="nocaregiverdocuments" table="nocaregiverdocuments">
+        <id column="no_caregiver_document_id" name="id">
+            <generator class="native" />
+        </id>
+        <property column="deceased_id" name="deceasedId"/>
+        <property column="certificate_id" name="certificateId"/>
+        <property column="request_IML_id" name="requestIMLid"/>
+    </class>
+
 </hibernate-mapping>

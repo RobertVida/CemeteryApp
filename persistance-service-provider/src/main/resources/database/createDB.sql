@@ -174,7 +174,6 @@ CREATE TABLE IF NOT EXISTS `nocaregiverdocuments` (
   `deceased_id` int(10) unsigned,
   `certificate_id` int(10) unsigned NOT NULL,
   `request_IML_id` int(10) unsigned NOT NULL,
-  `map` text NOT NULL,
   PRIMARY KEY(`no_caregiver_document_id`),
   FOREIGN KEY(`deceased_id`) REFERENCES `deceased`(`deceased_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
