@@ -6,10 +6,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.registers.BurialRegistry;
+import ro.InnovaTeam.cemeteryApp.registers.GraveRegistry;
 import ro.InnovaTeam.cemeteryApp.service.SearchService;
+import ro.InnovaTeam.cemeteryApp.util.registers.BurialRegistryUtil;
+import ro.InnovaTeam.cemeteryApp.util.registers.GraveRegistryUtil;
 
 import static ro.InnovaTeam.cemeteryApp.util.FilterUtil.toDB;
-import static ro.InnovaTeam.cemeteryApp.util.registers.BurialRegistryUtil.toDTO;
 
 /**
  * Created by robert on 1/5/2015.
@@ -18,6 +20,7 @@ import static ro.InnovaTeam.cemeteryApp.util.registers.BurialRegistryUtil.toDTO;
 public class SearchController {
 
     public static final String BURIAL_REGISTRY_URL = "/burialRegistry";
+    public static final String GRAVE_REGISTRY_URL = "/graveRegistry";
 
     @Autowired
     private SearchService searchService;
@@ -26,7 +29,7 @@ public class SearchController {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public BurialRegistry getBurialRegistry(@RequestBody FilterDTO filterDTO) {
-        return new BurialRegistry(toDTO(searchService.getBurialRegistry(toDB(filterDTO))));
+        return new BurialRegistry(BurialRegistryUtil.toDTO(searchService.getBurialRegistry(toDB(filterDTO))));
     }
 
     @RequestMapping(value = BURIAL_REGISTRY_URL + "/count", method = RequestMethod.POST)
@@ -34,5 +37,19 @@ public class SearchController {
     @ResponseBody
     public Integer getBurialRegistryCount(@RequestBody FilterDTO filterDTO) {
         return searchService.getBurialRegistryCount(toDB(filterDTO));
+    }
+
+    @RequestMapping(value = GRAVE_REGISTRY_URL, method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public GraveRegistry getGraveRegistry(@RequestBody FilterDTO filterDTO) {
+        return new GraveRegistry(GraveRegistryUtil.toDTO(searchService.getGraveRegistry(toDB(filterDTO))));
+    }
+
+    @RequestMapping(value = GRAVE_REGISTRY_URL + "/count", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Integer getGraveRegistryCount(@RequestBody FilterDTO filterDTO) {
+        return searchService.getGraveRegistryCount(toDB(filterDTO));
     }
 }

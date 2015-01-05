@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ro.InnovaTeam.cemeteryApp.eao.SearchEAO;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
 import ro.InnovaTeam.cemeteryApp.model.registers.BurialRegistryEntry;
+import ro.InnovaTeam.cemeteryApp.model.registers.GraveRegistryEntry;
 import ro.InnovaTeam.cemeteryApp.service.SearchService;
 
 import java.util.List;
@@ -28,5 +29,15 @@ public class SearchServiceImpl implements SearchService{
     @Override
     public Integer getBurialRegistryCount(Filter filter) {
         return searchEAO.getBurialRegistryCount(filter);
+    }
+
+    @Override
+    public List<GraveRegistryEntry> getGraveRegistry(Filter filter) {
+        return searchEAO.getGraveRegistry(filter);
+    }
+
+    @Override
+    public Integer getGraveRegistryCount(Filter filter) {
+        return searchEAO.getGraveRegistryCount(filter);
     }
 }
