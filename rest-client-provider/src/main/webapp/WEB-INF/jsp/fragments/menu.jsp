@@ -75,7 +75,7 @@
                 </a>
             </div>
             <div class="submenu-item last-item">
-                <a href="#">
+                <a href="${contextPath}/structureHistory">
                     <img src="<c:url value="/resources/icons/parcel_history.png" />"/>
                     <span>Istoric structuri</span>
                 </a>
