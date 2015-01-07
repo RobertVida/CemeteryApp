@@ -21,8 +21,10 @@
             <img src="<c:url value="/resources/icons/registru_decedati.png" />"/>
         </div>
         <div class="box-content">
-            <h4 class="truncate">Registrul anual de programare a inmormantarilor</h4>
-            <p class="truncate">Contine date despre decedatii care se inmormanteaza in cimitire.</p>
+            <a href="${contextPath}/registers/burialRegistry">
+                <h4 class="truncate">Registrul anual de programare a inmormantarilor</h4>
+                <p class="truncate">Contine date despre decedatii care se inmormanteaza in cimitire.</p>
+            </a>
         </div>
     </div>
     <div class="box">
@@ -48,7 +50,7 @@
             <img src="<c:url value="/resources/icons/deceased.png" />"/>
         </div>
         <div class="box-content">
-            <a href="${contextPath}/registers/deceased">
+            <a href="#">
                 <h4 class="truncate">Registrul index anual al decedatilor</h4>
                 <p class="truncate">Contine date despre toti decedatii din cimitir.</p>
             </a>
