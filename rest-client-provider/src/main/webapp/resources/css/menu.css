@@ -30,6 +30,7 @@
     border: 1px solid;
     width: 80%;
     min-height: 100%;
+    overflow-x: scroll;
 }
 
 .submenu-item {

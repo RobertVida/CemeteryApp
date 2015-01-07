@@ -30,25 +30,21 @@
         <table id="burial-registry-table" class="table-margins table table-bordered text-center">
             <thead>
             <tr style="background-color: #0080F8;">
-                <th class="text-center">Id-ul decedatului</th>
                 <th class="text-center">Nume</th>
                 <th class="text-center">Prenume</th>
                 <th class="text-center">Religie</th>
                 <th class="text-center">Ingropat la</th>
-                <th class="text-center">Id-ul parcelei</th>
                 <th class="text-center">Numele parcelei</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach var="registry" items="${burialRegistryList}">
                 <tr>
-                    <td>${registry.deceasedId}</td>
                     <td>${registry.lastName}</td>
                     <td>${registry.firstName}</td>
                     <td>${registry.religion}</td>
                     <fmt:message key="date.pattern" var="pattern"/>
                     <td><fmt:formatDate value="${registry.buriedOn}" pattern="${pattern}"/></td>
-                    <td>${registry.parcelId}</td>
                     <td>${registry.parcelName}</td>
                 </tr>
             </c:forEach>

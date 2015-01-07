@@ -32,8 +32,10 @@
             <img src="<c:url value="/resources/icons/deceased.png" />"/>
         </div>
         <div class="box-content">
-            <h4 class="truncate">Registrul de morminte</h4>
-            <p class="truncate">Contine date despre toate mormintele din cimitir.</p>
+            <a href="${contextPath}/registers/graveRegistry">
+                <h4 class="truncate">Registrul de morminte</h4>
+                <p class="truncate">Contine date despre toate mormintele din cimitir.</p>
+            </a>
         </div>
     </div>
     <div class="box">

@@ -3,6 +3,8 @@ package ro.InnovaTeam.cemeteryApp.restClient;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.registers.BurialRegistry;
 import ro.InnovaTeam.cemeteryApp.registers.BurialRegistryEntryDTO;
+import ro.InnovaTeam.cemeteryApp.registers.GraveRegistry;
+import ro.InnovaTeam.cemeteryApp.registers.GraveRegistryEntryDTO;
 
 import java.util.List;
 
@@ -22,5 +24,14 @@ public class RegistryRestClient extends GenericRestClient{
 
     public static Integer getBurialRegistryCount(FilterDTO filterDTO) {
         return getCount(filterDTO, BASE_URL + BURIAL_REGISTRY_URL + "/count");
+    }
+
+    public static List<GraveRegistryEntryDTO> getGraveRegistry(FilterDTO filterDTO) {
+        GraveRegistry graveRegistry = getJSONRestTemplate().postForObject(BASE_URL + GRAVE_REGISTRY_URL, filterDTO, GraveRegistry.class);
+        return graveRegistry.getContent();
+    }
+
+    public static Integer getGraveRegistryCount(FilterDTO filterDTO) {
+        return getCount(filterDTO, BASE_URL + GRAVE_REGISTRY_URL + "/count");
     }
 }
