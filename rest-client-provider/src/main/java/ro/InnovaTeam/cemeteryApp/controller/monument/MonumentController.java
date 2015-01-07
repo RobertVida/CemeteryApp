@@ -13,10 +13,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import ro.InnovaTeam.cemeteryApp.ContractDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.MonumentDTO;
+import ro.InnovaTeam.cemeteryApp.StructureHistoryEntryDTO;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
+import ro.InnovaTeam.cemeteryApp.controller.contract.ContractController;
+import ro.InnovaTeam.cemeteryApp.controller.grave.GraveController;
 import ro.InnovaTeam.cemeteryApp.controller.parcel.ParcelController;
+import ro.InnovaTeam.cemeteryApp.controller.structure_history.StructureHistoryController;
 import ro.InnovaTeam.cemeteryApp.restClient.MonumentRestClient;
 
 import javax.servlet.http.HttpServletRequest;
@@ -156,6 +161,43 @@ public class MonumentController {
         request.getSession().removeAttribute(MONUMENT_FILTER);
         try {
             response.sendRedirect(request.getContextPath() + MONUMENT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/filterAction/{monumentId}/{type}", method = RequestMethod.GET)
+    public void filterByMonumentId(@PathVariable Integer monumentId, @PathVariable String type, HttpServletRequest request, HttpServletResponse response) {
+        FilterDTO filterDTO = new FilterDTO();
+        filterDTO.setSearchCriteria("");
+        filterDTO.setParentId(monumentId);
+        String filter = "contract".equals(type) ? ContractController.CONTRACT_FILTER : StructureHistoryController.STRUCTURE_HISTORY_FILTER;
+        String redirectPath = "contract".equals(type) ? ContractController.CONTRACT : StructureHistoryController.STRUCTURE_HISTORY;
+
+        request.getSession().setAttribute(filter, filterDTO);
+        try {
+            response.sendRedirect(request.getContextPath() + redirectPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/addAction/{monumentId}/{type}", method = RequestMethod.GET)
+    public void addForMonumentId(@PathVariable Integer monumentId, @PathVariable String type, HttpServletRequest request, HttpServletResponse response) {
+        String redirectPath;
+        if ("contract".equals(type)) {
+            ContractDTO contractDTO = new ContractDTO();
+            contractDTO.setStructureId(monumentId);
+            request.getSession().setAttribute(GraveController.STRUCTURE_CONTRACT_DTO, contractDTO);
+            redirectPath = ContractController.CONTRACT;
+        } else {
+            StructureHistoryEntryDTO structureHistoryEntryDTO = new StructureHistoryEntryDTO();
+            structureHistoryEntryDTO.setStructureId(monumentId);
+            request.getSession().setAttribute(GraveController.STRUCTURE_HISTORY_DTO, structureHistoryEntryDTO);
+            redirectPath = StructureHistoryController.STRUCTURE_HISTORY;
+        }
+        try {
+            response.sendRedirect(request.getContextPath() + redirectPath + "/add");
         } catch (IOException e) {
             e.printStackTrace();
         }

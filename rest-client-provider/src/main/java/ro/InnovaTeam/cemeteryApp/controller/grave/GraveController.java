@@ -13,10 +13,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import ro.InnovaTeam.cemeteryApp.ContractDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.GraveDTO;
+import ro.InnovaTeam.cemeteryApp.StructureHistoryEntryDTO;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
+import ro.InnovaTeam.cemeteryApp.controller.contract.ContractController;
 import ro.InnovaTeam.cemeteryApp.controller.parcel.ParcelController;
+import ro.InnovaTeam.cemeteryApp.controller.structure_history.StructureHistoryController;
 import ro.InnovaTeam.cemeteryApp.restClient.GraveRestClient;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +40,8 @@ public class GraveController {
     private static final Logger logger = LoggerFactory.getLogger(GraveController.class);
     public static final String GRAVE = "/grave";
     public static final String GRAVE_FILTER = "graveFilter";
+    public static final String STRUCTURE_HISTORY_DTO = "structureGraveHistoryDTO";
+    public static final String STRUCTURE_CONTRACT_DTO = "structureGraveDTO";
     public static final int PAGE_SIZE = 20;
 
     @Autowired
@@ -159,4 +165,40 @@ public class GraveController {
         }
     }
 
+    @RequestMapping(value = "/filterAction/{graveId}/{type}", method = RequestMethod.GET)
+    public void filterByGraveId(@PathVariable Integer graveId, @PathVariable String type, HttpServletRequest request, HttpServletResponse response) {
+        FilterDTO filterDTO = new FilterDTO();
+        filterDTO.setSearchCriteria("");
+        filterDTO.setParentId(graveId);
+        String filter = "contract".equals(type) ? ContractController.CONTRACT_FILTER : StructureHistoryController.STRUCTURE_HISTORY_FILTER;
+        String redirectPath = "contract".equals(type) ? ContractController.CONTRACT : StructureHistoryController.STRUCTURE_HISTORY;
+
+        request.getSession().setAttribute(filter, filterDTO);
+        try {
+            response.sendRedirect(request.getContextPath() + redirectPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/addAction/{graveId}/{type}", method = RequestMethod.GET)
+    public void addForGraveId(@PathVariable Integer graveId, @PathVariable String type, HttpServletRequest request, HttpServletResponse response) {
+        String redirectPath;
+        if ("contract".equals(type)) {
+            ContractDTO contractDTO = new ContractDTO();
+            contractDTO.setStructureId(graveId);
+            request.getSession().setAttribute(STRUCTURE_CONTRACT_DTO, contractDTO);
+            redirectPath = ContractController.CONTRACT;
+        } else {
+            StructureHistoryEntryDTO structureHistoryEntryDTO = new StructureHistoryEntryDTO();
+            structureHistoryEntryDTO.setStructureId(graveId);
+            request.getSession().setAttribute(STRUCTURE_HISTORY_DTO, structureHistoryEntryDTO);
+            redirectPath = StructureHistoryController.STRUCTURE_HISTORY;
+        }
+        try {
+            response.sendRedirect(request.getContextPath() + redirectPath + "/add");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

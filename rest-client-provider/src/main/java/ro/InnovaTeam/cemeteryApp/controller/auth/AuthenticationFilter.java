@@ -15,6 +15,7 @@ public class AuthenticationFilter implements Filter {
 
     private static final String LOGIN_PATTERN = "/login";
     private static final String RESOURCES_PATTERN = "/resources";
+    public static final String USER_SESSION_AUTHENTICATION = "userSessionAuthentication";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -24,7 +25,7 @@ public class AuthenticationFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String currentUrl = ((HttpServletRequest) servletRequest).getRequestURL().toString();
         String loginUrl = ((HttpServletRequest) servletRequest).getContextPath() + LOGIN_PATTERN;
-        if (canDoFilter(currentUrl)) {
+        if (canDoFilter(currentUrl, (HttpServletRequest) servletRequest)) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             ((HttpServletResponse) servletResponse).sendRedirect(loginUrl);
@@ -36,9 +37,9 @@ public class AuthenticationFilter implements Filter {
 
     }
 
-    private boolean canDoFilter(String currentUrl) {
+    private boolean canDoFilter(String currentUrl, HttpServletRequest request) {
         return StringUtils.contains(currentUrl, LOGIN_PATTERN)
                 || StringUtils.contains(currentUrl, RESOURCES_PATTERN)
-                || SecurityContextHolder.getContext().getAuthentication() != null;
+                || request.getSession().getAttribute(USER_SESSION_AUTHENTICATION) != null;
     }
 }

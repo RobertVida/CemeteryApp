@@ -13,11 +13,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import ro.InnovaTeam.cemeteryApp.DeceasedDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.StructureHistoryEntryDTO;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
-import ro.InnovaTeam.cemeteryApp.restClient.DeceasedRestClient;
+import ro.InnovaTeam.cemeteryApp.controller.grave.GraveController;
 import ro.InnovaTeam.cemeteryApp.restClient.StructureHistoryRestClient;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,8 +34,8 @@ import java.util.List;
 public class StructureHistoryController {
 
     private static final Logger logger = LoggerFactory.getLogger(StructureHistoryController.class);
-    private static final String STRUCTURE_HISTORY = "/structureHistory";
-    private static final String STRUCTURE_HISTORY_FILTER = "structureHistoryFilter";
+    public static final String STRUCTURE_HISTORY = "/structureHistory";
+    public static final String STRUCTURE_HISTORY_FILTER = "structureHistoryFilter";
     public static final int PAGE_SIZE = 20;
 
     @Autowired
@@ -75,10 +74,12 @@ public class StructureHistoryController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String renderAddPage(Model model) {
+    public String renderAddPage(Model model, HttpServletRequest request) {
 
         if (!model.containsAttribute("structureHistoryEntryDTOExists")) {
-            model.addAttribute("structure_history", new StructureHistoryEntryDTO());
+            StructureHistoryEntryDTO structureHistoryEntryDTO = (StructureHistoryEntryDTO) request.getSession().getAttribute(GraveController.STRUCTURE_HISTORY_DTO);
+            model.addAttribute("structure_history", structureHistoryEntryDTO != null ? structureHistoryEntryDTO : new StructureHistoryEntryDTO());
+            request.getSession().removeAttribute(GraveController.STRUCTURE_HISTORY_DTO);
         }
         model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "structure_history/structureHistoryEntryDetailsPage";

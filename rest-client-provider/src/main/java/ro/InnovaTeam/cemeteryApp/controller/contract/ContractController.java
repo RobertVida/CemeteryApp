@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.ContractDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
+import ro.InnovaTeam.cemeteryApp.controller.grave.GraveController;
 import ro.InnovaTeam.cemeteryApp.restClient.ContractRestClient;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,8 +34,8 @@ import java.util.List;
 public class ContractController {
 
     private static final Logger logger = LoggerFactory.getLogger(ContractController.class);
-    private static final String CONTRACT = "/contract";
-    private static final String CONTRACT_FILTER = "contractFilter";
+    public static final String CONTRACT = "/contract";
+    public static final String CONTRACT_FILTER = "contractFilter";
     public static final int PAGE_SIZE = 20;
 
     @Autowired
@@ -73,10 +74,12 @@ public class ContractController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String renderAddPage(Model model) {
+    public String renderAddPage(Model model, HttpServletRequest request) {
 
         if (!model.containsAttribute("contractDTOExists")) {
-            model.addAttribute("contract", new ContractDTO());
+            ContractDTO contractDTO = (ContractDTO) request.getSession().getAttribute(GraveController.STRUCTURE_CONTRACT_DTO);
+            model.addAttribute("contract", contractDTO != null ? contractDTO : new ContractDTO());
+            request.getSession().removeAttribute(GraveController.STRUCTURE_CONTRACT_DTO);
         }
         model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "contract/contractDetailsPage";

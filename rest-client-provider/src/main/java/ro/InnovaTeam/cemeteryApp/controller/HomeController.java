@@ -9,7 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import ro.InnovaTeam.cemeteryApp.controller.auth.AuthenticationFilter;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by Catalin Sorecau on 11/15/2014.
@@ -33,12 +36,13 @@ public class HomeController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@RequestParam(value = "username") String username,
-                        @RequestParam(value = "password") String password, Model model) {
+                        @RequestParam(value = "password") String password, Model model, HttpServletRequest httpServletRequest) {
         org.springframework.security.authentication.AuthenticationManager authenticationManager = new UserAuthenticationManager();
         try {
             Authentication request = new UsernamePasswordAuthenticationToken(username, password);
             Authentication result = authenticationManager.authenticate(request);
             SecurityContextHolder.getContext().setAuthentication(result);
+            httpServletRequest.getSession().setAttribute(AuthenticationFilter.USER_SESSION_AUTHENTICATION, username);
         } catch (BadCredentialsException e) {
             model.addAttribute("error", "Credentiale gresite");
             return "loginPage";
@@ -47,8 +51,9 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logout() {
+    public String logout(HttpServletRequest request) {
         SecurityContextHolder.getContext().setAuthentication(null);
+        request.getSession().removeAttribute(AuthenticationFilter.USER_SESSION_AUTHENTICATION);
 
         return "loginPage";
     }

@@ -42,6 +42,14 @@
                     <td>
                         <c:if test="${hasAdminRole}">
                             <a href="${contextPath}/delete/${grave.id}" ><img class="action-icon tiptip" title="<fmt:message key='delete.entity'/>" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
+                            <a href="${contextPath}/filterAction/${grave.id}/contract" ><img class="action-icon tiptip" title="<fmt:message key='grave.filter.contracts'/>" src="<c:url value="/resources/icons/contracts.png" />"/></a>
+                            <a href="${contextPath}/addAction/${grave.id}/contract" >
+                                <span class="glyphicon glyphicon-plus tiptip" title="<fmt:message key='grave.add.contract'/>" aria-hidden="true"></span>
+                            </a>
+                            <a href="${contextPath}/filterAction/${grave.id}/structureHistory" ><img class="action-icon tiptip" title="<fmt:message key='grave.filter.structureHistiry'/>" src="<c:url value="/resources/icons/parcel_history.png" />"/></a>
+                            <a href="${contextPath}/addAction/${grave.id}/structureHistory" >
+                                <span class="glyphicon glyphicon-plus tiptip" title="<fmt:message key='grave.add.structureHistiry'/>" aria-hidden="true"></span>
+                            </a>
                         </c:if>
                         <a href="${contextPath}/get/${grave.id}" ><img class="action-icon tiptip" title="<fmt:message key='view.details'/>" src="<c:url value="/resources/icons/info.png" />"/></a>
                     </td>
