@@ -22,6 +22,7 @@ public class SearchController {
     public static final String MONUMENT_REGISTRY_URL = "/monumentRegistry";
     public static final String DECEASED_REGISTRY_URL = "/deceasedRegistry/{nameOrder}/{diedOnOrder}";
     public static final String DECEASED_NO_CAREGIVER_REGISTRY_URL = "/deceasedRegistryNoCaregiver/{nameOrder}/{diedOnOrder}";
+    public static final String REQUEST_REGISTRY_URL = "/requestRegistry";
 
     @Autowired
     private SearchService searchService;
@@ -94,5 +95,19 @@ public class SearchController {
     @ResponseBody
     public Integer getDeceasedNoCaregiverRegistryCount(@PathVariable String nameOrder, @PathVariable String diedOnOrder, @RequestBody FilterDTO filterDTO) {
         return searchService.getDeceasedNoCaregiverRegistryCount(toDB(filterDTO), nameOrder, diedOnOrder);
+    }
+
+    @RequestMapping(value = REQUEST_REGISTRY_URL, method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public RequestRegistry getRequestRegistry(@RequestBody FilterDTO filterDTO) {
+        return new RequestRegistry(RequestRegistryUtil.toDTO(searchService.getRequestRegistry(toDB(filterDTO))));
+    }
+
+    @RequestMapping(value = REQUEST_REGISTRY_URL + "/count", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Integer getRequestRegistryCount(@RequestBody FilterDTO filterDTO) {
+        return searchService.getRequestRegistryCount(toDB(filterDTO));
     }
 }

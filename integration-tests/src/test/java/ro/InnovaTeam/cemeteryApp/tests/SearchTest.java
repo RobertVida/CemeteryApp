@@ -141,6 +141,23 @@ public class SearchTest extends EntityTest{
         }
     }
 
+    @Test
+    public void searchRequests() throws Exception{
+        setup();
+
+        Integer count = getCount("/requestRegistry/count", getFilter());
+        assertThat(getContent("/requestRegistry", getFilter(), RequestRegistry.class).getContent().size(), equalTo(count));
+        assertThat(getContent("/requestRegistry", getFilter(), RequestRegistry.class).getContent().size(), equalTo(3));
+
+        count = getCount("/requestRegistry/count", getFilter(1, 20, null , "1"));
+        assertThat(getContent("/requestRegistry", getFilter(1, 20, null , "1"), RequestRegistry.class).getContent().size(), equalTo(count));
+        assertThat(getContent("/requestRegistry", getFilter(1, 20, null , "1"), RequestRegistry.class).getContent().size(), equalTo(1));
+
+        count = getCount("/requestRegistry/count", getFilter(1, 20, null , "activa"));
+        assertThat(getContent("/requestRegistry", getFilter(1, 20, null , "activa"), RequestRegistry.class).getContent().size(), equalTo(count));
+        assertThat(getContent("/requestRegistry", getFilter(1, 20, null , "activa"), RequestRegistry.class).getContent().size(), equalTo(2));
+    }
+
     private <T extends Registry> T getContent(String url, FilterDTO filter, Class<T> clazz) throws Exception {
         return getResultAsObject(performFilter(url, filter).andReturn(), clazz);
     }

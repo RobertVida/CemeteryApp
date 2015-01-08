@@ -69,4 +69,14 @@ public class SearchServiceImpl implements SearchService{
     public Integer getDeceasedNoCaregiverRegistryCount(Filter filter, String nameOrder, String diedOnOrder) {
         return searchEAO.getDeceasedNoCaregiverRegistryCount(filter, nameOrder, diedOnOrder);
     }
+
+    @Override
+    public List<RequestRegistryEntry> getRequestRegistry(Filter filter) {
+        return searchEAO.getRequestRegistry(filter);
+    }
+
+    @Override
+    public Integer getRequestRegistryCount(Filter filter) {
+        return searchEAO.getRequestRegistryCount(filter);
+    }
 }

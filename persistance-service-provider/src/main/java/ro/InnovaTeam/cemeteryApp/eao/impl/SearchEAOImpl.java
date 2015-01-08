@@ -72,6 +72,15 @@ public class SearchEAOImpl implements SearchEAO {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public List<RequestRegistryEntry> getRequestRegistry(Filter filter) {
+        return makeEntryList(getSession().createSQLQuery(
+                "SELECT R.request_id, R.created_on, R.infocet_number, R.status, R.client_id, C.last_name, C.first_name FROM restingplacerequests R " +
+                        requestRegister(filter)
+        ).list(), RequestRegistryEntry.class);
+    }
+
+    @Override
     public Integer getBurialRegistryCount(Filter filter) {
         return ((BigInteger) getSession().createSQLQuery(
                 "SELECT COUNT(*) FROM deceased D " +
@@ -111,6 +120,14 @@ public class SearchEAOImpl implements SearchEAO {
         ).list().get(0)).intValue();
     }
 
+    @Override
+    public Integer getRequestRegistryCount(Filter filter) {
+        return ((BigInteger) getSession().createSQLQuery(
+                "SELECT COUNT(*) FROM restingplacerequests R " +
+                        requestRegister(filter)
+        ).list().get(0)).intValue();
+    }
+
     private <T extends RegistryEntry> List<T> makeEntryList(List<Object[]> result, Class<T> clazz) {
         List<T> list = new ArrayList<T>();
         for (Object[] e : result) {
@@ -119,8 +136,7 @@ public class SearchEAOImpl implements SearchEAO {
         return list;
     }
 
-
-    public  String burialRegister(Filter filter) {
+    public String burialRegister(Filter filter) {
         return "INNER JOIN burialdocuments B ON D.deceased_id= B.deceased_id " +
                 "INNER JOIN structures S ON S.structure_id= B.structure_id " +
                 "INNER JOIN parcels P ON P.parcel_id= S.parcel_id " +
@@ -128,7 +144,8 @@ public class SearchEAOImpl implements SearchEAO {
                 limit(filter);
     }
 
-    public  String graveRegister(Filter filter) {
+
+    public String graveRegister(Filter filter) {
         return "INNER JOIN parcels P ON P.cemetery_id = C.cemetery_id " +
                 "INNER JOIN structures S ON S.parcel_id = P.parcel_id AND S.type = \"Grave\" " +
                 "LEFT JOIN contracts CON ON CON.structure_id = S.structure_id " +
@@ -140,7 +157,7 @@ public class SearchEAOImpl implements SearchEAO {
                 limit(filter);
     }
 
-    public  String monumentRegister(Filter filter) {
+    public String monumentRegister(Filter filter) {
         return "INNER JOIN parcels P ON P.cemetery_id = C.cemetery_id " +
                 "INNER JOIN structures S ON S.parcel_id = P.parcel_id AND S.type = \"Monument\" " +
                 "LEFT JOIN contracts CON ON CON.structure_id = S.structure_id " +
@@ -159,10 +176,10 @@ public class SearchEAOImpl implements SearchEAO {
                 "LEFT JOIN cemeteries C ON P.cemetery_id = C.cemetery_id " +
                 "LEFT JOIN nocaregiverdocuments AS N ON N.deceased_id = D.deceased_id " +
                 "WHERE " +
-                    and(
-                            allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("first_name", "last_name", "C.name"),
-                            "isNull(N.no_caregiver_document_id)"
-                    ) +
+                and(
+                        allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("first_name", "last_name", "C.name"),
+                        "isNull(N.no_caregiver_document_id)"
+                ) +
                 " ORDER BY last_name " + nameOrder + ", first_name " + nameOrder + " , died_on " + diedOnOrder + " " +
                 limit(filter);
     }
@@ -179,6 +196,11 @@ public class SearchEAOImpl implements SearchEAO {
                 ) +
                 " ORDER BY last_name " + nameOrder + ", first_name " + nameOrder + " , died_on " + diedOnOrder + " " +
                 limit(filter);
+    }
+
+    private String requestRegister(Filter filter) {
+        return "LEFT JOIN clients C ON C.client_id = R.client_id " +
+                "WHERE " + allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("R.status", "C.last_name", "C.first_name");
     }
 
     private String limit(Filter filter) {

@@ -29,4 +29,8 @@ public interface SearchService extends Service{
     public List<DeceasedNoCaregiverRegistryEntry> getDeceasedNoCaregiverRegistry(Filter filter, String nameOrder, String diedOnOrder);
 
     public Integer getDeceasedNoCaregiverRegistryCount(Filter filter, String nameOrder, String diedOnOrder);
+
+    public List<RequestRegistryEntry> getRequestRegistry(Filter filter);
+
+    public Integer getRequestRegistryCount(Filter filter);
 }
