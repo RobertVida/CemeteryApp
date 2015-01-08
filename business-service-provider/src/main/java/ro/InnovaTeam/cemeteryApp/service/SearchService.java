@@ -1,10 +1,7 @@
 package ro.InnovaTeam.cemeteryApp.service;
 
 import ro.InnovaTeam.cemeteryApp.model.Filter;
-import ro.InnovaTeam.cemeteryApp.model.registers.BurialRegistryEntry;
-import ro.InnovaTeam.cemeteryApp.model.registers.DeceasedRegistryEntry;
-import ro.InnovaTeam.cemeteryApp.model.registers.GraveRegistryEntry;
-import ro.InnovaTeam.cemeteryApp.model.registers.MonumentRegistryEntry;
+import ro.InnovaTeam.cemeteryApp.model.registers.*;
 
 import java.util.List;
 
@@ -28,4 +25,8 @@ public interface SearchService extends Service{
     public List<DeceasedRegistryEntry> getDeceasedRegistry(Filter filter, String nameOrder, String diedOnOrder);
 
     public Integer getDeceasedRegistryCount(Filter filter, String nameOrder, String diedOnOrder);
+
+    public List<DeceasedNoCaregiverRegistryEntry> getDeceasedNoCaregiverRegistry(Filter filter, String nameOrder, String diedOnOrder);
+
+    public Integer getDeceasedNoCaregiverRegistryCount(Filter filter, String nameOrder, String diedOnOrder);
 }

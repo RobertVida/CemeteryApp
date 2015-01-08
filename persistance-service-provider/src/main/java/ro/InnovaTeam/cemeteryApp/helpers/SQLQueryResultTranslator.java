@@ -18,6 +18,8 @@ public class SQLQueryResultTranslator {
             return clazz.cast(translateMonumentRegistryEntry(e));
         } else if (clazz.equals(DeceasedRegistryEntry.class)) {
             return clazz.cast(translateDeceasedRegistryEntry(e));
+        } else if (clazz.equals(DeceasedNoCaregiverRegistryEntry.class)) {
+            return clazz.cast(translateDeceasedNoCaregiverEntry(e));
         }
         return null;
     }
@@ -84,6 +86,23 @@ public class SQLQueryResultTranslator {
         entry.setParcelName((String) e[6]);
         entry.setGraveId((Integer) e[7]);
         entry.setBuriedOn((Date) e[8]);
+
+        return entry;
+    }
+
+    private static DeceasedNoCaregiverRegistryEntry translateDeceasedNoCaregiverEntry(Object[] e) {
+        DeceasedNoCaregiverRegistryEntry entry = new DeceasedNoCaregiverRegistryEntry();
+        entry.setDeceasedId((Integer) e[0]);
+        entry.setFirstName((String) e[1]);
+        entry.setLastName((String) e[2]);
+        entry.setCemeteryId((Integer) e[3]);
+        entry.setCemeteryName((String) e[4]);
+        entry.setParcelId((Integer) e[5]);
+        entry.setParcelName((String) e[6]);
+        entry.setGraveId((Integer) e[7]);
+        entry.setBuriedOn((Date) e[8]);
+        entry.setCertificateId((Integer) e[9]);
+        entry.setRequestIMLid((Integer) e[10]);
 
         return entry;
     }

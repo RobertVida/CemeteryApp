@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static ro.InnovaTeam.cemeteryApp.helpers.AndWithOrRestrictionBuilder.allOf;
-import static ro.InnovaTeam.cemeteryApp.helpers.ColumnConstraintBuilder.column;
 import static ro.InnovaTeam.cemeteryApp.helpers.ConstraintWrapper.AndConstraintWrapper.and;
 import static ro.InnovaTeam.cemeteryApp.helpers.SQLQueryResultTranslator.*;
 
@@ -64,6 +63,15 @@ public class SearchEAOImpl implements SearchEAO {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public List<DeceasedNoCaregiverRegistryEntry> getDeceasedNoCaregiverRegistry(Filter filter, String nameOrder, String diedOnOrder) {
+        return makeEntryList(getSession().createSQLQuery(
+                "SELECT D.deceased_id, first_name, last_name, C.cemetery_id, C.name, P.parcel_id, P.name, S.structure_id, D.died_on, N.certificate_id, N.request_IML_id FROM deceased D " +
+                        deceasedNoCaregiverRegistry(filter, nameOrder, diedOnOrder)
+        ).list(), DeceasedNoCaregiverRegistryEntry.class);
+    }
+
+    @Override
     public Integer getBurialRegistryCount(Filter filter) {
         return ((BigInteger) getSession().createSQLQuery(
                 "SELECT COUNT(*) FROM deceased D " +
@@ -92,6 +100,14 @@ public class SearchEAOImpl implements SearchEAO {
         return ((BigInteger) getSession().createSQLQuery(
                 "SELECT COUNT(*) FROM deceased D " +
                         deceasedRegistry(filter, nameOrder, diedOnOrder)
+        ).list().get(0)).intValue();
+    }
+
+    @Override
+    public Integer getDeceasedNoCaregiverRegistryCount(Filter filter, String nameOrder, String diedOnOrder) {
+        return ((BigInteger) getSession().createSQLQuery(
+                "SELECT COUNT(*) FROM deceased D " +
+                        deceasedNoCaregiverRegistry(filter, nameOrder, diedOnOrder)
         ).list().get(0)).intValue();
     }
 
@@ -147,6 +163,20 @@ public class SearchEAOImpl implements SearchEAO {
                             allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("first_name", "last_name", "C.name"),
                             "isNull(N.no_caregiver_document_id)"
                     ) +
+                " ORDER BY last_name " + nameOrder + ", first_name " + nameOrder + " , died_on " + diedOnOrder + " " +
+                limit(filter);
+    }
+
+    private String deceasedNoCaregiverRegistry(Filter filter, String nameOrder, String diedOnOrder) {
+        return "LEFT JOIN burialdocuments B ON D.deceased_id = B.deceased_id " +
+                "LEFT JOIN structures S ON S.structure_id = B.structure_id " +
+                "LEFT JOIN parcels P ON P.parcel_id = S.parcel_id " +
+                "LEFT JOIN cemeteries C ON P.cemetery_id = C.cemetery_id " +
+                "JOIN nocaregiverdocuments AS N ON N.deceased_id = D.deceased_id " +
+                "WHERE " +
+                and(
+                        allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("first_name", "last_name", "C.name")
+                ) +
                 " ORDER BY last_name " + nameOrder + ", first_name " + nameOrder + " , died_on " + diedOnOrder + " " +
                 limit(filter);
     }

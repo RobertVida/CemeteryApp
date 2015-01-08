@@ -5,10 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.InnovaTeam.cemeteryApp.eao.SearchEAO;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
-import ro.InnovaTeam.cemeteryApp.model.registers.BurialRegistryEntry;
-import ro.InnovaTeam.cemeteryApp.model.registers.DeceasedRegistryEntry;
-import ro.InnovaTeam.cemeteryApp.model.registers.GraveRegistryEntry;
-import ro.InnovaTeam.cemeteryApp.model.registers.MonumentRegistryEntry;
+import ro.InnovaTeam.cemeteryApp.model.registers.*;
 import ro.InnovaTeam.cemeteryApp.service.SearchService;
 
 import java.util.List;
@@ -61,5 +58,15 @@ public class SearchServiceImpl implements SearchService{
     @Override
     public Integer getDeceasedRegistryCount(Filter filter, String nameOrder, String diedOnOrder) {
         return searchEAO.getDeceasedRegistryCount(filter, nameOrder, diedOnOrder);
+    }
+
+    @Override
+    public List<DeceasedNoCaregiverRegistryEntry> getDeceasedNoCaregiverRegistry(Filter filter, String nameOrder, String diedOnOrder) {
+        return searchEAO.getDeceasedNoCaregiverRegistry(filter, nameOrder, diedOnOrder);
+    }
+
+    @Override
+    public Integer getDeceasedNoCaregiverRegistryCount(Filter filter, String nameOrder, String diedOnOrder) {
+        return searchEAO.getDeceasedNoCaregiverRegistryCount(filter, nameOrder, diedOnOrder);
     }
 }

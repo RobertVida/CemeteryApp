@@ -117,6 +117,30 @@ public class SearchTest extends EntityTest{
         }
     }
 
+    @Test
+    public void searchDeceasedNoCaregiver() throws Exception{
+        setup();
+        setupNoCaregivers();
+
+        Integer count = getCount("/deceasedRegistryNoCaregiver/ASC/DESC/count", getFilter());
+        assertThat(count, lessThan(deceasedDTOs.length));
+        assertThat(count, equalTo(4));
+
+        DeceasedNoCaregiverRegistry registry = getContent("/deceasedRegistryNoCaregiver/ASC/DESC", getFilter(), DeceasedNoCaregiverRegistry.class);
+        assertThat(count, Matchers.equalTo(registry.getContent().size()));
+
+        for(int i = 1 ; i < registry.getContent().size() ; i++){
+            assertThat(registry.getContent().get(i-1).getLastName().compareTo(registry.getContent().get(i).getLastName()), lessThanOrEqualTo(0));
+        }
+
+        registry = getContent("/deceasedRegistryNoCaregiver/DESC/DESC", getFilter(), DeceasedNoCaregiverRegistry.class);
+        assertThat(count, Matchers.equalTo(registry.getContent().size()));
+
+        for(int i = 1 ; i < registry.getContent().size() ; i++){
+            assertThat(registry.getContent().get(i-1).getLastName().compareTo(registry.getContent().get(i).getLastName()), greaterThanOrEqualTo(0));
+        }
+    }
+
     private <T extends Registry> T getContent(String url, FilterDTO filter, Class<T> clazz) throws Exception {
         return getResultAsObject(performFilter(url, filter).andReturn(), clazz);
     }

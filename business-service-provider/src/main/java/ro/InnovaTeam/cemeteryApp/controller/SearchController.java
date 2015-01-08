@@ -5,15 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
-import ro.InnovaTeam.cemeteryApp.registers.BurialRegistry;
-import ro.InnovaTeam.cemeteryApp.registers.DeceasedRegistry;
-import ro.InnovaTeam.cemeteryApp.registers.GraveRegistry;
-import ro.InnovaTeam.cemeteryApp.registers.MonumentRegistry;
+import ro.InnovaTeam.cemeteryApp.registers.*;
 import ro.InnovaTeam.cemeteryApp.service.SearchService;
-import ro.InnovaTeam.cemeteryApp.util.registers.BurialRegistryUtil;
-import ro.InnovaTeam.cemeteryApp.util.registers.DeceasedRegistryUtil;
-import ro.InnovaTeam.cemeteryApp.util.registers.GraveRegistryUtil;
-import ro.InnovaTeam.cemeteryApp.util.registers.MonumentRegistryUtil;
+import ro.InnovaTeam.cemeteryApp.util.registers.*;
 
 import static ro.InnovaTeam.cemeteryApp.util.FilterUtil.toDB;
 
@@ -27,6 +21,7 @@ public class SearchController {
     public static final String GRAVE_REGISTRY_URL = "/graveRegistry";
     public static final String MONUMENT_REGISTRY_URL = "/monumentRegistry";
     public static final String DECEASED_REGISTRY_URL = "/deceasedRegistry/{nameOrder}/{diedOnOrder}";
+    public static final String DECEASED_NO_CAREGIVER_REGISTRY_URL = "/deceasedRegistryNoCaregiver/{nameOrder}/{diedOnOrder}";
 
     @Autowired
     private SearchService searchService;
@@ -85,5 +80,19 @@ public class SearchController {
     @ResponseBody
     public Integer getDeceasedRegistryCount(@PathVariable String nameOrder, @PathVariable String diedOnOrder, @RequestBody FilterDTO filterDTO) {
         return searchService.getDeceasedRegistryCount(toDB(filterDTO), nameOrder, diedOnOrder);
+    }
+
+    @RequestMapping(value = DECEASED_NO_CAREGIVER_REGISTRY_URL, method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public DeceasedNoCaregiverRegistry getDeceasedNoCaregiverRegistry(@PathVariable String nameOrder, @PathVariable String diedOnOrder, @RequestBody FilterDTO filterDTO) {
+        return new DeceasedNoCaregiverRegistry(DeceasedNoCaregiverRegistryUtil.toDTO(searchService.getDeceasedNoCaregiverRegistry(toDB(filterDTO), nameOrder, diedOnOrder)));
+    }
+
+    @RequestMapping(value = DECEASED_NO_CAREGIVER_REGISTRY_URL + "/count", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Integer getDeceasedNoCaregiverRegistryCount(@PathVariable String nameOrder, @PathVariable String diedOnOrder, @RequestBody FilterDTO filterDTO) {
+        return searchService.getDeceasedNoCaregiverRegistryCount(toDB(filterDTO), nameOrder, diedOnOrder);
     }
 }
