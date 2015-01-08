@@ -1,15 +1,20 @@
 package ro.InnovaTeam.cemeteryApp.tests;
 
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ro.InnovaTeam.cemeteryApp.*;
-import ro.InnovaTeam.cemeteryApp.registers.BurialRegistry;
-import ro.InnovaTeam.cemeteryApp.registers.GraveRegistry;
-import ro.InnovaTeam.cemeteryApp.registers.MonumentRegistry;
-import ro.InnovaTeam.cemeteryApp.registers.Registry;
+import ro.InnovaTeam.cemeteryApp.registers.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
@@ -39,6 +44,14 @@ public class SearchTest extends EntityTest{
         requestDTOs = setupRequests(clientDTOs);
         contractDTOs = setupContract(graveDTOs, requestDTOs);
         deceasedDTOs = setupDeceased(graveDTOs);
+    }
+
+    public void setupNoCaregivers() throws Exception {
+        List<DeceasedDTO> deceasedAll = new ArrayList<DeceasedDTO>();
+        Collections.addAll(deceasedAll, deceasedDTOs);
+        Collections.addAll(deceasedAll, setupDeceasedNoCaregiver(monumentDTOs));
+
+        deceasedDTOs = deceasedAll.toArray(new DeceasedDTO[deceasedAll.size()]);
     }
 
     @Test
@@ -78,6 +91,30 @@ public class SearchTest extends EntityTest{
         count = getCount("/monumentRegistry/count", getFilter(1, 20, null , "address1"));
         assertThat(getContent("/monumentRegistry", getFilter(1, 20, null , "address1"), MonumentRegistry.class).getContent().size(), equalTo(count));
         assertThat(getContent("/monumentRegistry", getFilter(1, 20, null , "address1"), MonumentRegistry.class).getContent().size(), equalTo(0));
+    }
+
+    @Test
+    public void searchDeceased() throws Exception{
+        setup();
+        setupNoCaregivers();
+
+        Integer count = getCount("/deceasedRegistry/ASC/DESC/count", getFilter());
+        assertThat(count, lessThan(deceasedDTOs.length));
+        assertThat(count, equalTo(3));
+
+        DeceasedRegistry registry = getContent("/deceasedRegistry/ASC/DESC", getFilter(), DeceasedRegistry.class);
+        assertThat(count, Matchers.equalTo(registry.getContent().size()));
+
+        for(int i = 1 ; i < registry.getContent().size() ; i++){
+            assertThat(registry.getContent().get(i-1).getLastName().compareTo(registry.getContent().get(i).getLastName()), lessThanOrEqualTo(0));
+        }
+
+        registry = getContent("/deceasedRegistry/DESC/DESC", getFilter(), DeceasedRegistry.class);
+        assertThat(count, Matchers.equalTo(registry.getContent().size()));
+
+        for(int i = 1 ; i < registry.getContent().size() ; i++){
+            assertThat(registry.getContent().get(i-1).getLastName().compareTo(registry.getContent().get(i).getLastName()), greaterThanOrEqualTo(0));
+        }
     }
 
     private <T extends Registry> T getContent(String url, FilterDTO filter, Class<T> clazz) throws Exception {

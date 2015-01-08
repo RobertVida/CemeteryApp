@@ -6,16 +6,15 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Component;
 import ro.InnovaTeam.cemeteryApp.eao.SearchEAO;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
-import ro.InnovaTeam.cemeteryApp.model.registers.BurialRegistryEntry;
-import ro.InnovaTeam.cemeteryApp.model.registers.GraveRegistryEntry;
-import ro.InnovaTeam.cemeteryApp.model.registers.MonumentRegistryEntry;
-import ro.InnovaTeam.cemeteryApp.model.registers.RegistryEntry;
+import ro.InnovaTeam.cemeteryApp.model.registers.*;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import static ro.InnovaTeam.cemeteryApp.helpers.AndWithOrRestrictionBuilder.allOf;
+import static ro.InnovaTeam.cemeteryApp.helpers.ColumnConstraintBuilder.column;
+import static ro.InnovaTeam.cemeteryApp.helpers.ConstraintWrapper.AndConstraintWrapper.and;
 import static ro.InnovaTeam.cemeteryApp.helpers.SQLQueryResultTranslator.*;
 
 /**
@@ -56,6 +55,15 @@ public class SearchEAOImpl implements SearchEAO {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public List<DeceasedRegistryEntry> getDeceasedRegistry(Filter filter, String nameOrder, String diedOnOrder) {
+        return makeEntryList(getSession().createSQLQuery(
+                "SELECT D.deceased_id, first_name, last_name, C.cemetery_id, C.name, P.parcel_id, P.name, S.structure_id, D.died_on FROM deceased D " +
+                        deceasedRegistry(filter, nameOrder, diedOnOrder)
+        ).list(), DeceasedRegistryEntry.class);
+    }
+
+    @Override
     public Integer getBurialRegistryCount(Filter filter) {
         return ((BigInteger) getSession().createSQLQuery(
                 "SELECT COUNT(*) FROM deceased D " +
@@ -79,6 +87,14 @@ public class SearchEAOImpl implements SearchEAO {
         ).list().get(0)).intValue();
     }
 
+    @Override
+    public Integer getDeceasedRegistryCount(Filter filter, String nameOrder, String diedOnOrder) {
+        return ((BigInteger) getSession().createSQLQuery(
+                "SELECT COUNT(*) FROM deceased D " +
+                        deceasedRegistry(filter, nameOrder, diedOnOrder)
+        ).list().get(0)).intValue();
+    }
+
     private <T extends RegistryEntry> List<T> makeEntryList(List<Object[]> result, Class<T> clazz) {
         List<T> list = new ArrayList<T>();
         for (Object[] e : result) {
@@ -92,7 +108,8 @@ public class SearchEAOImpl implements SearchEAO {
         return "INNER JOIN burialdocuments B ON D.deceased_id= B.deceased_id " +
                 "INNER JOIN structures S ON S.structure_id= B.structure_id " +
                 "INNER JOIN parcels P ON P.parcel_id= S.parcel_id " +
-                "WHERE " + allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("first_name", "last_name", "religion", "p.name");
+                "WHERE " + allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("first_name", "last_name", "religion", "p.name") +
+                limit(filter);
     }
 
     public  String graveRegister(Filter filter) {
@@ -103,7 +120,8 @@ public class SearchEAOImpl implements SearchEAO {
                 "LEFT JOIN clients CL ON CL.client_id= R.client_id " +
                 "LEFT JOIN burialdocuments B ON B.structure_id = S.structure_id " +
                 "LEFT JOIN deceased D ON D.deceased_id = B.deceased_id " +
-                "WHERE " + allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("C.name", "P.name", "CL.first_name", "CL.last_name", "CL.home_address", "D.first_name", "D.last_name");
+                "WHERE " + allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("C.name", "P.name", "CL.first_name", "CL.last_name", "CL.home_address", "D.first_name", "D.last_name") +
+                limit(filter);
     }
 
     public  String monumentRegister(Filter filter) {
@@ -114,7 +132,27 @@ public class SearchEAOImpl implements SearchEAO {
                 "LEFT JOIN clients CL ON CL.client_id= R.client_id " +
                 "LEFT JOIN burialdocuments B ON B.structure_id = S.structure_id " +
                 "LEFT JOIN deceased D ON D.deceased_id = B.deceased_id " +
-                "WHERE " + allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("C.name", "P.name", "CL.first_name", "CL.last_name", "CL.home_address", "D.first_name", "D.last_name");
+                "WHERE " + allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("C.name", "P.name", "CL.first_name", "CL.last_name", "CL.home_address", "D.first_name", "D.last_name") +
+                limit(filter);
+    }
+
+    private String deceasedRegistry(Filter filter, String nameOrder, String diedOnOrder) {
+        return "LEFT JOIN burialdocuments B ON D.deceased_id = B.deceased_id " +
+                "LEFT JOIN structures S ON S.structure_id = B.structure_id " +
+                "LEFT JOIN parcels P ON P.parcel_id = S.parcel_id " +
+                "LEFT JOIN cemeteries C ON P.cemetery_id = C.cemetery_id " +
+                "LEFT JOIN nocaregiverdocuments AS N ON N.deceased_id = D.deceased_id " +
+                "WHERE " +
+                    and(
+                            allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("first_name", "last_name", "C.name"),
+                            "isNull(N.no_caregiver_document_id)"
+                    ) +
+                " ORDER BY last_name " + nameOrder + ", first_name " + nameOrder + " , died_on " + diedOnOrder + " " +
+                limit(filter);
+    }
+
+    private String limit(Filter filter) {
+        return " LIMIT " + (filter.getPageNo() - 1) + " , " + filter.getPageSize() + " ";
     }
 
     protected Session getSession() {

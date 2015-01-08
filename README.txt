@@ -10,3 +10,5 @@
 
 1. select request status from dropdown ( active / inactive ?)
 2. add quick actions
+3. for deceasedRegistry we need 2 dropdown boxes, one foe sorting the name, the other for diedOn
+    pass the values through URL (ASC for ascending and DESC dor descending)

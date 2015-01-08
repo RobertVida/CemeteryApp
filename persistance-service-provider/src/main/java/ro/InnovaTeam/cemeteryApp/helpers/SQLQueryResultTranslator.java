@@ -1,9 +1,6 @@
 package ro.InnovaTeam.cemeteryApp.helpers;
 
-import ro.InnovaTeam.cemeteryApp.model.registers.BurialRegistryEntry;
-import ro.InnovaTeam.cemeteryApp.model.registers.GraveRegistryEntry;
-import ro.InnovaTeam.cemeteryApp.model.registers.MonumentRegistryEntry;
-import ro.InnovaTeam.cemeteryApp.model.registers.RegistryEntry;
+import ro.InnovaTeam.cemeteryApp.model.registers.*;
 
 import java.util.Date;
 
@@ -12,14 +9,15 @@ import java.util.Date;
  */
 public class SQLQueryResultTranslator {
 
-    @SuppressWarnings("unchecked")
     public static <T extends RegistryEntry> T translate(Object[] e, Class<T> clazz) {
         if (clazz.equals(BurialRegistryEntry.class)) {
-            return (T) translateBurialRegistryEntry(e);
+            return clazz.cast(translateBurialRegistryEntry(e));
         } else if (clazz.equals(GraveRegistryEntry.class)) {
-            return (T) translateGraveRegistryEntry(e);
+            return clazz.cast(translateGraveRegistryEntry(e));
         } else if (clazz.equals(MonumentRegistryEntry.class)) {
-            return (T) translateMonumentRegistryEntry(e);
+            return clazz.cast(translateMonumentRegistryEntry(e));
+        } else if (clazz.equals(DeceasedRegistryEntry.class)) {
+            return clazz.cast(translateDeceasedRegistryEntry(e));
         }
         return null;
     }
@@ -71,6 +69,21 @@ public class SQLQueryResultTranslator {
         entry.setDeceasedLastName((String) e[10]);
         entry.setBurialDate((Date) e[11]);
         entry.setSurface((Double) e[12]);
+
+        return entry;
+    }
+
+    private static DeceasedRegistryEntry translateDeceasedRegistryEntry(Object[] e) {
+        DeceasedRegistryEntry entry = new DeceasedRegistryEntry();
+        entry.setDeceasedId((Integer) e[0]);
+        entry.setFirstName((String) e[1]);
+        entry.setLastName((String) e[2]);
+        entry.setCemeteryId((Integer) e[3]);
+        entry.setCemeteryName((String) e[4]);
+        entry.setParcelId((Integer) e[5]);
+        entry.setParcelName((String) e[6]);
+        entry.setGraveId((Integer) e[7]);
+        entry.setBuriedOn((Date) e[8]);
 
         return entry;
     }

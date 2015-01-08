@@ -626,6 +626,19 @@ public class EntityTest extends PerformTest {
         return deceasedDTOs;
     }
 
+    protected DeceasedDTO[] setupDeceasedNoCaregiver(MonumentDTO[] monumentDTOs) throws Exception {
+        DeceasedDTO[] deceasedDTOs = readJsonFromFile("/deceasedWithNoCaregiver.json", DeceasedDTO[].class);
+        deceasedDTOs[0].setStructureId(monumentDTOs[0].getId());
+        deceasedDTOs[0] = deceased.create(deceasedDTOs[0]);
+        deceasedDTOs[0].setBurialDocumentId(deceased.get(deceasedDTOs[0]).getBurialDocumentId());
+        for(int i = 1 ; i < deceasedDTOs.length ; i++){
+            deceasedDTOs[i].setStructureId(monumentDTOs[1].getId());
+            deceasedDTOs[i] = deceased.create(deceasedDTOs[i]);
+            deceasedDTOs[i].setBurialDocumentId(deceased.get(deceasedDTOs[i]).getBurialDocumentId());
+        }
+        return deceasedDTOs;
+    }
+
     protected RestingPlaceRequestDTO[] setupRequests(ClientDTO[] clientDTOs) throws Exception {
         RestingPlaceRequestDTO[] requestDTOs = readJsonFromFile("/requests.json", RestingPlaceRequestDTO[].class);
         requestDTOs[0].setClientId(clientDTOs[0].getId());

@@ -126,7 +126,8 @@ CREATE TABLE IF NOT EXISTS `contracts` (
   `expires_on` datetime NOT NULL,
   PRIMARY KEY(`contract_id`),
   FOREIGN KEY(`structure_id`) REFERENCES `structures`(`structure_id`),
-  FOREIGN KEY(`request_id`) REFERENCES `restingplacerequests`(`request_id`)
+  FOREIGN KEY(`request_id`) REFERENCES `restingplacerequests`(`request_id`),
+  UNIQUE(`request_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table containing info about the Contracts (''Ownership''/''Concession'')';
 
 -- --------------------------------------------------------
