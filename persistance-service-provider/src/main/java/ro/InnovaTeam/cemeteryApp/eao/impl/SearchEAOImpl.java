@@ -81,6 +81,15 @@ public class SearchEAOImpl implements SearchEAO {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public List<ContractRegistryEntry> getContractRegistry(Filter filter) {
+        return makeEntryList(getSession().createSQLQuery(
+                "SELECT C.contract_id, C.signed_on, R.client_id, CL.last_name, CL.first_name, CL.home_address FROM contracts C " +
+                        contractRegister(filter)
+        ).list(), ContractRegistryEntry.class);
+    }
+
+    @Override
     public Integer getBurialRegistryCount(Filter filter) {
         return ((BigInteger) getSession().createSQLQuery(
                 "SELECT COUNT(*) FROM deceased D " +
@@ -128,6 +137,14 @@ public class SearchEAOImpl implements SearchEAO {
         ).list().get(0)).intValue();
     }
 
+    @Override
+    public Integer getContractRegistryCount(Filter filter) {
+        return ((BigInteger) getSession().createSQLQuery(
+                "SELECT COUNT(*) FROM contracts C " +
+                        contractRegister(filter)
+        ).list().get(0)).intValue();
+    }
+
     private <T extends RegistryEntry> List<T> makeEntryList(List<Object[]> result, Class<T> clazz) {
         List<T> list = new ArrayList<T>();
         for (Object[] e : result) {
@@ -144,7 +161,6 @@ public class SearchEAOImpl implements SearchEAO {
                 limit(filter);
     }
 
-
     public String graveRegister(Filter filter) {
         return "INNER JOIN parcels P ON P.cemetery_id = C.cemetery_id " +
                 "INNER JOIN structures S ON S.parcel_id = P.parcel_id AND S.type = \"Grave\" " +
@@ -156,6 +172,7 @@ public class SearchEAOImpl implements SearchEAO {
                 "WHERE " + allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("C.name", "P.name", "CL.first_name", "CL.last_name", "CL.home_address", "D.first_name", "D.last_name") +
                 limit(filter);
     }
+
 
     public String monumentRegister(Filter filter) {
         return "INNER JOIN parcels P ON P.cemetery_id = C.cemetery_id " +
@@ -201,6 +218,12 @@ public class SearchEAOImpl implements SearchEAO {
     private String requestRegister(Filter filter) {
         return "LEFT JOIN clients C ON C.client_id = R.client_id " +
                 "WHERE " + allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("R.status", "C.last_name", "C.first_name");
+    }
+
+    private String contractRegister(Filter filter) {
+        return "LEFT JOIN restingplacerequests R ON R.request_id = C.request_id " +
+                "LEFT JOIN clients CL ON CL.client_id = R.client_id " +
+                "WHERE " + allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("CL.last_name", "CL.first_name", "CL.home_address");
     }
 
     private String limit(Filter filter) {

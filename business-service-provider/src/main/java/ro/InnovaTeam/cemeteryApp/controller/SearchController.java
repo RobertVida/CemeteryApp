@@ -23,6 +23,7 @@ public class SearchController {
     public static final String DECEASED_REGISTRY_URL = "/deceasedRegistry/{nameOrder}/{diedOnOrder}";
     public static final String DECEASED_NO_CAREGIVER_REGISTRY_URL = "/deceasedRegistryNoCaregiver/{nameOrder}/{diedOnOrder}";
     public static final String REQUEST_REGISTRY_URL = "/requestRegistry";
+    public static final String CONTRACT_REGISTRY_URL = "/contractRegistry";
 
     @Autowired
     private SearchService searchService;
@@ -109,5 +110,19 @@ public class SearchController {
     @ResponseBody
     public Integer getRequestRegistryCount(@RequestBody FilterDTO filterDTO) {
         return searchService.getRequestRegistryCount(toDB(filterDTO));
+    }
+
+    @RequestMapping(value = CONTRACT_REGISTRY_URL, method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public ContractRegistry getContractRegistry(@RequestBody FilterDTO filterDTO) {
+        return new ContractRegistry(ContractRegistryUtil.toDTO(searchService.getContractRegistry(toDB(filterDTO))));
+    }
+
+    @RequestMapping(value = CONTRACT_REGISTRY_URL + "/count", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public Integer getContractRegistryCount(@RequestBody FilterDTO filterDTO) {
+        return searchService.getContractRegistryCount(toDB(filterDTO));
     }
 }

@@ -35,4 +35,8 @@ public interface SearchEAO {
     public List<RequestRegistryEntry> getRequestRegistry(Filter filter);
 
     public Integer getRequestRegistryCount(Filter filter);
+
+    public List<ContractRegistryEntry> getContractRegistry(Filter filter);
+
+    public Integer getContractRegistryCount(Filter filter);
 }

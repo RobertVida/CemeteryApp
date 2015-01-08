@@ -79,4 +79,14 @@ public class SearchServiceImpl implements SearchService{
     public Integer getRequestRegistryCount(Filter filter) {
         return searchEAO.getRequestRegistryCount(filter);
     }
+
+    @Override
+    public List<ContractRegistryEntry> getContractRegistry(Filter filter) {
+        return searchEAO.getContractRegistry(filter);
+    }
+
+    @Override
+    public Integer getContractRegistryCount(Filter filter) {
+        return searchEAO.getContractRegistryCount(filter);
+    }
 }

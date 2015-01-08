@@ -22,6 +22,8 @@ public class SQLQueryResultTranslator {
             return clazz.cast(translateDeceasedNoCaregiverEntry(e));
         } else if (clazz.equals(RequestRegistryEntry.class)) {
             return clazz.cast(translateRequestEntry(e));
+        } else if (clazz.equals(ContractRegistryEntry.class)) {
+            return clazz.cast(translateContractEntry(e));
         }
         return null;
     }
@@ -118,6 +120,18 @@ public class SQLQueryResultTranslator {
         entry.setClientId((Integer) e[4]);
         entry.setClientLastName((String) e[5]);
         entry.setClientFirstName((String) e[6]);
+
+        return entry;
+    }
+
+    private static ContractRegistryEntry translateContractEntry(Object[] e) {
+        ContractRegistryEntry entry = new ContractRegistryEntry();
+        entry.setContractId((Integer) e[0]);
+        entry.setSignedOn((Date) e[1]);
+        entry.setClientId((Integer) e[2]);
+        entry.setClientLastName((String) e[3]);
+        entry.setClientFirstName((String) e[4]);
+        entry.setClientAddress((String) e[5]);
 
         return entry;
     }

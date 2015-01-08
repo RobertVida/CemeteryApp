@@ -158,6 +158,19 @@ public class SearchTest extends EntityTest{
         assertThat(getContent("/requestRegistry", getFilter(1, 20, null , "activa"), RequestRegistry.class).getContent().size(), equalTo(2));
     }
 
+    @Test
+    public void searchContracts() throws Exception{
+        setup();
+
+        Integer count = getCount("/contractRegistry/count", getFilter());
+        assertThat(getContent("/contractRegistry", getFilter(), ContractRegistry.class).getContent().size(), equalTo(count));
+        assertThat(getContent("/contractRegistry", getFilter(), ContractRegistry.class).getContent().size(), equalTo(3));
+
+        count = getCount("/contractRegistry/count", getFilter(1, 20, null , "1"));
+        assertThat(getContent("/contractRegistry", getFilter(1, 20, null , "1"), ContractRegistry.class).getContent().size(), equalTo(count));
+        assertThat(getContent("/contractRegistry", getFilter(1, 20, null , "1"), ContractRegistry.class).getContent().size(), equalTo(1));
+    }
+
     private <T extends Registry> T getContent(String url, FilterDTO filter, Class<T> clazz) throws Exception {
         return getResultAsObject(performFilter(url, filter).andReturn(), clazz);
     }
