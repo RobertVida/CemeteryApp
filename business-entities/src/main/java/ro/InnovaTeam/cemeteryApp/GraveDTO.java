@@ -1,23 +1,29 @@
 package ro.InnovaTeam.cemeteryApp;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+
+import static ro.InnovaTeam.cemeteryApp.ValidationErrors.*;
+import static ro.InnovaTeam.cemeteryApp.ValidationErrors.GRAVE_WIDTH_INVALID;
 
 /**
  * Created by robert on 11/28/2014.
  */
 public class GraveDTO extends BaseDTO {
 
-    @NotNull
+    @NotNull(message = GRAVE_PARCEL_ID_INVALID)
     private Integer parcelId;
-    @NotNull
+    @NotNull(message = GRAVE_CREATED_ON_INVALID)
     private Date createdOn;
-    @NotNull
+    @NotNull(message = GRAVE_TYPE_BLANK)
     private String type;
-    @NotNull
+    @NotNull(message = GRAVE_WIDTH_INVALID)
+    @Min(value = 1, message = GRAVE_WIDTH_INVALID)
     private Integer width;
-    @NotNull
+    @NotNull(message = GRAVE_LENGTH_INVALID)
+    @Min(value = 1, message = GRAVE_LENGTH_INVALID)
     private Integer length;
     private List<DeceasedDTO> deceased;
 

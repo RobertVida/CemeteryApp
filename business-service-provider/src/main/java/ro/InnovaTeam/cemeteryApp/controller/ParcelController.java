@@ -6,23 +6,23 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
-import ro.InnovaTeam.cemeteryApp.model.Filter;
-import ro.InnovaTeam.cemeteryApp.model.Parcel;
 import ro.InnovaTeam.cemeteryApp.ParcelDTO;
 import ro.InnovaTeam.cemeteryApp.ParcelList;
+import ro.InnovaTeam.cemeteryApp.model.Filter;
+import ro.InnovaTeam.cemeteryApp.model.Parcel;
 import ro.InnovaTeam.cemeteryApp.service.ParcelService;
 
 import javax.validation.Valid;
 
-import static ro.InnovaTeam.cemeteryApp.util.ParcelUtil.toDB;
 import static ro.InnovaTeam.cemeteryApp.util.FilterUtil.toDB;
+import static ro.InnovaTeam.cemeteryApp.util.ParcelUtil.toDB;
 import static ro.InnovaTeam.cemeteryApp.util.ParcelUtil.toDTO;
 
 /**
  * Created by robert on 11/18/2014.
  */
 @Controller
-public class ParcelController {
+public class ParcelController extends ExceptionHandledController {
 
     public static final String PARCEL_URL = "/parcel";
     public static final String PARCELS_URL = "/parcels";

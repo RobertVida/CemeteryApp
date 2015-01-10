@@ -13,15 +13,15 @@ import ro.InnovaTeam.cemeteryApp.service.ContractService;
 
 import javax.validation.Valid;
 
-import static ro.InnovaTeam.cemeteryApp.util.ContractUtil.toDTO;
 import static ro.InnovaTeam.cemeteryApp.util.ContractUtil.toDB;
+import static ro.InnovaTeam.cemeteryApp.util.ContractUtil.toDTO;
 import static ro.InnovaTeam.cemeteryApp.util.FilterUtil.toDB;
 
 /**
  * Created by robert on 1/2/2015.
  */
 @Controller
-public class ContractController {
+public class ContractController extends ExceptionHandledController {
 
     public static final String CONTRACT_URL = "/contract";
     public static final String CONTRACTS_URL = "/contracts";

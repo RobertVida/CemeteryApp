@@ -1,16 +1,19 @@
 package ro.InnovaTeam.cemeteryApp;
 
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
+
 import java.util.List;
+
+import static ro.InnovaTeam.cemeteryApp.ValidationErrors.*;
 
 /**
  * Created by Catalin Sorecau on 11/24/2014.
  */
 public class CemeteryDTO extends BaseDTO{
 
-    @NotNull
+    @NotBlank(message = CEMETERY_NAME_BLANK)
     private String name;
-    @NotNull
+    @NotBlank(message = CEMETERY_ADDRESS_BLANK)
     private String address;
 
     private List<ParcelDTO> parcels;

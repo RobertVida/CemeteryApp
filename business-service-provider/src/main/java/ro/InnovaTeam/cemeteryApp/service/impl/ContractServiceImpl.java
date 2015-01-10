@@ -38,12 +38,6 @@ public class ContractServiceImpl extends LoggableService<Contract, ContractEAO, 
 
     @Override
     public Contract update(Contract contract) {
-        if(contract.getSignedOn().compareTo(contract.getUpdatedOn()) > 0){
-            throw new RuntimeException("some exception");
-        }
-        if(contract.getUpdatedOn().compareTo(contract.getExpiresOn()) > 0){
-            throw new RuntimeException("some exception2");
-        }
         return loggedUpdate(contractEAO, logService, contract);
     }
 

@@ -1,15 +1,17 @@
 package ro.InnovaTeam.cemeteryApp;
 
-import javax.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.NotBlank;
+
+import static ro.InnovaTeam.cemeteryApp.ValidationErrors.*;
 
 /**
  * Created by robert on 12/14/2014.
  */
 public class UserDTO extends BaseDTO{
 
-    @NotNull
+    @NotBlank(message = USER_USERNAME_BLANK)
     private String username;
-    @NotNull
+    @NotBlank(message = USER_PASSWORD_BLANK)
     private String password;
     private String role;
 

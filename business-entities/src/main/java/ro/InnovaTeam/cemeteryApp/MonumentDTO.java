@@ -1,27 +1,34 @@
 package ro.InnovaTeam.cemeteryApp;
 
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+
+import static ro.InnovaTeam.cemeteryApp.ValidationErrors.*;
 
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
 public class MonumentDTO extends BaseDTO {
 
-    @NotNull
+    @NotNull(message = MONUMENT_PARCEL_ID_INVALID)
     private Integer parcelId;
-    @NotNull
+    @NotNull(message = MONUMENT_CREATED_ON_INVALID)
     private Date createdOn;
-    @NotNull
+    @NotNull(message = MONUMENT_TYPE_BLANK)
     private String type;
-    @NotNull
+    @NotNull(message = MONUMENT_WIDTH_INVALID)
+    @Min(value = 1, message = MONUMENT_WIDTH_INVALID)
     private Integer width;
-    @NotNull
+    @NotNull(message = MONUMENT_LENGTH_INVALID)
+    @Min(value = 1, message = MONUMENT_LENGTH_INVALID)
     private Integer length;
-    @NotNull
+    @NotBlank(message = MONUMENT_NAME_BLANK)
     private String name;
-    @NotNull
+    @NotBlank(message = MONUMENT_DESCRIPTION_BLANK)
     private String description;
     private List<DeceasedDTO> deceased;
 

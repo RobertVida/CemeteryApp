@@ -21,7 +21,7 @@ import static ro.InnovaTeam.cemeteryApp.util.StructureHistoryEntryUtil.toDTO;
  * Created by robert on 1/1/2015.
  */
 @Controller
-public class StructureHistoryController {
+public class StructureHistoryController extends ExceptionHandledController {
 
     public static final String STRUCTURE_HISTORY_URL = "/structureHistory";
     public static final String STRUCTURE_HISTORIES_URL = "/structureHistories";

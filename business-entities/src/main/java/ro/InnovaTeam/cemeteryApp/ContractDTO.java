@@ -1,18 +1,25 @@
 package ro.InnovaTeam.cemeteryApp;
 
+import ro.InnovaTeam.cemeteryApp.validators.ContractExpiresOn;
+import ro.InnovaTeam.cemeteryApp.validators.ContractUpdatedOn;
+
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+
+import static ro.InnovaTeam.cemeteryApp.ValidationErrors.*;
 
 /**
  * Created by robert on 1/2/2015.
  */
+@ContractUpdatedOn(message = CONTRACT_UPDATED_INVALID)
+@ContractExpiresOn(message = CONTRACT_EXPIRES_INVALID)
 public class ContractDTO extends BaseDTO {
 
-    @NotNull
+    @NotNull(message = CONTRACT_STRUCTURE_ID_NULL)
     private Integer structureId;
-    @NotNull
+    @NotNull(message = CONTRACT_REQUEST_ID_NULL)
     private Integer requestId;
-    @NotNull
+    @NotNull(message = CONTRACT_SIGNED_ON_NULL)
     private Date signedOn;
     private Date updatedOn;
     private Date expiresOn;

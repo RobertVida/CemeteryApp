@@ -1,19 +1,23 @@
 package ro.InnovaTeam.cemeteryApp;
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+
+import static ro.InnovaTeam.cemeteryApp.ValidationErrors.*;
 
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
 public class RestingPlaceRequestDTO extends BaseDTO{
 
-    @NotNull
+    @NotNull(message = REQUEST_CLIENT_ID_INVALID)
     private Integer clientId;
-    @NotNull
+    @NotNull(message = REQUEST_CREATED_ON_INVALID)
     private Date createdOn;
-    @NotNull
+    @NotNull(message = REQUEST_INFOCET_NUMBER_INVALID)
     private Integer infocetNumber;
-    @NotNull
+    @NotBlank(message = REQUEST_STATUS_BLANK)
     private String status;
 
     public RestingPlaceRequestDTO() {

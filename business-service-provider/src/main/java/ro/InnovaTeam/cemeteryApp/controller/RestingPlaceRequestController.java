@@ -21,7 +21,7 @@ import static ro.InnovaTeam.cemeteryApp.util.RestingPlaceRequestUtil.toDTO;
  * Created by robert on 11/28/2014.
  */
 @Controller
-public class RestingPlaceRequestController {
+public class RestingPlaceRequestController extends ExceptionHandledController {
 
     public static final String REQUEST_URL = "/request";
     public static final String REQUESTS_URL = "/requests";

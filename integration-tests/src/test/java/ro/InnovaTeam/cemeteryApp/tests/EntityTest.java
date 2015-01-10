@@ -446,35 +446,35 @@ public class EntityTest extends PerformTest {
     };
 
     //=================================================================================ENTITY
-    private <T extends BaseDTO> T getEntity(String url, T obj, Class<T> targetClass) throws Exception {
+    protected <T extends BaseDTO> T getEntity(String url, T obj, Class<T> targetClass) throws Exception {
         return getResultAsObject(performGet(url + obj.getId()).andReturn(), targetClass);
     }
 
-    private <T extends BaseDTO> T deleteEntity(String url, T obj, Class<T> targetClass) throws Exception {
+    protected <T extends BaseDTO> T deleteEntity(String url, T obj, Class<T> targetClass) throws Exception {
         T deletedObj = getResultAsObject(performDelete(url + obj.getId()).andReturn(), targetClass);
         removeFromGarbageCollector(deletedObj);
         return deletedObj;
     }
 
-    private <T extends BaseDTO> T updateEntity(String url, T obj, Class<T> targetClass) throws Exception {
+    protected <T extends BaseDTO> T updateEntity(String url, T obj, Class<T> targetClass) throws Exception {
         return getResultAsObject(performUpdate(url + obj.getId(), obj).andReturn(), targetClass);
     }
 
-    private <T extends BaseDTO> T createEntity(String url, T obj) throws Exception {
+    protected <T extends BaseDTO> T createEntity(String url, T obj) throws Exception {
         obj.setId(getResultAsInt(performCreate(url, obj).andReturn()));
         addToGarbageCollector(obj);
         return obj;
     }
 
-    private <T extends BaseList> T filterEntities(String url, FilterDTO filter, Class<T> targetClass) throws Exception {
+    protected <T extends BaseList> T filterEntities(String url, FilterDTO filter, Class<T> targetClass) throws Exception {
         return getResultAsObject(performFilter(url, filter).andReturn(), targetClass);
     }
 
-    private <T extends BaseList> T filterEntities(String url, Class<T> targetClass) throws Exception {
+    protected <T extends BaseList> T filterEntities(String url, Class<T> targetClass) throws Exception {
         return getResultAsObject(performFilter(url).andReturn(), targetClass);
     }
 
-    public Integer countEntities(String url, FilterDTO filter) throws Exception {
+    protected Integer countEntities(String url, FilterDTO filter) throws Exception {
         return getResultAsInt(performCount(url, filter).andReturn());
     }
 

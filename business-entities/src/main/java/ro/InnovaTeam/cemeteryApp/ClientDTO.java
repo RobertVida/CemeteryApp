@@ -1,22 +1,25 @@
 package ro.InnovaTeam.cemeteryApp;
 
+import org.hibernate.validator.constraints.NotBlank;
+import ro.InnovaTeam.cemeteryApp.validators.SimpleCnp;
+import ro.InnovaTeam.cemeteryApp.validators.TelephoneNumber;
 
-import javax.validation.constraints.NotNull;
+import static ro.InnovaTeam.cemeteryApp.ValidationErrors.*;
 
 /**
  * Created by Catalin Sorecau on 11/23/2014.
  */
 public class ClientDTO extends BaseDTO {
 
-    @NotNull
+    @NotBlank(message = CLIENT_FIRST_NAME_BLANK)
     private String firstName;
-    @NotNull
+    @NotBlank(message = CLIENT_LAST_NAME_BLANK)
     private String lastName;
-    @NotNull
+    @SimpleCnp(message = CLIENT_CNP_INVALID)
     private String cnp;
-    @NotNull
+    @TelephoneNumber(message = CLIENT_PHONE_NUMBER_INVALID)
     private String phoneNumber;
-    @NotNull
+    @NotBlank(message = CLIENT_ADDRESS_BLANK)
     private String address;
 
     public String getFirstName() {

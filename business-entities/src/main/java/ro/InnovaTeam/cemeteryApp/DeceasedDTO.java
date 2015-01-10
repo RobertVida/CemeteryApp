@@ -1,26 +1,31 @@
 package ro.InnovaTeam.cemeteryApp;
+import org.hibernate.validator.constraints.NotBlank;
+import ro.InnovaTeam.cemeteryApp.validators.SimpleCnp;
+
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+
+import static ro.InnovaTeam.cemeteryApp.ValidationErrors.*;
 
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
 public class DeceasedDTO extends BaseDTO {
 
-    @NotNull
+    @NotBlank(message = DECEASED_FIRST_NAME_BLANK)
     private String firstName;
-    @NotNull
+    @NotBlank(message = DECEASED_LAST_NAME_BLANK)
     private String lastName;
-    @NotNull
+    @SimpleCnp(message = DECEASED_CNP_INVALID)
     private String cnp;
-    @NotNull
+    @NotBlank(message = DECEASED_RELIGION_BLANK)
     private String religion;
-    @NotNull
+    @NotNull(message = DECEASED_DIED_ON_INVALID)
     private Date diedOn;
     private Integer burialDocumentId;
-    @NotNull
+    @NotNull(message = DECEASED_STRUCTURE_ID_INVALID)
     private Integer structureId;
-    @NotNull
+    @NotNull(message = DECEASED_BURIAL_ON_INVALID)
     private Date burialOn;
     private Boolean hasCaregiver = true;
     private Integer noCaregiverDocumentId;

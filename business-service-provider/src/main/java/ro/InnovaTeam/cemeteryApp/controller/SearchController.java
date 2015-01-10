@@ -15,7 +15,7 @@ import static ro.InnovaTeam.cemeteryApp.util.FilterUtil.toDB;
  * Created by robert on 1/5/2015.
  */
 @Controller
-public class SearchController {
+public class SearchController extends ExceptionHandledController {
 
     public static final String BURIAL_REGISTRY_URL = "/burialRegistry";
     public static final String GRAVE_REGISTRY_URL = "/graveRegistry";

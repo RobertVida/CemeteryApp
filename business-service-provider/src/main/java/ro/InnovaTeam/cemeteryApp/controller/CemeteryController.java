@@ -14,14 +14,14 @@ import ro.InnovaTeam.cemeteryApp.service.CemeteryService;
 import javax.validation.Valid;
 
 import static ro.InnovaTeam.cemeteryApp.util.CemeteryUtil.toDB;
-import static ro.InnovaTeam.cemeteryApp.util.FilterUtil.toDB;
 import static ro.InnovaTeam.cemeteryApp.util.CemeteryUtil.toDTO;
+import static ro.InnovaTeam.cemeteryApp.util.FilterUtil.toDB;
 
 /**
  * Created by robert on 11/18/2014.
  */
 @Controller
-public class CemeteryController{
+public class CemeteryController extends ExceptionHandledController{
 
     public static final String CEMETERY_URL = "/cemetery";
     public static final String CEMETERIES_URL = "/cemeteries";

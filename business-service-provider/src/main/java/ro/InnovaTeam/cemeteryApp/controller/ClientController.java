@@ -21,7 +21,7 @@ import static ro.InnovaTeam.cemeteryApp.util.FilterUtil.toDB;
  * Created by Roxana on 11/28/2014.
  */
 @Controller
-public class ClientController {
+public class ClientController extends ExceptionHandledController {
 
     public static final String CLIENT_URL = "/client";
     public static final String CLIENTS_URL = "/clients";

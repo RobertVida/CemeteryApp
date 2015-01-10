@@ -13,15 +13,15 @@ import ro.InnovaTeam.cemeteryApp.service.DeceasedService;
 
 import javax.validation.Valid;
 
+import static ro.InnovaTeam.cemeteryApp.util.DeceasedUtil.toDB;
 import static ro.InnovaTeam.cemeteryApp.util.DeceasedUtil.toDTO;
 import static ro.InnovaTeam.cemeteryApp.util.FilterUtil.toDB;
-import static ro.InnovaTeam.cemeteryApp.util.DeceasedUtil.toDB;
 
 /**
  * Created by amalia on 11/27/2014.
  */
 @Controller
-public class DeceasedController {
+public class DeceasedController extends ExceptionHandledController {
 
     public static final String DECEASED_URL = "/deceased";
     public static final String SPECIFIC_DECEASED_URL = DECEASED_URL + "/{deceasedId}";
@@ -52,7 +52,7 @@ public class DeceasedController {
         deceased.setId(deceasedId);
         return toDTO(deceasedService.update(deceased));
     }
-    
+
     @RequestMapping(value = SPECIFIC_DECEASED_URL, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

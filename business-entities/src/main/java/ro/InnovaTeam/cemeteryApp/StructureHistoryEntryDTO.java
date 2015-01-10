@@ -1,18 +1,22 @@
 package ro.InnovaTeam.cemeteryApp;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+
+import static ro.InnovaTeam.cemeteryApp.ValidationErrors.*;
 
 /**
  * Created by robert on 01/01/2015.
  */
 public class StructureHistoryEntryDTO extends BaseDTO {
 
-    @NotNull
+    @NotNull(message = STRUCTURE_HISTORY_STRUCTURE_ID_INVALID)
     private Integer structureId;
-    @NotNull
+    @NotBlank(message = STRUCTURE_HISTORY_DESCRIPTION_BLANK)
     private String description;
-    @NotNull
+    @NotNull(message = STRUCTURE_HISTORY_DATE_INVALID)
     private Date date;
 
     public Integer getStructureId() {
