@@ -1,7 +1,6 @@
 package ro.InnovaTeam.cemeteryApp.controller.auth;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +14,9 @@ public class AuthenticationFilter implements Filter {
 
     private static final String LOGIN_PATTERN = "/login";
     private static final String RESOURCES_PATTERN = "/resources";
-    public static final String USER_SESSION_AUTHENTICATION = "userSessionAuthentication";
+    public static final String USER_SESSION_AUTHENTICATION_NAME = "userSessionAuthenticationName";
+    public static final String USER_SESSION_AUTHENTICATION_ROLE = "userSessionAuthenticationRole";
+    public static final String USER_SESSION_AUTHENTICATION_TOKEN = "userSessionAuthenticationToken";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -40,6 +41,6 @@ public class AuthenticationFilter implements Filter {
     private boolean canDoFilter(String currentUrl, HttpServletRequest request) {
         return StringUtils.contains(currentUrl, LOGIN_PATTERN)
                 || StringUtils.contains(currentUrl, RESOURCES_PATTERN)
-                || request.getSession().getAttribute(USER_SESSION_AUTHENTICATION) != null;
+                || request.getSession().getAttribute(USER_SESSION_AUTHENTICATION_NAME) != null;
     }
 }

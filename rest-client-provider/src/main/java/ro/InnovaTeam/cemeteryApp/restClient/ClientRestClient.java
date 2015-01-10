@@ -14,7 +14,6 @@ public class ClientRestClient extends GenericRestClient {
     public static final String CLIENT_URL = "/client";
     public static final String CLIENTS_URL = "/clients";
     public static final String SPECIFIC_CLIENT_URL = CLIENT_URL + "/{clientId}";
-    public static final String SPECIFIC_USER_CLIENT_URL = CLIENT_URL + "/{userId}/{clientId}";
 
     public static List<ClientDTO> getClientsByFilter(FilterDTO clientFilterDTO) {
         return getByFilter(clientFilterDTO, BASE_URL + CLIENTS_URL, ClientList.class);
@@ -33,7 +32,7 @@ public class ClientRestClient extends GenericRestClient {
     }
 
     public static void delete(@PathVariable Integer clientId) {
-        delete(clientId,BASE_URL + SPECIFIC_USER_CLIENT_URL);
+        delete(clientId,BASE_URL + SPECIFIC_CLIENT_URL);
     }
 
     public static Integer getClientCount(FilterDTO filterDTO) {

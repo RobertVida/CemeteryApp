@@ -28,7 +28,7 @@ public class BaseRestClient {
         return restTemplate;
     }
 
-    protected static Integer getLoggedInUserId() {
-        return (Integer) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+    protected static String getLoggedInUserToken() {
+        return (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
     }
 }

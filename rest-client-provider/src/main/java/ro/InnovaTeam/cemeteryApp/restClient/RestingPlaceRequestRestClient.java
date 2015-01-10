@@ -16,7 +16,6 @@ public class RestingPlaceRequestRestClient extends GenericRestClient {
     public static final String REQUESTS_URL = "/requests";
     public static final String REQUESTS_FOR_STATUS_URL = REQUESTS_URL + "/{status}";
     public static final String SPECIFIC_REQUEST_URL = REQUEST_URL + "/{requestId}";
-    public static final String SPECIFIC_USER_REQUEST_URL = REQUEST_URL + "/{userId}/{requestId}";
 
     public static List<RestingPlaceRequestDTO> getRequestsByFilter(FilterDTO requestFilterDTO) {
         return getByFilter(requestFilterDTO, BASE_URL + REQUESTS_URL, RestingPlaceRequestList.class);
@@ -35,7 +34,7 @@ public class RestingPlaceRequestRestClient extends GenericRestClient {
     }
 
     public static void delete(@PathVariable Integer requestId) {
-        delete(requestId, BASE_URL + SPECIFIC_USER_REQUEST_URL);
+        delete(requestId, BASE_URL + SPECIFIC_REQUEST_URL);
     }
 
     public static Integer getRequestCount(FilterDTO filterDTO) {

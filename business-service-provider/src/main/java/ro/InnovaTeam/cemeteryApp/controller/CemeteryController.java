@@ -9,6 +9,7 @@ import ro.InnovaTeam.cemeteryApp.CemeteryDTO;
 import ro.InnovaTeam.cemeteryApp.CemeteryList;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.model.Cemetery;
+import ro.InnovaTeam.cemeteryApp.service.AuthenticationService;
 import ro.InnovaTeam.cemeteryApp.service.CemeteryService;
 
 import javax.validation.Valid;
@@ -26,52 +27,66 @@ public class CemeteryController extends ExceptionHandledController{
     public static final String CEMETERY_URL = "/cemetery";
     public static final String CEMETERIES_URL = "/cemeteries";
     public static final String SPECIFIC_CEMETERY_URL = CEMETERY_URL + "/{cemeteryId}";
-    public static final String SPECIFIC_USER_CEMETERY_URL = CEMETERY_URL + "/{userId}/{cemeteryId}";
 
     @Autowired
     private CemeteryService cemeteryService;
+    @Autowired
+    private AuthenticationService authService;
 
     @RequestMapping(value = CEMETERY_URL, method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Integer create(@RequestBody @Valid CemeteryDTO cemeteryDTO) {
+    public Integer create(@RequestHeader("Authorization-Token") String token, @RequestBody @Valid CemeteryDTO cemeteryDTO) {
+        cemeteryDTO.setUserId(getUserId(token));
         return cemeteryService.create(toDB(cemeteryDTO));
     }
 
-    @RequestMapping(value = SPECIFIC_USER_CEMETERY_URL, method = RequestMethod.DELETE)
+    @RequestMapping(value = SPECIFIC_CEMETERY_URL, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public CemeteryDTO delete(@PathVariable Integer userId, @PathVariable Integer cemeteryId) {
-        return toDTO(cemeteryService.delete(userId, cemeteryId));
+    public CemeteryDTO delete(@RequestHeader("Authorization-Token") String token, @PathVariable Integer cemeteryId) {
+        return toDTO(cemeteryService.delete(getUserId(token), cemeteryId));
     }
 
     @RequestMapping(value = SPECIFIC_CEMETERY_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public CemeteryDTO update(@PathVariable Integer cemeteryId, @RequestBody @Valid CemeteryDTO cemeteryDTO) {
+    public CemeteryDTO update(@RequestHeader("Authorization-Token") String token, @PathVariable Integer cemeteryId, @RequestBody @Valid CemeteryDTO cemeteryDTO) {
         Cemetery cemetery = toDB(cemeteryDTO);
+        cemetery.setUserId(getUserId(token));
         cemetery.setId(cemeteryId);
         return toDTO(cemeteryService.update(cemetery));
     }
-    
+
     @RequestMapping(value = SPECIFIC_CEMETERY_URL, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public CemeteryDTO findById(@PathVariable Integer cemeteryId) {
+    public CemeteryDTO findById(@RequestHeader("Authorization-Token") String token, @PathVariable Integer cemeteryId) {
+        isLoggedIn(token);
         return toDTO(cemeteryService.findById(cemeteryId));
     }
 
     @RequestMapping(value = CEMETERIES_URL, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public CemeteryList findByFilter(@RequestBody FilterDTO filterDTO) {
+    public CemeteryList findByFilter(@RequestHeader("Authorization-Token") String token, @RequestBody FilterDTO filterDTO) {
+        isLoggedIn(token);
         return new CemeteryList(toDTO(cemeteryService.findByFilter(toDB(filterDTO))));
     }
 
     @RequestMapping(value = CEMETERIES_URL + "/count", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Integer countByFilter(@RequestBody FilterDTO filterDTO) {
+    public Integer countByFilter(@RequestHeader("Authorization-Token") String token, @RequestBody FilterDTO filterDTO) {
+        isLoggedIn(token);
         return cemeteryService.countByFilter(toDB(filterDTO));
+    }
+
+    private Integer getUserId(String token) {
+        return authService.getAdminAccess(token).getId();
+    }
+
+    private void isLoggedIn(String token) {
+        authService.hasGuestAccess(token);
     }
 }

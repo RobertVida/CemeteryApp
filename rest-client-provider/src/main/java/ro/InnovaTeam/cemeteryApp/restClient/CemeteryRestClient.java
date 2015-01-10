@@ -16,7 +16,6 @@ public class CemeteryRestClient extends GenericRestClient {
     public static final String CEMETERY_URL = "/cemetery";
     public static final String CEMETERIES_URL = "/cemeteries";
     public static final String SPECIFIC_CEMETERY_URL = CEMETERY_URL + "/{cemeteryId}";
-    public static final String SPECIFIC_USER_CEMETERY_URL = CEMETERY_URL + "/{userId}/{cemeteryId}";
 
     public static List<CemeteryDTO> getCemeteriesByFilter(FilterDTO cemeteryFilterDTO) {
         return getByFilter(cemeteryFilterDTO, BASE_URL + CEMETERIES_URL, CemeteryList.class);
@@ -35,7 +34,7 @@ public class CemeteryRestClient extends GenericRestClient {
     }
 
     public static void delete(@PathVariable Integer cemeteryId) {
-        delete(cemeteryId, BASE_URL + SPECIFIC_USER_CEMETERY_URL);
+        delete(cemeteryId, BASE_URL + SPECIFIC_CEMETERY_URL);
     }
 
     public static Integer getCemeteryCount(FilterDTO filterDTO) {

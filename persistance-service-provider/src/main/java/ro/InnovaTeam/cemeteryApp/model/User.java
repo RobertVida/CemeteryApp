@@ -1,20 +1,22 @@
-package ro.InnovaTeam.cemeteryApp;
-
-import org.hibernate.validator.constraints.NotBlank;
-
-import static ro.InnovaTeam.cemeteryApp.ValidationErrors.*;
+package ro.InnovaTeam.cemeteryApp.model;
 
 /**
- * Created by robert on 12/14/2014.
+ * Created by robert on 1/10/2015.
  */
-public class UserDTO extends BaseDTO{
+public class User extends BaseEntity{
 
-    @NotBlank(message = USER_USERNAME_BLANK)
     private String username;
-    @NotBlank(message = USER_PASSWORD_BLANK)
     private String password;
     private String token;
     private String role;
+
+    public User() {
+        this("users");
+    }
+
+    public User(String tableName) {
+        super(tableName);
+    }
 
     public String getUsername() {
         return username;

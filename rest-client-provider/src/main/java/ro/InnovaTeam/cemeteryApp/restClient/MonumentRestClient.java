@@ -15,7 +15,6 @@ public class MonumentRestClient extends GenericRestClient {
     public static final String MONUMENT_URL = "/monument";
     public static final String MONUMENTS_URL = "/monuments";
     public static final String SPECIFIC_MONUMENT_URL = MONUMENT_URL + "/{monumentId}";
-    public static final String SPECIFIC_USER_MONUMENT_URL = MONUMENT_URL + "/{userId}/{monumentId}";
 
     public static List<MonumentDTO> getByFilter(FilterDTO monumentFilterDTO) {
         return getByFilter(monumentFilterDTO, BASE_URL + MONUMENTS_URL, MonumentList.class);
@@ -34,7 +33,7 @@ public class MonumentRestClient extends GenericRestClient {
     }
 
     public static void delete(@PathVariable Integer graveId) {
-        delete(graveId, BASE_URL + SPECIFIC_USER_MONUMENT_URL);
+        delete(graveId, BASE_URL + SPECIFIC_MONUMENT_URL);
     }
 
     public static Integer getMonumentCount(FilterDTO filterDTO) {

@@ -15,7 +15,6 @@ public class ParcelRestClient extends GenericRestClient{
     public static final String PARCELS_URL = "/parcels";
     public static final String SPECIFIC_PARCEL_URL = PARCEL_URL + "/{parcelId}";
     public static final String SPECIFIC_CEMETERY_PARCELS_URL = PARCELS_URL + "/cemetery/{cemeteryId}";
-    public static final String SPECIFIC_USER_PARCEL_URL = PARCEL_URL + "/{userId}/{parcelId}";
 
     public static List<ParcelDTO> getParcelsByFilter(FilterDTO parcelFilterDTO) {
         return getByFilter(parcelFilterDTO, BASE_URL + PARCELS_URL, ParcelList.class);
@@ -34,7 +33,7 @@ public class ParcelRestClient extends GenericRestClient{
     }
 
     public static void delete(@PathVariable Integer parcelId) {
-        delete(parcelId, BASE_URL + SPECIFIC_USER_PARCEL_URL);
+        delete(parcelId, BASE_URL + SPECIFIC_PARCEL_URL);
     }
 
     public static Integer getParcelCount(FilterDTO filterDTO) {

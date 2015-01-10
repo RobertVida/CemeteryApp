@@ -13,7 +13,6 @@ public class DeceasedRestClient extends GenericRestClient {
 
     public static final String DECEASED_URL = "/deceased";
     public static final String SPECIFIC_DECEASED_URL = DECEASED_URL + "/{deceasedId}";
-    public static final String SPECIFIC_USER_DECEASED_URL = DECEASED_URL + "/{userId}/{deceasedId}";
 
     public static List<DeceasedDTO> findByFilter(FilterDTO deceasedFilterDTO) {
         return getByFilter(deceasedFilterDTO, BASE_URL + DECEASED_URL, DeceasedList.class);
@@ -32,7 +31,7 @@ public class DeceasedRestClient extends GenericRestClient {
     }
 
     public static void delete(@PathVariable Integer deceasedId) {
-        delete(deceasedId, BASE_URL + SPECIFIC_USER_DECEASED_URL);
+        delete(deceasedId, BASE_URL + SPECIFIC_DECEASED_URL);
     }
 
     public static Integer getDeceasedCount(FilterDTO filterDTO) {

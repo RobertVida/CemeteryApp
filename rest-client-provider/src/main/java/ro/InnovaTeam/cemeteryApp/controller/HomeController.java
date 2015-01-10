@@ -9,8 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import ro.InnovaTeam.cemeteryApp.UserDTO;
 import ro.InnovaTeam.cemeteryApp.controller.auth.AuthenticationFilter;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
+import ro.InnovaTeam.cemeteryApp.restClient.AuthenticationRestClient;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -42,7 +44,7 @@ public class HomeController {
             Authentication request = new UsernamePasswordAuthenticationToken(username, password);
             Authentication result = authenticationManager.authenticate(request);
             SecurityContextHolder.getContext().setAuthentication(result);
-            httpServletRequest.getSession().setAttribute(AuthenticationFilter.USER_SESSION_AUTHENTICATION, username);
+            httpServletRequest.getSession().setAttribute(AuthenticationFilter.USER_SESSION_AUTHENTICATION_NAME, username);
         } catch (BadCredentialsException e) {
             model.addAttribute("error", "Credentiale gresite");
             return "loginPage";
@@ -53,7 +55,8 @@ public class HomeController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request) {
         SecurityContextHolder.getContext().setAuthentication(null);
-        request.getSession().removeAttribute(AuthenticationFilter.USER_SESSION_AUTHENTICATION);
+        request.getSession().removeAttribute(AuthenticationFilter.USER_SESSION_AUTHENTICATION_NAME);
+        request.getSession().removeAttribute(AuthenticationFilter.USER_SESSION_AUTHENTICATION_TOKEN);
 
         return "loginPage";
     }

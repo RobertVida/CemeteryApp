@@ -9,6 +9,7 @@ import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.RestingPlaceRequestDTO;
 import ro.InnovaTeam.cemeteryApp.RestingPlaceRequestList;
 import ro.InnovaTeam.cemeteryApp.model.RestingPlaceRequest;
+import ro.InnovaTeam.cemeteryApp.service.AuthenticationService;
 import ro.InnovaTeam.cemeteryApp.service.RestingPlaceRequestService;
 
 import javax.validation.Valid;
@@ -27,30 +28,33 @@ public class RestingPlaceRequestController extends ExceptionHandledController {
     public static final String REQUESTS_URL = "/requests";
     public static final String REQUESTS_FOR_STATUS_URL = REQUESTS_URL + "/{status}";
     public static final String SPECIFIC_REQUEST_URL = REQUEST_URL + "/{requestId}";
-    public static final String SPECIFIC_USER_REQUEST_URL = REQUEST_URL + "/{userId}/{requestId}";
 
     @Autowired
     private RestingPlaceRequestService requestService;
+    @Autowired
+    private AuthenticationService authService;
 
     @RequestMapping(value = REQUEST_URL, method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Integer createRequest(@RequestBody @Valid RestingPlaceRequestDTO requestDTO) {
+    public Integer createRequest(@RequestHeader("Authorization-Token") String token, @RequestBody @Valid RestingPlaceRequestDTO requestDTO) {
+        requestDTO.setUserId(getUserId(token));
         return requestService.create(toDB(requestDTO));
     }
 
-    @RequestMapping(value = SPECIFIC_USER_REQUEST_URL, method = RequestMethod.DELETE)
+    @RequestMapping(value = SPECIFIC_REQUEST_URL, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    private RestingPlaceRequestDTO deleteRequest(@PathVariable Integer userId, @PathVariable Integer requestId) {
-        return toDTO(requestService.delete(userId, requestId));
+    private RestingPlaceRequestDTO deleteRequest(@RequestHeader("Authorization-Token") String token, @PathVariable Integer requestId) {
+        return toDTO(requestService.delete(getUserId(token), requestId));
     }
 
     @RequestMapping(value = SPECIFIC_REQUEST_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public RestingPlaceRequestDTO updateRequest(@PathVariable Integer requestId, @RequestBody @Valid RestingPlaceRequestDTO requestDTO) {
+    public RestingPlaceRequestDTO updateRequest(@RequestHeader("Authorization-Token") String token, @PathVariable Integer requestId, @RequestBody @Valid RestingPlaceRequestDTO requestDTO) {
         RestingPlaceRequest request = toDB(requestDTO);
+        request.setUserId(getUserId(token));
         request.setId(requestId);
         return toDTO(requestService.update(request));
     }
@@ -58,35 +62,48 @@ public class RestingPlaceRequestController extends ExceptionHandledController {
     @RequestMapping(value = SPECIFIC_REQUEST_URL, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public RestingPlaceRequestDTO findRequestById(@PathVariable Integer requestId) {
+    public RestingPlaceRequestDTO findRequestById(@RequestHeader("Authorization-Token") String token, @PathVariable Integer requestId) {
+        isLoggedIn(token);
         return toDTO(requestService.findById(requestId));
     }
 
     @RequestMapping(value = REQUESTS_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public RestingPlaceRequestList findRequestByFilter(@RequestBody @Valid FilterDTO filterDTO) {
+    public RestingPlaceRequestList findRequestByFilter(@RequestHeader("Authorization-Token") String token, @RequestBody @Valid FilterDTO filterDTO) {
+        isLoggedIn(token);
         return new RestingPlaceRequestList(toDTO(requestService.findByFilter(toDB(filterDTO))));
     }
 
     @RequestMapping(value = REQUESTS_URL + "/count", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Integer countRequestByFilter(@RequestBody @Valid FilterDTO filterDTO) {
+    public Integer countRequestByFilter(@RequestHeader("Authorization-Token") String token, @RequestBody @Valid FilterDTO filterDTO) {
+        isLoggedIn(token);
         return requestService.countByFilter(toDB(filterDTO));
     }
 
     @RequestMapping(value = REQUESTS_FOR_STATUS_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public RestingPlaceRequestList findRequestByFilterAndStatus(@RequestBody @Valid FilterDTO filterDTO, @PathVariable String status) {
+    public RestingPlaceRequestList findRequestByFilterAndStatus(@RequestHeader("Authorization-Token") String token, @RequestBody @Valid FilterDTO filterDTO, @PathVariable String status) {
+        isLoggedIn(token);
         return new RestingPlaceRequestList(toDTO(requestService.findByFilterAndStatus(toDB(filterDTO), status)));
     }
 
     @RequestMapping(value = REQUESTS_FOR_STATUS_URL + "/count", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Integer countRequestByFilterAndStatus(@RequestBody @Valid FilterDTO filterDTO, @PathVariable String status) {
+    public Integer countRequestByFilterAndStatus(@RequestHeader("Authorization-Token") String token, @RequestBody @Valid FilterDTO filterDTO, @PathVariable String status) {
+        isLoggedIn(token);
         return requestService.countByFilterAndStatus(toDB(filterDTO), status);
+    }
+
+    private Integer getUserId(String token) {
+        return authService.getAdminAccess(token).getId();
+    }
+
+    private void isLoggedIn(String token) {
+        authService.hasGuestAccess(token);
     }
 }

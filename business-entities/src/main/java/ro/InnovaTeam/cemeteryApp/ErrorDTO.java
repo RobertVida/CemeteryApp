@@ -8,6 +8,14 @@ import java.util.List;
  */
 public class ErrorDTO extends BaseDTO{
 
+    public enum Status{
+        UNAUTHORIZED_ACCESS,
+        VALIDATION_ERROR,
+        UNKNOWN_ERROR,
+        FORBIDDEN
+    }
+
+    private String status;
     private List<String> errors;
 
     public ErrorDTO() {
@@ -32,10 +40,19 @@ public class ErrorDTO extends BaseDTO{
         this.errors = errors;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "ErrorDTO{" +
-                "errors=" + errors +
+                "status='" + status + '\'' +
+                ", errors=" + errors +
                 '}';
     }
 }

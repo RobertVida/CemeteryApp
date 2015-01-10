@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import ro.InnovaTeam.cemeteryApp.UserDTO;
 import ro.InnovaTeam.cemeteryApp.restClient.AuthenticationRestClient;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,8 @@ public class UserAuthenticationManager implements org.springframework.security.a
         if (userDTO != null) {
             List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
             authorities.add(new SimpleGrantedAuthority(userDTO.getRole()));
-            return new UsernamePasswordAuthenticationToken(authentication.getName(), userDTO.getId(), authorities);
+            authorities.add(new SimpleGrantedAuthority(userDTO.getToken()));
+            return new UsernamePasswordAuthenticationToken(authentication.getName(), userDTO.getToken(), authorities);
         }
         throw new BadCredentialsException("Bad Credentials");
     }

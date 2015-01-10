@@ -9,6 +9,7 @@ import ro.InnovaTeam.cemeteryApp.ContractDTO;
 import ro.InnovaTeam.cemeteryApp.ContractList;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.model.Contract;
+import ro.InnovaTeam.cemeteryApp.service.AuthenticationService;
 import ro.InnovaTeam.cemeteryApp.service.ContractService;
 
 import javax.validation.Valid;
@@ -26,30 +27,33 @@ public class ContractController extends ExceptionHandledController {
     public static final String CONTRACT_URL = "/contract";
     public static final String CONTRACTS_URL = "/contracts";
     public static final String SPECIFIC_CONTRACT_URL = CONTRACT_URL + "/{contractId}";
-    public static final String SPECIFIC_USER_CONTRACT_URL = CONTRACT_URL + "/{userId}/{contractId}";
 
     @Autowired
     private ContractService contractService;
+    @Autowired
+    private AuthenticationService authService;
 
     @RequestMapping(value = CONTRACT_URL, method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Integer create(@RequestBody @Valid ContractDTO contractDTO) {
+    public Integer create(@RequestHeader("Authorization-Token") String token, @RequestBody @Valid ContractDTO contractDTO) {
+        contractDTO.setUserId(getUserId(token));
         return contractService.create(toDB(contractDTO));
     }
 
-    @RequestMapping(value = SPECIFIC_USER_CONTRACT_URL, method = RequestMethod.DELETE)
+    @RequestMapping(value = SPECIFIC_CONTRACT_URL, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public ContractDTO delete(@PathVariable Integer userId, @PathVariable Integer contractId) {
-        return toDTO(contractService.delete(userId, contractId));
+    public ContractDTO delete(@RequestHeader("Authorization-Token") String token, @PathVariable Integer contractId) {
+        return toDTO(contractService.delete(getUserId(token), contractId));
     }
 
     @RequestMapping(value = SPECIFIC_CONTRACT_URL, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public ContractDTO update(@PathVariable Integer contractId, @RequestBody @Valid ContractDTO contractDTO) {
+    public ContractDTO update(@RequestHeader("Authorization-Token") String token, @PathVariable Integer contractId, @RequestBody @Valid ContractDTO contractDTO) {
         Contract contract = toDB(contractDTO);
+        contract.setUserId(getUserId(token));
         contract.setId(contractId);
         return toDTO(contractService.update(contract));
     }
@@ -57,21 +61,32 @@ public class ContractController extends ExceptionHandledController {
     @RequestMapping(value = SPECIFIC_CONTRACT_URL, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public ContractDTO findById(@PathVariable Integer contractId) {
+    public ContractDTO findById(@RequestHeader("Authorization-Token") String token, @PathVariable Integer contractId) {
+        isLoggedIn(token);
         return toDTO(contractService.findById(contractId));
     }
 
     @RequestMapping(value = CONTRACTS_URL, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public ContractList findByFilter(@RequestBody FilterDTO filterDTO) {
+    public ContractList findByFilter(@RequestHeader("Authorization-Token") String token, @RequestBody FilterDTO filterDTO) {
+        isLoggedIn(token);
         return new ContractList(toDTO(contractService.findByFilter(toDB(filterDTO))));
     }
 
     @RequestMapping(value = CONTRACTS_URL + "/count", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Integer countByFilter(@RequestBody FilterDTO filterDTO) {
+    public Integer countByFilter(@RequestHeader("Authorization-Token") String token, @RequestBody FilterDTO filterDTO) {
+        isLoggedIn(token);
         return contractService.countByFilter(toDB(filterDTO));
+    }
+
+    private Integer getUserId(String token) {
+        return authService.getAdminAccess(token).getId();
+    }
+
+    private void isLoggedIn(String token) {
+        authService.hasGuestAccess(token);
     }
 }

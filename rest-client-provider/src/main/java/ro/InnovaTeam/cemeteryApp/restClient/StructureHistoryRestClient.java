@@ -13,7 +13,7 @@ public class StructureHistoryRestClient extends GenericRestClient {
     public static final String STRUCTURE_HISTORY_URL = "/structureHistory";
     public static final String STRUCTURE_HISTORIES_URL = "/structureHistories";
     public static final String SPECIFIC_STRUCTURE_HISTORY_URL = STRUCTURE_HISTORY_URL + "/{structureHistoryId}";
-    public static final String SPECIFIC_USER_STRUCTURE_HISTORY_URL = STRUCTURE_HISTORY_URL + "/{userId}/{structureHistoryId}";
+
     public static List<StructureHistoryEntryDTO> findByFilter(FilterDTO structureHistoryFilterDTO) {
         return getByFilter(structureHistoryFilterDTO, BASE_URL + STRUCTURE_HISTORIES_URL, StructureHistoryEntryList.class);
     }
@@ -31,7 +31,7 @@ public class StructureHistoryRestClient extends GenericRestClient {
     }
 
     public static void delete(@PathVariable Integer structureId) {
-        delete(structureId, BASE_URL + SPECIFIC_USER_STRUCTURE_HISTORY_URL);
+        delete(structureId, BASE_URL + SPECIFIC_STRUCTURE_HISTORY_URL);
     }
 
     public static Integer getStructureCount(FilterDTO filterDTO) {

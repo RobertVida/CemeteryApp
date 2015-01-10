@@ -13,7 +13,6 @@ public class ContractRestClient extends GenericRestClient {
     public static final String CONTRACT_URL = "/contract";
     public static final String CONTRACTS_URL = "/contracts";
     public static final String SPECIFIC_CONTRACT_URL = CONTRACT_URL + "/{contractId}";
-    public static final String SPECIFIC_USER_CONTRACT_URL = CONTRACT_URL + "/{userId}/{contractId}";
 
     public static List<ContractDTO> findByFilter(FilterDTO contractFilterDTO) {
         return getByFilter(contractFilterDTO, BASE_URL + CONTRACTS_URL, ContractList.class);
@@ -32,7 +31,7 @@ public class ContractRestClient extends GenericRestClient {
     }
 
     public static void delete(@PathVariable Integer contractId) {
-        delete(contractId, BASE_URL + SPECIFIC_USER_CONTRACT_URL);
+        delete(contractId, BASE_URL + SPECIFIC_CONTRACT_URL);
     }
 
     public static Integer getContractCount(FilterDTO filterDTO) {

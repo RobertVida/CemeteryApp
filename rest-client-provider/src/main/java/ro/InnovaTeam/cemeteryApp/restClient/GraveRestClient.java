@@ -16,7 +16,6 @@ public class GraveRestClient extends GenericRestClient {
     public static final String GRAVE_URL = "/grave";
     public static final String GRAVES_URL = "/graves";
     public static final String SPECIFIC_GRAVE_URL = GRAVE_URL + "/{graveId}";
-    public static final String SPECIFIC_USER_GRAVE_URL = GRAVE_URL + "/{userId}/{graveId}";
 
     public static List<GraveDTO> getByFilter(FilterDTO graveFilterDTO) {
         return getByFilter(graveFilterDTO, BASE_URL + GRAVES_URL, GraveList.class);
@@ -35,7 +34,7 @@ public class GraveRestClient extends GenericRestClient {
     }
 
     public static void delete(@PathVariable Integer graveId) {
-        delete(graveId, BASE_URL + SPECIFIC_USER_GRAVE_URL);
+        delete(graveId, BASE_URL + SPECIFIC_GRAVE_URL);
     }
 
     public static Integer getGraveCount(FilterDTO filterDTO) {

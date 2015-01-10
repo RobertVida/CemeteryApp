@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.LogEntryDTO;
 import ro.InnovaTeam.cemeteryApp.LogEntryList;
+import ro.InnovaTeam.cemeteryApp.service.AuthenticationService;
 import ro.InnovaTeam.cemeteryApp.service.LogEntryService;
 
 import static ro.InnovaTeam.cemeteryApp.util.FilterUtil.toDB;
@@ -25,53 +26,66 @@ public class LogController extends ExceptionHandledController {
 
     @Autowired
     private LogEntryService logEntryService;
+    @Autowired
+    private AuthenticationService authService;
 
     @RequestMapping(value = LOGS_URL, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public LogEntryList getLogs(@RequestBody FilterDTO filterDTO) {
+    public LogEntryList getLogs(@RequestHeader("Authorization-Token") String token, @RequestBody FilterDTO filterDTO) {
+        isLoggedIn(token);
         return new LogEntryList(toDTO(logEntryService.findByFilter(toDB(filterDTO))));
     }
 
     @RequestMapping(value = LOGS_URL + "/count", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Integer getLogCount(@RequestBody FilterDTO filterDTO) {
+    public Integer getLogCount(@RequestHeader("Authorization-Token") String token, @RequestBody FilterDTO filterDTO) {
+        isLoggedIn(token);
         return logEntryService.countByFilter(toDB(filterDTO));
     }
 
     @RequestMapping(value = LOGS_FOR_ENTITY_URL, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public LogEntryList getLogs(@RequestBody FilterDTO filterDTO, @PathVariable String entityName) {
+    public LogEntryList getLogs(@RequestHeader("Authorization-Token") String token, @RequestBody FilterDTO filterDTO, @PathVariable String entityName) {
+        isLoggedIn(token);
         return new LogEntryList(toDTO(logEntryService.findByFilter(toDB(filterDTO), entityName)));
     }
 
     @RequestMapping(value = LOGS_FOR_ENTITY_URL + "/count", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Integer getLogCount(@RequestBody FilterDTO filterDTO, @PathVariable String entityName) {
+    public Integer getLogCount(@RequestHeader("Authorization-Token") String token, @RequestBody FilterDTO filterDTO, @PathVariable String entityName) {
+        isLoggedIn(token);
         return logEntryService.countByFilter(toDB(filterDTO), entityName);
     }
 
     @RequestMapping(value = LOGS_FOR_ENTITY_AND_ID_URL, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public LogEntryList getLogs(@RequestBody FilterDTO filterDTO, @PathVariable String entityName, @PathVariable Integer entityId) {
+    public LogEntryList getLogs(@RequestHeader("Authorization-Token") String token, @RequestBody FilterDTO filterDTO, @PathVariable String entityName, @PathVariable Integer entityId) {
+        isLoggedIn(token);
         return new LogEntryList(toDTO(logEntryService.findByFilter(toDB(filterDTO), entityName, entityId)));
     }
 
     @RequestMapping(value = LOGS_FOR_ENTITY_AND_ID_URL + "/count", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public Integer getLogCount(@RequestBody FilterDTO filterDTO, @PathVariable String entityName, @PathVariable Integer entityId) {
+    public Integer getLogCount(@RequestHeader("Authorization-Token") String token, @RequestBody FilterDTO filterDTO, @PathVariable String entityName, @PathVariable Integer entityId) {
+        isLoggedIn(token);
         return logEntryService.countByFilter(toDB(filterDTO), entityName, entityId);
     }
 
     @RequestMapping(value = LOG_URL, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public LogEntryDTO getLog(@PathVariable Integer logId) {
+    public LogEntryDTO getLog(@RequestHeader("Authorization-Token") String token, @PathVariable Integer logId) {
+        isLoggedIn(token);
         return toDTO(logEntryService.findById(logId));
+    }
+
+    private void isLoggedIn(String token) {
+        authService.hasGuestAccess(token);
     }
 }

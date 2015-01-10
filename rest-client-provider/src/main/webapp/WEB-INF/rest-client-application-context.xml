@@ -38,17 +38,15 @@
         </constructor-arg>
     </bean>
 
-    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-        <property name="exceptionMappings">
-            <props>
-                <prop key="java.lang.SecurityException">
-                    notAuthorized
-                </prop>
-            </props>
-        </property>
-        <property name="defaultErrorView" value="notAuthorized"/>
-    </bean>
-
-    <bean id="userSecurityAspect" class="ro.InnovaTeam.cemeteryApp.controller.UserSecurityAspect"/>
+    <!--<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">-->
+        <!--<property name="exceptionMappings">-->
+            <!--<props>-->
+                <!--<prop key="java.lang.SecurityException">-->
+                    <!--notAuthorized-->
+                <!--</prop>-->
+            <!--</props>-->
+        <!--</property>-->
+        <!--<property name="defaultErrorView" value="notAuthorized"/>-->
+    <!--</bean>-->
 
 </beans>
