@@ -76,7 +76,7 @@ public class CemeteryController {
     public String add(@ModelAttribute("cemetery") CemeteryDTO cemeteryDTO, BindingResult result, Model model) {
         cemeteryValidator.validate(cemeteryDTO, result);
         if (result.hasErrors()) {
-            model.addAttribute("clientDTOExists", true);
+            model.addAttribute("cemeteryDTOExists", true);
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
             return "cemetery/cemeteryDetailsPage";
         }
