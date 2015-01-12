@@ -28,7 +28,7 @@ var CemeteryJs = (function ($) {
     };
 
     var successFunctionWithFind = function(response, param) {
-        $(param).html($(response).find(param).html()).css("display", "inline");
+        $(param).html($(response).find(param).html()).css("display", "table");
     };
 
     var errorFunction = function(response) {
