@@ -7,6 +7,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import ro.InnovaTeam.cemeteryApp.ErrorDTO;
+import ro.InnovaTeam.cemeteryApp.exceptions.BadCredentials;
 import ro.InnovaTeam.cemeteryApp.exceptions.Forbidden;
 import ro.InnovaTeam.cemeteryApp.exceptions.UnauthorizedAccess;
 
@@ -20,6 +21,15 @@ public class ExceptionHandledController {
     HttpHeaders headers = new HttpHeaders() {{
         set("Content-Type", "application/json");
     }};
+
+    @ExceptionHandler(BadCredentials.class)
+    public ResponseEntity<ErrorDTO> handle(BadCredentials e) {
+        return new ResponseEntity<ErrorDTO>(
+                new ErrorDTO() {{
+                    setStatus(Status.BAD_CREDENTIALS.toString());
+                    add("Credentiale gresite.");
+                }}, headers, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(Forbidden.class)
      public ResponseEntity<ErrorDTO> handle(Forbidden e) {

@@ -136,4 +136,16 @@
         <property column="request_IML_id" name="requestIMLid"/>
     </class>
 
+    <!--User-->
+    <class name="ro.InnovaTeam.cemeteryApp.model.User" entity-name="users" table="users">
+        <id column="user_id" name="id">
+            <generator class="native" />
+        </id>
+        <property column="username" name="username" update="false"/>
+        <property column="password" name="password" update="false"/>
+        <property column="token" name="token"/>
+        <property column="expires_on" name="expiresOn"/>
+        <property column="role" name="role" update="false"/>
+    </class>
+
 </hibernate-mapping>
