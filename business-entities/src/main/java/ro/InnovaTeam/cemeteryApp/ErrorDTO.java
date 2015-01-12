@@ -12,6 +12,7 @@ public class ErrorDTO extends BaseDTO{
         UNAUTHORIZED_ACCESS,
         VALIDATION_ERROR,
         UNKNOWN_ERROR,
+        BAD_CREDENTIALS,
         FORBIDDEN
     }
 

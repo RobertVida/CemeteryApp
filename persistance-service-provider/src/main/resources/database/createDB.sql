@@ -1,5 +1,5 @@
 --
--- Database: `innovateam`
+-- Database: `cemeterydb`
 --
 
 -- --------------------------------------------------------
@@ -196,3 +196,25 @@ CREATE TABLE IF NOT EXISTS `logs` (
   `new_value` text,
   PRIMARY KEY(`log_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Table containing info with all the logs';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `user_id` int(3) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) NOT NULL,
+  `password` varchar(150) NOT NULL,
+  `token` varchar(50),
+  `expires_on` datetime,
+  `role` varchar(150) NOT NULL,
+  PRIMARY KEY(`user_id`),
+  UNIQUE(`username`),
+  UNIQUE(`token`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+INSERT INTO users(username, password, role) VALUES('admin', 'admin', 'admin'),('u','p','guest');
