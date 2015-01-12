@@ -43,8 +43,10 @@
             <img src="<c:url value="/resources/icons/monument.png" />"/>
         </div>
         <div class="box-content">
-            <h4 class="truncate">Registrul de monumente funerare</h4>
-            <p class="truncate">Contine date despre monumentele din cimitir.</p>
+            <a href="${contextPath}/registers/monumentRegistry">
+                <h4 class="truncate">Registrul de monumente funerare</h4>
+                <p class="truncate">Contine date despre monumentele din cimitir.</p>
+            </a>
         </div>
     </div>
     <div class="box">
@@ -52,7 +54,7 @@
             <img src="<c:url value="/resources/icons/deceased.png" />"/>
         </div>
         <div class="box-content">
-            <a href="#">
+            <a href="${contextPath}/registers/deceasedRegistry">
                 <h4 class="truncate">Registrul index anual al decedatilor</h4>
                 <p class="truncate">Contine date despre toti decedatii din cimitir.</p>
             </a>
@@ -63,8 +65,10 @@
             <img src="<c:url value="/resources/icons/deceased.png" />"/>
         </div>
         <div class="box-content">
-            <h4 class="truncate">Registrul anual al decedatilor fara apartinator</h4>
-            <p class="truncate">Contine date despre decedatii fara apartinator din cimitir.</p>
+            <a href="${contextPath}/registers/deceasedNoCaregiverRegistry">
+                <h4 class="truncate">Registrul anual al decedatilor fara apartinator</h4>
+                <p class="truncate">Contine date despre decedatii fara apartinator din cimitir.</p>
+            </a>
         </div>
     </div>
     <div class="box">
@@ -72,8 +76,10 @@
             <img src="<c:url value="/resources/icons/requests.png" />"/>
         </div>
         <div class="box-content">
-            <h4 class="truncate">Registrul cererilor de atribuire a locurilor de inhumare</h4>
-            <p class="truncate">Contine date despre cererile de atribuire a locurilor de inhumare depuse de clienti.</p>
+            <a href="${contextPath}/registers/requestRegistry">
+                <h4 class="truncate">Registrul cererilor de atribuire a locurilor de inhumare</h4>
+                <p class="truncate">Contine date despre cererile de atribuire a locurilor de inhumare depuse de clienti.</p>
+            </a>
         </div>
     </div>
     <div class="box">
@@ -81,8 +87,10 @@
             <img src="<c:url value="/resources/icons/contracts.png" />"/>
         </div>
         <div class="box-content">
-            <h4 class="truncate">Registrul anual de evidenta a contractelor de concesiune</h4>
-            <p class="truncate">Contine date despre contractele de concesiune eliberate.</p>
+            <a href="${contextPath}/registers/contractRegistry">
+                <h4 class="truncate">Registrul anual de evidenta a contractelor de concesiune</h4>
+                <p class="truncate">Contine date despre contractele de concesiune eliberate.</p>
+            </a>
         </div>
     </div>
 </div>
