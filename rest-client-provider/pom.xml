@@ -166,5 +166,12 @@
             <artifactId>commons-configuration</artifactId>
             <version>${commons-configuration}</version>
         </dependency>
+
+        <!-- PDF -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.4.2</version>
+        </dependency>
     </dependencies>
 </project>

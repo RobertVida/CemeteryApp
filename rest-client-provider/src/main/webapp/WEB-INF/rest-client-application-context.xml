@@ -20,7 +20,9 @@
 
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-          p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"/>
+          p:prefix="/WEB-INF/jsp/" p:suffix=".jsp">
+        <property name="order" value="2"/>
+          </bean>
 
     <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources -->
     <mvc:resources mapping="/resources/**" location="/resources/" />
@@ -48,5 +50,10 @@
         <!--</property>-->
         <!--<property name="defaultErrorView" value="notAuthorized"/>-->
     <!--</bean>-->
+
+    <bean id="viewResolver1" class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+        <property name="order" value="1"/>
+        <property name="basename" value="views"/>
+    </bean>
 
 </beans>

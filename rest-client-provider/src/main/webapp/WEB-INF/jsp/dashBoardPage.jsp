@@ -93,6 +93,8 @@
             </a>
         </div>
     </div>
+    <input type="button" class="btn btn-info" onclick="window.location=document.getElementById('showStatistics').value" value="Show statistics"/>
 </div>
+<input id="showStatistics" type=hidden value="${contextPath}/printable/statistics"/>
 </body>
 </html>
