@@ -38,6 +38,7 @@ public class RestingPlaceRequestController {
     public static final String REQUEST_FILTER = "requestFilter";
     public static final String REQUEST_STATUS = "requestStatus";
     public static final int PAGE_SIZE = 20;
+    public static final String[] REQUEST_STATUS_OPTIONS = new String[] {"Activ", "Finalizat"};
 
     @Autowired
     @Qualifier("requestValidator")
@@ -92,6 +93,7 @@ public class RestingPlaceRequestController {
             model.addAttribute("request", requestDTO != null ? requestDTO : new RestingPlaceRequestDTO());
             request.getSession().removeAttribute(ClientsController.REQUEST_DTO);
         }
+        model.addAttribute("requestStatusOptions", REQUEST_STATUS_OPTIONS);
         model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "request/requestDetailsPage";
     }
@@ -114,6 +116,7 @@ public class RestingPlaceRequestController {
 
         model.addAttribute("request", requestDTO);
         model.addAttribute("view", true);
+        model.addAttribute("requestStatusOptions", REQUEST_STATUS_OPTIONS);
         model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "request/requestDetailsPage";
     }

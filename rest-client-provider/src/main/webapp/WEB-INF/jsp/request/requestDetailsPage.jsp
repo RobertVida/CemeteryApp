@@ -14,6 +14,7 @@
     <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/request.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/zebra_datepicker.src.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/bootstrap-select.min.js"></script>
 </head>
 <body>
 <jsp:include page="../fragments/menu.jsp"/>
@@ -75,7 +76,9 @@
                     <form:label class="control-label" path="status">Status</form:label>
                 </div>
                 <div class="col-lg-4" style="float: left;">
-                    <form:input path="status" class="form-control" type="text" required="true" />
+                    <form:select id="statusSelect" path="status">
+                        <form:options items="${requestStatusOptions}"/>
+                    </form:select>
                 </div>
                 <div class="col-lg-4" style="float: left; color: red">
                     <form:errors path="status"/>
@@ -108,5 +111,9 @@
         $createdOn.keydown(function() {
             return false;
         });
+
+        $("#statusSelect").selectpicker();
+
+        $(".btn-group.bootstrap-select").css("width", "203");
     });
 </script>
