@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ro.InnovaTeam.cemeteryApp.ContractDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
@@ -157,5 +158,11 @@ public class ContractController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @RequestMapping(value = "/printable/{contractId}", method = RequestMethod.GET)
+    public ModelAndView showContractPDF(@PathVariable Integer contractId, HttpServletRequest request) {
+        request.getSession().setAttribute("contractId", contractId);
+        return new ModelAndView("printableContract");
     }
 }
