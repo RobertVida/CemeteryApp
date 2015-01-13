@@ -12,6 +12,7 @@ public class QueryBuilder {
     private Session session;
     private String select = "";
     private String where = "";
+    private String orderBy = "";
     private Boolean count = false;
 
     private Integer maxResults;
@@ -41,6 +42,11 @@ public class QueryBuilder {
         return this;
     }
 
+    public QueryBuilder orderBy(String orderBy){
+        this.orderBy = orderBy;
+        return this;
+    }
+
     public QueryBuilder count(){
         return count(true);
     }
@@ -63,7 +69,7 @@ public class QueryBuilder {
     public Query build(){
         prepareStatement();
 
-        Query query = session.createQuery(select + where);
+        Query query = session.createQuery(select + where + orderBy);
         query.setMaxResults(maxResults);
         query.setFirstResult((resultOffset-1)*maxResults);
         return query;
@@ -73,5 +79,6 @@ public class QueryBuilder {
         select = select != null && !select.equals("") ? " FROM " + select : "";
         select = count ? " SELECT COUNT(*) " + select : select;
         where = where != null && !where.equals("") ? " WHERE " + where : "";
+        orderBy = orderBy != null && !orderBy.equals("") ? " ORDER BY " + orderBy : "";
     }
 }

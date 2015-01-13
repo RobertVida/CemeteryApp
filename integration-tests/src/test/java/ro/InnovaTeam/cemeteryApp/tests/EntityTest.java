@@ -42,7 +42,7 @@ public class EntityTest extends PerformTest {
         }
 
         public CemeteryDTO delete(CemeteryDTO cemeteryDTO) throws Exception {
-            return deleteEntity("/cemetery/1/", cemeteryDTO, CemeteryDTO.class);
+            return deleteEntity("/cemetery/", cemeteryDTO, CemeteryDTO.class);
         }
 
         public CemeteryDTO update(CemeteryDTO cemeteryDTO) throws Exception {
@@ -80,7 +80,7 @@ public class EntityTest extends PerformTest {
         }
 
         public ParcelDTO delete(ParcelDTO parcelDTO) throws Exception {
-            return deleteEntity("/parcel/1/", parcelDTO, ParcelDTO.class);
+            return deleteEntity("/parcel/", parcelDTO, ParcelDTO.class);
         }
 
         public ParcelDTO update(ParcelDTO parcelDTO) throws Exception {
@@ -118,7 +118,7 @@ public class EntityTest extends PerformTest {
         }
 
         public GraveDTO delete(GraveDTO parcelDTO) throws Exception {
-            return deleteEntity("/grave/1/", parcelDTO, GraveDTO.class);
+            return deleteEntity("/grave/", parcelDTO, GraveDTO.class);
         }
 
         public GraveDTO update(GraveDTO parcelDTO) throws Exception {
@@ -156,7 +156,7 @@ public class EntityTest extends PerformTest {
         }
 
         public MonumentDTO delete(MonumentDTO monumentDTO) throws Exception {
-            return deleteEntity("/monument/1/", monumentDTO, MonumentDTO.class);
+            return deleteEntity("/monument/", monumentDTO, MonumentDTO.class);
         }
 
         public MonumentDTO update(MonumentDTO monumentDTO) throws Exception {
@@ -194,7 +194,7 @@ public class EntityTest extends PerformTest {
         }
 
         public ClientDTO delete(ClientDTO clientDTO) throws Exception {
-            return deleteEntity("/client/1/", clientDTO, ClientDTO.class);
+            return deleteEntity("/client/", clientDTO, ClientDTO.class);
         }
 
         public ClientDTO update(ClientDTO clientDTO) throws Exception {
@@ -232,7 +232,7 @@ public class EntityTest extends PerformTest {
         }
 
         public RestingPlaceRequestDTO delete(RestingPlaceRequestDTO requestDTO) throws Exception {
-            return deleteEntity("/request/1/", requestDTO, RestingPlaceRequestDTO.class);
+            return deleteEntity("/request/", requestDTO, RestingPlaceRequestDTO.class);
         }
 
         public RestingPlaceRequestDTO update(RestingPlaceRequestDTO requestDTO) throws Exception {
@@ -272,7 +272,7 @@ public class EntityTest extends PerformTest {
 
         @Override
         public DeceasedDTO delete(DeceasedDTO deceasedDTO) throws Exception {
-            return deleteEntity("/deceased/1/", deceasedDTO, DeceasedDTO.class);
+            return deleteEntity("/deceased/", deceasedDTO, DeceasedDTO.class);
         }
 
         @Override
@@ -358,7 +358,7 @@ public class EntityTest extends PerformTest {
 
         @Override
         public StructureHistoryEntryDTO delete(StructureHistoryEntryDTO entryDTO) throws Exception {
-            return deleteEntity("/structureHistory/1/", entryDTO, StructureHistoryEntryDTO.class);
+            return deleteEntity("/structureHistory/", entryDTO, StructureHistoryEntryDTO.class);
         }
 
         @Override
@@ -406,7 +406,7 @@ public class EntityTest extends PerformTest {
 
         @Override
         public ContractDTO delete(ContractDTO contractDTO) throws Exception {
-            return deleteEntity("/contract/1/", contractDTO, ContractDTO.class);
+            return deleteEntity("/contract/", contractDTO, ContractDTO.class);
         }
 
         @Override

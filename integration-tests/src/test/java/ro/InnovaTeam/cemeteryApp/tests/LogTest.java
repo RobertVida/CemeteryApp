@@ -122,9 +122,9 @@ public class LogTest extends EntityTest {
         filterResult = log.filter(getFilter(1, Integer.MAX_VALUE, null, null), "cemeteries/" + cemeteryDTOs[2].getId());
         assertThat(filterResult.getContent().size(), not(equalTo(initialSize)));
         assertThat(filterResult.getContent().size(), equalTo(initialSize + 2));
-        assertThat(filterResult.getContent().get(0).getAction(), equalTo("CREATE"));
-        assertThat(filterResult.getContent().get(1).getAction(), equalTo("UPDATE"));
-        assertThat(filterResult.getContent().get(2).getAction(), equalTo("DELETE"));
+        assertThat(filterResult.getContent().get(0).getAction(), equalTo("Stergere"));
+        assertThat(filterResult.getContent().get(1).getAction(), equalTo("Actualizare"));
+        assertThat(filterResult.getContent().get(2).getAction(), equalTo("Creare"));
         assertThat(filterResult.getContent().size(), equalTo(log.count(getFilter(1, Integer.MAX_VALUE, null, null), "cemeteries/" + cemeteryDTOs[2].getId())));
     }
 

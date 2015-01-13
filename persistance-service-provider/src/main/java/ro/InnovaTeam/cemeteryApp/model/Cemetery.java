@@ -1,5 +1,7 @@
 package ro.InnovaTeam.cemeteryApp.model;
 
+import java.util.List;
+
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
@@ -7,6 +9,7 @@ public class Cemetery extends BaseEntity {
 
     private String name;
     private String address;
+    private List<Parcel> parcels;
 
     public Cemetery() {
         super("cemeteries");

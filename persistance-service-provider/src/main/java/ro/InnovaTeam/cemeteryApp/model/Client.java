@@ -1,5 +1,7 @@
 package ro.InnovaTeam.cemeteryApp.model;
 
+import java.util.List;
+
 /**
  * Created by lucian.vaida on 2/11/2014.
  */
@@ -10,6 +12,7 @@ public class Client extends BaseEntity {
     private String cnp;
     private String phoneNumber;
     private String address;
+    private List<RestingPlaceRequest> requests;
 
     public Client() {
         super("clients");

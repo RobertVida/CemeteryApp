@@ -72,7 +72,7 @@ public class LogEntryServiceImpl implements LogEntryService {
 
     @Override
     public void logCreate(BaseEntity entity){
-        LogEntry entry = new LogEntry(entity.getTableName(), entity.getId(), new Date(), "CREATE");
+        LogEntry entry = new LogEntry(entity.getTableName(), entity.getId(), new Date(), "Create");
         entry.setOldValue("NONE");
         entry.setNewValue(entity.toString());
         entry.setUserId(entity.getUserId());
@@ -81,7 +81,7 @@ public class LogEntryServiceImpl implements LogEntryService {
 
     @Override
     public void logDelete(Integer userId, BaseEntity entity){
-        LogEntry entry = new LogEntry(entity.getTableName(), entity.getId(), new Date(), "DELETE");
+        LogEntry entry = new LogEntry(entity.getTableName(), entity.getId(), new Date(), "Stergere");
         entry.setOldValue(entity.toString());
         entry.setNewValue("NONE");
         entry.setUserId(userId);
@@ -90,7 +90,7 @@ public class LogEntryServiceImpl implements LogEntryService {
 
     @Override
     public void logUpdate(BaseEntity oldEntity, BaseEntity newEntity){
-        LogEntry entry = new LogEntry(newEntity.getTableName(), newEntity.getId(), new Date(), "UPDATE");
+        LogEntry entry = new LogEntry(newEntity.getTableName(), newEntity.getId(), new Date(), "Actualizare");
         entry.setOldValue(oldEntity.toString());
         entry.setNewValue(newEntity.toString());
         entry.setUserId(newEntity.getUserId());

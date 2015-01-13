@@ -13,6 +13,9 @@ public class Structure extends BaseEntity {
     private String type;
     private Integer width;
     private Integer length;
+    private List<StructureHistoryEntry> history;
+    private List<Deceased> deceased;
+    private Contract contract;
 
     public Structure() {
         super("structures");

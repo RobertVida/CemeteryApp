@@ -1,19 +1,32 @@
 package ro.InnovaTeam.cemeteryApp.tests;
 
+import org.junit.Before;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
+import ro.InnovaTeam.cemeteryApp.UserDTO;
 
 /**
  * Created by robert on 12/24/2014.
  */
 public class PerformTest extends BaseTest {
 
-    protected static final HttpHeaders dataHeaders = new HttpHeaders() {{
+    protected static HttpHeaders dataHeaders = new HttpHeaders() {{
         add("Content-Type", "application/json");
     }};
+
+    protected static HttpHeaders authHeaders = new HttpHeaders();
+
+    @Before
+    public void login() throws Exception {
+        if(dataHeaders.get("Authorization-Token") == null) {
+            UserDTO user = getResultAsObject(mvc.perform(getRequest("/login/admin/admin")).andReturn(), UserDTO.class);
+            dataHeaders.add("Authorization-Token", user.getToken());
+            authHeaders.add("Authorization-Token", user.getToken());
+        }
+    }
 
     protected ResultActions performGet(String url) throws Exception {
         return mvc.perform(getRequest(url));
@@ -44,7 +57,10 @@ public class PerformTest extends BaseTest {
     }
 
     protected RequestBuilder getRequest(String url) {
-        return getUrlAndMethod("GET", url);
+        MockHttpServletRequestBuilder builder = getUrlAndMethod("GET", url);
+        builder.headers(authHeaders);
+
+        return builder;
     }
 
     protected RequestBuilder createRequest(String url, byte[] data) {
@@ -64,7 +80,10 @@ public class PerformTest extends BaseTest {
     }
 
     private RequestBuilder deleteRequest(String url) {
-        return getUrlAndMethod("DELETE", url);
+        MockHttpServletRequestBuilder builder = getUrlAndMethod("DELETE", url);
+        builder.headers(authHeaders);
+
+        return builder;
     }
 
     private RequestBuilder filterRequest(String url, byte[] data) {
@@ -84,6 +103,9 @@ public class PerformTest extends BaseTest {
     }
 
     private RequestBuilder filterRequest(String url) {
-        return getUrlAndMethod("GET", url);
+        MockHttpServletRequestBuilder builder = getUrlAndMethod("GET", url);
+        builder.headers(authHeaders);
+
+        return builder;
     }
 }

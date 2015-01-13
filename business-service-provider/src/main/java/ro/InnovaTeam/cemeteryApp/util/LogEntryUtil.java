@@ -4,12 +4,29 @@ import ro.InnovaTeam.cemeteryApp.LogEntryDTO;
 import ro.InnovaTeam.cemeteryApp.model.LogEntry;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by robert on 12/14/2014.
  */
 public class LogEntryUtil {
+
+    private static Map<String, String> tableMapping = new HashMap<String, String>(){{
+        put("cemeteries", "Cimitir");
+        put("parcel", "Parcela");
+        put("structures", "Structura");
+        put("graves", "Mormant");
+        put("monument", "Monument");
+        put("clients", "Client");
+        put("deceased", "Decedat");
+        put("burialdocuments", "Document de inmormantare");
+        put("nocaregiverdocuments", "Document fara apartinator");
+        put("restingplacerequests", "Cerere");
+        put("contracts", "Contract");
+        put("structurehistory", "Istoric structuri");
+    }};
 
     public static LogEntry toDB(LogEntryDTO entryDTO) {
         if (entryDTO == null) {
@@ -35,7 +52,7 @@ public class LogEntryUtil {
         LogEntryDTO entryDTO = new LogEntryDTO();
         entryDTO.setId(entry.getId());
         entryDTO.setUserId(entry.getUserId());
-        entryDTO.setTableChanged(entry.getTableChanged());
+        entryDTO.setTableChanged(tableMapping.get(entry.getTableChanged()));
         entryDTO.setIdAffected(entry.getIdAffected());
         entryDTO.setTookPlaceOn(entry.getTookPlaceOn());
         entryDTO.setAction(entry.getAction());

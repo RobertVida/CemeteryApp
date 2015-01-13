@@ -108,6 +108,7 @@ public class LogEntryEAOImpl extends EntityEAOImpl<LogEntry> implements LogEntry
         return QueryBuilder.instance(getSession())
                 .select(
                         from(TABLE).as("l"))
+                .orderBy("l.tookPlaceOn DESC")
                 .setMaxResults(filter.getPageSize())
                 .setFirstResult(filter.getPageNo());
     }
