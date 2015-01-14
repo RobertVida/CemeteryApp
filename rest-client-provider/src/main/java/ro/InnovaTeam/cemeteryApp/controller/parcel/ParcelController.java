@@ -155,7 +155,7 @@ public class ParcelController {
         }
     }
 
-    @RequestMapping(value = "/filterStructures/{parcelId}/{type}", method = RequestMethod.GET)
+    @RequestMapping(value = "/filterAction/{parcelId}/{type}", method = RequestMethod.GET)
     public void filterStructureByParcelId(@PathVariable Integer parcelId, @PathVariable String type, HttpServletRequest request, HttpServletResponse response) {
         FilterDTO structureFilterDTO = new FilterDTO();
         structureFilterDTO.setSearchCriteria("");
