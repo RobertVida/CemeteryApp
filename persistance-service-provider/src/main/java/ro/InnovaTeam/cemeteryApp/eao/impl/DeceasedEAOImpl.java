@@ -2,13 +2,14 @@ package ro.InnovaTeam.cemeteryApp.eao.impl;
 
 import org.springframework.stereotype.Component;
 import ro.InnovaTeam.cemeteryApp.eao.DeceasedEAO;
-import ro.InnovaTeam.cemeteryApp.helpers.QueryBuilder;
 import ro.InnovaTeam.cemeteryApp.model.Deceased;
 import ro.InnovaTeam.cemeteryApp.model.Filter;
 
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import static ro.InnovaTeam.cemeteryApp.helpers.AliasBuilder.from;
 import static ro.InnovaTeam.cemeteryApp.helpers.AndWithOrRestrictionBuilder.allOf;
 import static ro.InnovaTeam.cemeteryApp.helpers.ColumnConstraintBuilder.column;
 import static ro.InnovaTeam.cemeteryApp.helpers.ConstraintWrapper.AndConstraintWrapper.and;
@@ -52,25 +53,47 @@ public class DeceasedEAOImpl extends EntityEAOImpl<Deceased> implements Deceased
     @Override
     @SuppressWarnings("unchecked")
     public List<Deceased> findByFilter(Filter filter) {
-        return makeFilterQuery(filter)
-                .build().list();
+        return translate(getSession().createSQLQuery(
+                "SELECT D.* FROM deceased D " +
+                        makeFilterQuery(filter)
+        ).list());
     }
 
     @Override
     public Integer countByFilter(Filter filter) {
-        return ((Long) makeFilterQuery(filter).count()
-                .build().iterate().next()).intValue();
+        return ((BigInteger) getSession().createSQLQuery(
+                "SELECT COUNT(*) FROM deceased D " +
+                        makeFilterQuery(filter)
+        ).list().get(0)).intValue();
     }
 
-    private QueryBuilder makeFilterQuery(Filter filter) {
-        return QueryBuilder.instance(getSession())
-                .select(
-                        from(TABLE).as("d")
-                ).where(
+    private String makeFilterQuery(Filter filter) {
+        return (filter.getParentId() != null ? " JOIN burialdocuments B ON D.deceased_id = B.deceased_id" : "" )+
+                " WHERE " + and(
                         allOf(filter.getSearchCriteria())
-                                .areAtLeastOnceInAnyOf("d.firstName", "d.lastName", "d.cnp", "d.religion")
-                )
-                .setMaxResults(filter.getPageSize())
-                .setFirstResult(filter.getPageNo());
+                                .areAtLeastOnceInAnyOf("d.first_name", "d.last_name", "d.cnp", "d.religion"),
+                        filter.getParentId() != null ? column("B.structure_id").is(filter.getParentId()) : null
+                ) +
+                " LIMIT " + (filter.getPageNo() - 1) + " , " + filter.getPageSize() + " ";
+    }
+
+    private List<Deceased> translate(List<Object[]> objects) {
+        List<Deceased> list = new ArrayList<Deceased>();
+        for(Object[] o : objects){
+            list.add(translate(o));
+        }
+        return list;
+    }
+
+    private Deceased translate(Object[] o){
+        Deceased deceased = new Deceased();
+        deceased.setId((Integer)o[0]);
+        deceased.setFirstName((String) o[1]);
+        deceased.setLastName((String) o[2]);
+        deceased.setCnp((String) o[3]);
+        deceased.setReligion((String) o[4]);
+        deceased.setDiedOn((Date) o[5]);
+
+        return deceased;
     }
 }

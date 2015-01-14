@@ -2,15 +2,15 @@ package ro.InnovaTeam.cemeteryApp.tests;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import ro.InnovaTeam.cemeteryApp.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -28,7 +28,7 @@ public class ExceptionHandlerTest {
         RestTemplate restTemplate = getJSONRestTemplate();
 
         try {
-            restTemplate.put("http://localhost:8080/rest-server/cemetery", new CemeteryDTO());
+            restTemplate.put("http://localhost:8080/rest-server/cemetery", authorizationWrapper(new CemeteryDTO()));
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(2));
@@ -42,7 +42,7 @@ public class ExceptionHandlerTest {
         RestTemplate restTemplate = getJSONRestTemplate();
 
         try {
-            restTemplate.postForObject("http://localhost:8080/rest-server/cemetery/{cemeteryId}", new CemeteryDTO(), CemeteryDTO.class, 1);
+            restTemplate.postForObject("http://localhost:8080/rest-server/cemetery/{cemeteryId}", authorizationWrapper(new CemeteryDTO()), CemeteryDTO.class, 1);
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(2));
@@ -56,7 +56,7 @@ public class ExceptionHandlerTest {
         RestTemplate restTemplate = getJSONRestTemplate();
 
         try {
-            restTemplate.put("http://localhost:8080/rest-server/parcel", new ParcelDTO());
+            restTemplate.put("http://localhost:8080/rest-server/parcel", authorizationWrapper(new ParcelDTO()));
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(2));
@@ -65,7 +65,7 @@ public class ExceptionHandlerTest {
         }
 
         try {
-            restTemplate.put("http://localhost:8080/rest-server/parcel", new ParcelDTO(){{setName("asdasd");}});
+            restTemplate.put("http://localhost:8080/rest-server/parcel", authorizationWrapper(new ParcelDTO(){{setName("asdasd");}}));
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(1));
@@ -78,7 +78,7 @@ public class ExceptionHandlerTest {
         RestTemplate restTemplate = getJSONRestTemplate();
 
         try {
-            restTemplate.postForObject("http://localhost:8080/rest-server/parcel/{parcelId}", new ParcelDTO(), ParcelDTO.class, 1);
+            restTemplate.postForObject("http://localhost:8080/rest-server/parcel/{parcelId}", authorizationWrapper(new ParcelDTO()), ParcelDTO.class, 1);
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(2));
@@ -92,7 +92,7 @@ public class ExceptionHandlerTest {
         RestTemplate restTemplate = getJSONRestTemplate();
 
         try {
-            restTemplate.put("http://localhost:8080/rest-server/grave", new GraveDTO());
+            restTemplate.put("http://localhost:8080/rest-server/grave", authorizationWrapper(new GraveDTO()));
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(5));
@@ -109,7 +109,7 @@ public class ExceptionHandlerTest {
         RestTemplate restTemplate = getJSONRestTemplate();
 
         try {
-            restTemplate.postForObject("http://localhost:8080/rest-server/grave/{graveId}", new GraveDTO(), GraveDTO.class, 1);
+            restTemplate.postForObject("http://localhost:8080/rest-server/grave/{graveId}", authorizationWrapper(new GraveDTO()), GraveDTO.class, 1);
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(5));
@@ -126,7 +126,7 @@ public class ExceptionHandlerTest {
         RestTemplate restTemplate = getJSONRestTemplate();
 
         try {
-            restTemplate.put("http://localhost:8080/rest-server/monument", new MonumentDTO());
+            restTemplate.put("http://localhost:8080/rest-server/monument", authorizationWrapper(new MonumentDTO()));
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(7));
@@ -145,7 +145,7 @@ public class ExceptionHandlerTest {
         RestTemplate restTemplate = getJSONRestTemplate();
 
         try {
-            restTemplate.postForObject("http://localhost:8080/rest-server/monument/{monumentId}", new MonumentDTO(), MonumentDTO.class, 1);
+            restTemplate.postForObject("http://localhost:8080/rest-server/monument/{monumentId}", authorizationWrapper(new MonumentDTO()), MonumentDTO.class, 1);
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(7));
@@ -164,7 +164,7 @@ public class ExceptionHandlerTest {
         RestTemplate restTemplate = getJSONRestTemplate();
 
         try {
-            restTemplate.put("http://localhost:8080/rest-server/contract", new ContractDTO());
+            restTemplate.put("http://localhost:8080/rest-server/contract", authorizationWrapper(new ContractDTO()));
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(3));
@@ -181,7 +181,7 @@ public class ExceptionHandlerTest {
         ContractDTO c = new ContractDTO();
         c.setSignedOn(new Date());
         try {
-            restTemplate.postForObject("http://localhost:8080/rest-server/contract/{contractId}", c, ContractDTO.class, 1);
+            restTemplate.postForObject("http://localhost:8080/rest-server/contract/{contractId}", authorizationWrapper(c), ContractDTO.class, 1);
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(2));
@@ -191,7 +191,7 @@ public class ExceptionHandlerTest {
 
         c.setUpdatedOn(new Date(new Date().getTime()-100000));
         try {
-            restTemplate.postForObject("http://localhost:8080/rest-server/contract/{contractId}", c, ContractDTO.class, 1);
+            restTemplate.postForObject("http://localhost:8080/rest-server/contract/{contractId}", authorizationWrapper(c), ContractDTO.class, 1);
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(4));
@@ -204,7 +204,7 @@ public class ExceptionHandlerTest {
         c.setUpdatedOn(new Date(new Date().getTime() + 10000));
         c.setExpiresOn(new Date(new Date().getTime()-100000));
         try {
-            restTemplate.postForObject("http://localhost:8080/rest-server/contract/{contractId}", c, ContractDTO.class, 1);
+            restTemplate.postForObject("http://localhost:8080/rest-server/contract/{contractId}", authorizationWrapper(c), ContractDTO.class, 1);
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(3));
@@ -219,7 +219,7 @@ public class ExceptionHandlerTest {
         RestTemplate restTemplate = getJSONRestTemplate();
 
         try {
-            restTemplate.put("http://localhost:8080/rest-server/deceased", new DeceasedDTO());
+            restTemplate.put("http://localhost:8080/rest-server/deceased", authorizationWrapper(new DeceasedDTO()));
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(7));
@@ -238,7 +238,7 @@ public class ExceptionHandlerTest {
         RestTemplate restTemplate = getJSONRestTemplate();
 
         try {
-            restTemplate.postForObject("http://localhost:8080/rest-server/deceased/{deceasedId}", new DeceasedDTO(), DeceasedDTO.class, 1);
+            restTemplate.postForObject("http://localhost:8080/rest-server/deceased/{deceasedId}", authorizationWrapper(new DeceasedDTO()), DeceasedDTO.class, 1);
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(7));
@@ -257,7 +257,7 @@ public class ExceptionHandlerTest {
         RestTemplate restTemplate = getJSONRestTemplate();
 
         try {
-            restTemplate.put("http://localhost:8080/rest-server/client", new ClientDTO());
+            restTemplate.put("http://localhost:8080/rest-server/client", authorizationWrapper(new ClientDTO()));
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(5));
@@ -274,7 +274,7 @@ public class ExceptionHandlerTest {
         RestTemplate restTemplate = getJSONRestTemplate();
 
         try {
-            restTemplate.postForObject("http://localhost:8080/rest-server/client/{clientId}", new ClientDTO(), ClientDTO.class, 1);
+            restTemplate.postForObject("http://localhost:8080/rest-server/client/{clientId}", authorizationWrapper(new ClientDTO()), ClientDTO.class, 1);
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(5));
@@ -291,7 +291,7 @@ public class ExceptionHandlerTest {
         RestTemplate restTemplate = getJSONRestTemplate();
 
         try {
-            restTemplate.put("http://localhost:8080/rest-server/request", new RestingPlaceRequestDTO());
+            restTemplate.put("http://localhost:8080/rest-server/request", authorizationWrapper(new RestingPlaceRequestDTO()));
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(4));
@@ -307,7 +307,7 @@ public class ExceptionHandlerTest {
         RestTemplate restTemplate = getJSONRestTemplate();
 
         try {
-            restTemplate.postForObject("http://localhost:8080/rest-server/request/{requestId}", new RestingPlaceRequestDTO(), RestingPlaceRequestDTO.class, 1);
+            restTemplate.postForObject("http://localhost:8080/rest-server/request/{requestId}", authorizationWrapper(new RestingPlaceRequestDTO()), RestingPlaceRequestDTO.class, 1);
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(4));
@@ -323,7 +323,7 @@ public class ExceptionHandlerTest {
         RestTemplate restTemplate = getJSONRestTemplate();
 
         try {
-            restTemplate.put("http://localhost:8080/rest-server/structureHistory", new StructureHistoryEntryDTO());
+            restTemplate.put("http://localhost:8080/rest-server/structureHistory", authorizationWrapper(new StructureHistoryEntryDTO()));
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(3));
@@ -338,7 +338,7 @@ public class ExceptionHandlerTest {
         RestTemplate restTemplate = getJSONRestTemplate();
 
         try {
-            restTemplate.postForObject("http://localhost:8080/rest-server/structureHistory/{structureHistoryId}", new StructureHistoryEntryDTO(), StructureHistoryEntryDTO.class, 1);
+            restTemplate.postForObject("http://localhost:8080/rest-server/structureHistory/{structureHistoryId}", authorizationWrapper(new StructureHistoryEntryDTO()), StructureHistoryEntryDTO.class, 1);
         } catch (HttpClientErrorException e) {
             ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
             assertThat(error.getErrors().size(), equalTo(3));
@@ -354,5 +354,25 @@ public class ExceptionHandlerTest {
         messageConverters.add(new MappingJacksonHttpMessageConverter());
         restTemplate.setMessageConverters(messageConverters);
         return restTemplate;
+    }
+
+    private static String token;
+
+    private HttpEntity<Object> authorizationWrapper(Object entity) {
+        return new HttpEntity<Object>(entity, new LinkedMultiValueMap<String, String>(){{
+            add("Content-Type", "application/json");
+            add("Authorization-Token", token != null ? token : getLoggedInUserToken());
+        }});
+    }
+
+    private String getLoggedInUserToken() {
+        RestTemplate restTemplate = getJSONRestTemplate();
+        String endPointURL = "http://localhost:8080/rest-server/login/{username}/{password}";
+
+        Map<String, String> urlVariables = new HashMap<String, String>();
+        urlVariables.put("username", "admin");
+        urlVariables.put("password", "admin");
+
+        return restTemplate.getForObject(endPointURL, UserDTO.class, urlVariables).getToken();
     }
 }

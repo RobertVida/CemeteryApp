@@ -10,7 +10,6 @@ import ro.InnovaTeam.cemeteryApp.eao.BurialDocumentEAO;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static ro.InnovaTeam.cemeteryApp.util.FilterUtil.toDB;
 
 /**
  * Created by robert on 12/31/2014.
@@ -115,14 +114,13 @@ public class DeceasedTest extends EntityTest{
         assertThat(filterResult.getContent().size(), equalTo(2));
         assertThat(filterResult.getContent().size(), not(equalTo(deceasedCount)));
 
-//        ToDo: implement find by parentId
-//        filterResult = deceased.filter(getFilter(1, 20, graveDTOs[0].getId(), null));
-//        assertThat(filterResult.getContent().size(), equalTo(1));
-//        assertThat(filterResult.getContent().size(), not(equalTo(deceasedCount)));
-//
-//        filterResult = deceased.filter(getFilter(1, 20, graveDTOs[1].getId(), null));
-//        assertThat(filterResult.getContent().size(), equalTo(2));
-//        assertThat(filterResult.getContent().size(), not(equalTo(deceasedCount)));
+        filterResult = deceased.filter(getFilter(1, 20, graveDTOs[0].getId(), null));
+        assertThat(filterResult.getContent().size(), equalTo(1));
+        assertThat(filterResult.getContent().size(), not(equalTo(deceasedCount)));
+
+        filterResult = deceased.filter(getFilter(1, 20, graveDTOs[1].getId(), null));
+        assertThat(filterResult.getContent().size(), equalTo(2));
+        assertThat(filterResult.getContent().size(), not(equalTo(deceasedCount)));
     }
 
     @Test
@@ -148,14 +146,13 @@ public class DeceasedTest extends EntityTest{
         assertThat(filterResult.getContent().size(), equalTo(2));
         assertThat(filterResult.getContent().size(), not(equalTo(deceasedCount)));
 
-//        ToDo: implement find by parentId
-//        filterResult = deceased.filter(getFilter(1, 20, monumentDTOs[0].getId(), null));
-//        assertThat(filterResult.getContent().size(), equalTo(1));
-//        assertThat(filterResult.getContent().size(), not(equalTo(deceasedCount)));
-//
-//        filterResult = deceased.filter(getFilter(1, 20, monumentDTOs[1].getId(), null));
-//        assertThat(filterResult.getContent().size(), equalTo(2));
-//        assertThat(filterResult.getContent().size(), not(equalTo(deceasedCount)));
+        filterResult = deceased.filter(getFilter(1, 20, monumentDTOs[0].getId(), null));
+        assertThat(filterResult.getContent().size(), equalTo(1));
+        assertThat(filterResult.getContent().size(), not(equalTo(deceasedCount)));
+
+        filterResult = deceased.filter(getFilter(1, 20, monumentDTOs[1].getId(), null));
+        assertThat(filterResult.getContent().size(), equalTo(2));
+        assertThat(filterResult.getContent().size(), not(equalTo(deceasedCount)));
     }
 
     @Test

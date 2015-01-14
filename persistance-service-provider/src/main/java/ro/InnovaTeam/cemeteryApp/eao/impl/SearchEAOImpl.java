@@ -217,13 +217,15 @@ public class SearchEAOImpl implements SearchEAO {
 
     private String requestRegister(Filter filter) {
         return "LEFT JOIN clients C ON C.client_id = R.client_id " +
-                "WHERE " + allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("R.status", "C.last_name", "C.first_name");
+                "WHERE " + allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("R.status", "C.last_name", "C.first_name") +
+                limit(filter);
     }
 
     private String contractRegister(Filter filter) {
         return "LEFT JOIN restingplacerequests R ON R.request_id = C.request_id " +
                 "LEFT JOIN clients CL ON CL.client_id = R.client_id " +
-                "WHERE " + allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("CL.last_name", "CL.first_name", "CL.home_address");
+                "WHERE " + allOf(filter.getSearchCriteria()).areAtLeastOnceInAnyOf("CL.last_name", "CL.first_name", "CL.home_address")
+                + limit(filter);
     }
 
     private String limit(Filter filter) {
