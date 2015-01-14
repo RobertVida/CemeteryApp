@@ -3,6 +3,7 @@ package ro.InnovaTeam.cemeteryApp.controller;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
 import ro.InnovaTeam.cemeteryApp.restClient.AuthenticationRestClient;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by Catalin Sorecau on 11/15/2014.
@@ -43,8 +45,12 @@ public class HomeController {
         try {
             Authentication request = new UsernamePasswordAuthenticationToken(username, password);
             Authentication result = authenticationManager.authenticate(request);
-            SecurityContextHolder.getContext().setAuthentication(result);
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            securityContext.setAuthentication(result);
             httpServletRequest.getSession().setAttribute(AuthenticationFilter.USER_SESSION_AUTHENTICATION_NAME, username);
+
+            HttpSession session = httpServletRequest.getSession(true);
+            session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
         } catch (BadCredentialsException e) {
             model.addAttribute("error", "Credentiale gresite");
             return "loginPage";

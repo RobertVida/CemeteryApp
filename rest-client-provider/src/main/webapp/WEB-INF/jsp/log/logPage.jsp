@@ -13,6 +13,7 @@
     <title></title>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/logs.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/jquery.easyPaginate.js"></script>
 </head>
 <body>
 <c:set var="contextPath" value="${pageContext.request.contextPath}/logs"/>
@@ -74,15 +75,7 @@
             </script>
         </table>
         <c:if test="${pages gt 0}">
-            <nav style="text-align: center;">
-                <ul class="pagination">
-                    <li><a><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>
-                    <c:forEach var="i" begin="1" end="${pages}">
-                        <li onclick="LogsManagerJS.getLogsPerPage(${i})" style="cursor:pointer;"><a class="page">${i}</a></li>
-                    </c:forEach>
-                    <li><a><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li>
-                </ul>
-            </nav>
+            <div class="easypagination" style="text-align: center;" pages="${pages}"></div>
         </c:if>
     </div>
 </body>

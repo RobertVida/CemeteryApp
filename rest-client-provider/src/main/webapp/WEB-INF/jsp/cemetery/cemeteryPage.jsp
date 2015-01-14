@@ -13,6 +13,7 @@
     <title>Cimitire</title>
     <script src="${pageContext.request.contextPath}/resources/js/jquery-1.11.0.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/cemetery.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/jquery.easyPaginate.js"></script>
 </head>
 <body>
     <jsp:include page="../fragments/menu.jsp"/>
@@ -57,15 +58,7 @@
             </tbody>
         </table>
         <c:if test="${pages gt 0}">
-            <nav style="text-align: center;">
-                <ul class="pagination">
-                    <li><a><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>
-                    <c:forEach var="i" begin="1" end="${pages}">
-                        <li onclick="CemeteriesManagerJS.getCemeteriesPerPage(${i})" style="cursor:pointer;"><a class="page">${i}</a></li>
-                    </c:forEach>
-                    <li><a><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li>
-                </ul>
-            </nav>
+            <div class="easypagination" style="text-align: center;" pages="${pages}"></div>
         </c:if>
         <c:if test="${hasAdminRole}">
             <div style="margin-right: 20px; margin-bottom: 20px; float: right;">

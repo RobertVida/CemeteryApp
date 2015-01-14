@@ -30,6 +30,7 @@
     <script src="${pageContext.request.contextPath}/resources/js/mainJS.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery.validate.min.js"></script>
     <script src="${pageContext.request.contextPath}/resources/js/jquery.tipTip.minified.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/jquery.easyPaginate.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-static-top" role="navigation">

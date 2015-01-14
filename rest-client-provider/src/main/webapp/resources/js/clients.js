@@ -4,6 +4,12 @@
 $(document).ready(function () {
     $('#container').html($('#client-details').html());
 
+    $(".easypagination").easyPaginate({
+        onClickcallback : function(page) {
+            ClientsManagerJS.getClientsPerPage(page);
+        }
+    });
+
 });
 var ClientsManagerJS = (function($) {
 

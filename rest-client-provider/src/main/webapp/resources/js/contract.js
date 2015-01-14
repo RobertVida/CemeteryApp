@@ -10,6 +10,11 @@ var ContractManagerJS = (function($) {
     var init = function() {
         $('#container').html($('#contract-details').html());
 
+        $(".easypagination").easyPaginate({
+            onClickcallback : function(page) {
+                getContractPerPage(page);
+            }
+        });
     };
 
     var renderAddPage = function () {

@@ -7,6 +7,11 @@ var GraveManagerJS = (function($) {
     var init = function() {
         $('#container').html($('#grave-details').html());
 
+        $(".easypagination").easyPaginate({
+            onClickcallback : function(page) {
+                getGravePerPage(page);
+            }
+        });
     };
 
     var renderAddPage = function () {

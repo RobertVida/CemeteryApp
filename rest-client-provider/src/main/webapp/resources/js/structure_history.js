@@ -10,6 +10,11 @@ var StructureHistoryManagerJS = (function($) {
     var init = function() {
         $('#container').html($('#structure-details').html());
 
+        $(".easypagination").easyPaginate({
+            onClickcallback : function(page) {
+                getPerPage(page);
+            }
+        });
     };
 
     var renderAddPage = function () {

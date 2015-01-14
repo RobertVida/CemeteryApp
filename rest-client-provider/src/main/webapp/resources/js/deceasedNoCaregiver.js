@@ -3,6 +3,12 @@
  */
 $(document).ready(function() {
     $('#container').html($('#deceased-no-caregiver-registry-details').html());
+
+    $(".easypagination").easyPaginate({
+        onClickcallback : function(page) {
+            getPerPage(page);
+        }
+    });
 });
 
 function getPerPage(pageNo) {
