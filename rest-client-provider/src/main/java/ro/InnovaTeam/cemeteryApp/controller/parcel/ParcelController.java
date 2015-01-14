@@ -20,6 +20,7 @@ import ro.InnovaTeam.cemeteryApp.ParcelDTO;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
 import ro.InnovaTeam.cemeteryApp.controller.cemetery.CemeteryController;
 import ro.InnovaTeam.cemeteryApp.controller.grave.GraveController;
+import ro.InnovaTeam.cemeteryApp.controller.log.LogController;
 import ro.InnovaTeam.cemeteryApp.controller.monument.MonumentController;
 import ro.InnovaTeam.cemeteryApp.restClient.ParcelRestClient;
 
@@ -165,6 +166,17 @@ public class ParcelController {
         request.getSession().setAttribute(filterStructure, structureFilterDTO);
         try {
             response.sendRedirect(request.getContextPath() + redirectPath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/filterLogs/{parcelId}", method = RequestMethod.GET)
+    public void filterLogs(HttpServletRequest request, @PathVariable Integer parcelId, HttpServletResponse response) {
+        request.getSession().setAttribute(LogController.LOGS_TABLE_NAME, "parcel");
+        request.getSession().setAttribute(LogController.LOGS_TABLE_ID, String.valueOf(parcelId));
+        try {
+            response.sendRedirect(request.getContextPath() + LogController.LOGS);
         } catch (IOException e) {
             e.printStackTrace();
         }

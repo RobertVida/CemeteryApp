@@ -18,6 +18,7 @@ import ro.InnovaTeam.cemeteryApp.ContractDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
 import ro.InnovaTeam.cemeteryApp.controller.grave.GraveController;
+import ro.InnovaTeam.cemeteryApp.controller.log.LogController;
 import ro.InnovaTeam.cemeteryApp.restClient.ContractRestClient;
 
 import javax.servlet.http.HttpServletRequest;
@@ -145,6 +146,17 @@ public class ContractController {
 
         try {
             response.sendRedirect(request.getContextPath() + CONTRACT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/filterLogs/{contractId}", method = RequestMethod.GET)
+    public void filterLogs(HttpServletRequest request, @PathVariable Integer contractId, HttpServletResponse response) {
+        request.getSession().setAttribute(LogController.LOGS_TABLE_NAME, "contracts");
+        request.getSession().setAttribute(LogController.LOGS_TABLE_ID, String.valueOf(contractId));
+        try {
+            response.sendRedirect(request.getContextPath() + LogController.LOGS);
         } catch (IOException e) {
             e.printStackTrace();
         }

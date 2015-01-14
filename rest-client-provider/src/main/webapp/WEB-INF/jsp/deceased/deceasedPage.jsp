@@ -56,6 +56,7 @@
                 <td><fmt:formatDate value="${deceased.burialOn}" pattern="${pattern}"/></td>
                 <td>
                     <a href="${contextPath}/get/${deceased.id}" ><img class="action-icon tiptip" title="<fmt:message key='view.details'/>" src="<c:url value="/resources/icons/info.png" />"/></a>
+                    <a href="${contextPath}/filterLogs/${deceased.id}" ><img class="action-icon tiptip" title="<fmt:message key='entity.filter.logs'/>" src="<c:url value="/resources/icons/changes_history.png" />"/></a>
                     <c:if test="${hasAdminRole}">
                         <a href="${contextPath}/delete/${deceased.id}" ><img class="action-icon tiptip" title="<fmt:message key='delete.entity'/>" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
                     </c:if>

@@ -43,7 +43,6 @@
             <tbody>
                 <c:forEach var="client" items="${clientList}">
                     <tr>
-                        <%--<td>${client.id}</td>--%>
                         <td>${client.lastName}</td>
                         <td>${client.firstName}</td>
                         <td>${client.cnp}</td>
@@ -58,6 +57,7 @@
                             </c:if>
                             <a href="${contextPath}/get/${client.id}" ><img class="action-icon tiptip" title="<fmt:message key='view.details'/>" src="<c:url value="/resources/icons/info.png" />"/></a>
                             <a href="${contextPath}/filterRequests/${client.id}" ><img class="action-icon tiptip" title="<fmt:message key='client.filter.requests'/>" src="<c:url value="/resources/icons/requests.png" />"/></a>
+                            <a href="${contextPath}/filterLogs/${client.id}" ><img class="action-icon tiptip" title="<fmt:message key='entity.filter.logs'/>" src="<c:url value="/resources/icons/changes_history.png" />"/></a>
                         </td>
                     </tr>
                 </c:forEach>

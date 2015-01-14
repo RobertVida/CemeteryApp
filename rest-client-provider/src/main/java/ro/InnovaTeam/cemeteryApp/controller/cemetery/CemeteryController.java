@@ -16,6 +16,7 @@ import ro.InnovaTeam.cemeteryApp.CemeteryDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.ParcelDTO;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
+import ro.InnovaTeam.cemeteryApp.controller.log.LogController;
 import ro.InnovaTeam.cemeteryApp.controller.parcel.ParcelController;
 import ro.InnovaTeam.cemeteryApp.restClient.CemeteryRestClient;
 
@@ -165,6 +166,17 @@ public class CemeteryController {
         request.getSession().setAttribute(PARCEL_DTO, parcelDTO);
         try {
             response.sendRedirect(request.getContextPath() + ParcelController.PARCEL + "/add");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/filterLogs/{cemeteryId}", method = RequestMethod.GET)
+    public void filterLogs(HttpServletRequest request, @PathVariable Integer cemeteryId, HttpServletResponse response) {
+        request.getSession().setAttribute(LogController.LOGS_TABLE_NAME, "cemeteries");
+        request.getSession().setAttribute(LogController.LOGS_TABLE_ID, String.valueOf(cemeteryId));
+        try {
+            response.sendRedirect(request.getContextPath() + LogController.LOGS);
         } catch (IOException e) {
             e.printStackTrace();
         }

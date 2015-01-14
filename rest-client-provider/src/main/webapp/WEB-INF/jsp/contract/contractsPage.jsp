@@ -52,6 +52,7 @@
                         <a href="${contextPath}/printable/${contract.id}" ><img class="action-icon tiptip" title="<fmt:message key='view.contract.pdf'/>" src="<c:url value="/resources/icons/contracts.png" />"/></a>
                     </c:if>
                     <a href="${contextPath}/get/${contract.id}" ><img class="action-icon tiptip" title="<fmt:message key='view.details'/>" src="<c:url value="/resources/icons/info.png" />"/></a>
+                    <a href="${contextPath}/filterLogs/${contract.id}" ><img class="action-icon tiptip" title="<fmt:message key='entity.filter.logs'/>" src="<c:url value="/resources/icons/changes_history.png" />"/></a>
                 </td>
             </tr>
         </c:forEach>

@@ -44,6 +44,7 @@
                     <td>
                         <a href="${contextPath}/get/${cemetery.id}" ><img class="action-icon tiptip" title="<fmt:message key='view.details'/>" src="<c:url value="/resources/icons/info.png" />"/></a>
                         <a href="${contextPath}/filterParcels/${cemetery.id}" ><img class="action-icon tiptip" title="<fmt:message key='cemetery.filter.parcel'/>" src="<c:url value="/resources/icons/parcels.png" />"/></a>
+                        <a href="${contextPath}/filterLogs/${cemetery.id}" ><img class="action-icon tiptip" title="<fmt:message key='entity.filter.logs'/>" src="<c:url value="/resources/icons/changes_history.png" />"/></a>
                         <c:if test="${hasAdminRole}">
                             <a href="${contextPath}/delete/${cemetery.id}" ><img class="action-icon tiptip" title="<fmt:message key='delete.entity'/>" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
                             <a href="${contextPath}/addParcel/${cemetery.id}" >

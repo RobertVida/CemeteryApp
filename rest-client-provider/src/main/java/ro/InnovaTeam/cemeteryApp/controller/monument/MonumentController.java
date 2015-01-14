@@ -13,13 +13,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import ro.InnovaTeam.cemeteryApp.ContractDTO;
-import ro.InnovaTeam.cemeteryApp.FilterDTO;
-import ro.InnovaTeam.cemeteryApp.MonumentDTO;
-import ro.InnovaTeam.cemeteryApp.StructureHistoryEntryDTO;
+import ro.InnovaTeam.cemeteryApp.*;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
 import ro.InnovaTeam.cemeteryApp.controller.contract.ContractController;
+import ro.InnovaTeam.cemeteryApp.controller.deceased.DeceasedController;
 import ro.InnovaTeam.cemeteryApp.controller.grave.GraveController;
+import ro.InnovaTeam.cemeteryApp.controller.log.LogController;
 import ro.InnovaTeam.cemeteryApp.controller.parcel.ParcelController;
 import ro.InnovaTeam.cemeteryApp.controller.structure_history.StructureHistoryController;
 import ro.InnovaTeam.cemeteryApp.restClient.MonumentRestClient;
@@ -171,10 +170,30 @@ public class MonumentController {
         FilterDTO filterDTO = new FilterDTO();
         filterDTO.setSearchCriteria("");
         filterDTO.setParentId(monumentId);
-        String filter = "contract".equals(type) ? ContractController.CONTRACT_FILTER : StructureHistoryController.STRUCTURE_HISTORY_FILTER;
-        String redirectPath = "contract".equals(type) ? ContractController.CONTRACT : StructureHistoryController.STRUCTURE_HISTORY;
+        String filter, redirectPath = "";
 
-        request.getSession().setAttribute(filter, filterDTO);
+        switch (type) {
+            case "contract":
+                filter = ContractController.CONTRACT_FILTER;
+                request.getSession().setAttribute(filter, filterDTO);
+                redirectPath = ContractController.CONTRACT;
+                break;
+            case "structureHistory":
+                filter = StructureHistoryController.STRUCTURE_HISTORY_FILTER;
+                request.getSession().setAttribute(filter, filterDTO);
+                redirectPath = StructureHistoryController.STRUCTURE_HISTORY;
+                break;
+            case "deceased":
+                filter = DeceasedController.DECEASED_FILTER;
+                request.getSession().setAttribute(filter, filterDTO);
+                redirectPath = DeceasedController.DECEASED;
+                break;
+            case "logs":
+                request.getSession().setAttribute(LogController.LOGS_TABLE_NAME, "monument");
+                request.getSession().setAttribute(LogController.LOGS_TABLE_ID, String.valueOf(monumentId));
+                redirectPath = LogController.LOGS;
+        }
+
         try {
             response.sendRedirect(request.getContextPath() + redirectPath);
         } catch (IOException e) {
@@ -184,17 +203,26 @@ public class MonumentController {
 
     @RequestMapping(value = "/addAction/{monumentId}/{type}", method = RequestMethod.GET)
     public void addForMonumentId(@PathVariable Integer monumentId, @PathVariable String type, HttpServletRequest request, HttpServletResponse response) {
-        String redirectPath;
-        if ("contract".equals(type)) {
-            ContractDTO contractDTO = new ContractDTO();
-            contractDTO.setStructureId(monumentId);
-            request.getSession().setAttribute(GraveController.STRUCTURE_CONTRACT_DTO, contractDTO);
-            redirectPath = ContractController.CONTRACT;
-        } else {
-            StructureHistoryEntryDTO structureHistoryEntryDTO = new StructureHistoryEntryDTO();
-            structureHistoryEntryDTO.setStructureId(monumentId);
-            request.getSession().setAttribute(GraveController.STRUCTURE_HISTORY_DTO, structureHistoryEntryDTO);
-            redirectPath = StructureHistoryController.STRUCTURE_HISTORY;
+        String redirectPath = "";
+        switch (type) {
+            case "contract":
+                ContractDTO contractDTO = new ContractDTO();
+                contractDTO.setStructureId(monumentId);
+                request.getSession().setAttribute(GraveController.STRUCTURE_CONTRACT_DTO, contractDTO);
+                redirectPath = ContractController.CONTRACT;
+                break;
+            case "structureHistory":
+                StructureHistoryEntryDTO structureHistoryEntryDTO = new StructureHistoryEntryDTO();
+                structureHistoryEntryDTO.setStructureId(monumentId);
+                request.getSession().setAttribute(GraveController.STRUCTURE_HISTORY_DTO, structureHistoryEntryDTO);
+                redirectPath = StructureHistoryController.STRUCTURE_HISTORY;
+                break;
+            case "deceased":
+                DeceasedDTO deceasedDTO = new DeceasedDTO();
+                deceasedDTO.setStructureId(monumentId);
+                request.getSession().setAttribute(DeceasedController.DECEASED_DTO, deceasedDTO);
+                redirectPath = DeceasedController.DECEASED;
+                break;
         }
         try {
             response.sendRedirect(request.getContextPath() + redirectPath + "/add");

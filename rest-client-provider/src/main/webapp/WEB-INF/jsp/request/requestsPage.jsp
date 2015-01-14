@@ -54,6 +54,7 @@
                 <td>${request.status}</td>
                 <td>
                     <a href="${contextPath}/get/${request.id}" ><img class="action-icon tiptip" title="<fmt:message key='view.details'/>" src="<c:url value="/resources/icons/info.png" />"/></a>
+                    <a href="${contextPath}/filterLogs/${request.id}" ><img class="action-icon tiptip" title="<fmt:message key='entity.filter.logs'/>" src="<c:url value="/resources/icons/changes_history.png" />"/></a>
                     <c:if test="${hasAdminRole}">
                         <a href="${contextPath}/delete/${request.id}" ><img class="action-icon tiptip" title="<fmt:message key='delete.entity'/>" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
                     </c:if>

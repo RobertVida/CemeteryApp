@@ -17,6 +17,7 @@ import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.RestingPlaceRequestDTO;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
 import ro.InnovaTeam.cemeteryApp.controller.client.ClientsController;
+import ro.InnovaTeam.cemeteryApp.controller.log.LogController;
 import ro.InnovaTeam.cemeteryApp.restClient.RestingPlaceRequestRestClient;
 
 import javax.servlet.http.HttpServletRequest;
@@ -172,6 +173,17 @@ public class RestingPlaceRequestController {
         request.getSession().removeAttribute(REQUEST_STATUS);
         try {
             response.sendRedirect(request.getContextPath() + REQUEST);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/filterLogs/{requestId}", method = RequestMethod.GET)
+    public void filterLogs(HttpServletRequest request, @PathVariable Integer requestId, HttpServletResponse response) {
+        request.getSession().setAttribute(LogController.LOGS_TABLE_NAME, "restingplacerequests");
+        request.getSession().setAttribute(LogController.LOGS_TABLE_ID, String.valueOf(requestId));
+        try {
+            response.sendRedirect(request.getContextPath() + LogController.LOGS);
         } catch (IOException e) {
             e.printStackTrace();
         }

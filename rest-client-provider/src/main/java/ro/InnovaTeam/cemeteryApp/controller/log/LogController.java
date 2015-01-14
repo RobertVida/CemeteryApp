@@ -23,9 +23,10 @@ import java.util.List;
 public class LogController {
 
     public static final int PAGE_SIZE = 20;
-    private static final String LOGS_TABLE_NAME = "logsTableName";
-    private static final String LOGS_TABLE_ID = "logsTableId";
+    public static final String LOGS_TABLE_NAME = "logsTableName";
+    public static final String LOGS_TABLE_ID = "logsTableId";
     private static final String LOGS_FILTER = "logsFilter";
+    public static final String LOGS = "/logs";
 
     @RequestMapping
     public String renderHome(Model model, HttpServletRequest request) {

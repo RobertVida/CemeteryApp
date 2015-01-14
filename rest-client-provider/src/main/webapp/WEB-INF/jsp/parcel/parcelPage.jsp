@@ -49,18 +49,19 @@
                         <c:if test="${hasAdminRole}">
                             <a href="${contextPath}/delete/${parcel.id}" ><img class="action-icon tiptip" title="<fmt:message key='delete.entity'/>" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
                         </c:if>
-                        <a href="${contextPath}/filterStructures/${parcel.id}/grave" ><img class="action-icon tiptip" title="<fmt:message key='parcel.filter.graves'/>" src="<c:url value="/resources/icons/graves.png" />"/></a>
+                        <a href="${contextPath}/filterAction/${parcel.id}/grave" ><img class="action-icon tiptip" title="<fmt:message key='parcel.filter.graves'/>" src="<c:url value="/resources/icons/graves.png" />"/></a>
                         <c:if test="${hasAdminRole}">
                             <a href="${contextPath}/addStructure/${parcel.id}/grave" >
                                 <span class="glyphicon glyphicon-plus tiptip" title="<fmt:message key='parcel.add.grave'/>" aria-hidden="true"></span>
                             </a>
                         </c:if>
-                        <a href="${contextPath}/filterStructures/${parcel.id}/monument" ><img class="action-icon tiptip" title="<fmt:message key='parcel.filter.monuments'/>" src="<c:url value="/resources/icons/monument.png" />"/></a>
+                        <a href="${contextPath}/filterAction/${parcel.id}/monument" ><img class="action-icon tiptip" title="<fmt:message key='parcel.filter.monuments'/>" src="<c:url value="/resources/icons/monument.png" />"/></a>
                         <c:if test="${hasAdminRole}">
                             <a href="${contextPath}/addStructure/${parcel.id}/monument" >
                                 <span class="glyphicon glyphicon-plus tiptip" title="<fmt:message key='parcel.add.monument'/>" aria-hidden="true"></span>
                             </a>
                         </c:if>
+                        <a href="${contextPath}/filterLogs/${parcel.id}" ><img class="action-icon tiptip" title="<fmt:message key='entity.filter.logs'/>" src="<c:url value="/resources/icons/changes_history.png" />"/></a>
                     </td>
                 </tr>
             </c:forEach>

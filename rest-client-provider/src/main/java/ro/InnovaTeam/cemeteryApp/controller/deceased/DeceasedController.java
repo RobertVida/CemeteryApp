@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.DeceasedDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
+import ro.InnovaTeam.cemeteryApp.controller.log.LogController;
+import ro.InnovaTeam.cemeteryApp.controller.monument.MonumentController;
 import ro.InnovaTeam.cemeteryApp.restClient.DeceasedRestClient;
 import org.apache.commons.configuration.Configuration;
 
@@ -33,8 +35,9 @@ import java.util.List;
 public class DeceasedController {
 
     private static final Logger logger = LoggerFactory.getLogger(DeceasedController.class);
-    private static final String DECEASED = "/deceased";
-    private static final String DECEASED_FILTER = "deceasedFilter";
+    public static final String DECEASED = "/deceased";
+    public static final String DECEASED_FILTER = "deceasedFilter";
+    public static final String DECEASED_DTO = "deceasedDTO";
     public static final int PAGE_SIZE = 20;
 
     @Autowired
@@ -73,11 +76,13 @@ public class DeceasedController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String renderAddPage(Model model) {
+    public String renderAddPage(Model model, HttpServletRequest request) {
 
         if (!model.containsAttribute("deceasedDTOExists")) {
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-            model.addAttribute("deceased", new DeceasedDTO());
+            DeceasedDTO deceasedDTO = (DeceasedDTO) request.getSession().getAttribute(DECEASED_DTO);
+            model.addAttribute("deceased", deceasedDTO != null ? deceasedDTO : new DeceasedDTO());
+            request.getSession().removeAttribute(DECEASED_DTO);
         }
         model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "deceased/deceasedDetailsPage";
@@ -145,6 +150,17 @@ public class DeceasedController {
 
         try {
             response.sendRedirect(request.getContextPath() + DECEASED);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequestMapping(value = "/filterLogs/{deceasedId}", method = RequestMethod.GET)
+    public void filterLogs(HttpServletRequest request, @PathVariable Integer deceasedId, HttpServletResponse response) {
+        request.getSession().setAttribute(LogController.LOGS_TABLE_NAME, "deceased");
+        request.getSession().setAttribute(LogController.LOGS_TABLE_ID, String.valueOf(deceasedId));
+        try {
+            response.sendRedirect(request.getContextPath() + LogController.LOGS);
         } catch (IOException e) {
             e.printStackTrace();
         }

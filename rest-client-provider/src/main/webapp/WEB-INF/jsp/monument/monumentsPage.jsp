@@ -54,15 +54,20 @@
                 <td>${monument.name}</td>
                 <td>${monument.description}</td>
                 <td>
+                    <a href="${contextPath}/filterAction/${monument.id}/contract" ><img class="action-icon tiptip" title="<fmt:message key='monument.filter.contracts'/>" src="<c:url value="/resources/icons/contracts.png" />"/></a>
+                    <a href="${contextPath}/filterAction/${monument.id}/structureHistory" ><img class="action-icon tiptip" title="<fmt:message key='monument.filter.structureHistiry'/>" src="<c:url value="/resources/icons/parcel_history.png" />"/></a>
+                    <a href="${contextPath}/filterAction/${monument.id}/deceased" ><img class="action-icon tiptip" title="<fmt:message key='monument.filter.deceased'/>" src="<c:url value="/resources/icons/deceased.png" />"/></a>
+                    <a href="${contextPath}/filterAction/${monument.id}/logs" ><img class="action-icon tiptip" title="<fmt:message key='entity.filter.logs'/>" src="<c:url value="/resources/icons/changes_history.png" />"/></a>
                     <c:if test="${hasAdminRole}">
                         <a href="${contextPath}/delete/${monument.id}" ><img class="action-icon tiptip" title="<fmt:message key='delete.entity'/>" src="<c:url value="/resources/icons/trashcan.png" />"/></a>
-                        <a href="${contextPath}/filterAction/${monument.id}/contract" ><img class="action-icon tiptip" title="<fmt:message key='monument.filter.contracts'/>" src="<c:url value="/resources/icons/contracts.png" />"/></a>
                         <a href="${contextPath}/addAction/${monument.id}/contract" >
                             <span class="glyphicon glyphicon-plus tiptip" title="<fmt:message key='monument.add.contract'/>" aria-hidden="true"></span>
                         </a>
-                        <a href="${contextPath}/filterAction/${monument.id}/structureHistory" ><img class="action-icon tiptip" title="<fmt:message key='monument.filter.structureHistiry'/>" src="<c:url value="/resources/icons/parcel_history.png" />"/></a>
                         <a href="${contextPath}/addAction/${monument.id}/structureHistory" >
                             <span class="glyphicon glyphicon-plus tiptip" title="<fmt:message key='monument.add.structureHistiry'/>" aria-hidden="true"></span>
+                        </a>
+                        <a href="${contextPath}/addAction/${monument.id}/deceased" >
+                            <span class="glyphicon glyphicon-plus tiptip" title="<fmt:message key='monument.add.deceased'/>" aria-hidden="true"></span>
                         </a>
                     </c:if>
                     <a href="${contextPath}/get/${monument.id}" ><img class="action-icon tiptip" title="<fmt:message key='view.details'/>" src="<c:url value="/resources/icons/info.png" />"/></a>
