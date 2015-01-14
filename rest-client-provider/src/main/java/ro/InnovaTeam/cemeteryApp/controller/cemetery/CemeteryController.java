@@ -1,5 +1,6 @@
 package ro.InnovaTeam.cemeteryApp.controller.cemetery;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.HttpClientErrorException;
 import ro.InnovaTeam.cemeteryApp.CemeteryDTO;
+import ro.InnovaTeam.cemeteryApp.ErrorDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.ParcelDTO;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
@@ -37,13 +40,14 @@ public class CemeteryController {
     private static final String CEMETERY_FILTER = "cemeteryFilter";
     public static final String PARCEL_DTO = "parcelDTO";
     public static final int PAGE_SIZE = 20;
+    private ObjectMapper om = new ObjectMapper();
 
     @Autowired
     @Qualifier("cemeteryValidator")
     private Validator cemeteryValidator;
 
     @RequestMapping
-    public String renderHome(Model model, HttpServletRequest request) {
+    public String renderHome(Model model, HttpServletRequest request, HttpServletResponse response) {
         FilterDTO cemeteryFilterDTO = (FilterDTO) request.getSession().getAttribute(CEMETERY_FILTER);
         cemeteryFilterDTO = cemeteryFilterDTO != null ? cemeteryFilterDTO : new FilterDTO();
         String param = request.getParameter("pageNo");
@@ -53,68 +57,148 @@ public class CemeteryController {
         cemeteryFilterDTO.setPageNo(pageNo);
         cemeteryFilterDTO.setPageSize(PAGE_SIZE);
         cemeteryFilterDTO.setParentId(null);
-        cemeteries = CemeteryRestClient.getCemeteriesByFilter(cemeteryFilterDTO);
+        try {
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+            cemeteries = CemeteryRestClient.getCemeteriesByFilter(cemeteryFilterDTO);
+            model.addAttribute("cemeteryList", cemeteries);
+            float pages = CemeteryRestClient.getCemeteryCount(new FilterDTO(cemeteryFilterDTO.getSearchCriteria(), null)) / (float)PAGE_SIZE;
+            model.addAttribute("pages", Math.ceil(pages));
+        } catch (HttpClientErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
 
-        float pages = CemeteryRestClient.getCemeteryCount(new FilterDTO(cemeteryFilterDTO.getSearchCriteria(), null)) / (float)PAGE_SIZE;
-        model.addAttribute("pages", Math.ceil(pages));
-        model.addAttribute("cemeteryList", cemeteries);
         model.addAttribute("cemeteryPath", CEMETERY);
-        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "cemetery/cemeteryPage";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String renderAddPage(Model model) {
+    public String renderAddPage(Model model, HttpServletRequest request, HttpServletResponse response) {
 
         if (!model.containsAttribute("cemeteryDTOExists")) {
             model.addAttribute("cemetery", new CemeteryDTO());
         }
-        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+        try {
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+        } catch (HttpClientErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "cemetery/cemeteryPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         return "cemetery/cemeteryDetailsPage";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(@ModelAttribute("cemetery") CemeteryDTO cemeteryDTO, BindingResult result, Model model) {
+    public String add(@ModelAttribute("cemetery") CemeteryDTO cemeteryDTO, BindingResult result, Model model,
+                      HttpServletRequest request, HttpServletResponse response) {
         cemeteryValidator.validate(cemeteryDTO, result);
-        if (result.hasErrors()) {
-            model.addAttribute("cemeteryDTOExists", true);
+        try {
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-            return "cemetery/cemeteryDetailsPage";
+            if (result.hasErrors()) {
+                model.addAttribute("cemeteryDTOExists", true);
+                return "cemetery/cemeteryDetailsPage";
+            }
+            CemeteryRestClient.add(cemeteryDTO);
+        } catch (HttpClientErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "cemetery/cemeteryDetailsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
         }
-        CemeteryRestClient.add(cemeteryDTO);
         return "redirect:/cemetery";
     }
 
     @RequestMapping(value = "/get/{id}")
-    public String getCemeteryById(@PathVariable Integer id, Model model) {
-        CemeteryDTO cemeteryDTO = CemeteryRestClient.findById(id);
-
-        model.addAttribute("cemetery", cemeteryDTO);
+    public String getCemeteryById(@PathVariable Integer id, Model model, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            CemeteryDTO cemeteryDTO = CemeteryRestClient.findById(id);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+            model.addAttribute("cemetery", cemeteryDTO);
+        } catch (HttpClientErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "cemetery/cemeteryPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         model.addAttribute("view", true);
-        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "cemetery/cemeteryDetailsPage";
     }
 
     @RequestMapping(value = "/delete/{id}")
-    public String deleteCemetery(@PathVariable Integer id) {
+    public String deleteCemetery(@PathVariable Integer id, Model model, HttpServletResponse response, HttpServletRequest request) {
         try {
             CemeteryRestClient.delete(id);
         }
-        catch (Exception e) {
-            logger.error("Could not delete Cemetery with id: " + id, e);
+        catch (HttpClientErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (error.getStatus().equals(ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "cemetery/cemeteryPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
         }
         return "redirect:/cemetery";
     }
 
     @RequestMapping(value = "/update")
-    public String updateCemetery(@ModelAttribute("cemetery") CemeteryDTO cemeteryDTO, BindingResult result, Model model) {
+    public String updateCemetery(@ModelAttribute("cemetery") CemeteryDTO cemeteryDTO, BindingResult result, Model model,
+                                 HttpServletRequest request, HttpServletResponse response) {
         cemeteryValidator.validate(cemeteryDTO, result);
-        if (result.hasErrors()) {
-            model.addAttribute("view", true);
+        try {
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-            return "cemetery/cemeteryDetailsPage";
+            if (result.hasErrors()) {
+                model.addAttribute("view", true);
+                return "cemetery/cemeteryDetailsPage";
+            }
+            CemeteryRestClient.update(cemeteryDTO.getId(), cemeteryDTO);
+        } catch (HttpClientErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "cemetery/cemeteryDetailsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
         }
-        CemeteryRestClient.update(cemeteryDTO.getId(), cemeteryDTO);
         return "redirect:/cemetery";
     }
 
