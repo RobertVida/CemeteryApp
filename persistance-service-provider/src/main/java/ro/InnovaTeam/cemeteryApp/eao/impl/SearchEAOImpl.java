@@ -39,7 +39,7 @@ public class SearchEAOImpl implements SearchEAO {
     @SuppressWarnings("unchecked")
     public List<GraveRegistryEntry> getGraveRegistry(Filter filter) {
         return makeEntryList(getSession().createSQLQuery(
-                "SELECT C.cemetery_id, C.name, P.parcel_id, P.name, S.structure_id, CL.first_name, CL.last_name, CL.home_address, CON.contract_id , D.first_name, D.last_name, B.buried_on, width * length FROM cemeteries C " +
+                "SELECT C.cemetery_id, C.name, P.parcel_id, P.name AS pName, S.structure_id, CL.first_name, CL.last_name, CL.home_address, CON.contract_id , D.first_name AS dfName, D.last_name AS dlName, B.buried_on, width * length FROM cemeteries C " +
                         graveRegister(filter)
         ).list(), GraveRegistryEntry.class);
     }
@@ -48,7 +48,7 @@ public class SearchEAOImpl implements SearchEAO {
     @SuppressWarnings("unchecked")
     public List<MonumentRegistryEntry> getMonumentRegistry(Filter filter) {
         return makeEntryList(getSession().createSQLQuery(
-                "SELECT C.cemetery_id, C.name, P.parcel_id, P.name, S.structure_id, CL.first_name, CL.last_name, CL.home_address, CON.contract_id , D.first_name, D.last_name, B.buried_on, width * length FROM cemeteries C " +
+                "SELECT C.cemetery_id, C.name, P.parcel_id, P.name AS pName, S.structure_id, CL.first_name, CL.last_name, CL.home_address, CON.contract_id , D.first_name AS dfName, D.last_name AS dlName, B.buried_on, width * length FROM cemeteries C " +
                         monumentRegister(filter)
         ).list(), MonumentRegistryEntry.class);
     }
