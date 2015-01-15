@@ -4,11 +4,6 @@
 $(document).ready(function() {
     $('#container').html($('#deceased-registry-details').html());
 
-    $(".easypagination").easyPaginate({
-        onClickcallback : function(page) {
-            getPerPage(page);
-        }
-    });
 });
 function getPerPage(pageNo) {
     var url = $('#drURL').val();
@@ -19,6 +14,7 @@ function getPerPage(pageNo) {
 function applyRBFilter() {
     var url = $('#drFilterURL').val();
     var searchCriteria = $('#drSearchInput').val();
+    console.log("WITHCAREGIVER: " + searchCriteria);
     var nameOrder = $("#nameOrder").val();
     var diedOnOrder = $("#diedOnOrder").val();
     var data = { searchCriteria : searchCriteria,

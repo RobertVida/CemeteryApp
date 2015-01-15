@@ -75,6 +75,13 @@
                 $(document).ready(function() {
                     $('#tableSelect').selectpicker();
                 });
+                $(document).ready(function() {
+                    $(".easypagination").easyPaginate({
+                        onClickcallback: function (page) {
+                            getCemeteriesPerPage(page);
+                        }
+                    });
+                });
             </script>
         </table>
         <c:if test="${pages gt 0}">

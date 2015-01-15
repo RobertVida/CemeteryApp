@@ -27,7 +27,7 @@
     </h4>
     <div style="margin-top: 20px;">
         <div class="form-group col-lg-3">
-            <input id="drSearchInput" name="searchCriteria" type="text" class="form-control" required="true"/>
+            <input id="dncrSearchInput" name="searchCriteria" type="text" class="form-control" required="true"/>
         </div>
         <div class="col-lg-1">
             <label for="nameOrder">Nume</label>
@@ -89,6 +89,13 @@
                 $('#nameOrder').selectpicker();
                 $('#diedOnOrder').selectpicker();
                 $(".bootstrap-select").css("width", "75px");
+            });
+            $(document).ready(function() {
+                $(".easypagination").easyPaginate({
+                    onClickcallback: function (page) {
+                     getCemeteriesPerPage(page);
+                }
+                });
             });
         </script>
     </table>

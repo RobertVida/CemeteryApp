@@ -10,11 +10,6 @@ var MonumentsManagerJS = (function($) {
     var init = function() {
         $('#container').html($('#monument-details').html());
 
-        $(".easypagination").easyPaginate({
-            onClickcallback : function(page) {
-                getLogsPerPage(page);
-            }
-        });
     };
 
     var renderAddPage = function () {

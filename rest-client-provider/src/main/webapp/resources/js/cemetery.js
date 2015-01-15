@@ -11,11 +11,6 @@ var CemeteriesManagerJS = (function($) {
         $('#container').html($('#cemetery-container').html());
         $('#container').html($('#cemetery-details').html());
 
-        $(".easypagination").easyPaginate({
-            onClickcallback : function(page) {
-                getCemeteriesPerPage(page);
-            }
-        });
     };
 
     var renderAddPage = function () {

@@ -10,11 +10,6 @@ var ParcelsManagerJS = (function($) {
     var init = function() {
         $('#container').html($('#parcel-details').html());
 
-        $(".easypagination").easyPaginate({
-            onClickcallback : function(page) {
-                getParcelsPerPage(page);
-            }
-        });
     };
 
     var renderAddPage = function () {

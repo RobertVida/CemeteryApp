@@ -10,11 +10,6 @@ var LogsManagerJS = (function($) {
     var init = function() {
         $('#container').html($('#log-details').html());
 
-        $(".easypagination").easyPaginate({
-            onClickcallback : function(page) {
-                getLogsPerPage(page);
-            }
-        })
     };
 
     var getLogsPerPage = function(pageNo) {

@@ -10,11 +10,6 @@ var RequestsManagerJS = (function($) {
     var  init = function() {
         $('#container').html($('#request-details').html());
 
-        $(".easypagination").easyPaginate({
-            onClickcallback : function(page) {
-                getRequestsPerPage(page);
-            }
-        });
     };
 
     var renderAddPage = function () {

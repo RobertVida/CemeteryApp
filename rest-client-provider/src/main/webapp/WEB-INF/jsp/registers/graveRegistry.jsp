@@ -22,7 +22,7 @@
         <p class="alert alert-danger">${errors}</p>
     </c:if>
     <h4 class="text-center">
-        <b>Registrul anual de programare a inmormantarilor</b>
+        <b>Registrul de morminte</b>
     </h4>
     <div style="margin-top: 20px;">
         <div class="form-group col-lg-4">
@@ -65,6 +65,15 @@
             </tr>
         </c:forEach>
         </tbody>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $(".easypagination").easyPaginate({
+                    onClickcallback: function (page) {
+                        getCemeteriesPerPage(page);
+                    }
+                });
+            });
+        </script>
     </table>
     <c:if test="${pages gt 0}">
         <div class="easypagination" style="text-align: center;" pages="${pages}"></div>

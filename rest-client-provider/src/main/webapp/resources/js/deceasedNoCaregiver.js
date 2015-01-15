@@ -4,11 +4,6 @@
 $(document).ready(function() {
     $('#container').html($('#deceased-no-caregiver-registry-details').html());
 
-    $(".easypagination").easyPaginate({
-        onClickcallback : function(page) {
-            getPerPage(page);
-        }
-    });
 });
 
 function getPerPage(pageNo) {
@@ -20,6 +15,7 @@ function getPerPage(pageNo) {
 function applyRBFilter() {
     var url = $('#dncrFilterURL').val();
     var searchCriteria = $('#dncrSearchInput').val();
+    console.log("NOCAREGIVER: " + searchCriteria);
     var nameOrder = $("#nameOrder").val();
     var diedOnOrder = $("#diedOnOrder").val();
     var data = { searchCriteria : searchCriteria,
