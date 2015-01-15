@@ -9,7 +9,7 @@ var LogsManagerJS = (function($) {
 
     var init = function() {
         $('#container').html($('#log-details').html());
-
+        CemeteryJs.easyPagination(getLogsPerPage);
     };
 
     var getLogsPerPage = function(pageNo) {
@@ -27,12 +27,12 @@ var LogsManagerJS = (function($) {
         var tableId = $("#tableIdInput").val();
 
         var data = { tableName : tableName, tableId : tableId };
-        CemeteryJs.ajaxCall("GET", url, data, 1, '#log-details');
+        CemeteryJs.ajaxCall("GET", url, data, 1, '#log-details', getLogsPerPage);
     };
 
     var refreshFilter = function() {
         var url = $("#refreshLogFilterURL").val();
-        CemeteryJs.ajaxCall("POST", url, null, 1, '#log-details');
+        CemeteryJs.ajaxCall("POST", url, null, 1, '#log-details', getLogsPerPage);
     };
 
     return {

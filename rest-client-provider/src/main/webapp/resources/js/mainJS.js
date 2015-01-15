@@ -3,7 +3,7 @@
  */
 var CemeteryJs = (function ($) {
 
-    var ajaxCall = function (type, url, data, filter, param) {
+    var ajaxCall = function (type, url, data, filter, param, method) {
         jQuery.ajax({
             type: type,
             url: url,
@@ -12,7 +12,7 @@ var CemeteryJs = (function ($) {
             traditional: true,
             success: function (response) {
                 if (filter) {
-                    successFunctionWIthFilter(response, param);
+                    successFunctionWIthFilter(response, param, method);
                 } else {
                     successFunctionWithFind(response, param);
                 }
@@ -23,8 +23,9 @@ var CemeteryJs = (function ($) {
         });
     };
 
-    var successFunctionWIthFilter = function(response, param) {
+    var successFunctionWIthFilter = function(response, param, method) {
         $("#container").html($(response).filter(param).html()).css("display", "inline");
+        easyPagination(method);
     };
 
     var successFunctionWithFind = function(response, param) {
@@ -41,9 +42,18 @@ var CemeteryJs = (function ($) {
         }
     };
 
+    var easyPagination = function(method) {
+        $(".easypagination").easyPaginate({
+            onClickcallback: function (page) {
+                method(page);
+            }
+        });
+    };
+
     return {
         ajaxCall: ajaxCall,
-        validateAndSubmitForm: validateAndSubmitForm
+        validateAndSubmitForm: validateAndSubmitForm,
+        easyPagination: easyPagination
     }
 
 })(jQuery);

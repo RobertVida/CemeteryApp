@@ -75,13 +75,6 @@
                 $(document).ready(function() {
                     $('#tableSelect').selectpicker();
                 });
-                $(document).ready(function() {
-                    $(".easypagination").easyPaginate({
-                        onClickcallback: function (page) {
-                            LogsManagerJS.getLogsPerPage(page);
-                        }
-                    });
-                });
             </script>
         </table>
         <c:if test="${pages gt 0}">
