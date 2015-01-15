@@ -30,8 +30,8 @@
                 </div>
             </div>
 
-            <c:if test="${not empty error}">
-                <p class="alert alert-danger">${error}</p>
+            <c:if test="${not empty errors}">
+                <p class="alert alert-danger">${errors}</p>
             </c:if>
 
             <button type="submit" style="margin-bottom: 15px;" class="btn btn-default pull-right">Logheaza-te</button>

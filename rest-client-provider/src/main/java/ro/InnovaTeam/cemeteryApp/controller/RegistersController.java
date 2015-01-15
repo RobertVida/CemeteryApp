@@ -1,9 +1,15 @@
 package ro.InnovaTeam.cemeteryApp.controller;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import ro.InnovaTeam.cemeteryApp.ErrorDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.registers.*;
 import ro.InnovaTeam.cemeteryApp.restClient.RegistryRestClient;
@@ -20,6 +26,7 @@ import java.util.List;
 @RequestMapping("/registers")
 public class RegistersController {
 
+    private static final Logger logger = LoggerFactory.getLogger(RegistersController.class);
     private static final String BURIAL_REGISTRY_FILTER = "burialRegistryFilter";
     private static final String BURIAL_REGISTRY = "/burialRegistry";
     private static final String GRAVE_REGISTRY_FILTER = "graveRegistryFilter";
@@ -38,9 +45,10 @@ public class RegistersController {
     private static final String REGISTERS = "/registers";
     private static final String REFRESH_FILTER = "/refreshFilter";
     public static final int PAGE_SIZE = 20;
+    private ObjectMapper om = new ObjectMapper();
 
     @RequestMapping(value = BURIAL_REGISTRY, method = RequestMethod.GET)
-    public String showBurialRegistry(Model model, HttpServletRequest request){
+    public String showBurialRegistry(Model model, HttpServletRequest request, HttpServletResponse response){
         FilterDTO filterDTO = (FilterDTO) request.getSession().getAttribute(BURIAL_REGISTRY_FILTER);
         filterDTO = filterDTO != null ? filterDTO : new FilterDTO();
         String param = request.getParameter("pageNo");
@@ -49,19 +57,32 @@ public class RegistersController {
         filterDTO.setPageNo(pageNo);
         filterDTO.setPageSize(PAGE_SIZE);
         filterDTO.setParentId(null);
-        List<BurialRegistryEntryDTO> entryDTOs = RegistryRestClient.getBurialRegistry(filterDTO);
+        try {
+            List<BurialRegistryEntryDTO> entryDTOs = RegistryRestClient.getBurialRegistry(filterDTO);
 
-        float pages = RegistryRestClient.getBurialRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
-                filterDTO.getParentId())) / (float) PAGE_SIZE;
-        pages /= PAGE_SIZE;
-        model.addAttribute("pages", Math.ceil(pages));
+            float pages = RegistryRestClient.getBurialRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
+                    filterDTO.getParentId())) / (float) PAGE_SIZE;
+            pages /= PAGE_SIZE;
+            model.addAttribute("pages", Math.ceil(pages));
 
-        model.addAttribute("burialRegistryList", entryDTOs);
+            model.addAttribute("burialRegistryList", entryDTOs);
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         return "registers/burialRegistry";
     }
 
     @RequestMapping(value = MONUMENT_REGISTRY, method = RequestMethod.GET)
-    public String showMonumentRegistry(Model model, HttpServletRequest request){
+    public String showMonumentRegistry(Model model, HttpServletRequest request, HttpServletResponse response){
         FilterDTO filterDTO = (FilterDTO) request.getSession().getAttribute(MONUMENT_REGISTRY_FILTER);
         filterDTO = filterDTO != null ? filterDTO : new FilterDTO();
         String param = request.getParameter("pageNo");
@@ -70,19 +91,32 @@ public class RegistersController {
         filterDTO.setPageNo(pageNo);
         filterDTO.setPageSize(PAGE_SIZE);
         filterDTO.setParentId(null);
-        List<MonumentRegistryEntryDTO> entryDTOs = RegistryRestClient.getMonumentRegistry(filterDTO);
+        try {
+            List<MonumentRegistryEntryDTO> entryDTOs = RegistryRestClient.getMonumentRegistry(filterDTO);
 
-        float pages = RegistryRestClient.getMonumentRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
-                filterDTO.getParentId())) / (float) PAGE_SIZE;
-        pages /= PAGE_SIZE;
-        model.addAttribute("pages", Math.ceil(pages));
+            float pages = RegistryRestClient.getMonumentRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
+                    filterDTO.getParentId())) / (float) PAGE_SIZE;
+            pages /= PAGE_SIZE;
+            model.addAttribute("pages", Math.ceil(pages));
 
-        model.addAttribute("monumentRegistryList", entryDTOs);
+            model.addAttribute("monumentRegistryList", entryDTOs);
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         return "registers/monumentRegistry";
     }
 
     @RequestMapping(value = DECEASED_REGISTRY, method = RequestMethod.GET)
-    public String showDeceasedRegistry(Model model, HttpServletRequest request){
+    public String showDeceasedRegistry(Model model, HttpServletRequest request, HttpServletResponse response){
         FilterDTO filterDTO = (FilterDTO) request.getSession().getAttribute(DECEASED_REGISTRY_FILTER);
         filterDTO = filterDTO != null ? filterDTO : new FilterDTO();
         String param = request.getParameter("pageNo");
@@ -95,19 +129,32 @@ public class RegistersController {
         filterDTO.setPageNo(pageNo);
         filterDTO.setPageSize(PAGE_SIZE);
         filterDTO.setParentId(null);
-        List<DeceasedRegistryEntryDTO> entryDTOs = RegistryRestClient.getDeceasedRegistry(filterDTO, nameOrder, diedOnOrder);
+        try {
+            List<DeceasedRegistryEntryDTO> entryDTOs = RegistryRestClient.getDeceasedRegistry(filterDTO, nameOrder, diedOnOrder);
 
-        float pages = RegistryRestClient.getDeceasedRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
-                filterDTO.getParentId()), nameOrder, diedOnOrder) / (float) PAGE_SIZE;
-        pages /= PAGE_SIZE;
-        model.addAttribute("pages", Math.ceil(pages));
+            float pages = RegistryRestClient.getDeceasedRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
+                    filterDTO.getParentId()), nameOrder, diedOnOrder) / (float) PAGE_SIZE;
+            pages /= PAGE_SIZE;
+            model.addAttribute("pages", Math.ceil(pages));
 
-        model.addAttribute("deceasedRegistryList", entryDTOs);
+            model.addAttribute("deceasedRegistryList", entryDTOs);
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         return "registers/deceasedRegistry";
     }
 
     @RequestMapping(value = DECEASED_NO_CAREGIVER_REGISTRY, method = RequestMethod.GET)
-    public String showDeceasedNoCaregiverRegistry(Model model, HttpServletRequest request){
+    public String showDeceasedNoCaregiverRegistry(Model model, HttpServletRequest request, HttpServletResponse response){
         FilterDTO filterDTO = (FilterDTO) request.getSession().getAttribute(DECEASED_NO_CAREGIVER_REGISTRY_FILTER);
         filterDTO = filterDTO != null ? filterDTO : new FilterDTO();
         String param = request.getParameter("pageNo");
@@ -120,19 +167,32 @@ public class RegistersController {
         filterDTO.setPageNo(pageNo);
         filterDTO.setPageSize(PAGE_SIZE);
         filterDTO.setParentId(null);
-        List<DeceasedNoCaregiverRegistryEntryDTO> entryDTOs = RegistryRestClient.getDeceasedNoCaregiverRegistry(filterDTO, nameOrder, diedOnOrder);
+        try {
+            List<DeceasedNoCaregiverRegistryEntryDTO> entryDTOs = RegistryRestClient.getDeceasedNoCaregiverRegistry(filterDTO, nameOrder, diedOnOrder);
 
-        float pages = RegistryRestClient.getDeceasedNoCaregiverRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
-                filterDTO.getParentId()), nameOrder, diedOnOrder) / (float) PAGE_SIZE;
-        pages /= PAGE_SIZE;
-        model.addAttribute("pages", Math.ceil(pages));
+            float pages = RegistryRestClient.getDeceasedNoCaregiverRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
+                    filterDTO.getParentId()), nameOrder, diedOnOrder) / (float) PAGE_SIZE;
+            pages /= PAGE_SIZE;
+            model.addAttribute("pages", Math.ceil(pages));
 
-        model.addAttribute("deceasedNoCaregiverRegistryList", entryDTOs);
+            model.addAttribute("deceasedNoCaregiverRegistryList", entryDTOs);
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         return "registers/deceasedNoCaregiver";
     }
 
     @RequestMapping(value = REQUEST_REGISTRY, method = RequestMethod.GET)
-    public String showRequestRegistry(Model model, HttpServletRequest request){
+    public String showRequestRegistry(Model model, HttpServletRequest request, HttpServletResponse response){
         FilterDTO filterDTO = (FilterDTO) request.getSession().getAttribute(REQUEST_REGISTRY_FILTER);
         filterDTO = filterDTO != null ? filterDTO : new FilterDTO();
         String param = request.getParameter("pageNo");
@@ -141,19 +201,32 @@ public class RegistersController {
         filterDTO.setPageNo(pageNo);
         filterDTO.setPageSize(PAGE_SIZE);
         filterDTO.setParentId(null);
-        List<RequestRegistryEntryDTO> entryDTOs = RegistryRestClient.getRequestRegistry(filterDTO);
+        try {
+            List<RequestRegistryEntryDTO> entryDTOs = RegistryRestClient.getRequestRegistry(filterDTO);
 
-        float pages = RegistryRestClient.getRequestRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
-                filterDTO.getParentId())) / (float) PAGE_SIZE;
-        pages /= PAGE_SIZE;
-        model.addAttribute("pages", Math.ceil(pages));
+            float pages = RegistryRestClient.getRequestRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
+                    filterDTO.getParentId())) / (float) PAGE_SIZE;
+            pages /= PAGE_SIZE;
+            model.addAttribute("pages", Math.ceil(pages));
 
-        model.addAttribute("requestRegistryList", entryDTOs);
+            model.addAttribute("requestRegistryList", entryDTOs);
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         return "registers/requestRegistry";
     }
 
     @RequestMapping(value = CONTRACT_REGISTRY, method = RequestMethod.GET)
-    public String showContractRegistry(Model model, HttpServletRequest request){
+    public String showContractRegistry(Model model, HttpServletRequest request, HttpServletResponse response){
         FilterDTO filterDTO = (FilterDTO) request.getSession().getAttribute(CONTRACT_REGISTRY_FILTER);
         filterDTO = filterDTO != null ? filterDTO : new FilterDTO();
         String param = request.getParameter("pageNo");
@@ -162,19 +235,32 @@ public class RegistersController {
         filterDTO.setPageNo(pageNo);
         filterDTO.setPageSize(PAGE_SIZE);
         filterDTO.setParentId(null);
-        List<ContractRegistryEntryDTO> entryDTOs = RegistryRestClient.getContractRegistry(filterDTO);
+        try {
+            List<ContractRegistryEntryDTO> entryDTOs = RegistryRestClient.getContractRegistry(filterDTO);
 
-        float pages = RegistryRestClient.getContractRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
-                filterDTO.getParentId())) / (float) PAGE_SIZE;
-        pages /= PAGE_SIZE;
-        model.addAttribute("pages", Math.ceil(pages));
+            float pages = RegistryRestClient.getContractRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
+                    filterDTO.getParentId())) / (float) PAGE_SIZE;
+            pages /= PAGE_SIZE;
+            model.addAttribute("pages", Math.ceil(pages));
 
-        model.addAttribute("contractRegistryList", entryDTOs);
+            model.addAttribute("contractRegistryList", entryDTOs);
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         return "registers/contractRegistry";
     }
 
     @RequestMapping(value = GRAVE_REGISTRY, method = RequestMethod.GET)
-    public String showGraveRegistry(Model model, HttpServletRequest request){
+    public String showGraveRegistry(Model model, HttpServletRequest request, HttpServletResponse response){
         FilterDTO filterDTO = (FilterDTO) request.getSession().getAttribute(GRAVE_REGISTRY_FILTER);
         filterDTO = filterDTO != null ? filterDTO : new FilterDTO();
         String param = request.getParameter("pageNo");
@@ -183,14 +269,27 @@ public class RegistersController {
         filterDTO.setPageNo(pageNo);
         filterDTO.setPageSize(PAGE_SIZE);
         filterDTO.setParentId(null);
-        List<GraveRegistryEntryDTO> entryDTOs = RegistryRestClient.getGraveRegistry(filterDTO);
+        try {
+            List<GraveRegistryEntryDTO> entryDTOs = RegistryRestClient.getGraveRegistry(filterDTO);
 
-        float pages = RegistryRestClient.getGraveRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
-                filterDTO.getParentId())) / (float) PAGE_SIZE;
-        pages /= PAGE_SIZE;
-        model.addAttribute("pages", Math.ceil(pages));
+            float pages = RegistryRestClient.getGraveRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
+                    filterDTO.getParentId())) / (float) PAGE_SIZE;
+            pages /= PAGE_SIZE;
+            model.addAttribute("pages", Math.ceil(pages));
 
-        model.addAttribute("graveRegistryList", entryDTOs);
+            model.addAttribute("graveRegistryList", entryDTOs);
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         return "registers/graveRegistry";
     }
 

@@ -78,7 +78,7 @@ public class DeceasedController {
             model.addAttribute("pages", Math.ceil(pages));
             model.addAttribute("deceasedList", deceasedDTOs);
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
             try {
                 ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
                 if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {

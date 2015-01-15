@@ -15,6 +15,7 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.servlet.ModelAndView;
 import ro.InnovaTeam.cemeteryApp.ContractDTO;
 import ro.InnovaTeam.cemeteryApp.ErrorDTO;
@@ -77,7 +78,7 @@ public class ContractController {
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
             model.addAttribute("pages", Math.ceil(pages));
             model.addAttribute("contractList", contractDTOs);
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
             try {
                 ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
                 if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
@@ -102,7 +103,7 @@ public class ContractController {
         }
         try {
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
             try {
                 ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
                 if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
@@ -129,7 +130,7 @@ public class ContractController {
                 return "contract/contractDetailsPage";
             }
             ContractRestClient.add(contractDTO);
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
             try {
                 ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
                 if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
@@ -151,7 +152,7 @@ public class ContractController {
             ContractDTO contractDTO = ContractRestClient.findById(id);
             model.addAttribute("contract", contractDTO);
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
             try {
                 ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
                 if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
@@ -173,7 +174,7 @@ public class ContractController {
     public String delete(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response, Model model) {
         try {
             ContractRestClient.delete(id);
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
             try {
                 ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
                 if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
@@ -200,7 +201,7 @@ public class ContractController {
                 return "contract/contractDetailsPage";
             }
             ContractRestClient.update(contractDTO.getId(), contractDTO);
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
             try {
                 ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
                 if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {

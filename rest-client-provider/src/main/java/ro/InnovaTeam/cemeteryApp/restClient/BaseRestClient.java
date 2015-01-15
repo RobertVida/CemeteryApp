@@ -30,7 +30,7 @@ public class BaseRestClient {
         return restTemplate;
     }
 
-    protected static String getLoggedInUserToken() {
+    public static String getLoggedInUserToken() {
         String token = "";
         SecurityContext context = SecurityContextHolder.getContext();
         if (context != null) {

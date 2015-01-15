@@ -1,6 +1,7 @@
 package ro.InnovaTeam.cemeteryApp.controller.auth;
 
 import org.apache.commons.lang3.StringUtils;
+import ro.InnovaTeam.cemeteryApp.restClient.BaseRestClient;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -38,9 +39,11 @@ public class AuthenticationFilter implements Filter {
 
     }
 
-    private boolean canDoFilter(String currentUrl, HttpServletRequest request) {
+    public boolean canDoFilter(String currentUrl, HttpServletRequest request) {
+        String token = BaseRestClient.getLoggedInUserToken();
         return StringUtils.contains(currentUrl, LOGIN_PATTERN)
                 || StringUtils.contains(currentUrl, RESOURCES_PATTERN)
-                || request.getSession().getAttribute(USER_SESSION_AUTHENTICATION_NAME) != null;
+                || request.getSession().getAttribute(USER_SESSION_AUTHENTICATION_NAME) != null
+                && !"".equals(token);
     }
 }

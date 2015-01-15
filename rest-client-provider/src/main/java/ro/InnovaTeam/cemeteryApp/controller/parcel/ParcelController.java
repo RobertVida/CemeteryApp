@@ -1,6 +1,7 @@
 package ro.InnovaTeam.cemeteryApp.controller.parcel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ro.InnovaTeam.cemeteryApp.FilterDTO;
-import ro.InnovaTeam.cemeteryApp.GraveDTO;
-import ro.InnovaTeam.cemeteryApp.MonumentDTO;
-import ro.InnovaTeam.cemeteryApp.ParcelDTO;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import ro.InnovaTeam.cemeteryApp.*;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
 import ro.InnovaTeam.cemeteryApp.controller.cemetery.CemeteryController;
 import ro.InnovaTeam.cemeteryApp.controller.grave.GraveController;
@@ -42,13 +42,14 @@ public class ParcelController {
     public static final String GRAVE_DTO = "graveDTO";
     public static final String MONUMENT_DTO = "monumentDTO";
     public static final int PAGE_SIZE = 20;
+    private ObjectMapper om = new ObjectMapper();
 
     @Autowired
     @Qualifier("parcelValidator")
     private Validator parcelValidator;
 
     @RequestMapping
-    public String renderHome(Model model, HttpServletRequest request) {
+    public String renderHome(Model model, HttpServletRequest request, HttpServletResponse response) {
         FilterDTO parcelFilterDTO = (FilterDTO) request.getSession().getAttribute(PARCEL_FILTER);
         parcelFilterDTO = parcelFilterDTO != null ? parcelFilterDTO : new FilterDTO();
         String param = request.getParameter("pageNo");
@@ -57,71 +58,150 @@ public class ParcelController {
         List<ParcelDTO> parcels;
         parcelFilterDTO.setPageNo(pageNo);
         parcelFilterDTO.setPageSize(PAGE_SIZE);
-        parcels = ParcelRestClient.getParcelsByFilter(parcelFilterDTO);
+        try {
+            parcels = ParcelRestClient.getParcelsByFilter(parcelFilterDTO);
 
-        float pages = ParcelRestClient.getParcelCount(new FilterDTO(parcelFilterDTO.getSearchCriteria(),
-                parcelFilterDTO.getParentId())) / (float) PAGE_SIZE;
-        model.addAttribute("pages", Math.ceil(pages));
-        model.addAttribute("parcelList", parcels);
-        model.addAttribute("parcelPath", PARCEL);
-        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+            float pages = ParcelRestClient.getParcelCount(new FilterDTO(parcelFilterDTO.getSearchCriteria(),
+                    parcelFilterDTO.getParentId())) / (float) PAGE_SIZE;
+            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("parcelList", parcels);
+            model.addAttribute("parcelPath", PARCEL);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         return "parcel/parcelPage";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String renderAddPage(Model model, HttpServletRequest request) {
+    public String renderAddPage(Model model, HttpServletRequest request, HttpServletResponse response) {
 
         if (!model.containsAttribute("parcelDTOExists")) {
             ParcelDTO parcelDTO = (ParcelDTO) request.getSession().getAttribute(CemeteryController.PARCEL_DTO);
             model.addAttribute("parcel", parcelDTO != null ? parcelDTO : new ParcelDTO());
             request.getSession().removeAttribute(CemeteryController.PARCEL_DTO);
         }
-        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+        try {
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "parcel/parcelPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         return "parcel/parcelDetailsPage";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(@ModelAttribute("parcel") ParcelDTO parcelDTO, BindingResult result, Model model) {
+    public String add(@ModelAttribute("parcel") ParcelDTO parcelDTO, BindingResult result, Model model,
+                      HttpServletRequest request, HttpServletResponse response) {
         parcelValidator.validate(parcelDTO, result);
-        if (result.hasErrors()) {
-            model.addAttribute("parcelDTOExists", true);
+        try {
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-            return "parcel/parcelDetailsPage";
+            if (result.hasErrors()) {
+                model.addAttribute("parcelDTOExists", true);
+                return "parcel/parcelDetailsPage";
+            }
+            ParcelRestClient.add(parcelDTO);
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "parcel/parcelDetailsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
         }
-        ParcelRestClient.add(parcelDTO);
         return "redirect:" + PARCEL;
     }
 
     @RequestMapping(value = "/get/{id}")
-    public String getParcelById(@PathVariable Integer id, Model model) {
-        ParcelDTO ParcelDTO = ParcelRestClient.findById(id);
-
-        model.addAttribute("parcel", ParcelDTO);
+    public String getParcelById(@PathVariable Integer id, Model model, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            ParcelDTO ParcelDTO = ParcelRestClient.findById(id);
+            model.addAttribute("parcel", ParcelDTO);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "parcel/parcelPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         model.addAttribute("view", true);
-        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "parcel/parcelDetailsPage";
     }
 
     @RequestMapping(value = "/delete/{id}")
-    public String deleteParcel(@PathVariable Integer id) {
+    public String deleteParcel(@PathVariable Integer id, HttpServletResponse response, HttpServletRequest request, Model model) {
         try {
             ParcelRestClient.delete(id);
-        }
-        catch (Exception e) {
-            logger.error("Could not delete Parcel with id: " + id, e);
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "parcel/parcelPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
         }
         return "redirect:" + PARCEL;
     }
 
     @RequestMapping(value = "/update")
-    public String updateParcel(@ModelAttribute("parcel") ParcelDTO parcelDTO, BindingResult result, Model model) {
+    public String updateParcel(@ModelAttribute("parcel") ParcelDTO parcelDTO, BindingResult result, Model model,
+                               HttpServletRequest request, HttpServletResponse response) {
         parcelValidator.validate(parcelDTO, result);
-        if (result.hasErrors()) {
-            model.addAttribute("view", true);
+        try {
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-            return "parcel/parcelDetailsPage";
+            if (result.hasErrors()) {
+                model.addAttribute("view", true);
+                return "parcel/parcelDetailsPage";
+            }
+            ParcelRestClient.update(parcelDTO.getId(), parcelDTO);
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "parcel/parcelDetailsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
         }
-        ParcelRestClient.update(parcelDTO.getId(), parcelDTO);
         return "redirect:" + PARCEL;
     }
 

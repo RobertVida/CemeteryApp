@@ -2,6 +2,7 @@ package ro.InnovaTeam.cemeteryApp.controller.monument;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import ro.InnovaTeam.cemeteryApp.*;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
 import ro.InnovaTeam.cemeteryApp.controller.contract.ContractController;
@@ -41,6 +44,7 @@ public class MonumentController {
     public static final String MONUMENT = "/monument";
     public static final String MONUMENT_FILTER = "monumentFilter";
     public static final int PAGE_SIZE = 20;
+    private ObjectMapper om = new ObjectMapper();
 
     @Autowired
     @Qualifier("monumentValidator")
@@ -58,7 +62,7 @@ public class MonumentController {
     }
 
     @RequestMapping
-    public String renderHome(Model model, HttpServletRequest request) {
+    public String renderHome(Model model, HttpServletRequest request, HttpServletResponse response) {
         FilterDTO monumentFilterDTO = (FilterDTO) request.getSession().getAttribute(MONUMENT_FILTER);
         monumentFilterDTO = monumentFilterDTO != null ? monumentFilterDTO : new FilterDTO();
         String param = request.getParameter("pageNo");
@@ -67,71 +71,151 @@ public class MonumentController {
         List<MonumentDTO> monuments;
         monumentFilterDTO.setPageNo(pageNo);
         monumentFilterDTO.setPageSize(PAGE_SIZE);
-        monuments = MonumentRestClient.getByFilter(monumentFilterDTO);
+        try {
+            monuments = MonumentRestClient.getByFilter(monumentFilterDTO);
 
-        float pages =  MonumentRestClient.getMonumentCount(new FilterDTO(monumentFilterDTO.getSearchCriteria(),
-                monumentFilterDTO.getParentId())) / (float) PAGE_SIZE;
-        model.addAttribute("pages", Math.ceil(pages));
-        model.addAttribute("monumentList", monuments);
-        model.addAttribute("monumentPath", MONUMENT);
-        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+            float pages = MonumentRestClient.getMonumentCount(new FilterDTO(monumentFilterDTO.getSearchCriteria(),
+                    monumentFilterDTO.getParentId())) / (float) PAGE_SIZE;
+            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("monumentList", monuments);
+            model.addAttribute("monumentPath", MONUMENT);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         return "monument/monumentsPage";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String renderAddPage(Model model, HttpServletRequest request) {
+    public String renderAddPage(Model model, HttpServletRequest request, HttpServletResponse response) {
 
         if (!model.containsAttribute("monumentDTOExists")) {
             MonumentDTO monumentDTO = (MonumentDTO) request.getSession().getAttribute(ParcelController.MONUMENT_DTO);
             model.addAttribute("monument", monumentDTO != null ? monumentDTO : new MonumentDTO());
             request.getSession().removeAttribute(ParcelController.MONUMENT_DTO);
         }
-        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+        try {
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "monument/monumentsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         return "monument/monumentDetailsPage";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(@ModelAttribute("monument") MonumentDTO monumentDTO, BindingResult result, Model model) {
+    public String add(@ModelAttribute("monument") MonumentDTO monumentDTO, BindingResult result, Model model,
+                      HttpServletRequest request, HttpServletResponse response) {
         monumentValidator.validate(monumentDTO, result);
-        if (result.hasErrors()) {
-            model.addAttribute("monumentDTOExists", true);
+        try {
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-            return "monument/monumentDetailsPage";
+            if (result.hasErrors()) {
+                model.addAttribute("monumentDTOExists", true);
+                return "monument/monumentDetailsPage";
+            }
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "monument/monumentDetailsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
         }
         MonumentRestClient.add(monumentDTO);
         return "redirect:" + MONUMENT;
     }
 
     @RequestMapping(value = "/get/{id}")
-    public String getMonumentById(@PathVariable Integer id, Model model) {
-        MonumentDTO monumentDTO = MonumentRestClient.findById(id);
+    public String getMonumentById(@PathVariable Integer id, Model model, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            MonumentDTO monumentDTO = MonumentRestClient.findById(id);
 
-        model.addAttribute("monument", monumentDTO);
-        model.addAttribute("view", true);
-        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+            model.addAttribute("monument", monumentDTO);
+            model.addAttribute("view", true);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "monument/monumentsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         return "monument/monumentDetailsPage";
     }
 
     @RequestMapping(value = "/delete/{id}")
-    public String deleteMonument(@PathVariable Integer id) {
+    public String deleteMonument(@PathVariable Integer id, HttpServletResponse response, HttpServletRequest request, Model model) {
         try {
             MonumentRestClient.delete(id);
-        }
-        catch (Exception e) {
-            logger.error("Could not delete Monument with id: " + id, e);
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "monument/monumentsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
         }
         return "redirect:" + MONUMENT;
     }
 
     @RequestMapping(value = "/update")
-    public String updateMonument(@ModelAttribute("monument") MonumentDTO monumentDTO, BindingResult result, Model model) {
+    public String updateMonument(@ModelAttribute("monument") MonumentDTO monumentDTO, BindingResult result, Model model,
+                                 HttpServletRequest request, HttpServletResponse response) {
         monumentValidator.validate(monumentDTO, result);
-        if (result.hasErrors()) {
-            model.addAttribute("view", true);
+        try {
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-            return "monument/monumentDetailsPage";
+            if (result.hasErrors()) {
+                model.addAttribute("view", true);
+                return "monument/monumentDetailsPage";
+            }
+            MonumentRestClient.update(monumentDTO.getId(), monumentDTO);
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "monument/monumentDetailsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
         }
-        MonumentRestClient.update(monumentDTO.getId(), monumentDTO);
         return "redirect:" + MONUMENT;
     }
 
