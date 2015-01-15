@@ -20,6 +20,9 @@
 <jsp:include page="../fragments/menu.jsp"/>
 <c:set var="contextPath" value="${pageContext.request.contextPath}/deceased"/>
 <div id="deceased-details" style="display: none;">
+    <c:if test="${not empty errors}">
+        <p class="alert alert-danger">${errors}</p>
+    </c:if>
     <h4 class="text-center">
         <b>Lista decedatilor</b>
     </h4>

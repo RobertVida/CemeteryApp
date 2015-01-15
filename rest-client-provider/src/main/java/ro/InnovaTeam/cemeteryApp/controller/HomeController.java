@@ -51,6 +51,7 @@ public class HomeController {
 
             HttpSession session = httpServletRequest.getSession(true);
             session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+            session.setMaxInactiveInterval(320);
         } catch (BadCredentialsException e) {
             model.addAttribute("error", "Credentiale gresite");
             return "loginPage";

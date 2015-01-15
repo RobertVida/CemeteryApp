@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import ro.InnovaTeam.cemeteryApp.CemeteryDTO;
 import ro.InnovaTeam.cemeteryApp.ErrorDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
@@ -63,7 +64,7 @@ public class CemeteryController {
             model.addAttribute("cemeteryList", cemeteries);
             float pages = CemeteryRestClient.getCemeteryCount(new FilterDTO(cemeteryFilterDTO.getSearchCriteria(), null)) / (float)PAGE_SIZE;
             model.addAttribute("pages", Math.ceil(pages));
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
             try {
                 ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
                 if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
@@ -88,7 +89,7 @@ public class CemeteryController {
         }
         try {
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
             try {
                 ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
                 if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
@@ -115,7 +116,7 @@ public class CemeteryController {
                 return "cemetery/cemeteryDetailsPage";
             }
             CemeteryRestClient.add(cemeteryDTO);
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
             try {
                 ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
                 if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
@@ -137,7 +138,7 @@ public class CemeteryController {
             CemeteryDTO cemeteryDTO = CemeteryRestClient.findById(id);
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
             model.addAttribute("cemetery", cemeteryDTO);
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
             try {
                 ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
                 if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
@@ -159,7 +160,7 @@ public class CemeteryController {
         try {
             CemeteryRestClient.delete(id);
         }
-        catch (HttpClientErrorException e) {
+        catch (HttpClientErrorException | HttpServerErrorException e) {
             try {
                 ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
                 if (error.getStatus().equals(ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString())) {
@@ -186,7 +187,7 @@ public class CemeteryController {
                 return "cemetery/cemeteryDetailsPage";
             }
             CemeteryRestClient.update(cemeteryDTO.getId(), cemeteryDTO);
-        } catch (HttpClientErrorException e) {
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
             try {
                 ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
                 if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {

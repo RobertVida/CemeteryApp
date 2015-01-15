@@ -2,6 +2,7 @@ package ro.InnovaTeam.cemeteryApp.controller.contract;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.ModelAndView;
 import ro.InnovaTeam.cemeteryApp.ContractDTO;
+import ro.InnovaTeam.cemeteryApp.ErrorDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
 import ro.InnovaTeam.cemeteryApp.controller.grave.GraveController;
@@ -39,6 +42,7 @@ public class ContractController {
     public static final String CONTRACT = "/contract";
     public static final String CONTRACT_FILTER = "contractFilter";
     public static final int PAGE_SIZE = 20;
+    private ObjectMapper om = new ObjectMapper();
 
     @Autowired
     @Qualifier("contractValidator")
@@ -56,7 +60,7 @@ public class ContractController {
     }
 
     @RequestMapping
-    public String renderHome(Model model, HttpServletRequest request) {
+    public String renderHome(Model model, HttpServletRequest request, HttpServletResponse response) {
         FilterDTO contractFilterDTO = (FilterDTO) request.getSession().getAttribute(CONTRACT_FILTER);
         contractFilterDTO = contractFilterDTO != null ? contractFilterDTO : new FilterDTO();
         String param = request.getParameter("pageNo");
@@ -65,70 +69,150 @@ public class ContractController {
         List<ContractDTO> contractDTOs;
         contractFilterDTO.setPageNo(pageNo);
         contractFilterDTO.setPageSize(PAGE_SIZE);
-        contractDTOs = ContractRestClient.findByFilter(contractFilterDTO);
+        try {
+            contractDTOs = ContractRestClient.findByFilter(contractFilterDTO);
 
-        float pages = ContractRestClient.getContractCount(new FilterDTO(contractFilterDTO.getSearchCriteria(),
-                contractFilterDTO.getParentId())) / (float) PAGE_SIZE;
-        model.addAttribute("pages", Math.ceil(pages));
-        model.addAttribute("contractList", contractDTOs);
-        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+            float pages = ContractRestClient.getContractCount(new FilterDTO(contractFilterDTO.getSearchCriteria(),
+                    contractFilterDTO.getParentId())) / (float) PAGE_SIZE;
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("contractList", contractDTOs);
+        } catch (HttpClientErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         return "contract/contractsPage";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String renderAddPage(Model model, HttpServletRequest request) {
+    public String renderAddPage(Model model, HttpServletRequest request, HttpServletResponse response) {
 
         if (!model.containsAttribute("contractDTOExists")) {
             ContractDTO contractDTO = (ContractDTO) request.getSession().getAttribute(GraveController.STRUCTURE_CONTRACT_DTO);
             model.addAttribute("contract", contractDTO != null ? contractDTO : new ContractDTO());
             request.getSession().removeAttribute(GraveController.STRUCTURE_CONTRACT_DTO);
         }
-        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+        try {
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+        } catch (HttpClientErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "contract/contractsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         return "contract/contractDetailsPage";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String add(@ModelAttribute("contract") ContractDTO contractDTO, BindingResult result, Model model) {
+    public String add(@ModelAttribute("contract") ContractDTO contractDTO, BindingResult result, Model model,
+                      HttpServletResponse response, HttpServletRequest request) {
         contractValidator.validate(contractDTO, result);
-        if (result.hasErrors()) {
-            model.addAttribute("contractDTOExists", true);
+        try {
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-            return "contract/contractDetailsPage";
+            if (result.hasErrors()) {
+                model.addAttribute("contractDTOExists", true);
+                return "contract/contractDetailsPage";
+            }
+            ContractRestClient.add(contractDTO);
+        } catch (HttpClientErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "contract/contractDetailsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
         }
-        ContractRestClient.add(contractDTO);
         return "redirect:" + CONTRACT;
     }
 
     @RequestMapping(value = "/get/{id}")
-    public String getById(@PathVariable Integer id, Model model) {
-        ContractDTO contractDTO = ContractRestClient.findById(id);
+    public String getById(@PathVariable Integer id, Model model, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            ContractDTO contractDTO = ContractRestClient.findById(id);
+            model.addAttribute("contract", contractDTO);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+        } catch (HttpClientErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "contract/contractsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
 
-        model.addAttribute("contract", contractDTO);
         model.addAttribute("view", true);
-        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "contract/contractDetailsPage";
     }
 
     @RequestMapping(value = "/delete/{id}")
-    public String delete(@PathVariable Integer id) {
+    public String delete(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response, Model model) {
         try {
             ContractRestClient.delete(id);
-        }
-        catch (Exception e) {
-            logger.error("Could not delete contract with id: " + id, e);
+        } catch (HttpClientErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "contract/contractsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
         }
         return "redirect:" + CONTRACT;
     }
 
     @RequestMapping(value = "/update")
-    public String update(@ModelAttribute("contract") ContractDTO contractDTO, BindingResult result, Model model) {
+    public String update(@ModelAttribute("contract") ContractDTO contractDTO, BindingResult result, Model model,
+                         HttpServletRequest request, HttpServletResponse response) {
         contractValidator.validate(contractDTO, result);
-        if (result.hasErrors()) {
-            model.addAttribute("view", true);
+        try {
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-            return "contract/contractDetailsPage";
+            if (result.hasErrors()) {
+                model.addAttribute("view", true);
+                return "contract/contractDetailsPage";
+            }
+            ContractRestClient.update(contractDTO.getId(), contractDTO);
+        } catch (HttpClientErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "contract/contractDetailsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
         }
-        ContractRestClient.update(contractDTO.getId(), contractDTO);
         return "redirect:" + CONTRACT;
     }
 

@@ -20,6 +20,9 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}/monument"/>
 <div id="monument-details" style="margin-top: 20px; display: none;">
     <h4 class="text-center">
+        <c:if test="${not empty errors}">
+            <p class="alert alert-danger">${errors}</p>
+        </c:if>
         <b>Informa&#355;iile monumentului</b>
         <c:choose>
             <c:when test="${view eq true}">

@@ -20,6 +20,9 @@
 <jsp:include page="../fragments/menu.jsp"/>
 <c:set var="contextPath" value="${pageContext.request.contextPath}/request"/>
 <div id="request-details" style="margin-top: 20px; display: none;">
+    <c:if test="${not empty errors}">
+        <p class="alert alert-danger">${errors}</p>
+    </c:if>
     <h4 class="text-center">
         <c:choose>
             <c:when test="${view eq true}">

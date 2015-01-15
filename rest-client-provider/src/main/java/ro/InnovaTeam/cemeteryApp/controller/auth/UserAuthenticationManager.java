@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import ro.InnovaTeam.cemeteryApp.UserDTO;
 import ro.InnovaTeam.cemeteryApp.restClient.AuthenticationRestClient;
@@ -35,6 +36,14 @@ public class UserAuthenticationManager implements org.springframework.security.a
     }
 
     public static boolean hasAdminRole() {
-        return SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("admin"));
+        Boolean hasAdminRole = false;
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context != null) {
+            Authentication authentication = context.getAuthentication();
+            if (authentication != null) {
+                hasAdminRole = authentication.getAuthorities().contains(new SimpleGrantedAuthority("admin"));
+            }
+        }
+        return hasAdminRole;
     }
 }

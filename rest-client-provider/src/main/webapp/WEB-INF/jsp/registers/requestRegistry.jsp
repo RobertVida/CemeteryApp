@@ -18,6 +18,9 @@
 <body>
 <jsp:include page="../fragments/menu.jsp"/>
 <div id="request-registry-details" style="display: none;">
+    <c:if test="${not empty errors}">
+        <p class="alert alert-danger">${errors}</p>
+    </c:if>
     <h4 class="text-center">
         <b>Registrul cererilor de atribuire a locurilor de inhumare</b>
     </h4>

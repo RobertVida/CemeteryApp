@@ -12,6 +12,9 @@
     <c:set var="contextPath" value="${pageContext.request.contextPath}/grave"/>
     <jsp:include page="../fragments/menu.jsp"/>
     <div id="grave-details" style="display: none;">
+        <c:if test="${not empty errors}">
+            <p class="alert alert-danger">${errors}</p>
+        </c:if>
         <h4 class="text-center">
             <b>Lista mormintelor</b>
         </h4>

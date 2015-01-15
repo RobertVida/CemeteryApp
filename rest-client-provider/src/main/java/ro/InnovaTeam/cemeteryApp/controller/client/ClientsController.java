@@ -1,5 +1,6 @@
 package ro.InnovaTeam.cemeteryApp.controller.client;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 import ro.InnovaTeam.cemeteryApp.ClientDTO;
+import ro.InnovaTeam.cemeteryApp.ErrorDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.RestingPlaceRequestDTO;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
@@ -40,13 +43,14 @@ public class ClientsController {
 
     private static final String CLIENT_FILTER = "clientFilter";
     public static final int PAGE_SIZE = 20;
+    private ObjectMapper om = new ObjectMapper();
 
     @Autowired
     @Qualifier("clientValidator")
     private Validator clientValidator;
 
     @RequestMapping
-    public String render(Model model, HttpServletRequest request) {
+    public String render(Model model, HttpServletRequest request, HttpServletResponse response) {
         FilterDTO clientFilterDTO = (FilterDTO) request.getSession().getAttribute(CLIENT_FILTER);
         clientFilterDTO = clientFilterDTO != null ? clientFilterDTO : new FilterDTO();
         String param = request.getParameter("pageNo");
@@ -56,61 +60,125 @@ public class ClientsController {
         clientFilterDTO.setPageNo(pageNo);
         clientFilterDTO.setPageSize(PAGE_SIZE);
         clientFilterDTO.setParentId(null);
-        clients = ClientRestClient.getClientsByFilter(clientFilterDTO);
-
-        float pages = ClientRestClient.getClientCount(new FilterDTO(clientFilterDTO.getSearchCriteria(), null)) / (float) PAGE_SIZE;
-        model.addAttribute("pages", Math.ceil(pages));
-        model.addAttribute("clientList", clients);
+        try {
+            clients = ClientRestClient.getClientsByFilter(clientFilterDTO);
+            float pages = ClientRestClient.getClientCount(new FilterDTO(clientFilterDTO.getSearchCriteria(), null)) / (float) PAGE_SIZE;
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("clientList", clients);
+        } catch (HttpClientErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
 
         model.addAttribute("clientsPageURL", CLIENTS);
         model.addAttribute("addPageURL", ADD_CLIENT);
         model.addAttribute("filterURL", FILTER);
         model.addAttribute("refreshFilterURL", REFRESH_FILTER);
-        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
 
         return "client/clientsPage";
     }
 
     @RequestMapping(value = DELETE)
-    public String deleteClient(@PathVariable Integer id) {
+    public String deleteClient(@PathVariable Integer id, HttpServletRequest request, HttpServletResponse response, Model model) {
         try {
             ClientRestClient.delete(id);
         }
-        catch (Exception e) {
-            logger.error("Could not delete Client with id: " + id, e);
+        catch (HttpClientErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "client/clientsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
         }
         return "redirect:/clients";
     }
 
     @RequestMapping(value = UPDATE)
-    public String updateClient(@ModelAttribute("client") ClientDTO clientDTO, BindingResult result, Model model) {
+    public String updateClient(@ModelAttribute("client") ClientDTO clientDTO, BindingResult result, Model model,
+                               HttpServletRequest request, HttpServletResponse response) {
         clientValidator.validate(clientDTO, result);
-        if (result.hasErrors()) {
-            model.addAttribute("view", true);
+        try {
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-            return "client/clientDetailsPage";
+            if (result.hasErrors()) {
+                model.addAttribute("view", true);
+                return "client/clientDetailsPage";
+            }
+            ClientRestClient.update(clientDTO.getId(), clientDTO);
+        } catch (HttpClientErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "client/clientDetailsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
         }
-        ClientRestClient.update(clientDTO.getId(), clientDTO);
         return "redirect:" + CLIENTS;
     }
 
     @RequestMapping(value = "/get/{id}")
-    public String getClientById(Model model,  @PathVariable Integer id) {
-        ClientDTO clientDTO = ClientRestClient.findById(id);
+    public String getClientById(Model model,  @PathVariable Integer id, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            ClientDTO clientDTO = ClientRestClient.findById(id);
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+            model.addAttribute("client", clientDTO);
+        } catch (HttpClientErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "client/clientsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
 
-        model.addAttribute("client", clientDTO);
         model.addAttribute("view", true);
-        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "client/clientDetailsPage";
     }
 
     @RequestMapping(value = ADD_CLIENT, method = RequestMethod.GET)
-    public String renderAddPage(Model model) {
-
+    public String renderAddPage(Model model, HttpServletResponse response, HttpServletRequest request) {
+        try {
+            model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
+        } catch (HttpClientErrorException e) {
+            try {
+                ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);
+                if (ErrorDTO.Status.UNAUTHORIZED_ACCESS.toString().equals(error.getStatus())) {
+                    request.getSession().invalidate();
+                    response.sendRedirect(request.getContextPath() + "/login");
+                }
+                model.addAttribute("errors", error.getErrors());
+                return "client/clientsPage";
+            } catch (IOException ioe) {
+                logger.error("Could not read value from ObjectMapper", ioe);
+            }
+        }
         if (!model.containsAttribute("clientDTOExists")) {
             model.addAttribute("client", new ClientDTO());
         }
-        model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         return "client/clientDetailsPage";
     }
 

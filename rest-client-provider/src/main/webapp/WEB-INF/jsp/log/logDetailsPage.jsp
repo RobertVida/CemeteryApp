@@ -18,6 +18,9 @@
 <body>
 <jsp:include page="../fragments/menu.jsp"/>
     <div id="log-details" style="margin-top: 20px; display: none;">
+        <c:if test="${not empty errors}">
+            <p class="alert alert-danger">${errors}</p>
+        </c:if>
         <h4 class="text-center">
             <b>Informa&#355;iile modficarii</b>
         </h4>

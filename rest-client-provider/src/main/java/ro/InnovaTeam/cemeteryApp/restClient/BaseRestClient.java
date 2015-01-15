@@ -3,6 +3,8 @@ package ro.InnovaTeam.cemeteryApp.restClient;
 
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJacksonHttpMessageConverter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.client.RestTemplate;
 
@@ -29,6 +31,14 @@ public class BaseRestClient {
     }
 
     protected static String getLoggedInUserToken() {
-        return (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        String token = "";
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context != null) {
+            Authentication authentication = context.getAuthentication();
+            if (authentication != null) {
+                token = (String) authentication.getCredentials();
+            }
+        }
+        return token;
     }
 }

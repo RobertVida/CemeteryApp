@@ -19,6 +19,9 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}/contract"/>
 <jsp:include page="../fragments/menu.jsp"/>
 <div id="contract-details" style="display: none;">
+    <c:if test="${not empty errors}">
+        <p class="alert alert-danger">${errors}</p>
+    </c:if>
     <h4 class="text-center">
         <b>Lista contractelor</b>
     </h4>

@@ -19,6 +19,9 @@
     <jsp:include page="../fragments/menu.jsp"/>
     <c:set var="contextPath" value="${pageContext.request.contextPath}/clients"/>
     <div id="client-details" style="display: none;">
+        <c:if test="${not empty errors}">
+            <p class="alert alert-danger">${errors}</p>
+        </c:if>
         <h4 class="text-center">
             <b>Lista clien&#355;ilor</b>
         </h4>
