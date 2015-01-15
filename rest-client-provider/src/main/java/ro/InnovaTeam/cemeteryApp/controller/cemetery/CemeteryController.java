@@ -63,7 +63,7 @@ public class CemeteryController {
             cemeteries = CemeteryRestClient.getCemeteriesByFilter(cemeteryFilterDTO);
             model.addAttribute("cemeteryList", cemeteries);
             float pages = CemeteryRestClient.getCemeteryCount(new FilterDTO(cemeteryFilterDTO.getSearchCriteria(), null)) / (float)PAGE_SIZE;
-            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("pages", new Double(Math.ceil(pages)).intValue());
         } catch (HttpClientErrorException | HttpServerErrorException e) {
             try {
                 ErrorDTO error = om.readValue(e.getResponseBodyAsString(), ErrorDTO.class);

@@ -76,7 +76,7 @@ public class MonumentController {
 
             float pages = MonumentRestClient.getMonumentCount(new FilterDTO(monumentFilterDTO.getSearchCriteria(),
                     monumentFilterDTO.getParentId())) / (float) PAGE_SIZE;
-            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("pages", new Double(Math.ceil(pages)).intValue());
             model.addAttribute("monumentList", monuments);
             model.addAttribute("monumentPath", MONUMENT);
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());

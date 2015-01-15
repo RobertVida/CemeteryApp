@@ -65,7 +65,7 @@ public class ClientsController {
             clients = ClientRestClient.getClientsByFilter(clientFilterDTO);
             float pages = ClientRestClient.getClientCount(new FilterDTO(clientFilterDTO.getSearchCriteria(), null)) / (float) PAGE_SIZE;
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("pages", new Double(Math.ceil(pages)).intValue());
             model.addAttribute("clientList", clients);
         } catch (HttpClientErrorException | HttpServerErrorException e) {
             try {

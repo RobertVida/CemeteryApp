@@ -64,7 +64,7 @@ public class LogController {
                 pages = LogRestClient.getLogCount(countFilterDTO);
             }
             pages /= PAGE_SIZE;
-            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("pages", new Double(Math.ceil(pages)).intValue());
 
             model.addAttribute("logList", entryDTOs);
         } catch (HttpClientErrorException | HttpServerErrorException e) {

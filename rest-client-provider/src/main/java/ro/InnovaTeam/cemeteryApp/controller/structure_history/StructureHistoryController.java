@@ -73,7 +73,7 @@ public class StructureHistoryController {
 
             float pages = StructureHistoryRestClient.getStructureCount(new FilterDTO(structureHistoryFilterDTO.getSearchCriteria(),
                     structureHistoryFilterDTO.getParentId())) / (float) PAGE_SIZE;
-            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("pages", new Double(Math.ceil(pages)).intValue());
             model.addAttribute("structureList", structureHistoryEntryDTOs);
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         } catch (HttpClientErrorException | HttpServerErrorException e) {

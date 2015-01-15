@@ -78,7 +78,7 @@ public class GraveController {
             float pages = GraveRestClient.getGraveCount(new FilterDTO(graveFilterDTO.getSearchCriteria(),
                     graveFilterDTO.getParentId())) / (float) PAGE_SIZE;
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("pages", new Double(Math.ceil(pages)).intValue());
             model.addAttribute("graveList", graves);
             model.addAttribute("gravePath", GRAVE);
         } catch (HttpClientErrorException | HttpServerErrorException e) {

@@ -76,7 +76,7 @@ public class ContractController {
             float pages = ContractRestClient.getContractCount(new FilterDTO(contractFilterDTO.getSearchCriteria(),
                     contractFilterDTO.getParentId())) / (float) PAGE_SIZE;
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
-            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("pages", new Double(Math.ceil(pages)).intValue());
             model.addAttribute("contractList", contractDTOs);
         } catch (HttpClientErrorException | HttpServerErrorException e) {
             try {

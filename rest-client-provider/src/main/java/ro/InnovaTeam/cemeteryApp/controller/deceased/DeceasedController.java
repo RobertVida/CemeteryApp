@@ -20,7 +20,6 @@ import ro.InnovaTeam.cemeteryApp.ErrorDTO;
 import ro.InnovaTeam.cemeteryApp.FilterDTO;
 import ro.InnovaTeam.cemeteryApp.controller.auth.UserAuthenticationManager;
 import ro.InnovaTeam.cemeteryApp.controller.log.LogController;
-import ro.InnovaTeam.cemeteryApp.controller.monument.MonumentController;
 import ro.InnovaTeam.cemeteryApp.restClient.DeceasedRestClient;
 import org.apache.commons.configuration.Configuration;
 
@@ -75,7 +74,7 @@ public class DeceasedController {
 
             float pages = DeceasedRestClient.getDeceasedCount(new FilterDTO(deceasedFilterDTO.getSearchCriteria(),
                     deceasedFilterDTO.getParentId())) / (float) PAGE_SIZE;
-            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("pages", new Double(Math.ceil(pages)).intValue());
             model.addAttribute("deceasedList", deceasedDTOs);
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
         } catch (HttpClientErrorException | HttpServerErrorException e) {

@@ -63,7 +63,7 @@ public class ParcelController {
 
             float pages = ParcelRestClient.getParcelCount(new FilterDTO(parcelFilterDTO.getSearchCriteria(),
                     parcelFilterDTO.getParentId())) / (float) PAGE_SIZE;
-            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("pages", new Double(Math.ceil(pages)).intValue());
             model.addAttribute("parcelList", parcels);
             model.addAttribute("parcelPath", PARCEL);
             model.addAttribute("hasAdminRole", UserAuthenticationManager.hasAdminRole());
