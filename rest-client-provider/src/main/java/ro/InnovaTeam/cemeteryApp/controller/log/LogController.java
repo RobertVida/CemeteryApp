@@ -50,6 +50,20 @@ public class LogController {
         filterDTO.setPageSize(PAGE_SIZE);
         filterDTO.setParentId(null);
 
+        float pages;
+        FilterDTO countFilterDTO = new FilterDTO(filterDTO.getSearchCriteria(), null);
+        if (StringUtils.isNotEmpty(tableName) && StringUtils.isNotEmpty(tableId)) {
+            entryDTOs = LogRestClient.getLogs(filterDTO, tableName, Integer.valueOf(tableId));
+            pages = LogRestClient.getLogCount(countFilterDTO, tableName, Integer.valueOf(tableId));
+        } else if (StringUtils.isNotEmpty(tableName)) {
+            entryDTOs = LogRestClient.getLogs(filterDTO, tableName);
+            pages = LogRestClient.getLogCount(countFilterDTO, tableName);
+        } else {
+            entryDTOs = LogRestClient.getLogs(filterDTO);
+            pages = LogRestClient.getLogCount(countFilterDTO);
+        }
+        pages /= PAGE_SIZE;
+        model.addAttribute("pages", new Double(Math.ceil(pages)).intValue());
         try {
             float pages;
             FilterDTO countFilterDTO = new FilterDTO(filterDTO.getSearchCriteria(), null);

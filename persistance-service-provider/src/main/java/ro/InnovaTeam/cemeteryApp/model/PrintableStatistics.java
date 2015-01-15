@@ -1,11 +1,11 @@
-package ro.InnovaTeam.cemeteryApp;
+package ro.InnovaTeam.cemeteryApp.model;
 
 import java.util.HashMap;
 
 /**
- * Created by robert on 1/13/2015.
+ * Created by robert on 1/15/2015.
  */
-public class PrintableStatisticsDTO extends BaseDTO {
+public class PrintableStatistics extends BaseEntity{
 
     public static enum Fields {
         TITLE
@@ -13,10 +13,10 @@ public class PrintableStatisticsDTO extends BaseDTO {
 
     private HashMap<String, Object> data = new HashMap<>();
 
-    public PrintableStatisticsDTO() {
+    public PrintableStatistics() {
     }
 
-    public PrintableStatisticsDTO(HashMap<String, Object> data) {
+    public PrintableStatistics(HashMap<String, Object> data) {
         this.data = data;
     }
 
