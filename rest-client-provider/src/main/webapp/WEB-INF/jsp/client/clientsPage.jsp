@@ -70,7 +70,7 @@
                 $(document).ready(function() {
                     $(".easypagination").easyPaginate({
                         onClickcallback: function (page) {
-                            getCemeteriesPerPage(page);
+                            ClientsManagerJS.getClientsPerPage(page);
                         }
                     });
                 });

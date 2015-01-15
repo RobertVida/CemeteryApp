@@ -69,7 +69,7 @@
                 $(document).ready(function() {
                     $(".easypagination").easyPaginate({
                         onClickcallback: function (page) {
-                            getCemeteriesPerPage(page);
+                            GraveManagerJS.getGravePerPage(page);
                         }
                     });
                 });

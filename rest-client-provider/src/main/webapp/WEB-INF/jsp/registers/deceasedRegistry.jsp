@@ -89,7 +89,7 @@
             $(document).ready(function() {
                 $(".easypagination").easyPaginate({
                     onClickcallback: function (page) {
-                        getCemeteriesPerPage(page);
+                        getPerPage(page);
                     }
                 });
             });

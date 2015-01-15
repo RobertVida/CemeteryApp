@@ -83,7 +83,7 @@
             $(document).ready(function() {
                 $(".easypagination").easyPaginate({
                     onClickcallback: function (page) {
-                        getCemeteriesPerPage(page);
+                        MonumentsManagerJS.getMonumentPerPage(page);
                     }
                 });
             });
