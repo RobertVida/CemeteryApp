@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ro.InnovaTeam.cemeteryApp.PrintableContractDTO;
 import ro.InnovaTeam.cemeteryApp.PrintableStatisticsDTO;
 import ro.InnovaTeam.cemeteryApp.service.AuthenticationService;
+import ro.InnovaTeam.cemeteryApp.service.PrintableService;
 
 /**
  * Created by robert on 1/13/2015.
@@ -20,14 +21,15 @@ public class PrintableController extends ExceptionHandledController {
     @Autowired
     private AuthenticationService authService;
 
+    @Autowired
+    private PrintableService printableService;
+
     @RequestMapping(value = PRINTABLE_CONTRACT_URL, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public PrintableContractDTO getContract(@RequestHeader("Authorization-Token") String token, @PathVariable Integer contractId) {
         isLoggedIn(token);
-        PrintableContractDTO contractDTO = new PrintableContractDTO();
-        contractDTO.add(PrintableContractDTO.Fields.TITLE, "data de test contract");
-        return contractDTO;
+        return new PrintableContractDTO(printableService.getContract(contractId).getData());
     }
 
     @RequestMapping(value = PRINTABLE_STATISTICS_URL, method = RequestMethod.GET)
@@ -35,9 +37,7 @@ public class PrintableController extends ExceptionHandledController {
     @ResponseBody
     public PrintableStatisticsDTO getStatistics(@RequestHeader("Authorization-Token") String token) {
         isLoggedIn(token);
-        PrintableStatisticsDTO statisticsDTO = new PrintableStatisticsDTO();
-        statisticsDTO.add(PrintableStatisticsDTO.Fields.TITLE, "data de test statistics");
-        return statisticsDTO;
+        return new PrintableStatisticsDTO(printableService.getStatistics().getData());
     }
 
     private void isLoggedIn(String token) {
