@@ -9,7 +9,7 @@ var ParcelsManagerJS = (function($) {
 
     var init = function() {
         $('#container').html($('#parcel-details').html());
-
+        CemeteryJs.easyPagination(getParcelsPerPage);
     };
 
     var renderAddPage = function () {
@@ -27,7 +27,7 @@ var ParcelsManagerJS = (function($) {
         var searchCriteria = $('#parcelSearchInput').val();
         var cemeteryId = $('#parcelCemeteryId').val();
         var data = { searchCriteria : searchCriteria, cemeteryId : cemeteryId };
-        CemeteryJs.ajaxCall("GET", url, data, 1, '#parcel-details');
+        CemeteryJs.ajaxCall("GET", url, data, 1, '#parcel-details', getParcelsPerPage);
     };
 
     var getParcelsPerPage = function(pageNo) {
@@ -38,7 +38,7 @@ var ParcelsManagerJS = (function($) {
 
     var refreshFilter = function() {
         var url = $("#refreshParcelFilterURL").val();
-        CemeteryJs.ajaxCall("POST", url, null, 1, '#parcel-details');
+        CemeteryJs.ajaxCall("POST", url, null, 1, '#parcel-details', getParcelsPerPage);
     };
 
     return {

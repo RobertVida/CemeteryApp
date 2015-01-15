@@ -57,15 +57,6 @@
                         </c:if>
                     </td>
                 </tr>
-                <script type="text/javascript">
-                    $(document).ready(function() {
-                        $(".easypagination").easyPaginate({
-                            onClickcallback: function (page) {
-                                CemeteriesManagerJS.getCemeteriesPerPage(page);
-                            }
-                        });
-                    });
-                </script>
             </c:forEach>
             </tbody>
         </table>

@@ -9,7 +9,7 @@ var DeceasedManagerJS = (function($) {
 
     var init = function() {
         $('#container').html($('#deceased-details').html());
-
+        CemeteryJs.easyPagination(getPerPage);
     };
 
     var renderAddPage = function () {
@@ -27,7 +27,7 @@ var DeceasedManagerJS = (function($) {
         var searchCriteria = $('#deceasedSearchInput').val();
         var structureId = $('#structureId').val();
         var data = { searchCriteria : searchCriteria, structureId : structureId };
-        CemeteryJs.ajaxCall("GET", url, data, 1, '#deceased-details');
+        CemeteryJs.ajaxCall("GET", url, data, 1, '#deceased-details', getPerPage);
     };
 
     var getPerPage = function(pageNo) {
@@ -38,7 +38,7 @@ var DeceasedManagerJS = (function($) {
 
     var refreshFilter = function() {
         var url = $("#refreshDeceasedFilterURL").val();
-        CemeteryJs.ajaxCall("POST", url, null, 1, '#deceased-details');
+        CemeteryJs.ajaxCall("POST", url, null, 1, '#deceased-details', getPerPage);
     };
 
     return {

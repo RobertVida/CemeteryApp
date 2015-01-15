@@ -6,7 +6,7 @@ var GraveManagerJS = (function($) {
 
     var init = function() {
         $('#container').html($('#grave-details').html());
-
+        CemeteryJs.easyPagination(getGravePerPage);
     };
 
     var renderAddPage = function () {
@@ -23,7 +23,7 @@ var GraveManagerJS = (function($) {
         var url = $('#graveFilterURL').val();
         var parcelId = $("#graveParcelIdInput").val();
         var data = { parcelId : parcelId };
-        CemeteryJs.ajaxCall("GET", url, data, 1, '#grave-details');
+        CemeteryJs.ajaxCall("GET", url, data, 1, '#grave-details', getGravePerPage);
     };
 
     var getGravePerPage = function(pageNo) {
@@ -34,7 +34,7 @@ var GraveManagerJS = (function($) {
 
     var refreshFilter = function() {
         var url = $("#refreshGraveFilterURL").val();
-        CemeteryJs.ajaxCall("POST", url, null, 1, '#grave-details');
+        CemeteryJs.ajaxCall("POST", url, null, 1, '#grave-details', getGravePerPage);
     };
 
     return {

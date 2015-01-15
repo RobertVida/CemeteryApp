@@ -9,7 +9,7 @@ var StructureHistoryManagerJS = (function($) {
 
     var init = function() {
         $('#container').html($('#structure-details').html());
-
+        CemeteryJs.easyPagination(getPerPage);
     };
 
     var renderAddPage = function () {
@@ -27,7 +27,7 @@ var StructureHistoryManagerJS = (function($) {
         var searchCriteria = $('#structureHistorySearchInput').val();
         var structureId = $('#structureId').val();
         var data = { searchCriteria : searchCriteria, structureId : structureId };
-        CemeteryJs.ajaxCall("GET", url, data, 1, '#structure-details');
+        CemeteryJs.ajaxCall("GET", url, data, 1, '#structure-details', getPerPage);
     };
 
     var getPerPage = function(pageNo) {
@@ -38,7 +38,7 @@ var StructureHistoryManagerJS = (function($) {
 
     var refreshFilter = function() {
         var url = $("#refreshStructureHistoryFilterURL").val();
-        CemeteryJs.ajaxCall("POST", url, null, 1, '#structure-details');
+        CemeteryJs.ajaxCall("POST", url, null, 1, '#structure-details', getPerPage);
     };
 
     return {

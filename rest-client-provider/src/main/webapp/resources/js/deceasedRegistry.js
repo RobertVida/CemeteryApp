@@ -3,7 +3,7 @@
  */
 $(document).ready(function() {
     $('#container').html($('#deceased-registry-details').html());
-
+    CemeteryJs.easyPagination(getPerPage);
 });
 function getPerPage(pageNo) {
     var url = $('#drURL').val();
@@ -20,10 +20,10 @@ function applyRBFilter() {
     var data = { searchCriteria : searchCriteria,
         nameOrder : nameOrder,
         diedOnOrder: diedOnOrder };
-    CemeteryJs.ajaxCall("GET", url, data, 1, '#deceased-registry-details');
+    CemeteryJs.ajaxCall("GET", url, data, 1, '#deceased-registry-details', getPerPage);
 }
 
 function refreshRBFilter() {
     var url = $("#drRefreshFilterURL").val();
-    CemeteryJs.ajaxCall("POST", url, null, 1, '#deceased-registry-details');
+    CemeteryJs.ajaxCall("POST", url, null, 1, '#deceased-registry-details', getPerPage);
 }

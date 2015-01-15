@@ -3,7 +3,7 @@
  */
 $(document).ready(function() {
     $('#container').html($('#deceased-no-caregiver-registry-details').html());
-
+    CemeteryJs.easyPagination(getPerPage);
 });
 
 function getPerPage(pageNo) {
@@ -21,10 +21,10 @@ function applyRBFilter() {
     var data = { searchCriteria : searchCriteria,
         nameOrder : nameOrder,
         diedOnOrder: diedOnOrder };
-    CemeteryJs.ajaxCall("GET", url, data, 1, '#deceased-no-caregiver-registry-details');
+    CemeteryJs.ajaxCall("GET", url, data, 1, '#deceased-no-caregiver-registry-details', getPerPage);
 }
 
 function refreshRBFilter() {
     var url = $("#dncrRefreshFilterURL").val();
-    CemeteryJs.ajaxCall("POST", url, null, 1, '#deceased-no-caregiver-registry-details');
+    CemeteryJs.ajaxCall("POST", url, null, 1, '#deceased-no-caregiver-registry-details', getPerPage);
 }

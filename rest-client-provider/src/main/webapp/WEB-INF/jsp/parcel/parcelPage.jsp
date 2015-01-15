@@ -70,15 +70,6 @@
                 </tr>
             </c:forEach>
             </tbody>
-            <script type="text/javascript">
-                $(document).ready(function() {
-                    $(".easypagination").easyPaginate({
-                        onClickcallback: function (page) {
-                            ParcelsManagerJS.getParcelsPerPage(page);
-                        }
-                    });
-                });
-            </script>
         </table>
         <c:if test="${pages gt 0}">
             <div class="easypagination" style="text-align: center;" pages="${pages}"></div>

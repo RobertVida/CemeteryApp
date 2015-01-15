@@ -86,13 +86,6 @@
                 $('#diedOnOrder').selectpicker();
                 $(".bootstrap-select").css("width", "75px");
             });
-            $(document).ready(function() {
-                $(".easypagination").easyPaginate({
-                    onClickcallback: function (page) {
-                        getPerPage(page);
-                    }
-                });
-            });
         </script>
     </table>
     <c:if test="${pages gt 0}">

@@ -65,15 +65,6 @@
             </tr>
         </c:forEach>
         </tbody>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $(".easypagination").easyPaginate({
-                    onClickcallback: function (page) {
-                        getPerPage(page);
-                    }
-                });
-            });
-        </script>
     </table>
     <c:if test="${pages gt 0}">
         <div class="easypagination" style="text-align: center;" pages="${pages}"></div>
@@ -88,11 +79,7 @@
     $(document).ready(function() {
         $('#container').html($('#monument-registry-details').html());
 
-        $(".easypagination").easyPaginate({
-            onClickcallback : function(page) {
-                getPerPage(page);
-            }
-        });
+        CemeteryJs.easyPagination(getPerPage);
     });
     function getPerPage(pageNo) {
         var url = $('#grURL').val();
@@ -104,11 +91,11 @@
         var url = $('#mrFilterURL').val();
         var searchCriteria = $('#mrSearchInput').val();
         var data = { searchCriteria : searchCriteria };
-        CemeteryJs.ajaxCall("GET", url, data, 1, '#monument-registry-details');
+        CemeteryJs.ajaxCall("GET", url, data, 1, '#monument-registry-details', getPerPage);
     }
 
     function refreshRBFilter() {
         var url = $("#mrRefreshFilterURL").val();
-        CemeteryJs.ajaxCall("POST", url, null, 1, '#monument-registry-details');
+        CemeteryJs.ajaxCall("POST", url, null, 1, '#monument-registry-details', getPerPage);
     }
 </script>

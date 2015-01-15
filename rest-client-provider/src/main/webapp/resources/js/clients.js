@@ -3,7 +3,7 @@
  */
 $(document).ready(function () {
     $('#container').html($('#client-details').html());
-
+    CemeteryJs.easyPagination(ClientsManagerJS.getClientsPerPage);
 });
 var ClientsManagerJS = (function($) {
 
@@ -17,12 +17,12 @@ var ClientsManagerJS = (function($) {
         var url = $('#filterURL').val();
         var searchCriteria = $('#searchInput').val();
         var data = { searchCriteria : searchCriteria };
-        CemeteryJs.ajaxCall("GET", url, data, 1, '#client-details');
+        CemeteryJs.ajaxCall("GET", url, data, 1, '#client-details', getClientsPerPage);
     };
 
     var refreshFilter = function() {
         var url = $("#refreshFilterURL").val();
-        CemeteryJs.ajaxCall("POST", url, null, 1, '#client-details');
+        CemeteryJs.ajaxCall("POST", url, null, 1, '#client-details', getClientsPerPage);
     };
 
     var renderAddPage = function () {

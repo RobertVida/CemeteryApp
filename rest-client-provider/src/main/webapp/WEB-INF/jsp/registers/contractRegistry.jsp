@@ -53,15 +53,6 @@
             </tr>
         </c:forEach>
         </tbody>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $(".easypagination").easyPaginate({
-                    onClickcallback: function (page) {
-                        getPerPage(page);
-                    }
-                });
-            });
-        </script>
     </table>
     <c:if test="${pages gt 0}">
         <div class="easypagination" style="text-align: center;" pages="${pages}"></div>
@@ -76,11 +67,7 @@
     $(document).ready(function() {
         $('#container').html($('#contract-registry-details').html());
 
-        $(".easypagination").easyPaginate({
-            onClickcallback : function(page) {
-                getPerPage(page);
-            }
-        });
+        CemeteryJs.easyPagination(getPerPage)
     });
     function getPerPage(pageNo) {
         var url = $('#crURL').val();
@@ -92,11 +79,11 @@
         var url = $('#crFilterURL').val();
         var searchCriteria = $('#crSearchInput').val();
         var data = { searchCriteria : searchCriteria };
-        CemeteryJs.ajaxCall("GET", url, data, 1, '#contract-registry-details');
+        CemeteryJs.ajaxCall("GET", url, data, 1, '#contract-registry-details', getPerPage);
     }
 
     function refreshRBFilter() {
         var url = $("#crRefreshFilterURL").val();
-        CemeteryJs.ajaxCall("POST", url, null, 1, '#contract-registry-details');
+        CemeteryJs.ajaxCall("POST", url, null, 1, '#contract-registry-details', getPerPage);
     }
 </script>

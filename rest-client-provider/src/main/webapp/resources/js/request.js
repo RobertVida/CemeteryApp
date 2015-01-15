@@ -9,7 +9,7 @@ var RequestsManagerJS = (function($) {
 
     var  init = function() {
         $('#container').html($('#request-details').html());
-
+        CemeteryJs.easyPagination(getRequestsPerPage);
     };
 
     var renderAddPage = function () {
@@ -28,7 +28,7 @@ var RequestsManagerJS = (function($) {
         var clientId = $('#requestClientId').val();
         var status = $('#requestStatusInput').val();
         var data = { searchCriteria : searchCriteria, clientId : clientId, status : status };
-        CemeteryJs.ajaxCall("GET", url, data, 1, '#request-details');
+        CemeteryJs.ajaxCall("GET", url, data, 1, '#request-details', getRequestsPerPage);
     };
 
     var getRequestsPerPage = function(pageNo) {
@@ -39,7 +39,7 @@ var RequestsManagerJS = (function($) {
 
     var refreshFilter = function() {
         var url = $("#refreshRequestFilterURL").val();
-        CemeteryJs.ajaxCall("POST", url, null, 1, '#request-details');
+        CemeteryJs.ajaxCall("POST", url, null, 1, '#request-details', getRequestsPerPage);
     };
 
     return {

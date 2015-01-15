@@ -10,7 +10,7 @@ var CemeteriesManagerJS = (function($) {
     var init = function() {
         $('#container').html($('#cemetery-container').html());
         $('#container').html($('#cemetery-details').html());
-
+        CemeteryJs.easyPagination(getCemeteriesPerPage);
     };
 
     var renderAddPage = function () {
@@ -27,7 +27,7 @@ var CemeteriesManagerJS = (function($) {
         var url = $('#cemeteryFilterURL').val();
         var searchCriteria = $('#cemeterySearchInput').val();
         var data = { searchCriteria : searchCriteria };
-        CemeteryJs.ajaxCall("GET", url, data, 1, '#cemetery-details');
+        CemeteryJs.ajaxCall("GET", url, data, 1, '#cemetery-details', getCemeteriesPerPage);
     };
 
     var getCemeteriesPerPage = function(pageNo) {
@@ -38,7 +38,7 @@ var CemeteriesManagerJS = (function($) {
 
     var refreshFilter = function() {
         var url = $("#refreshFilterURL").val();
-        CemeteryJs.ajaxCall("POST", url, null, 1, '#cemetery-details');
+        CemeteryJs.ajaxCall("POST", url, null, 1, '#cemetery-details', getCemeteriesPerPage);
     };
 
     return {

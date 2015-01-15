@@ -88,11 +88,7 @@
     $(document).ready(function() {
         $('#container').html($('#grave-registry-details').html());
 
-        $(".easypagination").easyPaginate({
-            onClickcallback : function(page) {
-                getPerPage(page);
-            }
-        });
+        CemeteryJs.easyPagination(getPerPage);
     });
     function getPerPage(pageNo) {
         var url = $('#grURL').val();
@@ -104,11 +100,11 @@
         var url = $('#grFilterURL').val();
         var searchCriteria = $('#grSearchInput').val();
         var data = { searchCriteria : searchCriteria };
-        CemeteryJs.ajaxCall("GET", url, data, 1, '#grave-registry-details');
+        CemeteryJs.ajaxCall("GET", url, data, 1, '#grave-registry-details', getPerPage);
     }
 
     function refreshRBFilter() {
         var url = $("#grRefreshFilterURL").val();
-        CemeteryJs.ajaxCall("POST", url, null, 1, '#grave-registry-details');
+        CemeteryJs.ajaxCall("POST", url, null, 1, '#grave-registry-details', getPerPage);
     }
 </script>
