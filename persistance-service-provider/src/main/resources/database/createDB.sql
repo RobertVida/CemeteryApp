@@ -217,4 +217,4 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 -- --------------------------------------------------------
 
-INSERT INTO users(username, password, role) VALUES('admin', 'admin', 'admin'),('u','p','guest');
+INSERT INTO users(username, password, role) VALUES('admin', 'admin', 'admin'),('u','p','guest'),('admin2', 'admin2', 'admin');

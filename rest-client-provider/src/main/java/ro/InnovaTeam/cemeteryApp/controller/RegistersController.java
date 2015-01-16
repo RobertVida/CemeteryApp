@@ -61,9 +61,9 @@ public class RegistersController {
             List<BurialRegistryEntryDTO> entryDTOs = RegistryRestClient.getBurialRegistry(filterDTO);
 
             float pages = RegistryRestClient.getBurialRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
-                    filterDTO.getParentId())) / (float) PAGE_SIZE;
+                    filterDTO.getParentId()));
             pages /= PAGE_SIZE;
-            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("pages", new Double(Math.ceil(pages)).intValue());
 
             model.addAttribute("burialRegistryList", entryDTOs);
         } catch (HttpClientErrorException | HttpServerErrorException e) {
@@ -95,9 +95,9 @@ public class RegistersController {
             List<MonumentRegistryEntryDTO> entryDTOs = RegistryRestClient.getMonumentRegistry(filterDTO);
 
             float pages = RegistryRestClient.getMonumentRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
-                    filterDTO.getParentId())) / (float) PAGE_SIZE;
+                    filterDTO.getParentId()));
             pages /= PAGE_SIZE;
-            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("pages", new Double(Math.ceil(pages)).intValue());
 
             model.addAttribute("monumentRegistryList", entryDTOs);
         } catch (HttpClientErrorException | HttpServerErrorException e) {
@@ -133,9 +133,9 @@ public class RegistersController {
             List<DeceasedRegistryEntryDTO> entryDTOs = RegistryRestClient.getDeceasedRegistry(filterDTO, nameOrder, diedOnOrder);
 
             float pages = RegistryRestClient.getDeceasedRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
-                    filterDTO.getParentId()), nameOrder, diedOnOrder) / (float) PAGE_SIZE;
+                    filterDTO.getParentId()), nameOrder, diedOnOrder);
             pages /= PAGE_SIZE;
-            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("pages", new Double(Math.ceil(pages)).intValue());
 
             model.addAttribute("deceasedRegistryList", entryDTOs);
         } catch (HttpClientErrorException | HttpServerErrorException e) {
@@ -171,9 +171,9 @@ public class RegistersController {
             List<DeceasedNoCaregiverRegistryEntryDTO> entryDTOs = RegistryRestClient.getDeceasedNoCaregiverRegistry(filterDTO, nameOrder, diedOnOrder);
 
             float pages = RegistryRestClient.getDeceasedNoCaregiverRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
-                    filterDTO.getParentId()), nameOrder, diedOnOrder) / (float) PAGE_SIZE;
+                    filterDTO.getParentId()), nameOrder, diedOnOrder);
             pages /= PAGE_SIZE;
-            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("pages", new Double(Math.ceil(pages)).intValue());
 
             model.addAttribute("deceasedNoCaregiverRegistryList", entryDTOs);
         } catch (HttpClientErrorException | HttpServerErrorException e) {
@@ -205,9 +205,9 @@ public class RegistersController {
             List<RequestRegistryEntryDTO> entryDTOs = RegistryRestClient.getRequestRegistry(filterDTO);
 
             float pages = RegistryRestClient.getRequestRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
-                    filterDTO.getParentId())) / (float) PAGE_SIZE;
+                    filterDTO.getParentId()));
             pages /= PAGE_SIZE;
-            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("pages", new Double(Math.ceil(pages)).intValue());
 
             model.addAttribute("requestRegistryList", entryDTOs);
         } catch (HttpClientErrorException | HttpServerErrorException e) {
@@ -241,7 +241,7 @@ public class RegistersController {
             float pages = RegistryRestClient.getContractRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
                     filterDTO.getParentId())) / (float) PAGE_SIZE;
             pages /= PAGE_SIZE;
-            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("pages", new Double(Math.ceil(pages)).intValue());
 
             model.addAttribute("contractRegistryList", entryDTOs);
         } catch (HttpClientErrorException | HttpServerErrorException e) {
@@ -273,9 +273,9 @@ public class RegistersController {
             List<GraveRegistryEntryDTO> entryDTOs = RegistryRestClient.getGraveRegistry(filterDTO);
 
             float pages = RegistryRestClient.getGraveRegistryCount(new FilterDTO(filterDTO.getSearchCriteria(),
-                    filterDTO.getParentId())) / (float) PAGE_SIZE;
+                    filterDTO.getParentId()));
             pages /= PAGE_SIZE;
-            model.addAttribute("pages", Math.ceil(pages));
+            model.addAttribute("pages", new Double(Math.ceil(pages)).intValue());
 
             model.addAttribute("graveRegistryList", entryDTOs);
         } catch (HttpClientErrorException | HttpServerErrorException e) {

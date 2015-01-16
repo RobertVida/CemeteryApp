@@ -1,0 +1,5 @@
+{
+    "dateOnStart": "1900-10-10",
+    "dateOnEnd": "2014-12-12",
+    "status": ["Favorabil", "Nefavorabil", "Partial", "Declinat", "Intern"]
+}

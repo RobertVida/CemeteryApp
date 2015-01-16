@@ -8,6 +8,26 @@ import java.util.HashMap;
 public class PrintableStatisticsDTO extends BaseDTO {
 
     public static enum Fields {
+        TOTAL_CEMETERIES,
+        TOTAL_PARCELS,
+        AVERAGE_PARCELS_PER_CEMETERIES,
+        TOTAL_STRUCTURES,
+        TOTAL_GRAVES,
+        TOTAL_MONUMENTS,
+        AVERAGE_STRUCTURE_PER_PARCEL,
+        TOTAL_DECEASED,
+        DECEASED_CAREGIVER,
+        DECEASED_NO_CAREGIVER,
+        AVERAGE_DECEASED_STRUCTURE,
+        TOTAL_CLIENTS,
+        TOTAL_REQUESTS,
+        REQUESTS_FAVORABLE,
+        REQUESTS_NOT_FAVORABLE,
+        REQUESTS_PARTIAL,
+        REQUESTS_DECLINED,
+        REQUESTS_INTERN,
+        TOTAL_CONTRACTS,
+        AVERAGE_CONTRACT_PER_CLIENT,
         TITLE
     }
 

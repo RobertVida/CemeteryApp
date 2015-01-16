@@ -1,0 +1,8 @@
+{
+    "firstName": ["Ion", "Alex", "Andrei", "Maria", "Costel", "Valentin", "Robert", "Ioana", "Raluca", "Madalina", "Roxana", "Catalin", "Tudor", "Vasilica", "Marian", "Dorel", "Anamaria", "Ana", "Norbert", "Andreea", "Andrei", "Alexandra", "Vasile", "Iosif", "Renata", "Maria", "Mihai", "Mihaela", "Cristian", "Radu", "Razvan", "Catalina", "Catalin", "Anda", "Adina", "Diana", "Daniel", "Denisa"],
+    "lastName": ["Popescu", "Pop", "Papoi", "Sorecau", "Lesan", "Lazar", "Vancea", "Pica", "Goia", "Kaiser", "Meghisan", "Pascalopol", "Avram", "Demian", "Caragiale", "Axinte", "Radoi", "Becali", "Suciu", "Vaida", "Sumanariu", "Somesan", "Rusu", "Pocol"],
+    "religion": ["ortodox", "catolic", "greco catolic", "romano catolic", "budist", "evreu"],
+    "dateOnStart": "1900-10-10",
+    "dateOnEnd": "2014-12-12",
+    "address": ["Strada Avram Iancu Cluj-Napoca", "Drumul Pepiniera Cluj-Napoca", "Strada Matei Basarab Cluj-Napoca"]
+}

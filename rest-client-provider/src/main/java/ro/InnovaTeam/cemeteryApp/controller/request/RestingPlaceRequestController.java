@@ -43,7 +43,7 @@ public class RestingPlaceRequestController {
     public static final String REQUEST_FILTER = "requestFilter";
     public static final String REQUEST_STATUS = "requestStatus";
     public static final int PAGE_SIZE = 20;
-    public static final String[] REQUEST_STATUS_OPTIONS = new String[] {"Activ", "Finalizat"};
+    public static final String[] REQUEST_STATUS_OPTIONS = new String[] {"Favorabil", "Nefavorabil", "Partial", "Declinat", "Intern"};
     private ObjectMapper om = new ObjectMapper();
 
     @Autowired

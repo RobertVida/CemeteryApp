@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ro.InnovaTeam.cemeteryApp.CemeteryDTO;
 import ro.InnovaTeam.cemeteryApp.ParcelDTO;
 import ro.InnovaTeam.cemeteryApp.restClient.CemeteryRestClient;
 
@@ -26,7 +25,7 @@ public class ParcelValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "empty.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cemeteryId", "empty.field");
 
-        if (CemeteryRestClient.findById(parcelDTO.getCemeteryId()) == null) {
+        if (parcelDTO.getCemeteryId() != null && CemeteryRestClient.findById(parcelDTO.getCemeteryId()) == null) {
             errors.rejectValue("cemeteryId", "number.non-existent");
         }
     }
